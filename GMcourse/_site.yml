@@ -5,11 +5,15 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Schedule"
+    - text: "Instructors & Organisers"
+      href: people.html
+    - text: "Course content"
+      href: content.html
+    - text: "Detailed schedule"
       href: schedule.html
-    - text: "Lectures"
-      href: lectures.html
-    - text: "Lab Tutorials"
-      href: labs.html
-    - text: "Reference List"
-      href: references.html
+#    - text: "Lectures"
+#      href: lectures.html
+#    - text: "Lab Tutorials"
+#      href: labs.html
+#    - text: "Reference List"
+#      href: references.html

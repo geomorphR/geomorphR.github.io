@@ -1,0 +1,75 @@
+---
+title: "Course Instructors & Organization"
+output: 
+  html_document:
+    css: columns.css
+
+---
+#  Course instructors
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 5px;"}
+::: {}
+![[**Dean C. Adams**](https://www.eeob.iastate.edu/people/dean-adams)  
+Distinguished Professor  
+EEOB - Iowa State University](people/Dean.jpeg)
+:::
+
+::: {}
+![[**Michael Collyer**](https://www.michaelcollyer.com/home)  
+Professor  
+Chatham University](people/Mike.png)
+:::
+
+::: {}
+![[**Erica Baken**](https://www.csbsju.edu/biology/faculty/erica-baken)  
+Visiting assistant professor  
+College of Saint Benedict  
+Saint John´s University](people/Erica.jpeg)
+:::
+
+::: {}
+![[**Antigoni Kaliontzopoulou**](https://sites.google.com/view/akaliontzopoulou/home)  
+Ramón y Cajal researcher  
+BEECA & IrBIO, Universitat de Barcelona](people/Antigoni.jpg)
+:::
+::::
+
+
+
+
+
+
+
+
+#  Local organizing committee
+
+### Course coordinator
+:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 5px;"}
+::: {}
+![**Antigoni Kaliontzopoulou**  
+BEECA & IrBIO, Universitat de Barcelona](people/Antigoni.jpg)
+:::
+
+::: {}
+:::
+::: {}
+:::
+::: {}
+:::
+::::
+
+### Course logistics
+:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 5px;"}
+::: {}
+![[**Adrià Bellvert**](https://www.researchgate.net/profile/Adria-Bellvert-Banti)  
+PhD student  
+BEECA & IrBIO, Universitat de Barcelona](people/Adri.jpeg)
+:::
+
+::: {}
+:::
+::: {}
+:::
+::: {}
+:::
+::::
