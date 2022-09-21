@@ -6,32 +6,32 @@ The course is organized in both theoretical and practical sessions. Lectures pro
 Note: Because this is a geometric morphometrics workshop in R, it is assumed that participants have some working knowledge in R, as the practical sessions will focus on GM-based analyses (not basic R use). It is therefore strongly recommended that participants refresh their R skills prior to attending the workshop.
 
 
-* Monday
+* **Monday**
     + Morphometrics: History, Introduction and Data Types
     + Linear Algebra and Linear Models 
     + Introduction to gmShiny
     + Software demonstration (SD) and lab practicum 
     
-* Tuesday
+* **Tuesday**
     + Superimposition
     + Shape Spaces, Shape Variables, & PCA 
     + GPA with Semilandmarks
     + SD and lab
     
-* Wednesday
+* **Wednesday**
     + Shape Statistics I
     + Allometry
     + Shape Statistics II
     + SD and lab    
 
-* Thursday
+* **Thursday**
     + Phylogenetic Shape Variation
     + Asymmetry
     + Disparity
     + Integration and Modularity 
     + SD and lab
     
-* Friday
+* **Friday**
     + Missing Data
     + Future Directions and Prospectus
     + Student Presentations

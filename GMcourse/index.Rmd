@@ -5,19 +5,19 @@
 #### Geometric Morphometric Analysis in Ecology and Evolutionary Biology Using R
 
 ### 8 - 12 May 2023, Barcelona, Spain
-
+<br>
 The field of geometric morphometrics (GM) is concerned with the quantification and analysis of patterns of shape variation, and its covariation with other variables. The goal of this workshop is to provide participants with both working knowledge of the theory of geometric morphometrics, as well as practical training in the application of these methods. 
 
 The course will occur in the [Faculty of Biology of the University of Barcelona](https://www.ub.edu/portal/web/biologia/) and is organized by the [Department of Evolutionary Biology, Ecology and Environmental Science](https://www.ub.edu/portal/web/dp-beeca/) and the [Institute of Research in Biodiversity](http://www.ub.edu/irbio/home).
 
 <br>
 
-## Application procedure
+### Application procedure
 To apply for participating in the course please feel in the application form [here](https://forms.gle/SppEEYe6cYXmdp9q7)
 
 Up to 25 participants will be accepted on the basis of their academic career stage (priority given to PhD students and early-career researchers) and relevance of the course for their research.
-
-### The **deadline for applications** is on November 15, 2022. 
+<br>
+### The **deadline for applications** is November 15, 2022. 
 Admitted participants will be informed until December 15, 2022.
 
 <br>

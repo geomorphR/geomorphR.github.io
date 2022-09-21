@@ -7,7 +7,7 @@ output:
 ---
 #  Course instructors
 
-:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 5px;"}
+:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 10px;"}
 ::: {}
 ![[**Dean C. Adams**](https://www.eeob.iastate.edu/people/dean-adams)  
 Distinguished Professor  
