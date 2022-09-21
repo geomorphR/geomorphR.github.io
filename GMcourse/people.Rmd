@@ -37,39 +37,19 @@ BEECA & IrBIO, Universitat de Barcelona](people/Antigoni.jpg)
 
 
 
-
-
-
-
 #  Local organizing committee
+:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 10px;"}
 
-### Course coordinator
-:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 5px;"}
 ::: {}
+### Course coordinator
 ![**Antigoni Kaliontzopoulou**  
 BEECA & IrBIO, Universitat de Barcelona](people/Antigoni.jpg)
 :::
 
 ::: {}
-:::
-::: {}
-:::
-::: {}
-:::
-::::
-
 ### Course logistics
-:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 5px;"}
-::: {}
 ![[**Adrià Bellvert**](https://www.researchgate.net/profile/Adria-Bellvert-Banti)  
 PhD student  
 BEECA & IrBIO, Universitat de Barcelona](people/Adri.jpeg)
-:::
-
-::: {}
-:::
-::: {}
-:::
-::: {}
 :::
 ::::
