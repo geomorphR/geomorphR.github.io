@@ -1,0 +1,27 @@
+New Updates to Labs:
+
+1.1: digitizing
+1.2: read data
+1.3: Data PreProcessing: (outlier, estimate missing, fixed angle)
+1.4: GPA
+
+2.1: gpa+sliding
+2.2: PCA, TPS
+2.3: regression/ PLS, etc.
+
+3.1: anova: PW comparisons
+3.2: PTA
+3.3: PCMs
+3.4: Allometry
+
+4.1: symmetry
+4.2: integration/modularity
+4.3: disparity
+
+
+#### other functionality to put somewhere:
+We have a host of other useful functions in geomorph. Not sure where to put them, or if we want them in a tutorial. I bring it up here for you both to ponder.
+
+-combine.subsets
+-two.d.array? arrayspecs?
+-Other 'utility' functions?

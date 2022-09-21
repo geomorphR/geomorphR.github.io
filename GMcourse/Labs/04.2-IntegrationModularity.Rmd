@@ -1,0 +1,124 @@
+---
+title: "04.2: Integration and Modularity"
+author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: html_document
+---
+
+## **Content Description**
+
+In `geomorph`, one can assess the degree of morphological integration between two blocks of landmarks, using PLS, or apply the global integration test proposed by Bookstein (2015). Also, there are analytical tools for determining whether a set of a priori partitions provides evidence for modularity. 
+
+First, load the package and some example data:      
+
+```{r eval=TRUE}
+library(geomorph)
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
+```
+
+
+## **Morphological Integration using PLS**
+
+The example tests for integration between two subsets of a structure, but two different structures could be examined. 
+
+```{r eval=TRUE}
+integration.test(Y.gpa$coords[1:5,,], Y.gpa$coords[6:12,,], iter=999, print.progress = FALSE)
+```
+
+The same thing can be done using partitioning of the landmarks:
+
+```{r eval=TRUE}
+integration.test(Y.gpa$coords, partition.gp=c(rep("A", 5), rep("B", 7)), iter=999, print.progress = FALSE)
+```
+
+And the statistical results are the same as when using two.b.pls
+
+```{r eval=TRUE}
+two.b.pls(Y.gpa$coords[1:5,,], Y.gpa$coords[6:12,,], iter=999, print.progress = FALSE)
+```
+
+So, your global workflow for testing for integartion would be:
+
+```{r eval=TRUE}
+pleth.integr <- integration.test(Y.gpa$coords[1:5,,], Y.gpa$coords[6:12,,], iter=999, print.progress = FALSE)
+summary(pleth.integr)
+plot(pleth.integr)
+```
+
+`picknplot.shape` example is provided in lab script.
+
+## **Compare the Strength of Integraton**
+
+One may want to ask whether integration is equally strong in two or more groups. This can be done by comparing z-scores calculated over the PLS correlation coefficients of previously applied integration analyses.
+```{r eval=TRUE}
+gps <- factor(paste(plethodon$species, plethodon$site))
+ljaw.gp <- coords.subset(Y.gpa$coords[1:5,,], gps)
+ujaw.gp <- coords.subset(Y.gpa$coords[6:12,,], gps)
+integ.tests <- Map(function(x,y) integration.test(x, y, iter=999, print.progress = FALSE),
+                   ljaw.gp, ujaw.gp)
+group.z <- compare.pls(integ.tests)
+summary(group.z)
+```
+
+
+## **Test of Global Integration (Bookstein 2015)**
+```{r eval=TRUE}
+globalIntegration(Y.gpa$coords)
+```
+
+
+## **Test of Modularity**
+
+Tests of modularity are accomplished usin ghe $\small{CR}$ coefficient
+
+```{r eval=TRUE}
+land.gps <- c("A","A","A","A","A","B","B","B","B","B","B","B") #specify partitions
+modularity.test(Y.gpa$coords, land.gps, iter=999, print.progress = FALSE)
+```
+
+## **Compare the Strength of Modularity**
+
+A recent advance (Adams and Collyer, 2019: Accepted) allows one to evaluate whether the degree of modular signal is equally strong in two or more different groups. This can be done by comparing z-scores calculated across CR-coefficients representing modular signal.
+
+```{r eval=TRUE}
+data(pupfish) 
+ Y.gpa<-gpagen(pupfish$coords, print.progress = FALSE)    #GPA-alignment    
+
+## landmarks on the body and operculum
+ land.gps<-rep('a',56); land.gps[39:48]<-'b'
+
+ group <- factor(paste(pupfish$Pop, pupfish$Sex, sep = "."))
+ levels(group)
+
+ coords.gp <- coords.subset(Y.gpa$coords, group)
+
+ modularity.tests <- lapply(1:nlevels(group), function(j) modularity.test(coords.gp[[j]],
+  land.gps, iter = 499, print.progress = FALSE))
+## the lapply function performs the modularity test on each 3D array in the lists provided
+
+ modularity.tests[[1]]
+ modularity.tests[[2]]
+ modularity.tests[[3]]
+ modularity.tests[[4]]
+
+ group.Z <- compare.CR(modularity.tests, CR.null = FALSE)
+ group.Z  ## NOTE: need a summary function 
+```
+
+## **Comparing Alternative Modular Hypotheses**
+
+In like manner, one may wish to determine whether there is support in a given dataset for a 2-module, 3-module, 4-module, or other hypothesis. Such investigations ask: "What modular hypothesis best describes the patterns of covariation in my data?".  A recent advance (Adams and Collyer, 2019: Accepted) allows one to evaluate these hypotheses by comparing z-scores calculated across CR-coefficients representing modular signal.
+
+```{r eval=TRUE}
+land.gps3 <- rep('a',56); land.gps3[39:48]<-'b'; land.gps3[c(6:9,28:38)] <- 'c' 
+   #3 module hypothesis (tail now a module)
+ land.gps4 <- rep('a',56); land.gps4[39:48]<-'b'; land.gps4[c(6:9,28:38)] <- 'c'; 
+  land.gps4[c(10,49:56)] <- 'd'  #4 module hypothesis (eye now a module)
+
+ m3.test <- modularity.test(coords.gp$Marsh.F,land.gps3, iter = 499, print.progress = FALSE)
+ m4.test <- modularity.test(coords.gp$Marsh.F,land.gps4, iter = 499, print.progress = FALSE)
+
+ model.Z <- compare.CR(modularity.tests[[1]],m3.test,m4.test, CR.null = TRUE)
+ model.Z 
+ ```

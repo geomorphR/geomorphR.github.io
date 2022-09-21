@@ -1,0 +1,169 @@
+---
+title: "03.3: Phylogenetic Comparative Methods"
+author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: html_document
+---
+
+## **Content Description**
+
+As we learned in lecture, phylogenetic comparative methods (PCMs) condition the data on the phylogeny during the analysis, to account for the lack of independence among species. For linear models (ANOVA and regression), this is akin to performing a generalized least squares (GLS) analysis, where the linear model is 'weighted' by the lack of independence as described by the phylogenetic covariance matrix. One can accomplish the same task (under Brownian motion) using phylogenetic transformation.  This implementation has the advantage that it is appropriate for any manner of PCM, and has opened the door for the development of multivariate PCMs for assessing a wide variety of evolutionary hypotheses (see Adams and Collyer 2018).
+
+In `geomorph`, there are several analyses that perform multivariate phylogenetic comparative methods. All are appropriate for landmark data, and require a phylogeny as well. The latter can be input using the `ape` package. **IMPORTANTLY**, the species names must be containined in the data matrices, and must correspond exactly to the tip-labels of the phylogeny. This allows the analytics to 'link' the data with the phylogeny. 
+
+
+## **Preliminaries**
+
+Let´s first quickly review how to read in a phylogeny and GM data, and 'match' them up. 
+
+```{r eval=TRUE, fig.height=10, fig.width=10}
+library(geomorph)
+library(geiger)
+plethtree <- read.tree('Data/plethtree.tre')
+plot(plethtree)
+
+dat <- read.csv('Data/svl.csv', header=TRUE, row.names=1)
+svl <-dat[,1]; names(svl) <- rownames(dat)
+shape <- readland.tps('Data/headshape.tps', specID = "ID", warnmsg = FALSE)
+
+match.data <- treedata(plethtree, svl)  
+```
+
+**NOTE: At this point, `treedata` will create new objects `$phy` and `$data` that contain only the set of species in common to both.**  For our particular example, this was already done, so we will proceed with reading the rest of our dataset.
+
+```{r eval=TRUE, fig.height=10, fig.width=10}
+plethgps <- read.csv('Data/Gps.csv', header=TRUE, row.names=1)
+plethgps <- plethgps[match(dimnames(shape)[[3]], rownames(plethgps)),]
+elev <- as.factor(plethgps$ElevGp); names(elev) <- rownames(plethgps)
+
+gdf <- geomorph.data.frame(shape=shape, svl=svl, elev = elev, plethtree=plethtree)
+links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
+                ncol=2, byrow=FALSE)
+plot(ladderize(plethtree), edge.width=3)
+axisPhylo(1)
+
+```
+
+```{r, eval = TRUE}
+plotAllSpecimens(shape, links=links)
+```
+
+
+## **1: Phylogenetic Regression (D-PGLS)**
+
+Using these data, we can now perform regression in a phylogenetic framework, using the function `procD.pgls`:
+
+```{r eval=TRUE}
+pgls.reg <- procD.pgls(f1 = shape~svl, effect.type = 'cohen', data=gdf,
+                       phy = plethtree, print.progress = FALSE)
+summary(pgls.reg)
+allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$svl,
+                   reg.type ="RegScore", pch=19, cex=1.5, xlab = "SVL") # make sure to have a predictor 
+fit.line <- lm(allom.plot$RegScore~gdf$svl)
+abline(fit.line,col = "red")
+
+```
+
+One would then like to visualize shape changes along this regression. **IMPORTANT NOTE: be sure to use the $pgls.fitted values for the shape prediction and *NOT* (OLS) the $fitted values!** 
+
+```{r eval=TRUE}
+preds <- shape.predictor(pgls.reg$GM$pgls.fitted, x= allom.plot$RegScore, Intercept = FALSE, 
+                         predmin = min(allom.plot$RegScore), 
+                         predmax = max(allom.plot$RegScore)) 
+M <- mshape(shape)
+plotRefToTarget(M, preds$predmin, mag=3, links = links)
+plotRefToTarget(M, preds$predmax, mag=3, links = links)
+
+```
+
+`picknplot.shape` example provided in lab script.
+
+## **2: Phylogenetic ANOVA**
+
+Phylogenetic ANOVA works in an analogous fashion. Here we have an example with high vs low elevation species:
+
+```{r eval=TRUE}
+pgls.aov <- procD.pgls(f1 = shape~elev, effect.type = 'cohen', data=gdf,
+                       phy=plethtree, print.progress = FALSE)
+summary(pgls.aov)
+
+plot.res <- gm.prcomp(shape,phy=plethtree, data=gdf)
+ord.plot <- plot(plot.res,phylo = FALSE, pch=21, bg=gdf$elev, cex=1.5)
+shapeHulls(ord.plot, groups = gdf$elev, 
+           group.cols = c("red", "black"),
+           group.lwd = rep(1, 2), group.lty = c(2, 1))
+legend("topright", levels(gdf$elev), 
+       col = c("black", "red"),
+       lwd = rep(1,2), lty = c(2, 1))
+
+```
+
+... and visualized via TPS deformation grids
+
+```{r echo = FALSE, eval=TRUE,out.width="100%"}
+Low <- c(1) # design for low elevation
+High <- c(0) # design for high elevation
+preds <- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11, 2), x = pgls.aov$X[,-1],
+           Intercept = TRUE, Low = Low, High = High)   
+par(mfrow=c(1,2)) 
+plotRefToTarget(M, preds$Low, mag=2, links=links)
+mtext("Low Elevation")
+plotRefToTarget(M, preds$High, mag=2, links=links)
+mtext("High Elevation")
+par(mfrow=c(1,1)) 
+```
+
+## **3: Phylogenetic PLS**
+
+For two sets of variables, one may perform PLS in a phylogenetic framework:
+
+```{r eval=TRUE}
+land.gps <- c("A","A","A","A","A","B","B","B","B","B","B")
+PLS.Y <- phylo.integration(A = gdf$shape, partition.gp = land.gps, phy = plethtree, print.progress = FALSE)
+summary(PLS.Y)
+plot(PLS.Y)
+```
+
+`picknplot.shape` example provided in lab script.
+
+## **4: Phylomorphospace**
+
+Phylomorphospace plots, where the phylogeny is projected in PC space, can be obtained in `geomorph` using `gm.prcomp` (see also `plotGMPhyloMorphoSpace`).
+
+```{r eval=TRUE}
+plot.res <- gm.prcomp(shape, phy=plethtree, data=gdf)
+plot(plot.res, phylo = TRUE, pch=21, bg="red", cex=1.5)
+```
+
+`picknplot.shape` example provided in lab script.
+
+## **5: Phylogenetic signal**
+
+One may also wish to evaluate the degree to which phenotypic similarity associates with phylogenetic relatedness (i.e., phylogenetic signal). This may be investigated using `physignal`:
+
+```{r eval=TRUE}
+PS.shape <- physignal(gdf$shape, gdf$plethtree, print.progress = FALSE)
+summary(PS.shape)
+plot(PS.shape)
+
+```
+
+## **6a: Comparing Evolutionary Rates Among Clades**
+
+In terms of comparisons of evolutionary models, two are currently appropriate for multivariate data. The first compares net rates of phenotypic evolution among clades, using the function `compare.evol.rates`:
+
+```{r eval=TRUE}
+ER <- compare.evol.rates(A = gdf$shape, phy = plethtree, gp = gdf$elev, iter=999, method = 'permutation', print.progress = FALSE)
+summary(ER)
+plot(ER)
+```
+
+## **6b: Comparing Evolutionary Rates Among Traits**
+
+One can also compare net rates of phenotypic evolution among sets of multivariate traits. This is accomplished using the function `compare.multi.evol.rates`:
+
+```{r eval=TRUE}
+EMR <- compare.multi.evol.rates(A = gdf$shape, phy = plethtree, gp = land.gps, print.progress = FALSE)
+summary(EMR)
+plot(EMR)
+```

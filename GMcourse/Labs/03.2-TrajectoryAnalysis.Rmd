@@ -1,0 +1,55 @@
+---
+title: "03.2: Trajectory Analysis"
+author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: html_document
+---
+
+## **Content Description**
+
+With multivariate data, two or more ordered sets of levels of a factor form a phenotypic trajectory in the multivariate dataspace. Such trajectories represent *phenotypic changes* from level to level, and may represent: sexual dimorphism (the difference between `male` and `female` levels in a species), phenotypic changes over space, or over ontogeny, or over evolutionary time.
+
+Phenotypic trajectories have multiple attributes which may quantified and compared (see Collyer and Adams 2009; Adams and Collyer 2013). The function `trajectory.analysis` accomplishes this task. Currently, `trajectory.analysis` is found in the `RRPP` package, though it may be accessed through `geomorph`. There are two types of input: data in the form of a factorial design where the trajectory points are estimated during the analysis, or data can be input as sets of trajectories as may be found in motion trajectories (sensu Adams and Cerney 2007).
+
+```{r eval=TRUE}
+library(geomorph)
+```
+
+## **1: Phenotypic Trajectories Estimated from a Linear Model**
+
+```{r eval=TRUE}
+data(Pupfish)
+fit <- lm.rrpp(coords ~ Pop * Sex, data = Pupfish, iter = 999, print.progress = FALSE)
+reveal.model.designs(fit)
+anova(fit)
+TA <- trajectory.analysis(fit, groups = Pupfish$Pop, traj.pts = Pupfish$Sex)
+summary(TA, attribute = "MD") # Magnitude difference (absolute difference between path distances)
+summary(TA, attribute = "TC", angle.type = "deg") # Correlations (angles) between trajectories
+summary(TA, attribute = "SD") # No shape differences between vectors
+
+# Retain results
+TA.summary <- summary(TA, attribute = "MD")
+TA.summary$summary.table
+
+# Plot results
+TP <- plot(TA, pch = as.numeric(Pupfish$Pop) + 20, bg = as.numeric(Pupfish$Sex),
+           cex = 0.7, col = "gray")
+add.trajectories(TP, traj.pch = c(21, 22), start.bg = 1, end.bg = 2)
+legend("topright", levels(Pupfish$Pop), pch =  c(21, 22), pt.bg = 1)
+
+```
+
+## **2: Phenotypic Trajectories Given as Input**
+```{r eval=TRUE}
+data(motionpaths)
+fit <- lm.rrpp(trajectories ~ groups, data = motionpaths, iter = 999, print.progress = FALSE)
+anova(fit)
+TA <- trajectory.analysis(fit, groups = motionpaths$groups, traj.pts = 5)
+summary(TA, attribute = "MD") # Magnitude difference (absolute difference between path distances)
+summary(TA, attribute = "TC", angle.type = "deg") # Correlations (angles) between trajectories
+summary(TA, attribute = "SD") # Shape differences between trajectories 
+
+TP <- plot(TA, pch = 21, bg = as.numeric(motionpaths$groups),
+           cex = 0.7, col = "gray")
+add.trajectories(TP, traj.pch = 21, traj.bg = 1:4)
+```

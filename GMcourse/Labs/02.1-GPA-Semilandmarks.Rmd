@@ -1,0 +1,89 @@
+---
+title: "02.1: GPA with Semilandmarks"
+author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: html_document
+---
+
+## **Content Description**
+
+Yesterday we performed Generalized Procrustes Analysis (GPA) on sets of 'fixed' landmarks. Today we learned that the GPA algorithm may be extended to incorporate sliding semilandmarks on curves and surfaces. Let's see how one may performs GPA on points, curves, and surfaces in `geomorph`, using the function `gpagen`:
+
+## **Example 1: fixed points only**
+
+```{r eval=TRUE}
+library(geomorph)
+data(plethodon)
+pleth.gpa <- gpagen(plethodon$land, print.progress = F)
+summary(pleth.gpa)
+
+plot(pleth.gpa)
+plotAllSpecimens(pleth.gpa$coords, links = plethodon$links)
+```
+
+
+## **Example 2: Points and Semilandmarks on Curves**
+
+Now let's add some points on curves. To do so in `geomorph`, one must provide `gpagen` with a matrix which specifies which landmarks should be treated as sliding semilandmarks. This information is found in the 'sliders' matrix, which is a $\small{m \times 3}$ matrix for $\small{m}$ sliding semilandmarks. The middle column specifies which landmarks are sliding semilandmarks: the $\small{1}^{st}$ and $\small{3}^{rd}$ columns specify which landmarks 'flank' the semilandmark, and define the directions for the sliding. One sees an example below, in `hummingbird`, `curvepts` object:
+
+```{r eval=TRUE}
+data(hummingbirds)
+hummingbirds$curvepts   
+```
+
+### Using Bending Energy for Sliding
+
+Recall that there are two ways to perform the sliding: optimizing by Bending Energy or optimizing by Procrustes Distance (*see Semilandmark Lecture*). Using bending energy is more computationally-expensive, but is the preferred approach, as it is akin to a weighted regression where one weights the sliding inversely by spatial scale. This is accomplished in `geomorph` as follows:
+
+```{r eval=TRUE}
+gpa.BE <- gpagen(hummingbirds$land, curves=hummingbirds$curvepts, ProcD=FALSE, print.progress = F)
+plot(gpa.BE)
+```
+
+# Using Procrustes Distance for Sliding
+
+Alternatively, one may use Procrustes distance for sliding as: 
+
+```{r eval=TRUE}
+gpa.procD <- gpagen(hummingbirds$land, curves=hummingbirds$curvepts, ProcD=TRUE, print.progress = F)
+plot(gpa.procD)
+```
+
+## **Example 3: Points, Curves and Surfaces**
+
+Here we perform GPA on a set of points, semilandmarks on curves, and semilandmarks on surfaces. For the surface points, one must include a vector specifying which landmarks are surface points (`gpagen` will estimate the directions of sliding during the analysis):
+
+```{r eval=TRUE}
+data(scallops)
+scallops$surfslide  
+
+#Using Procrustes Distance for sliding
+gpa.scallop <- gpagen(A=scallops$coorddata, curves=scallops$curvslide, surfaces=scallops$surfslide, print.progress = F)
+plot(gpa.scallop)
+```
+
+# Comments on curves matrices
+
+How does one generate matrices for the `curves` argument in `gpagen`?  There are a couple of options.
+
+
+ 1. Manually.  Once the format is understood, making matrices 'by hand' is possible.
+
+ 2. `define.sliders`.  This is an interactive geomorph function with several options.  The help file nicely explains how to use this function.
+
+ 3. `readland.shape`.  When digitizing with `StereoMorph` and reading in the data with `readland.shapes`, a curves matrix is auto-generated, based on the number of semilandmarks prescribed.  
+
+A previous example, shown again to highlight curves matrix auto-generation.
+
+
+```{r eval=TRUE}
+library(StereoMorph)
+
+shapes <- readShapes("example.digitized")
+shapesGM <- readland.shapes(shapes, 
+  nCurvePts = c(12, 12, 12, 8, 6, 6, 6, 12, 10))
+
+shapesGM$curves
+
+```
+

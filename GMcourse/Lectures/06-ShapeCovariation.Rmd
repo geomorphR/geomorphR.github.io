@@ -1,0 +1,907 @@
+---
+title: "Covariation Methods"
+subtitle: "General Overview"
+author: "Michael Collyer, Chatham University"
+output: slidy_presentation
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+---
+
+```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
+library(knitr)
+library(RRPP)
+library(geomorph)
+opts_chunk$set(echo = TRUE)
+```
+
+# Lecture Overview
+
+Variable covariation, the basics
+
+Generalization
+
+Matrix covariation, the basics
+
+Two-block Partial Least Squares Analysis (2B-PLS)
+
+Matrix Association Tests
+
+Regression
+
+Regression Tests
+
+Example (multivariate allometry)
+
+Summary
+
+#  Variable Covariation
+
+Univariate covariation, correlation
+
+$$\small{cov}_{y_{1},y_{2}}=\sigma_{y_{1},y_{2}}=\frac{1}{n-1}
+\sum_{i=1}^{n}\left(y_{1_i}-\bar{y}_{1}\right)
+\left(y_{2_i}-\bar{y}_{2}\right)$$
+
+$$\small{cor}_{y_{1},y_{2}}=r_{12}=\frac{1}{n-1}
+\sum_{i=1}^{n}\frac{\left(y_{1_{i}}-\bar{y}_{1}\right)}{s_{1}}
+\frac{\left(y_{2_{i}}-\bar{y}_{2}\right)}{s_{2}}$$
+
+
+# Variable Covariation: Example
+
+What is the relationship between mass-specific metabolic rate and body mass across 580 mammal species (data from Capellini et al. *Ecol.* 2010)
+
+```{r eval=TRUE, echo=FALSE, out.width="80%"}
+mydata<-read.csv("LectureData/06.covariation/MammalData.csv",header=TRUE)
+met.dat<-na.omit(cbind(log(mydata$Body.mass.for.BMR..gr.), log(mydata$BMR..mlO2.hour./mydata$Body.mass.for.BMR..gr.)))
+plot(met.dat,cex=1.5, pch=21, bg="red",ylab = expression('VO'^2),xlab="log(mass), g")
+```
+
+
+# Variable Covariation: Example
+
+*X*: Independent (predictor) variable
+*Y*: Dependent (response) variable
+
+```{r eval=TRUE, echo = FALSE, out.width="50%"}
+plot(met.dat,cex=1.5, pch=21, bg="red",ylab = expression('VO'^2),xlab="log(mass), g")
+```
+
+# Variable Covariation: Example
+
+*X*: Independent (predictor) variable
+*Y*: Dependent (response) variable
+
+```{r echo = FALSE, eval=TRUE,out.width="50%"}
+plot(met.dat,cex=1.5, pch=21, bg="red",ylab = expression('VO'^2),xlab="log(mass), g")
+```
+
+
+$$\small{cor}_{y_{1},y_{2}}=r_{12}=\frac{1}{n-1}
+\sum_{i=1}^{n}\frac{\left(y_{1_{i}}-\bar{y}_{1}\right)}{s_{1}}
+\frac{\left(y_{2_{i}}-\bar{y}_{2}\right)}{s_{2}} = \frac{SC_{y_1y_2}}{\sqrt{SS_{y_1} SS_{y_2}}}$$
+
+Because $s = \sqrt{(n-1)^{-1}SS}$
+
+Thus,
+
+$\small{SS}_{y_1}=2997.23$;    $\small{SS}_{y_2}=371.48$;     $\small{SC}_{y_1y_2}=-925.99$
+
+$\small{r}_{12}=\frac{-925.99}{\sqrt{2997.23*371.48}}=-0.877$
+
+# Variable Covariation: Example
+
+*X*: Independent (predictor) variable
+*Y*: Dependent (response) variable
+
+```{r echo = FALSE, eval=TRUE,out.width="50%"}
+plot(met.dat,cex=1.5, pch=21, bg="red",ylab = expression('VO'^2),xlab="log(mass), g")
+met.dat<-scale(met.dat,center = TRUE, scale = FALSE)
+SSCP<-t(met.dat)%*%met.dat
+cov.mat<-cov(met.dat)
+cor.mat<-cor(met.dat)
+```
+
+$\small{SS}_{x}=2997.23$;    $\small{SS}_{y}=371.48$;     $\small{SC}_{xy}=-925.99$
+
+$\small{r}_{12}=\frac{-925.99}{\sqrt{2997.23*371.48}}=-0.877$
+
+Strength of association: $\small{r}^{2}=0.770$
+
+# Variable Covariation: Another Perspective
+
+Another way to approach this is via matrix algebra
+
+*Y~1~* = log(mass) & *Y~2~* = VO^2^
+
+$$\mathbf{Y}=[\mathbf{y}_{1}\mathbf{y}_{2}]$$
+
+Let $\small\mathbf{1}^{T}=[1 1 1 ... 1]$   then...
+
+$$\small\bar{\mathbf{y}}^{T}=\left(\mathbf{1}^{T}\mathbf{1}\right)^{-1}\mathbf{1}^{T}\mathbf{Y}$$
+
+# Variable Covariation: Another Perspective
+
+Another way to approach this is via matrix algebra
+
+*Y~1~* = log(mass) & *Y~2~* = VO^2^
+
+$$\mathbf{Y}=[\mathbf{y}_{1}\mathbf{y}_{2}]$$
+
+Let $\small\mathbf{1}^{T}=[1 1 1 ... 1]$   then...
+
+$$\small\bar{\mathbf{y}}^{T}=\left(\mathbf{1}^{T}\mathbf{1}\right)^{-1}\mathbf{1}^{T}\mathbf{Y}$$
+
+$$\small\bar{\mathbf{Y}}=\mathbf{1}\left(\mathbf{1}^{T}\mathbf{1}\right)^{-1}\mathbf{1}^{T}\mathbf{Y}$$
+
+# Variable Covariation: Another Perspective
+
+Another way to approach this is via matrix algebra
+
+*Y~1~* = log(mass) & *Y~2~* = VO^2^
+
+$$\mathbf{Y}=[\mathbf{y}_{1}\mathbf{y}_{2}]$$
+
+Let $\small\mathbf{1}^{T}=[1 1 1 ... 1]$   then...
+
+$$\small\bar{\mathbf{y}}^{T}=\left(\mathbf{1}^{T}\mathbf{1}\right)^{-1}\mathbf{1}^{T}\mathbf{Y}$$
+
+$$\small\bar{\mathbf{Y}}=\mathbf{1}\left(\mathbf{1}^{T}\mathbf{1}\right)^{-1}\mathbf{1}^{T}\mathbf{Y}$$
+
+$$\small\mathbf{E}=\mathbf{Y}_{c}=\mathbf{Y}-\bar{\mathbf{Y}}$$
+
+$$\small\mathbf{SSCP}=\mathbf{E}^{T}\mathbf{E}=\mathbf{Y}_{c}^{T}\mathbf{Y}_{c}$$
+
+$$\mathbf{SSCP}=\begin{bmatrix}
+SS_{y_{1}} & SC_{y_{1}y_{2}} \\
+SC_{y_{2}y_{1}}  & SS_{y_{2}}  
+\end{bmatrix}$$
+
+$\small{SSCP}$ is a matrix of sums of squares and cross-products (found using  deviations from the mean)
+
+# From SSCP to a Covariance Matrix
+
+$$\mathbf{SSCP}=\begin{bmatrix}
+SS_{y_{1}} & SC_{y_{1}y_{2}} \\
+SC_{y_{2}y_{1}}  & SS_{y_{2}}  
+\end{bmatrix}$$
+
+The covariance matrix is simply the $\small{SSCP}$ standardized by $\small{n-1}$:
+
+$$\hat{\mathbf{\Sigma}}=\frac{\mathbf{E}^{T}\mathbf{E}}{n-1}$$
+
+# From SSCP to a Covariance Matrix
+
+$$\mathbf{SSCP}=\begin{bmatrix}
+SS_{y_{1}} & SC_{y_{1}y_{2}} \\
+SC_{y_{2}y_{1}}  & SS_{y_{2}}  
+\end{bmatrix}$$
+
+The covariance matrix is simply the $\small{SSCP}$ standardized by $\small{n-1}$:
+
+$$\hat{\mathbf{\Sigma}}=\frac{\mathbf{E}^{T}\mathbf{E}}{n-1}$$
+
+$$\hat{\mathbf{\Sigma}}=\frac{\begin{bmatrix}
+SS_{y_{1}} & SC_{y_{1}y_{2}} \\
+SC_{y_{2}y_{1}}  & SS_{y_{2}}  
+\end{bmatrix}}{n-1}$$
+
+The covariance matrix is: 
+
+$$\hat{\mathbf{\Sigma}}=\begin{bmatrix}
+\sigma^{2}_{y_{1}} & \sigma_{y_{1}y_{2}}  \\
+\sigma_{y_{2}y_{1}}  & \sigma^{2}_{y_{2}}  
+\end{bmatrix}$$
+
+# From Covariance to Correlation
+
+Correlations are simply standardized covariances
+
+$$\small{cov}_{y_{1},y_{2}}=\sigma_{y_{1},y_{2}}=\frac{1}{n-1}
+\sum_{i=1}^{n}\left(y_{1_i}-\bar{y}_{1}\right)
+\left(y_{2_i}-\bar{y}_{2}\right)$$
+
+$$\small{cor}_{y_{1},y_{2}}=r_{12}=\frac{1}{n-1}
+\sum_{i=1}^{n}\frac{\left(y_{1_{i}}-\bar{y}_{1}\right)}{s_{1}}
+\frac{\left(y_{2_{i}}-\bar{y}_{2}\right)}{s_{2}}$$
+
+
+# From Covariance to Correlation
+
+Correlations are simply standardized covariances
+
+$$\small{cov}_{y_{1},y_{2}}=\sigma_{y_{1},y_{2}}=\frac{1}{n-1}
+\sum_{i=1}^{n}\left(y_{1_i}-\bar{y}_{1}\right)
+\left(y_{2_i}-\bar{y}_{2}\right)$$
+
+$$\small{cor}_{y_{1},y_{2}}=r_{12}=\frac{1}{n-1}
+\sum_{i=1}^{n}\frac{\left(y_{1_{i}}-\bar{y}_{1}\right)}{s_{1}}
+\frac{\left(y_{2_{i}}-\bar{y}_{2}\right)}{s_{2}}$$
+
+
+In matrix notation let: 
+
+$$\hat{\mathbf{\Sigma}}=\begin{bmatrix}
+\sigma^{2}_{y_{1}} & \sigma_{y_{1}y_{2}}  \\
+\sigma_{y_{2}y_{1}}  & \sigma^{2}_{y_{2}}  
+\end{bmatrix}$$
+
+$$\mathbf{V}=\begin{bmatrix}
+\sigma^{2}_{y_{1}} & 0 \\
+0  & \sigma^{2}_{y_{2}}  
+\end{bmatrix}$$
+
+# From Covariance to Correlation
+
+Correlations are simply standardized covariances
+
+$$\small{cov}_{y_{1},y_{2}}=\sigma_{y_{1},y_{2}}=\frac{1}{n-1}
+\sum_{i=1}^{n}\left(y_{1_i}-\bar{y}_{1}\right)
+\left(y_{2_i}-\bar{y}_{2}\right)$$
+
+$$\small{cor}_{y_{1},y_{2}}=r_{12}=\frac{1}{n-1}
+\sum_{i=1}^{n}\frac{\left(y_{1_{i}}-\bar{y}_{1}\right)}{s_{1}}
+\frac{\left(y_{2_{i}}-\bar{y}_{2}\right)}{s_{2}}$$
+
+
+In matrix notation let: 
+
+$$\hat{\mathbf{\Sigma}}=\begin{bmatrix}
+\sigma^{2}_{y_{1}} & \sigma_{y_{1}y_{2}}  \\
+\sigma_{y_{2}y_{1}}  & \sigma^{2}_{y_{2}}  
+\end{bmatrix}$$
+
+$$\mathbf{V}=\begin{bmatrix}
+\sigma^{2}_{y_{1}} & 0 \\
+0  & \sigma^{2}_{y_{2}}  
+\end{bmatrix}$$
+
+Then: 
+$$\mathbf{R}=\mathbf{V}^{-\frac{1}{2}}\hat{\mathbf{\Sigma}}\mathbf{V}^{-\frac{1}{2}}=\begin{bmatrix}
+1 & r_{12} \\
+r_{12}  & 1  
+\end{bmatrix}$$
+
+###### Note: the covariance matrix of standard normal deviates ($\small{z}=\frac{y-\bar{y}}{\sigma_{y}}$) results in the correlation matrix (because correlations are standardized covariances!)
+
+# Covariation Example Revisited
+
+```{r echo = FALSE, eval=TRUE,out.width="50%"}
+plot(met.dat,cex=1.5, pch=21, bg="red",ylab = expression('VO'^2),xlab="log(mass), g")
+met.dat<-scale(met.dat,center = TRUE, scale = FALSE)
+SSCP<-t(met.dat)%*%met.dat
+cov.mat<-cov(met.dat)
+cor.mat<-cor(met.dat)
+```
+
+$$\small\mathbf{SSCP}=\begin{bmatrix}
+SS_{y_{1}} & SC_{y_{1}y_{2}} \\
+SC_{y_{2}y_{1}}  & SS_{y_{2}}  
+\end{bmatrix} = \begin{bmatrix}
+2997.23 \\
+-925.99  & 371.48  
+\end{bmatrix}$$
+
+
+$$\small\hat{\mathbf{\Sigma}}=\begin{bmatrix}
+\sigma^{2}_{y_{1}} & \sigma_{y_{1}y_{2}}  \\
+\sigma_{y_{2}y_{1}}  & \sigma^{2}_{y_{2}}  
+\end{bmatrix} = \begin{bmatrix}
+5.167 \\
+-1.596  & 0.640  
+\end{bmatrix}$$
+
+$$\small{\mathbf{R}}=\begin{bmatrix}
+1 \\
+-0.877  & 1  
+\end{bmatrix}$$
+
+# Generalization: Two Blocks
+
+Consider $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$ as *matrices* not vectors:
+
+$$\mathbf{Y}=[\mathbf{Y}_{1}\mathbf{Y}_{2}]$$
+
+We can still envision *SSCP* , $\small\hat{\mathbf{\Sigma}}$, and $\small\mathbf{R}$ 
+
+
+# Generalization: Two Blocks
+
+Consider $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$ as *matrices* not vectors:
+
+$$\mathbf{Y}=[\mathbf{Y}_{1}\mathbf{Y}_{2}]$$
+
+We can still envision *SSCP* , $\small\hat{\mathbf{\Sigma}}$, and $\small\mathbf{R}$ 
+
+$$\hat{\mathbf{\Sigma}}=\begin{bmatrix}
+\mathbf{S}_{11} & \mathbf{S}_{12} \\
+\mathbf{S}_{21}  & \mathbf{S}_{22}  
+\end{bmatrix}$$
+
+$$\mathbf{R}=\begin{bmatrix}
+\mathbf{R}_{11} & \mathbf{R}_{12} \\
+\mathbf{R}_{21}  & \mathbf{R}_{22}  
+\end{bmatrix}$$
+
+$\small\hat{\mathbf{\Sigma}}$ and $\small\mathbf{R}$ now describe covariation and correlations between *BLOCKS* of variables
+
+# What's in a $\small\hat{\mathbf{\Sigma}}$ matrix?
+
+Dimensionality of $\small\hat{\mathbf{\Sigma}}$ and $\small\mathbf{R}$ determined by dimensions of $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{Y}_{1}$ is $\small{n} \times {p}_{1}$ dimensions
+
+$\small\mathbf{Y}_{2}$ is $\small{n} \times {p}_{2}$ dimensions
+
+# What's in a $\small\hat{\mathbf{\Sigma}}$ matrix?
+
+Dimensionality of $\small\hat{\mathbf{\Sigma}}$ and $\small\mathbf{R}$ determined by dimensions of $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{Y}_{1}$ is $\small{n} \times {p}_{1}$ dimensions
+
+$\small\mathbf{Y}_{2}$ is $\small{n} \times {p}_{2}$ dimensions
+
+Therefore $\small\hat{\mathbf{\Sigma}}$ is $\small({p}_{1}+{p}_{2}) \times ({p}_{1}+{p}_{2})$ dimensions
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/CovMatParts.png")  
+```
+
+Blocks can have different numbers of variables ($\small{p}_{1}\neq \small{p}_{2}$ )
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/CovMatParts2.png")  
+```
+
+# The Components of $\small\hat{\mathbf{\Sigma}}$
+
+Different sub-blocks within $\small\hat{\mathbf{\Sigma}}$ describe distinct components of trait covariation
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/CovMatParts2.png")  
+```
+
+$\small\mathbf{S}_{11}$: covariation of variables in $\small\mathbf{Y}_{1}$
+
+$\small\mathbf{S}_{22}$: covariation of variables in $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}$: covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}$ is the multivariate equivalent of $\small\sigma_{21}$ 
+
+# The Components of $\small\hat{\mathbf{\Sigma}}$
+
+Different sub-blocks within $\small\hat{\mathbf{\Sigma}}$ describe distinct components of trait covariation
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/CovMatParts2.png")  
+```
+
+$\small\mathbf{S}_{11}$: covariation of variables in $\small\mathbf{Y}_{1}$
+
+$\small\mathbf{S}_{22}$: covariation of variables in $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}$: covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}$ is the multivariate equivalent of $\small\sigma_{21}$ 
+
+#### Note: $\mathbf{S}_{12} = (n-1)^{-1}(\mathbf{Y}_1 - \bar{\mathbf{Y}}_1)^T(\mathbf{Y}_2 - \bar{\mathbf{Y}}_2)$, the multivariate generalization of $(n-1)^{-1} \sum_{i=1}^{n}(y_1 - \bar{y}_1)(y_2 - \bar{y}_2)$.  Focusing on this matrix cross-product *is the best way* to address covariation between matrices.
+
+How do we generalize correlation between variables to correlation between matrices??
+
+# Multivariate Association: Partial Least Squares
+
+The best way to summarize the covariation between blocks is via Partial Least Squares (PLS)
+
+```{r echo=FALSE, out.width="80%"}
+data(pupfish)
+Y.gpa <- gpagen(pupfish$coords, print.progress = FALSE)
+shape <- two.d.array(Y.gpa$coords)
+head <- c(4, 10:17, 39:56)
+all <- 1:56
+body <- all[-head]
+land.gps<-rep('b',56); land.gps[c(4,10:17,39:56)]<-'a' # for PLS
+y <- two.d.array(Y.gpa$coords[head, , ])
+x <- two.d.array(Y.gpa$coords[body, , ])
+y<-scale(y,center=TRUE, scale=FALSE)
+x<-scale(x,center=TRUE, scale=FALSE)
+S12 <- crossprod(x,y)/(dim(x)[1] - 1)
+S11 <- var(x)
+S22 <- var(y)
+
+```
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/CovMatParts2.png")  
+```
+
+$\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}$: expresses covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+##### Note that Escoffier's *RV* Coefficient is used by some, but for so many problems that its use induces, we will not cover it here.
+
+# Multivariate Association: Partial Least Squares
+
+The best way to summarize the covariation between blocks is via Partial Least Squares (PLS)
+
+
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/CovMatParts2.png")  
+```
+
+$\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}$: expresses covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+*Decomposing* the information in $\small\mathbf{S}_{12}$ to find rotational solution (direction) that describes greatest covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$$\small\mathbf{S}_{12}=\mathbf{U\Lambda{V}}^T$$
+
+# Multivariate Association: Partial Least Squares
+
+The best way to summarize the covariation between blocks is via Partial Least Squares (PLS)
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/CovMatParts2.png")  
+```
+
+$\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}$: expresses covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+*Decomposing* the information in $\small\mathbf{S}_{12}$ to find rotational solution (direction) that describes greatest covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$$\small\mathbf{S}_{12}=\mathbf{U\Lambda{V}}^T$$
+
+$\small\mathbf{U}$ is the matrix of left singular vectors, which are eigenvectors of $\small\mathbf{Y}_{1}$ aligned in the direction of maximum covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{V}$  is the matrix of right singular vectors, which are eigenvectors of $\small\mathbf{Y}_{2}$ aligned in the direction of maximum covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+$\small\mathbf{\Lambda}$ contains the singular values (squared eigenvalues: $\small\lambda^{2}$) describe the covariation between pairs of singular vectors  $\small\mathbf{U}$  and $\small\mathbf{V}$ 
+
+Note: $\small\frac{\lambda^{2}_{1}}{\sum\lambda^{2}_{i}}\times100$ (percent covariation explained by first pair of axes)
+
+# PLS Correlation
+
+$$\small\mathbf{S}_{12}=\mathbf{U\Lambda{V}}^T$$
+
+Ordination scores found by projection of *centered* data on vectors $\small\mathbf{U}$ and $\small\mathbf{V}$
+
+$$\small\mathbf{P}_{1}=(\mathbf{Y}_{1}-\mathbf{\bar{Y}_{1}})\mathbf{U}$$
+
+$$\small\mathbf{P}_{2}=(\mathbf{Y}_{2}-\mathbf{\bar{Y}}_{2})\mathbf{V}$$
+
+The first columns of $\small\mathbf{P}_{1}$ and $\small\mathbf{P}_{2}$ describe the maximal covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+# PLS Correlation
+
+$$\small\mathbf{S}_{12}=\mathbf{U\Lambda{V}}^T$$
+
+Ordination scores found by projection of *centered* data on vectors $\small\mathbf{U}$ and $\small\mathbf{V}$
+
+$$\small\mathbf{P}_{1}=(\mathbf{Y}_{1}-\mathbf{\bar{Y}_{1}})\mathbf{U}$$
+
+$$\small\mathbf{P}_{2}=(\mathbf{Y}_{2}-\mathbf{\bar{Y}}_{2})\mathbf{V}$$
+
+The first columns of $\small\mathbf{P}_{1}$ and $\small\mathbf{P}_{2}$ describe the maximal covariation between $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$
+
+The correlation between $\small\mathbf{P}_{11}$ and $\small\mathbf{P}_{21}$ is the PLS-correlation
+
+$$\small{r}_{PLS}={cor}_{P_{11}P_{21}}$$
+
+
+# Evaluating Multivariate Associations
+
+PLS correlation:
+
+$$r_{PLS}={cor}_{P_{11}P_{21}}$$
+
+How do we assess significance of the test measures? 
+
+ - Permutation methods (RRPP) for assessing significance
+
+# Permutation Tests for Multivariate Association
+
+Test statistics: 
+
+$\small\hat\rho={r}_{PLS}$
+
+H~0~: $\small\rho=0$ 
+
+H~1~: $\small\rho>0$ 
+
+
+RRPP Approach: 
+
+1: Represent $\small\mathbf{Y}_{1}$ and $\small\mathbf{Y}_{2}$ as deviations from mean (H~0~)
+
+2: Estimate  $\small\hat\rho={r}_{PLS_{obs}}$
+
+3: Permute rows of $\small\mathbf{Y}_{2}$, obtain $\small\hat\rho={r}_{PLS_{rand}}$
+
+4: Repeat many times to generate sampling distribution
+
+# Partial Least Squares: Example
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/Pupfish Motivation.png")  
+```
+
+
+$r_{PLS}={cor}_{P_{11}P_{21}}=0.916$
+
+```{r echo=FALSE, out.width="80%"}
+PLS <- two.b.pls(y,x, iter=999, print.progress = FALSE)
+summary(PLS)
+plot(PLS)
+```
+
+Head shape and body shape appear are significantly correlated
+
+# PLS: Another example
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/06.covariation/PlethExample1.png")  
+```
+
+# PLS: Another example
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/06.covariation/PlethExample1.png")  
+```
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/06.covariation/PlethExample2.png")  
+```
+
+# Matrix Association Methods: Complications
+
+Because $r_{PLS}$ has a finite range of $0\rightarrow{1}$, with 0 representing no covariation between blocks, it may seem intuitive to qualitatively compare $r_{PLS}$ values across datasets
+
+**THIS TEMPTATION SHOULD BE AVOIDED!**
+
+# Matrix Association Methods: Complications
+
+Because $r_{PLS}$ has a finite range of $0\rightarrow{1}$, with 0 representing no covariation between blocks, it may seem intuitive to qualitatively compare $r_{PLS}$ values across datasets
+
+**THIS TEMPTATION SHOULD BE AVOIDED!**
+
+With random MVN data, $r_{PLS}$ varies with both *n* and *p*!  
+
+Straight-up comparisons of $r_{PLS}$ are not useful
+
+
+```{r, echo = FALSE, out.width="50%"}
+include_graphics("LectureData/06.covariation/PLS-WithN-P.png")  
+```
+
+# Comparing Association Patterns Across Data Sets
+
+With random MVN data, $r_{PLS}$ varies with both *n* and *p*!  
+
+Straight-up comparisons of $r_{PLS}$ are not useful
+
+
+```{r, echo = FALSE, out.width="50%"}
+include_graphics("LectureData/06.covariation/PLS-WithN-P.png")  
+```
+
+However, conversion to effect sizes eliminates trends with *n* and *p*, allowing meaningful comparisons
+
+```{r, echo = FALSE, out.width="50%"}
+include_graphics("LectureData/06.covariation/Z-PLS-WithN-P.png")  
+```
+
+where: $\small\mathbf{Z}=\frac{r_{PLS_{obs}}-\mu_{r_{PLS_{rand}}}}{\sigma_{r_{PLS_{rand}}}}$
+
+# Comparing Association Patterns Across Data Sets
+
+With random MVN data, $r_{PLS}$ varies with both *n* and *p*!  
+
+Straight-up comparisons of $r_{PLS}$ are not useful
+
+```{r, echo = FALSE, out.width="30%"}
+include_graphics("LectureData/06.covariation/PLS-WithN-P.png")  
+```
+
+However, conversion to effect sizes eliminates trends with *n* and *p*, allowing meaningful comparisons
+
+```{r, echo = FALSE, out.width="30%"}
+include_graphics("LectureData/06.covariation/Z-PLS-WithN-P.png")  
+```
+
+where: $\small\mathbf{Z}=\frac{r_{PLS_{obs}}-\mu_{r_{PLS_{rand}}}}{\sigma_{r_{PLS_{rand}}}}$
+
+**Statistical evaluation of effect sizes is paramount to proper permutational approaches to multivariate statistics!**
+
+######  DCA and MLC assert that effect sizes from RRPP represent *the* path forward for recalcitrant problems in high-dimensional data analysis
+
+# A Comment on the Data
+
+Note that to this point, for simplicity our data were:
+
+$$\mathbf{Y}=[\mathbf{Y}_{1}\mathbf{Y}_{2}]$$
+
+But to be consistent with our general philosophy, a more precise representation is: 
+
+$$\tilde{\mathbf{Y}}=\mathbf{T}[\mathbf{Y}_{1}\mathbf{Y}_{2}]=[\tilde{\mathbf{Y}_{1}} \tilde{\mathbf{Y}_{2}}]$$
+
+# A Comment on the Data
+
+Note that to this point, for simplicity our data were:
+
+$$\mathbf{Y}=[\mathbf{Y}_{1}\mathbf{Y}_{2}]$$
+
+But to be consistent with our general philosophy, a more precise representation is: 
+
+$$\tilde{\mathbf{Y}}=\mathbf{T}[\mathbf{Y}_{1}\mathbf{Y}_{2}]=[\tilde{\mathbf{Y}_{1}} \tilde{\mathbf{Y}_{2}}]$$
+
+That is, one can work with transformed data if observations are auto-correlated in some way (e.g., phylogenetic history)
+
+On the other hand, if observations are independent, $\small\mathbf{T}=\small\mathbf{I}$ which simplifies the second equation to become the first
+
+# A Comment on the Matrix Alignment
+
+$\mathbf{S}_{12} = (n-1)^{-1}(\mathbf{X - \bar{X}})^T(\mathbf{Y - \bar{Y}})$ is one possible way to express the general alignment equation:
+
+$$\mathbf{A}^T\mathbf{Z},$$
+
+where $\mathbf{A}$ is an alignment matrix and $\mathbf{Z}$ is a transformed data matrix.
+
+In the equation, $\mathbf{Z} = (\mathbf{Y}_2 - \bar{\mathbf{Y}}_2)$; i.e., the transformation of the data is matrix-centering.  $\mathbf{A} = (n-1)^{-1}(\mathbf{Y}_1 - \bar{\mathbf{Y}}_1)$, meaning that other centered data represent the matrix to which transformed data are aligned.
+
+We will see forms of this equation used again, several times.  One case is linear regression with the general linear model.
+
+# Regression: The General Linear Model
+
+Another way to envision covariation is via regression
+
+$$\large\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$
+
+
+Component | Dimension | Description
+:------- | :----------- | :--------------------------------------------------------------
+$\mathbf{Y}$ | $n \times p$ | Data matrix with $n$ observations for $p$ variables
+$\mathbf{X}$ | $n \times k$ | Linear model design matrix with $n$ observations for $k$ parameters
+$\mathbf{\beta}$ | $k \times p$ | Matrix of coefficients expressing change in values for the $k$ model parameters for each of $p$ variables
+$\mathbf{E}$ | $n \times p$ | Matrix of residuals (error) for $n$ observations for $p$ variables
+
+>- Assessing covariation patterns via the GLM (and any statistical hypothesis testing for that matter) comprises two distinct steps: **parameter estimation** and **model evaluation**.
+
+# The General Linear Model: Coefficients
+
+Solving for the coefficients (i.e., the parameters of the model) via LS:
+$$\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } $$
+$$\small\left(\mathbf{\Omega}^{-1} \mathbf{X} \right)^T \mathbf{Y} = \left(\mathbf{\Omega}^{-1} \mathbf{X} \right)^T\mathbf{X}\mathbf{\beta } $$
+$$\small\mathbf{X}^T \mathbf{\Omega}^{-1} \mathbf{Y} =\mathbf{X}^T \mathbf{\Omega}^{-1}  \mathbf{X}\mathbf{\beta } $$
+
+$$\small\left( \mathbf{X}^T \mathbf{\Omega}^{-1}  \mathbf{X}\right)^{-1}
+\mathbf{X}^T \mathbf{\Omega}^{-1} \mathbf{Y} =
+\left( \mathbf{X}^T \mathbf{\Omega}^{-1}  \mathbf{X}\right)^{-1}
+\mathbf{X}^T \mathbf{\Omega}^{-1}  \mathbf{X}\mathbf{\beta } = \mathbf{I\beta}$$
+
+
+$$\small\hat{\mathbf{\beta }} = 
+\left( \mathbf{X}^T \mathbf{\Omega}^{-1}  \mathbf{X}\right)^{-1}
+\mathbf{X}^T \mathbf{\Omega}^{-1} \mathbf{Y} $$
+
+The ^ reminds us that this is a matrix of estimate values.  This is the **generalized least squares (GLS)** solution.  If $\small\mathbf{\Omega} = \mathbf{I}$, then the solution simplifies to 
+
+$$\small\hat{\mathbf{\beta }} = 
+\left( \mathbf{X}^T   \mathbf{X}\right)^{-1}
+\mathbf{X}^T  \mathbf{Y} $$
+
+which is the ordinary **least squares (OLS)** solution.
+
+One might notice that because of the various matrix inversions, this can be computationally intensive and if $\small\mathbf{\Omega} = \mathbf{I}$, it would be easier to use the OLS solution.  It is also possible to use the OLS for GLS calculations through an algebraic short-cut.
+
+# The General Linear Model: Simplified Coefficient Estimation
+
+The simpler method of coefficient estimation is found through a transformation (projection) matrix, to transform the data and model design prior to the algebraic steps.
+
+Step 1: Perform eigen analysis on $\small\mathbf{\Omega}$ and obtain a set of eigenvectors, $\small\mathbf{U}$ and eigenvalues, $\small\mathbf{W}$.
+
+Step 2: Generate an $\small{n} \times n$ transformation matrix as
+
+$$\small\mathbf{T} = \left( \mathbf{UW}^{1/2} \mathbf{U}^T \right)^{-1}$$
+
+###### Note: sometimes this is written as: $\tiny\mathbf{T} = \left( \mathbf{UW}^{-1/2} \mathbf{U}^T \right)^{-1}$. This simply multiplies all subsequent values by `-1`
+
+Step 3: Project both data and model design matrix onto $\small\mathbf{T}$.
+
+$$\small\mathbf{\tilde{Y}} = \mathbf{TY}$$
+
+$$\small\mathbf{\tilde{X}} = \mathbf{TX}$$
+
+Step 4: Perform OLS estimation of coefficients using transformed values
+
+$$\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$
+
+###### Note that $\small\mathbf{T}$ is often referred to as,  $\small\mathbf{P}$, as it is a projection matrix.  Later we refer to a matrix of projected principal component scores as $\small\mathbf{P}$, so we use $\small\mathbf{T}$ here for "transformation" rather than projection.
+
+# Fitted Values and Residuals 
+
+From the model, the **fitted** values are found as:
+
+$$\mathbf{\hat{Y}} = \mathbf{X\hat{\beta}}$$
+
+While the unexplained component of the data is in the matrix of residuals: 
+
+$$\mathbf{E} = \tilde{\mathbf{Y}} - \hat{\mathbf{Y}}$$
+
+### Note
+
+$$\mathbf{\hat{Y}} = \mathbf{X\hat{\beta}} = \mathbf{X} \left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1} \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}} = \mathbf{H\tilde{Y}} $$
+
+$\mathbf{H}$ is the model "hat" matrix (for estimating "**Y**-hat").  Notice that this equation has the same form as $\mathbf{A}^T\mathbf{Z}$.  This equation aligns transformed data to the predictions made from $\mathbf{X}$.
+
+The same is true for residuals, but we will explore this in more detail later.
+
+# Fitted Values and Residuals 
+
+From the model, the **fitted** values are found as:
+
+$$\mathbf{\hat{Y}} = \mathbf{X\hat{\beta}}$$
+
+While the unexplained component of the data is in the matrix of residuals: 
+
+$$\mathbf{E} = \tilde{\mathbf{Y}} - \hat{\mathbf{Y}}$$
+
+But how do we evaluate the parameters (or effects) of the model?  
+
+>- This is accomplished via a **comparison of models**
+
+# Multivariate LM: Model Variation
+
+To evaluate the model, one must obtain estimates of the variation explained (and not explained by it). Here we compare the fit of the data to two models: our 'full' model $\small\mathbf{X}_{F}$ and a 'reduced' model:  $\small\mathbf{X}_{R}$:
+
+$\tiny\mathbf{X}_R = \begin{bmatrix} 1\\ 1\\ 1\\ 1\\ 1\\ 1 \end{bmatrix}$  & $\tiny\mathbf{X}_F = \begin{bmatrix} 1 & 0 \\ 1 & 0 \\ 1 & 0 \\ 1 & 1 \\ 1 & 1 \\ 1 & 1 \end{bmatrix}$
+
+
+Estimate | $\small\mathbf{X}_{R}$| $\small\mathbf{X}_{F}$
+:-------------- | :------------------ | :--------------------------
+Coefficients |  $\tiny\hat{\mathbf{\beta_R}}=\left ( \mathbf{X}_R^{T} \mathbf{X}_R\right )^{-1}\left ( \mathbf{X}_R^{T} \mathbf{Y}\right )$ | $\tiny\hat{\mathbf{\beta_F}}=\left ( \mathbf{X}_F^{T} \mathbf{X}_F\right )^{-1}\left ( \mathbf{X}_F^{T} \mathbf{Y}\right )$ 
+Predicted Values | $\small\hat{\mathbf{Y}}_R=\mathbf{X}_R\hat{\mathbf{\beta}}_R$ | $\small\hat{\mathbf{Y}}_F=\mathbf{X}_F\hat{\mathbf{\beta}}_F$
+Model Residuals | $\small\hat{\mathbf{E}}_R=\mathbf{Y}-\hat{\mathbf{Y}}_R$ | $\small\hat{\mathbf{E}}_F=\mathbf{Y}-\hat{\mathbf{Y}}_F$
+Model Residual Error ($\small{SSE}$) | $\small\mathbf{S}_R=\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R$ | $\small\mathbf{S}_F=\hat{\mathbf{E}}_F^T\hat{\mathbf{E}}_F$
+
+Ok, but what about statistical evaluation?  What test statistics can we use?
+
+# Multivariate LM: Test Statistics
+
+With univariate linear models, our test statistic was the ratio of explained to unexplained variance:  $\small{F}=\frac{\sigma^{2}_{M}}{\sigma^{2}_{\epsilon}}$
+
+For multivariate $\small\mathbf{Y}$ data, these would be matrices, implying:
+
+$$\tiny{"F"}=\frac{\begin{bmatrix}
+\sigma^{2}_{M_{11}} & \sigma_{M_{12}} \\
+\sigma_{M_{21}}  & \sigma^{2}_{M_{22}}  
+\end{bmatrix}}
+{\begin{bmatrix}
+\sigma^{2}_{\epsilon_{11}} & \sigma_{\epsilon_{12}} \\
+\sigma_{\epsilon_{21}}  & \sigma^{2}_{\epsilon_{22}}  
+\end{bmatrix}}=\frac{\left(\Delta k\right)^{-1}\small\left(\mathbf{S}_R-\small\mathbf{S}_{F}\right)}{\left(n-k_f-1\right)^{-1}\small\mathbf{S}_{F}}$$
+
+But since one **cannot 'divide' matrices**, other summary test measures have been derived.
+
+# Multivariate LM: Test Statistics (cont.)
+
+But since one cannot 'divide' matrices, other summary test measures have been derived.  There are two "flavors".
+
+### Multivariate coefficients (MANOVA):
+
+- First, calculate $\mathbf{S}_{F}^{-1}(\mathbf{S}_{R} - \mathbf{S}_{F})$
+- Second, perform eigen-analysis on this matrix product
+
+Statistic | Universal | If $p < n$
+:------- | :------- | :------- |
+Roy's root: | $max(\lambda_i)$ | $max(\lambda_i)$
+Hotelling-Lawley trace: | $\sum{\lambda_i}$ | $trace \left( \mathbf{S}_{F}^{-1}(\mathbf{S}_{R} - \mathbf{S}_{F}) \right)$
+Pillai trace: | $\sum{\frac{\lambda_i}{1 +\lambda_i}}$ | $trace \left( \mathbf{S}_{F}^{-1} \mathbf{S}_{R} \right)$
+Wilks $\Lambda$: | $\prod{\frac{1}{1 +\lambda_i}}$ | $\frac{\left| \mathbf{S}_{F} \right|}{\left| \mathbf{S}_{R} \right|}$
+
+
+These can be then converted to approximate $F$ values, if $p < n - k$ for $k$ model parameters, with yet additional formulae and  parametric assumptions. Alternatively, a resampling procedure can be used, if $i$ is such that $\mathbf{S}_{F}^{-1}$ can be calculated in $i$ dimensions.
+
+# Limitations to Parametric Theory
+
+Parametric multivariate methods 'work', but have limitations. Consider multivariate regression (using $\small{F}_{approx}$). Here are simulation results (type I error and power) as $\small p$ increases:
+
+```{r, echo = FALSE, out.width="70%"}
+include_graphics("LectureData/06.covariation/Manova-PowerProblem.png")  
+```
+
+Statistical power decreases as $\small p$-dimensions increases, and power eventually hits zero (as $\small p$ approaches $\small n$).
+
+###### The reason is that as $\small p$ approaches $\small n$, calculating the inverse of $\small\mathbf{S}_F$ or $\small\mathbf{S}_R$ becomes harder to accomplish mathematically, because the determinant decreases towards zero (i.e., the matrix becomes closer and closer to singular). 
+
+
+# Multivariate LM: Test Statistics (cont.)
+
+But since one cannot 'divide' matrices, other summary test measures have been derived.  There are two "flavors".
+
+### Univariate-like Statistics (ANOVA), based on "distances":
+
+Goodall (1991) and Anderson (2001) independently recognized the link between distances and summary $F$-statistics. Summary $F$-ratios are based on sums-of-squares (SS), and distances are found from the square-root of squared differences between objects. Thus, they are ostensibly the same.
+
+$F = \frac{\frac{1}{\Delta{k}} trace(\mathbf{S}_{R} - \mathbf{S}_{F})}{\frac{1}{n-k-1} trace(\mathbf{S}_{F})}$
+
+where the numerator is the averaged squared distances between model fitted values and the denominator is the averaged squared distances of the full-model residuals.
+
+For univariate data, this approach yields *IDENTICAL* $F$-values to standard equations, but provides a generalization of $F$ for high-dimensional data.
+
+Collyer et al. (2015) and Adams & Collyer(2016, 2018) have addressed the statistical properties of this approach for various model types, using RRPP.  **Data dimensionality does not affect this approach, unlike the MANOVA statistics**.
+
+###### Goodall. J Royal Stat Soc, Series B. (1991); Anderson. Austral Ecol. (2001); Collyer et al. Heredity. (2015); Adams & Collyer. Evolution. (2016); Adams & Collyer. Evolution. (2018)
+
+# ANOVA
+
+Analysis of variance is used for determining the *significance* of model effects (whether they differ from 0, as if a mean is the best estimate of shape).  For shape data, using randomization of residuals in a permutation procedure (RRPP) is the best way to go (Collyer et al. 2015; Adams & Collyer 2016, 2018)
+
+The equation for RRPP:
+
+$$\mathbf{\mathcal{Y}} = \mathbf{\hat{Y}} + \mathbf{E}_{\left[s,\right]}^*$$
+
+In words, random pseudo-values are generated by holding the transformed fitted values of a (**reduced**) model constant and randomizing only the transformed residuals.  The reduced model contains only a mean (intercept).  The subscript of the transformed residuals indicates that the rows of the matrix are shuffled, according to $s$, which is a randomized form of the sequence, $1,2,3,...,n$.
+
+###### Collyer et al. *Heredity.* (2015); Adams & Collyer. *Evolution.* (2016); Adams & Collyer. *Evolution.* (2018)
+
+# RRPP and Empirical Null Sampling Distributions
+
+1. Perform RRPP (randomize residuals many permutations).  
+2. Calculate $F$-value in every random permutation (observed case counts as one permutation)
+3. For $N$ permutations, $P = \frac{N(F_{random} \geq F_{obs})}{N}$
+4. Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.,
+$$z = \frac{
+\log\left( F\right) - \mu_{\log\left(F\right)}
+} {
+ \sigma_{\log\left(F\right)}
+}$$
+where $\mu_{\log\left(F\right)}$ and $\sigma_{\log\left(F\right)}$ are the expected value and standard deviation from the sampling distribution, respectively (Collyer et al. 2015; Adams and Collyer 2016, 2018).
+
+###### Collyer et al. *Heredity.* (2015); Adams & Collyer. *Evolution.* (2016); Adams & Collyer. *Evolution.* (2018)
+
+# RRPP and Power
+
+Interestingly, RRPP 'breaks' Rao's paradox, as power increases as the number of trait dimensions ($p$ ) increases.
+
+```{r, echo = FALSE, out.width="70%"}
+include_graphics("LectureData/06.covariation/RRPPPower.png")  
+```
+
+###### This may seem paradoxical but makes intuitive sense. Since test measures are based on distances among objects, adding trait dimensions can only provide additional information on any pattern between `Y~X` if it is present. And since statistical evaluation is based on this, power increases (NOTE: adding noise dimensions neither increases nor decreases power).
+
+# Regression: Example
+
+Does body shape covary with size in Pecos pupfish? 
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/Pupfish Motivation.png")  
+``` 
+
+This is a hypothesis of *Allometry* (shape~size covariation)
+
+```{r eval=TRUE,echo=TRUE,out.width="40%"}
+data(pupfish)
+fit <- procD.lm(coords ~ log(CS), SS.type = "I", 
+data = pupfish, print.progress = FALSE, iter = 999) 
+anova(fit)
+```
+
+# Regression: Example
+
+Does body shape covary with size in Pecos pupfish? 
+
+```{r, echo = FALSE, out.width="40%"}
+include_graphics("LectureData/06.covariation/Pupfish Motivation.png")  
+``` 
+
+Plot of regression scores versus body size
+
+```{r eval=TRUE,out.width="60%"}
+plot(fit, type = "regression", predictor = log(pupfish$CS), 
+     reg.type = "RegScore", pch=19,
+    col = "black")
+```
+
+# Multivariate Covariation: Summary
+
+- Multivariate covariation between blocks of variables generalizes $\small{r}$
+- $\small{r}_{PLS}$ provides a general approach to characterize covariation between blocks
+- GLM for Regression provides linear model framework
+- RRPP and Effect sizes, $\small{Z}$, are crucial for evaluating covariation patterns

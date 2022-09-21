@@ -1,0 +1,60 @@
+---
+title: "04b. TrajectoryAnalysis"
+author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: html_document
+---
+
+## **Content description**
+In geomorph, there are two approaches for estimating missing data:
+
+* First, one can use the thin-plate spline to warp the landmark locations in the reference to those in the target specimen, and use the locations to represent missing landmarks. 
+* Second, one can perform a multivariate regression (implemented using PLS) to perform the estimation.
+
+Load the package and example data, and then creat some missing landmarks.
+```{r eval=TRUE}
+library(geomorph)
+data(plethodon)
+
+# Create missing landmarks
+plethland <- plethodon$land
+plethland[3,,2]<-plethland[8,,2]<-NA  
+plethland[3,,5]<-plethland[8,,5]<-plethland[9,,5]<-NA
+plethland[3,,10]<-NA
+plethland[,,1:3]
+```
+
+## **TPS landmark estimation**
+```{r eval=TRUE}
+noNA.tps <- estimate.missing(plethland, method="TPS")
+noNA.tps[,,1:3]
+```
+
+## **Regression landmark estimation**
+```{r eval=TRUE}
+noNA.reg <- estimate.missing(plethland,method="Reg")
+noNA.reg[,,1:3]
+```
+
+## **Compare results** 
+Here we know the truth (original landmark coordinates before we eliminated them) so we can compare the performance of different methods
+```{r eval=TRUE}
+res <- gpagen(plethodon$land, print.progress = FALSE)
+res.tps <- gpagen(noNA.tps, print.progress = FALSE)
+res.reg <- gpagen(noNA.reg, print.progress = FALSE)
+
+pls.ori.tps <- two.b.pls(res$coords, res.tps$coords, print.progress = FALSE)
+plot(pls.ori.tps)
+summary(pls.ori.tps)
+
+pls.ori.reg <- two.b.pls(res$coords, res.reg$coords, print.progress = FALSE)
+plot(pls.ori.reg)
+summary(pls.ori.reg)
+
+pls.tps.reg <- two.b.pls(res.tps$coords, res.reg$coords, print.progress = FALSE)
+plot(pls.tps.reg)
+summary(pls.tps.reg)
+
+
+```
+

@@ -1,0 +1,477 @@
+---
+title: "Morphometric Analysis"
+author: "Dean Adams, Iowa State University"
+subtitle: A Brief History and Data Types
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+---
+
+```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
+library(knitr)
+library(RRPP)
+library(geomorph)
+library(scatterplot3d)
+opts_chunk$set(echo = TRUE)
+```
+
+#  Motivation
+
+“The study of form may be descriptive merely, or it may become analytical.  We begin by describing the shape of an object in simple words of common speech: we end by defining it in the precise language of mathematics; and the one method tends to follow the other in strict scientific order and historical continuity.”
+
+###### D'Arcy Thompson. (1915). *Trans. Roy. Soc. Edinburgh*
+
+# Morphometrics
+
+- What is morphometrics?
+- From Greek: morpho (form) + metrikos (measure)
+- The quantification and analysis of morphological objects
+- Application of multivariate statistical analysis to the study of variation in plants and animals (Reyment, 1985)
+
+>- The study of size and shape
+
+>- The quantification of form (Lestrel, 2000)
+
+>- The study of shape variation and its covariation with other variables (Bookstein, 1991)
+
+>- This workshop is concerned with the quantification of shape as derived from landmark-based methods, and a proper evaluation of patterns of shape variation relative to explanatory variables
+
+# Why Study Shape?
+
+- Historical reasons: natural history studies are largely morphological
+- Shape differences delineate obvious biological groups (i.e. alpha-taxonomy)
+- Shape covaries with other variables
+- Understanding shape and biological form may lead to understanding function
+
+# Why Study Shape?
+
+- Historical reasons: natural history studies are largely morphological
+- Shape differences delineate obvious biological groups (i.e. alpha-taxonomy)
+- Shape covaries with other variables
+- Understanding shape and biological form may lead to understanding function
+
+**To properly study shape we require a definition of it**
+
+>- The geometric properties of an object that are invariant to changes in translation, rotation, and scale (Bookstein 1991); Dryden and Mardia (1998)
+
+>- or... The variation that remains once position, orientation, and scale have been mathematically held constant
+
+# Form and Shape
+
+- For much of the history of biological inquiry, form and shape were synonymous 
+
+- Plato & Aristotle: believed that understanding form lead to understanding of function
+
+- Geothe: ‘morphology’ the form of an organism
+
+- Form and shape historically used interchangeably
+
+>- Now, more formal definitions of form and shape exist, which provide important distinctions
+
+>- Specifically, `Form = size + shape` (current definition)
+
+# Early Uses of Morphology
+
+- For centuries, biologists used morphology to compare organisms
+
+- Species taxonomy, classification, and ecological specialization were all addressed using anatomical properties
+
+- However, morphology was typically described qualitatively, leading to limitations
+
+- Much of the richness of morphological variation not captured
+
+- Limits comparisons to 2 objects (same or different)
+For > 2 objects, only rank-orderings could be done (A >B >C)
+
+- Rank-ordering implies differences on a continuous scale
+
+- Thus, there was a need to quantitatively compare morphology
+
+>- **This moves towards a notion of shape and shape differences**
+
+# Transformation Grids in Art: Durer (1528)
+
+- An intuitive use of shape differences from art!
+
+```{r, echo = FALSE, out.width="60%"}
+include_graphics("LectureData/01.Intro/Durer.png")  
+```
+
+# Transformation Grids in Biology 
+
+- Early biological ideas 
+    
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/DiodonMola.png")  
+```
+
+###### Early versions were qualitative. This week we learn the thin-plate spline which enables accurate shape transformations
+
+# The Biometric Tradition
+
+- Use of quantitative data began in the late 1800s: variables were measured (e.g., wing length) and group means compared
+
+- Morphometric advances concurrent with statistical advances
+
+- **LATE 1800s – EARLY 1900s**
+
+- Galton: variation, correlation, regression
+
+- Pearson: more on correlation, $\small\chi^2$ 
+
+- From this the Biometric tradition was formed, believing that most of biological variation was continuous
+
+- Early 1900s: BIG biological debate: Biometric vs. Mendelian (continuous vs. discontinuous biological variation)
+
+# Development of Statistics
+
+- Statistics developed (as a field) with evolutionary biology
+
+- ANOVA / Variance partitioning (Fisher: for quantitative genetics and more generally)
+
+- Discriminant Function Analysis (DFA/CVA), MANOVA, 
+
+- Generalized distance (Fisher, Mahalanobis, Rao)
+
+- Principal Components Analysis (Pearson, Hotelling)
+
+- Multivariate t-test (Hotelling)
+
+- Factor Analysis (Spearman)
+
+- Path Analysis (Wright)
+
+>- Most data used were biological
+
+>- *THIS* paved the way for morphometrics
+
+# Multivariate Morphometrics
+
+- Multivariate analysis of morphological measurements 
+
+- Within- and between-group variation described and compared 
+
+- Commonly used methods: principal components, canonical variates, discriminant function (see Blackith and Reyment, 1971)
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/LizardMultiMorph.png")  
+```
+
+# Multivariate Morphometrics
+
+- Multivariate analysis of morphological measurements 
+
+- Within- and between-group variation described and compared 
+
+- Commonly used methods: principal components, canonical variates, discriminant function (see Blackith and Reyment, 1971)
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/LizardMultiMorph.png")  
+```
+
+- Related topics: 
+    - Numerical Taxonomy: Sokal and Sneath, 1963; Sneath and Sokal, 1973
+    - Size, shape and allometry (size vs. shape): Jolicoeur, 1963; Burnaby, 1966; Mosimann, 1970
+
+# Geometric Morphometrics
+
+- 1980s-1990s: Theoretical advances and data types caused radical shift in morphometric methods
+
+- **Geometric Morphometric Methods (GMM) emerged**
+
+- Rigorous quantification of shape coupled with sound statistics and graphical visualization
+
+- Emphasis on landmarks due to more formal statistical theory
+
+- Procrustes Paradigm: rigorous quantification of shape from points, curves, and surfaces
+
+- Analysis of shape variation with graphical description of results 
+
+```{r, echo = FALSE, out.width="60%"}
+include_graphics("LectureData/01.Intro/PlethHeadLand.png")  
+```
+
+# Measuring Shapes
+
+- **Morphometrics: the study of shape variation and its covariation**
+
+- How to quantify shape?  There are no *natural* units for shape
+
+# Measuring Shapes
+
+- **Morphometrics: the study of shape variation and its covariation**
+
+- How to quantify shape?  There are no *natural* units for shape
+    - Use a set of proxy variables to represent shape (morphometric traits)
+    - Different approaches use different types of variables and methodologies to obtain them
+
+# Measuring Shapes
+
+- **Morphometrics: the study of shape variation and its covariation**
+
+- How to quantify shape?  There are no *natural* units for shape
+    - Use a set of proxy variables to represent shape (morphometric traits)
+    - Different approaches use different types of variables and methodologies to obtain them
+
+- **Data should**
+
+- Register shape in a repeatable manner and archive it for statistical analyses
+
+- Contain enough information to reconstruct a graphical representation of the structure of interest
+
+- Be appropriate to address the biological question of interest
+
+# Morphometric Data
+
+- Morphometric data may quantify:
+
+- The location of discrete anatomic features (**points**)
+
+- Distances between anatomic features (**lines**)
+
+- Outlines of a structure (**curves**)
+
+- The surface of a structure (**surfaces**)
+
+>- The modern morphometric synthesis permits the combination of ALL these types of data
+
+# Homology in Morphometrics
+
+- Data must quantify shape in a repeatable manner
+
+- Homology: correspondence across specimens
+
+- Evolutionary homology: structures derived from the same tissue of the most recent common ancestor
+
+- Operational homology: correspondence in the position of structures
+
+- In Morphometrics, we may use both, depending on the question to answer
+
+- The important point is to obtain **repeatable** data
+
+# Data Types: Linear Measurements
+
+- Use linear measurements, angles, etc., between anatomic features, or structures (e.g. head width)
+
+- Use some method to eliminate non-shape variation (size)
+
+- Analyze the data using multivariate statistics
+
+- aka 'traditional' or “multivariate” morphometrics
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/LizardMultiMorph.png")  
+```
+
+# Linear Measurements: Considerations
+
+**Advantages**
+
+- Allow comparison to previous studies
+
+- The variables used are very intuitive and easy to interpret biologically
+
+**Disadvantages**
+
+- Size is a latent factor and there is no global consensus on how to account for it – different approaches provide different results
+
+- The same values may represent different shapes
+
+- Homology is difficult to evaluate and guarantee
+
+- Usually it is difficult to obtain a graphical representation of variation in shape (because the geometry of the structure is not preserved in the analysis)
+
+# Linear Measures: Same Values Different Shapes
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/SkullMeas.png")  
+```
+
+# Linear Measures: Same Values Different Shapes
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/SkullMeas.png")  
+```
+
+```{r, echo = FALSE, out.width="30%"}
+include_graphics("LectureData/01.Intro/SameMeasures.png")  
+```
+
+Something is missing! The relative positions of the distances on the structure
+
+# The Truss
+
+- An interconnected network of distance measurements between anatomical points
+
+- An effort to maintain the relative positions between traits
+
+- Can provide a graphical representation
+
+- BUT statistical treatment is problematic
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/Truss.png")  
+```
+
+# The Morphometric Revolution
+
+- In the 1980s, there is a radical shift in methodology
+
+- Linear measurements do not capture all of the properties required to describe shape
+
+- The truss was an attempt to record relative positions
+
+- This information is inherent in the common endpoints of linear distances
+
+- Change from linear measurements to the locations of points themselves
+
+- Use **landmark coordinates** as the raw data
+
+This advance was aided by the simultaneous development of mathematical shape theory
+
+# Data Types: Landmark Coordinates
+
+- Use x, y (or x, y, z) coordinates of anatomic locations to quantify anatomical variation
+
+- Eliminate non-shape variation (size and others, see further on)
+
+- Multivariate data analysis
+
+```{r, echo = FALSE, out.width="50%"}
+include_graphics("LectureData/01.Intro/LandLIzard.png")  
+```
+
+- 'Landmarks are the points at which one’s explanations of biological processes are grounded.'  Bookstein (1990)
+
+# Types of Landmarks
+
+```{r, echo = FALSE, out.width="100%"}
+include_graphics("LectureData/01.Intro/LandmarkTypes.png")  
+```
+
+# Landmarks: Considerations
+
+**Advantages**
+
+- Easy to assess homology, so biological interpretation is more robust
+
+- The geometry of the studied structure is maintained in relative landmark locations
+
+- Can obtain a visual representation of shape variation
+
+**Disadvantages**
+
+- Raw data include information that is NOT about form (e.g. location, scale, orientation)
+- Some structures have few or no landmarks
+
+###### These issues are alleviated through Geometric Morphometric methods and its extensions to other data types, see further on
+
+# Data Types: Curves
+
+- Some structures have few, or no, landmarks
+
+- One may be interested in outlines, or other curves, to quantify shape
+
+- Types of curves
+    - **Partial**: different starting and ending points
+    - **Complete**: the starting and ending point coincide (closed curves)
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/Curves.png")  
+```
+
+# Curves: Considerations
+
+**Advantages**
+
+- Useful when there are few, or no, landmarks
+
+- They register a full representation of the outline (and therefore we can obtain a graphical representation of shape variation)
+
+**Disadvantages**
+
+- Difficult to assess homology
+
+- Several analytical approaches exist, which provide different variables, and comparison among them is not straightforward (there is no globally accepted way to measure the shape of a curve)
+
+- Most methods do not allow the combination of curves and landmarks
+
+- Some curves may represent different shapes
+
+###### But see next! – The Procrustes paradigm allows the combination of points, curves and surfaces
+
+# Semilandmarks
+
+- They resolve the problems encountered when working with curves
+
+- Can be quantified on curves (2D) or surfaces (3D)
+
+- They are treated as “degenerate” landmarks, the position of which is limited to slide on a curve (or surface) during analysis
+
+- Only variation perpendicular to the curve is relevant
+
+```{r, echo = FALSE, out.width="60%"}
+include_graphics("LectureData/01.Intro/Semilandmarks.png")  
+```
+
+# Semilandmarks: Considerations
+
+**Advantages**
+
+- Good representation of curves, outlines and surfaces
+
+- They allow the examination of curves and surfaces in Procrustes shape space (which has known statistical properties)
+
+- It is possible to combine different morphological features (points, curves, surfaces) in a single analysis of form
+
+# The Procrustes Paradigm
+
+- Combining landmarks and semilandmarks there is a general solution for quantifying biological shape variation
+
+- We obtain quantitative information that represents:
+    - Discrete anatomical points
+    - Curves (outlines) of structures
+    - Surfaces of structures
+
+- We can combine it all in a single analysis!
+
+```{r, echo = FALSE, out.width="50%"}
+include_graphics("LectureData/01.Intro/Friess.png")  
+```
+
+# General Morphometric Protocol
+
+```{r, echo = FALSE, out.width="100%"}
+include_graphics("LectureData/01.Intro/GenGMProtocol.png")  
+```
+
+# Special Considerations: Missing Data
+
+- Sometimes landmarks are missing
+
+- Methods to estimate their location exist (discussed later this week)
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/Missing.png")  
+```
+
+# Special Considerations: Symmetry
+
+- Sometimes objects display symmetry
+
+- GMM procedures adjusted slightly for this  (discussed later this week)
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/01.Intro/Symmetry.png")  
+```
+
+# Dean's View of Quantitative Biology
+
+- Methods are a product of theory and data type
+
+- Choose methods that are mathematically sound, but also theoretically and biologically sound
+
+- METHODS SHOULD NOT INTRODUCE PATTERNS!!!!
+
+

@@ -1,0 +1,322 @@
+---
+title: "Morphological Disparity"
+subtitle: "Comparing morphological variability"
+author: "Michael Collyer, Chatham University"
+
+output: slidy_presentation
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Overview
+
+- How do we measure morphological disparity
+- Procrustes variance
+- Partial Procrustes variance
+- Other disparity measures
+- Eccentricty
+- Analysis of convex body coverage
+
+
+# Morphological Disparity: How do we measure it?
+
+The simplest way to measure morphological disparity for data landmark data (or any data) is to calculate the squared distances of residuals from fitted values of a linear model
+
+- If the model has means, the residuals are vectors sprouting from their means
+
+- If the model has vectors to describe patterns of covariation (slopes), the residuals are vectors surrounding fitted values along a slope trajectory.
+
+```{r, echo = FALSE, out.width="60%"}
+include_graphics("LectureData/07.groupdifferences/dispersion.png")  
+``` 
+$\sum_{i=1}^n \mathbf{\epsilon}_i^T\mathbf{\epsilon}_i$
+
+However, if we want compare disparity among groups, it makes more sense to average it, if groups have different sizes.
+
+$$PV = n^{-1}\sum_{i=1}^n \mathbf{\epsilon}_i^T\mathbf{\epsilon}_i = n^{-1}trace\left( \mathbf{EE}^T\right)$$
+
+# Disparity is Variance
+
+$$PV = n^{-1}\sum_{i=1}^n \mathbf{\epsilon}_i^T\mathbf{\epsilon}_i$$
+
+That's right.  The simplest measure of disparity is variance.  The smaller the variance the more clustered points are to their estimate; the larger the variance the more diffuse.  Like everything else we have considered thus far, measuring variance for the sake of measuring it, is not that appealing.  Comparing variances is.
+
+Note that this form of variance divides by $n$, not degrees of freedom.  We are not interested in estimating a population parameter from variability in a sample.  If we called this *mean disparity* instead of variance, maybe it would make more sense.  
+
+# Disparity is Variance (Cont.)
+
+How does one test a null hypothesis about variance?  The simplest way to establish a null hypothesis is,
+
+$$H_0 : \left| \sigma_1 - \sigma_2 \right| = 0$$
+$$H_A: \left| \sigma_1 - \sigma_2 \right| > 0$$
+
+And for such a test - and this is important - the residuals **ARE THE DATA**.
+
+Steps for a pairwise test of variances:
+
+1. Obtain residuals, let these be the data
+2. Fit the linear model, $\epsilon \sim \mathbf{X}_g$, where $_g$ indicates the factors describe groups.
+3. Find the pairwise distances among means.
+4. Perform RRPP with a reduced model with only an intercept (same as just randomly shuffling residuals among groups)
+    - Repeat steps 2-3 in each permutation
+5. Obtain the usual statistics ($Z$ and $P$-value) from the empirically-generated sampling distributions.
+
+# Disparity: Example
+
+### Example Data Set: 'pupfish'
+
+### Objective:
+To determine if shape disparity differs among population:sex groups
+
+# Disparity: Example
+
+```{r, echo = TRUE, include = TRUE}
+library(geomorph)
+data("pupfish")
+pupfish$Group <- interaction(pupfish$Pop, pupfish$Sex)
+
+fit <- procD.lm(coords ~ Pop * Sex,
+               data = pupfish, print.progress = FALSE)
+P <- plot(fit, type = "PC", pch = 21, bg = pupfish$Group)
+shapeHulls(P, pupfish$Group, group.cols = c(1,3,2,4))
+```
+
+# Disparity: Example (cont.)
+
+### Analysis option 1
+
+```{r, echo = TRUE, include = TRUE}
+PW <- pairwise(fit, groups = pupfish$Group, print.progress = FALSE)
+summary(PW, test = "var")
+
+```
+
+# Disparity: Example (cont.)
+
+### Analysis option 2
+
+```{r, echo = TRUE, include = TRUE}
+
+MD <- morphol.disparity(fit, print.progress = FALSE)
+summary(MD)
+
+```
+
+Sinkhole males had significantly greater shape disparity than the Marsh fish, but not sinkhole females.
+
+# Foote's Partial Disparity
+
+Foote (1993) proposed that the total disparity of a sample comprises partial disparities of inherent groups (e.g., clades).  One can also calculate and compare these.
+
+Total disparity
+
+```{r, echo = TRUE, include = TRUE}
+
+fit0 <- procD.lm(coords ~ 1,
+               data = pupfish, print.progress = FALSE)
+
+MD.tot <- morphol.disparity(fit0)
+
+```
+
+# Foote's Partial Disparity (cont.)
+
+Foote (1993) proposed that the total disparity of a sample comprises partial disparities of inherent groups (e.g., clades).  One can also calculate and compare these.
+
+Partial disparity
+
+$$pPV = (N-1)^{-1}\sum_{i=1}^n \mathbf{\epsilon}_i^T\mathbf{\epsilon}_i$$
+
+where $N = \sum{n_i}$
+
+# Foote's Partial Disparity (cont.)
+
+### Fractional parts of the whole
+
+```{r, echo = TRUE, include = TRUE}
+
+P <- plot(fit, type = "PC")
+PC <- P$PC.points[, 1:2]
+for(i in 1 : nrow(PC)) 
+  arrows(0, 0, PC[i,1], PC[i,2], col = pupfish$Group[i])
+```
+
+# Foote's Partial Disparity (cont.)
+
+### Analysis
+
+```{r, echo = TRUE, include = TRUE}
+
+MD.part <- morphol.disparity(fit0, groups = pupfish$Group, partial = TRUE, print.progress = FALSE)
+summary(MD.part)
+
+```
+
+Important points:
+- Partial disparities are measured from grand mean; must have an intercept model
+- Degrees of freedom are bias-corrected, because the total sample disparity is an estimate of true morphological disparity
+
+###### Foote. *Paleobiology* 1993. 
+
+# Disparity: Other descriptive statistics
+
+There are a few other descriptive statistics that one might come across, linked to disparity or data dispersion.  These have not been really explored with regard to high-dimensional data.  One thing of which to be aware, there are still several unexplored frontiers for high-dimensional data.  Analysis of disparity is one of those frontiers.  We are loathe to offer hypothesis test suggestions, using descriptive statistics as test statistics, without sound theoretical research to validate them.  Chief among the developmental unknowns is appropriate null models for these:
+
+  - Nearest neighbor distance (a measure of a tendency for data to cluster rather than be diffuse)
+    + For each point find the shortest vector to the next point, then find the mean or standard deviation for a group
+  - Convex body volume (the volume of a data space represented by a group)
+    + This is extremely difficult to do in many dimensions.  
+  - Eccentricity (a measure of departure from spherical scatter)
+    + Measured as $1 -\frac{\lambda_2}{\lambda_1}$ after performing a singular value decomposition (or eigen analysis) on $var = n^{-1}\sum_{i=1}^n \mathbf{E}_i^T\mathbf{E}_i$.
+
+Additionally, these statistics are likely rather sample size-dependent.  None of them seem sensible for small samples.
+
+# Disparity: Other descriptive statistics (Cont.)
+
+  - Eccentricity (a measure of departure from spherical scatter)
+    + Measured as $1 -\frac{\lambda_2}{\lambda_1}$ after performing a singular value decomposition (or eigen analysis) on $var = n^{-1}\sum_{i=1}^n \mathbf{E}_i^T\mathbf{E}_i$.
+    
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/14.disparity/eccentricity.png")  
+``` 
+
+# Disparity: Other descriptive statistics (Cont.)
+
+However, even as descriptive statistics, they can be sometimes useful.  Here is a figure that appears in Adams and Collyer (2018), after receiving harsh criticism from a reviewer (in early rounds), stating that RRPP does not produce appropriate covariance matrices, as expected from a Wishart distribution
+
+```{r, echo = FALSE, out.width="80%"}
+include_graphics("LectureData/07.groupdifferences/wishart.png")  
+``` 
+
+Measuring eccentricity for 100 experiments of 1,000 RRPP generation of covariance matrices, each, we actually found that RRPP generated a more spherical distribution (disparity) of covariance matrices than sampling from a Wishart distribution (a multivariate sampling distribution for covariance matrices).  It exceeded theoretical expectation!
+
+###### Adams and Collyer. *Syst Biol.* (2018)
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage
+
+- A convex body (hull or ellipsoid) occupies a portion of the tangent space.
+- Convex bodies for different groups might overlap in their locations.
+- Large levels of overlap suggest groups "behave" similarly in their distributions of possible shapes
+- Little overlap suggests morphological "specialization"
+- Outliers can be included (convex hulls) if they are reasonable representations of actual shapes a group might express.
+- Outliers can be excluded (smooth confidence ellipsoids) if precision in estimated shapes is better to consider.
+
+###### Collyer et al. **Copeia** 2015
+###### Turner et al. **Ecology** 2015
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage (cont.)
+
+```{r, echo = TRUE, include = TRUE}
+
+P <- plot(fit, type = "PC", pch = 21, bg = pupfish$Group)
+shapeHulls(P, pupfish$Group, group.cols = c(1,3,2,4))
+PCs <- P$PC.points[,1:3] # first three PCs
+
+```
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage (cont.)
+
+```{r, echo = TRUE, include = TRUE}
+
+P <- plot(fit, type = "PC", pch = 21, bg = pupfish$Group)
+shapeHulls(P, pupfish$Group, group.cols = c(1,3,2,4))
+shapeHulls(P, group.lty = 2)
+```
+
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage
+
+### Warning
+
+The following package, ACHC, is a package in development.  This package is not yet released on CRAN (will be hopefuly soon).
+
+```{r, echo = TRUE, include = TRUE}
+library(ACHC)
+
+grid.preview(PCs, pts = 300, pt.scale = 0.05)
+
+```
+
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage (Cont.)
+
+```{r, echo = TRUE, include = TRUE}
+
+pupCHC <- achc(PCs, group = pupfish$Group, grid.points = 300, grid.space = 0.05,
+               print.progress = FALSE)
+summary(pupCHC)
+
+```
+
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage (Cont.)
+
+```{r, echo = TRUE, include = TRUE}
+
+plot(pupCHC, lwd = 2)
+
+```
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage (Cont.)
+
+### This time with ellipsoids
+
+```{r, echo = TRUE, include = TRUE}
+
+pc.ellipse.plot(PCs, group = pupfish$Group, confidence = 0.99,
+                main = "99% confidence ellipses")
+
+```
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage (Cont.)
+
+### This time with ellipsoids
+
+```{r, echo = TRUE, include = TRUE}
+
+# Analysis of Ellipsoid Coverage
+pupEC<- aec(PCs, group = pupfish$Group, grid.points = 300, grid.space = 0.05,
+               confidence = 0.99, print.progress = FALSE)
+summary(pupCHC)
+
+```
+
+# Analysis of Convex Body (Hull or Ellipsoid) Coverage (Cont.)
+
+### This time with ellipsoids
+
+```{r, echo = TRUE, include = TRUE}
+
+plot(pupEC, lwd = 2)
+
+```
+
+# Summary
+
+- Analyzing disparity as opposed (or in addition) to mean differences adds an interesting dimension to shape analyses
+- One has to be careful to match the statistic to research question
+- Comparison of group dispersion
+  + PV (or other distance-based stats)
+  + CHA/CHV = amount of shape space, including outliers
+  + ECC = anisotropy, covariation of “subshapes”
+
+- Distribution of group representation across PC space 
+  + Analysis of Convex Body Coverage
+
+# Additional Literature (not all shape data)
+
+Note that these references tend to have earlier references within:
+
+- Bookstein, F. L. (1991) Morphometric tools for landmark data
+- Foote, M. (1993) Contributions of individual taxa to overall morphological diversity. Paleobiology. 19:403-419.
+- Layman, C. A., et al. (2007) Can stable isotope ratios provide for community-wide measures of trophic structure? Ecology 88: 42-48.
+- Turner, T. F, et al. (2010) A general hypothesis-testing framework for stable isotope ratios in ecological studies. Ecology: 91: 2227-2233.
+
+
+
+
+

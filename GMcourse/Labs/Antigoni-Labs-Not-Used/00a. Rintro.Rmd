@@ -1,0 +1,152 @@
+---
+title: "00a. RIntro"
+author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
+date: "3/14/2019"
+output: html_document
+---
+
+## **Content description**
+A basic knowledge of R is a requirement for following this course, and it will be considered a standard during the labs. However, here we provide you a short guide to some basic operations, as a resource for solving some basic practical problems you might encounter. We encourage you to sharpen your R skills as much as possible in the future. It is a great tool, and an ever-learning path to follow!
+
+R is a statistical programming environment with many built-in mathematical functions and many others that are found in packages that can be installed. Geomorph is one such package.  
+
+Analyses in R are performed using a series of commands which are written in script files and passed to the main console. The general workflow is:
+1. OPEN R or Rstudio
+2. OPEN R-script
+3. Define your working directory 
+4. Run analyses
+
+## **Some R basics**
+```{r eval=TRUE}
+3 -> a  # Assign value to variable
+a
+
+b <- c(3,4,5)   # 'c' combines values into vector or list
+b
+b[2]	# Access items in vectors by calling their position (aka indexing)
+
+a <- rnorm(50) # Generate random normal vector
+b <- rnorm(a)
+plot(a, b)      # A simple plot
+
+c <- cbind(a, b)    # Binds columns together (rbind does same by rows)
+c
+c[1]   # first element
+c[1,]	 # first row
+c[,1]  # first column
+
+rbind(a,b)
+
+ls() # See which R objects are now in the R workspace
+```
+
+## **Some base functions**
+```{r eval=TRUE}
+sum(a)
+mean(a)
+min(a)
+max(a)
+var(a)
+a^2		# Square values
+sqrt(a)	# NaN for negative values
+abs(a)
+cor(a,b)
+
+?cor   # Call help page for information
+
+rm(list=ls())   # Remove items in memory
+```
+
+## **Matrix operations**
+```{r eval=FALSE}
+a <- matrix(c(1,0,4,2,-1,1), nrow=3)
+b <- matrix(c(1,-1,2,1,1,0), nrow=2)
+a
+b
+
+c <- t(a)	# Matrix transpose
+a
+c
+
+2*a	# Scalar multiplication
+
+# Matrix addition and subtraction
+b+c
+b-c
+a+b		# NOTE: non-conformable matrices (check rxc of your matrices!)
+
+# Elementwise multiplication
+c
+b
+c*b
+
+# Matrix multiplication
+a%*%b		## %*% is symbol for matrix multiplication
+b%*%a		## matrix order matters
+```	
+
+## **Reading data**
+```{r eval=FALSE}
+mydata <- read.csv(file="Data/01-RIntroData.csv", header=T)
+mydata
+str(mydata)
+
+# Maybe cannot remember directory?
+mydata <- read.csv(file.choose())
+
+Y <- as.matrix(mydata[,(2:3)])
+FactorA <- as.factor(mydata[,4])
+Y
+FactorA
+```
+
+## **The 'apply' functions**
+Includes apply, sapply, tapply, lapply. A **VERY** useful family, that loop over data and do things, e.g.:
+```{r eval=FALSE}
+apply(Y, 2, sd)    # Here, we obtain the std for each column of a matrix
+
+tapply(Y[,1], FactorA, mean)	# Obtain means for first column for levels of FactorA
+tapply(Y[,2], FactorA, mean)	# Obtain means for first column for levels of FactorA
+tapply(Y, FactorA, mean)		  # Try entire matrix: doesn't work
+
+rowsum(Y, FactorA)/as.vector(table(FactorA))    #This obtains means. Could also use a for loop.
+```
+
+## **Some basic statistics**
+```{r eval=FALSE}
+model1 <- lm(mydata$y ~ mydata$x)  # Run regression
+summary(model1)
+anova(model1)  # Generates anova table of results
+
+# A plot with regression line
+plot(mydata$x, mydata$y)
+abline(coef(model1))
+```
+
+## **Getting help**
+This is by far **the most important** R-skill! 
+For known functions, you can get help either in the help panel of Rstudio, or using ?
+```{r eval=TRUE}
+?mean
+```
+
+If you don´t know the name of the function, but have some idea of what it does, you can do fuzzy-matching search:
+```{r eval=TRUE}
+??components
+```
+The results you get, will depend on the packages you have installed.
+
+For more general aspects, use the internet. There are infinite resources to help you with R. Here are some basic ones:
+
+* CRAN homepage: http://cran.r-project.org/
+* R Seek: http://rseek.org/
+* Mailing lists: http://www.r-project.org/mail.html   
+* Google   http://www.google.com
+
+** Other resources**
+
+* The R Journal: http://journal.r-project.org/   
+* R Bloggers: http://www.r-bloggers.com/
+* Quick-R: http://www.statmethods.net/
+* The R inferno: https://www.burns-stat.com/pages/Tutor/R_inferno.pdf
+

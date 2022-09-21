@@ -1,0 +1,49 @@
+---
+title: "00b. Installing geomorph"
+author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
+date: "3/14/2019"
+output: html_document
+---
+
+## **Content description**
+You can install geomorph from CRAN, as you would with any package.
+For getting the most updated version, it is advisable that you install instead from the [github repository of the package](https://github.com/geomorphR/geomorph). 
+The Stable branch includes updates regarding bug fixes, and it is the one you need to make sure you are working with the most recent validated version. 
+The Develop branch includes updates and functions that are being developed. As this is where we work to build future versions of package, here you will find some new features that might be of interest, but you need to take into account that this is the beta version of the package, and not necessarilly fully tested yet. **We strongly discourage you from publishing results with this version, unless you check with the authors first.**
+
+### **Installing from CRAN**
+```{r eval=FALSE}
+install.packages("geomorph")
+```
+
+### **Installing from github**
+To be able to install geomorph from github, you will need the devtools package first, as well as some OS-specific software packages.
+
+* WINDOWS: install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) first
+* MAC: install Xcode from App Store
+* LINUX: requires a compiler and development libraries, which depend on your Linux platform. The necessary package is usually r-base-dev. 
+
+Once this is done, install devtools first, and then you can install your preferred version of geomorph from the github repository.
+
+```{r eval=FALSE}
+# Installing devtools
+install.packages("devtools")
+
+# For the Stable version:
+devtools::install_github("geomorphR/geomorph", ref = "Stable")
+
+# For the Develop version:
+devtools::install_github("geomorphR/geomorph", ref = "Develop")
+```
+
+### **Note on RRPP:**
+Because many of the analytical functions used in geomorph are actually based on the package RRPP ([Collyer, M. L. and D. C. Adams. 2018. RRPP: RRPP: An R package for fitting linear models to high‐dimensional data using residual randomization. Methods in Ecology and Evolution. 9(2): 1772-1779.](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13029)) it is also advisable that you install RRPP from github, to make sure to get the updated version.
+
+```{r eval=FALSE}
+devtools::install_github("mlcollyer/RRPP")
+```
+
+Note that whenever you update RRPP, you need to reload geomorph to get linked to the updated version of the RRPP functions.
+
+
+
