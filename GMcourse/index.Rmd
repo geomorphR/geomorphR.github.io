@@ -8,7 +8,13 @@
 <br>
 The field of geometric morphometrics (GM) is concerned with the quantification and analysis of patterns of shape variation, and its covariation with other variables. The goal of this workshop is to provide participants with both working knowledge of the theory of geometric morphometrics, as well as practical training in the application of these methods. 
 
-The course will occur in the [Faculty of Biology of the University of Barcelona](https://www.ub.edu/portal/web/biologia/) and is organized by the [Department of Evolutionary Biology, Ecology and Environmental Science](https://www.ub.edu/portal/web/dp-beeca/) and the [Institute of Research in Biodiversity](http://www.ub.edu/irbio/home).
+The course will occur in the [Faculty of Biology of the University of Barcelona](https://www.ub.edu/portal/web/biologia/) and is organized by the [Department of Evolutionary Biology, Ecology and Environmental Science](https://www.ub.edu/portal/web/dp-beeca/) and the [Institute of Research in Biodiversity](http://www.ub.edu/irbio/home). 
+
+This is considered a post-graduate course, approved by the Faculty of Biology of the UB, and it corresponds to 3 ECTS units, for students interested in validating and transferring credits for it. It is, however, open as an international workshop to participants at any stage of their academic career.
+
+<br>
+
+The **cost** of the course will be of 350 euros per participant.
 
 <br>
 
@@ -24,4 +30,3 @@ Admitted participants will be informed until December 15, 2022.
 
 <br>
 
-The **cost** of the course will be of 350 euros per participant.

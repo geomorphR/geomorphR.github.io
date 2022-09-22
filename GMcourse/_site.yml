@@ -9,6 +9,7 @@ navbar:
       href: people.html
     - text: "Course content"
       href: content.html
+#
 #    - text: "Detailed schedule"
 #      href: schedule.html
 #    - text: "Lectures"
