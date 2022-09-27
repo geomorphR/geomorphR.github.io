@@ -2,13 +2,33 @@
   title: "Geometric Morphometrics in R"
 ---
   
-Geometric Morphometric Analysis in Ecology and Evolutionary Biology Using R
+#### Geometric Morphometric Analysis in Ecology and Evolutionary Biology Using R
 
-14 October - 18 October 2019, Glasgow, United Kingdom
-
+### 8 - 12 May 2023, Barcelona, Spain
+<br>
 The field of geometric morphometrics (GM) is concerned with the quantification and analysis of patterns of shape variation, and its covariation with other variables. The goal of this workshop is to provide participants with both working knowledge of the theory of geometric morphometrics, as well as practical training in the application of these methods. 
 
-The course is organized in both theoretical and practical sessions. Lectures provide a solid theoretical understanding of the mathematical underpinnings of the procedures for proper analysis of shape data from landmark coordinates. Laboratory sessions put these concepts into practice, and include worked examples, giving participants the opportunity to gain hands-on experience in the treatment of shape data using the R package geomorph. All stages of a morphometric analysis will be covered: data collection, the statistical treatment of shape variation with respect to biological hypotheses, and the visualization of patterns of shape variation and of the shapes themselves for interpretation of statistical findings, using the R language for statistical programming. While practice datasets will be available, it is strongly recommended that participants come with their own datasets.
+The course will occur in the [Faculty of Biology of the University of Barcelona](https://www.ub.edu/portal/web/biologia/) and is organized by the [Department of Evolutionary Biology, Ecology and Environmental Science](https://www.ub.edu/portal/web/dp-beeca/) and the [Institute of Research in Biodiversity](http://www.ub.edu/irbio/home). 
 
-Note: Because this is a geometric morphometrics workshop in R, it is assumed that participants have some working knowledge in R, as the practical sessions will focus on GM-based analyses (not basic R use). It is therefore strongly recommended that participants refresh their R skills prior to attending the workshop.
+<br>
+
+This is considered a post-graduate course, approved by the Faculty of Biology of the UB, and it corresponds to 3 ECTS units, for students interested in validating and transferring credits for it. It is, however, open as an international workshop to participants at any stage of their academic career.
+
+<br>
+
+The **cost** of the course will be of 350 euros per participant.
+
+<br>
+
+### Application procedure
+To apply for participating in the course please feel in the application form [here](https://forms.gle/SppEEYe6cYXmdp9q7)
+
+Up to 25 participants will be accepted on the basis of their academic career stage (priority given to PhD students and early-career researchers) and relevance of the course for their research.
+
+<br>
+
+### The **deadline for applications** is November 15, 2022. 
+Admitted participants will be informed until December 15, 2022.
+
+<br>
 

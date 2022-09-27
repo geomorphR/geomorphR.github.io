@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,22 +13,36 @@
 
 <title>Geometric Morphometrics in R</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -42,32 +55,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 
 
@@ -77,10 +66,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -97,40 +82,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -158,7 +119,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -170,7 +131,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -181,10 +142,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -196,7 +170,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -232,6 +205,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -262,7 +236,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -275,16 +249,10 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="schedule.html">Schedule</a>
+  <a href="people.html">Instructors &amp; Organisers</a>
 </li>
 <li>
-  <a href="lectures.html">Lectures</a>
-</li>
-<li>
-  <a href="labs.html">Lab Tutorials</a>
-</li>
-<li>
-  <a href="references.html">Reference List</a>
+  <a href="content.html">Course content</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -294,7 +262,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -303,11 +271,55 @@ $(document).ready(function () {
 </div>
 
 
-<p>Geometric Morphometric Analysis in Ecology and Evolutionary Biology Using R</p>
-<p>14 October - 18 October 2019, Glasgow, United Kingdom</p>
-<p>The field of geometric morphometrics (GM) is concerned with the quantification and analysis of patterns of shape variation, and its covariation with other variables. The goal of this workshop is to provide participants with both working knowledge of the theory of geometric morphometrics, as well as practical training in the application of these methods.</p>
-<p>The course is organized in both theoretical and practical sessions. Lectures provide a solid theoretical understanding of the mathematical underpinnings of the procedures for proper analysis of shape data from landmark coordinates. Laboratory sessions put these concepts into practice, and include worked examples, giving participants the opportunity to gain hands-on experience in the treatment of shape data using the R package geomorph. All stages of a morphometric analysis will be covered: data collection, the statistical treatment of shape variation with respect to biological hypotheses, and the visualization of patterns of shape variation and of the shapes themselves for interpretation of statistical findings, using the R language for statistical programming. While practice datasets will be available, it is strongly recommended that participants come with their own datasets.</p>
-<p>Note: Because this is a geometric morphometrics workshop in R, it is assumed that participants have some working knowledge in R, as the practical sessions will focus on GM-based analyses (not basic R use). It is therefore strongly recommended that participants refresh their R skills prior to attending the workshop.</p>
+<div
+id="geometric-morphometric-analysis-in-ecology-and-evolutionary-biology-using-r"
+class="section level4">
+<h4>Geometric Morphometric Analysis in Ecology and Evolutionary Biology
+Using R</h4>
+</div>
+<div id="may-2023-barcelona-spain" class="section level3">
+<h3>8 - 12 May 2023, Barcelona, Spain</h3>
+<p><br> The field of geometric morphometrics (GM) is concerned with the
+quantification and analysis of patterns of shape variation, and its
+covariation with other variables. The goal of this workshop is to
+provide participants with both working knowledge of the theory of
+geometric morphometrics, as well as practical training in the
+application of these methods.</p>
+<p>The course will occur in the <a
+href="https://www.ub.edu/portal/web/biologia/">Faculty of Biology of the
+University of Barcelona</a> and is organized by the <a
+href="https://www.ub.edu/portal/web/dp-beeca/">Department of
+Evolutionary Biology, Ecology and Environmental Science</a> and the <a
+href="http://www.ub.edu/irbio/home">Institute of Research in
+Biodiversity</a>.</p>
+<p><br></p>
+<p>This is considered a post-graduate course, approved by the Faculty of
+Biology of the UB, and it corresponds to 3 ECTS units, for students
+interested in validating and transferring credits for it. It is,
+however, open as an international workshop to participants at any stage
+of their academic career.</p>
+<p><br></p>
+<p>The <strong>cost</strong> of the course will be of 350 euros per
+participant.</p>
+<p><br></p>
+</div>
+<div id="application-procedure" class="section level3">
+<h3>Application procedure</h3>
+<p>To apply for participating in the course please feel in the
+application form <a
+href="https://forms.gle/SppEEYe6cYXmdp9q7">here</a></p>
+<p>Up to 25 participants will be accepted on the basis of their academic
+career stage (priority given to PhD students and early-career
+researchers) and relevance of the course for their research.</p>
+<p><br></p>
+</div>
+<div id="the-deadline-for-applications-is-november-15-2022."
+class="section level3">
+<h3>The <strong>deadline for applications</strong> is November 15,
+2022.</h3>
+<p>Admitted participants will be informed until December 15, 2022.</p>
+<p><br></p>
+</div>
 
 
 
@@ -318,7 +330,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -336,7 +348,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

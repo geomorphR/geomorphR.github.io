@@ -1,15 +1,14 @@
 name: "Geometric Morphometrics In R"
-output_dir: "."
+output:
+ html_document:
+	theme: flatly
 navbar:
   title: ""
   left:
     - text: "Home"
       href: index.html
-    - text: "Schedule"
-      href: schedule.html
-    - text: "Lectures"
-      href: lectures.html
-    - text: "Lab Tutorials"
-      href: labs.html
-    - text: "Reference List"
-      href: references.html
+    - text: "Instructors & Organisers"
+      href: people.html
+    - text: "Course content"
+      href: content.html
+output_dir: "."
