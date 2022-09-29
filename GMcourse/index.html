@@ -13,7 +13,7 @@
 
 <title>Geometric Morphometrics in R</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -141,11 +141,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -285,7 +289,7 @@ covariation with other variables. The goal of this workshop is to
 provide participants with both working knowledge of the theory of
 geometric morphometrics, as well as practical training in the
 application of these methods.</p>
-<p>The course will occur in the <a
+<p>The course will take place in the <a
 href="https://www.ub.edu/portal/web/biologia/">Faculty of Biology of the
 University of Barcelona</a> and is organized by the <a
 href="https://www.ub.edu/portal/web/dp-beeca/">Department of
@@ -297,7 +301,9 @@ Biodiversity</a>.</p>
 Biology of the UB, and it corresponds to 3 ECTS units, for students
 interested in validating and transferring credits for it. It is,
 however, open as an international workshop to participants at any stage
-of their academic career.</p>
+of their academic career. For the information of the course in UB, see
+<a
+href="https://www.ub.edu/web/ub/es/estudis/oferta_formativa/extensions/fitxa/G/202111708/index.html">here</a></p>
 <p><br></p>
 <p>The <strong>cost</strong> of the course will be of 350 euros per
 participant.</p>
@@ -319,6 +325,8 @@ class="section level3">
 2022.</h3>
 <p>Admitted participants will be informed until December 15, 2022.</p>
 <p><br></p>
+<p>For more information or inquiries <a href="gmcourseub@gmail.com">send
+us an email</a></p>
 </div>
 
 
