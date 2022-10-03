@@ -1,7 +1,5 @@
 name: "Geometric Morphometrics In R"
-output:
- html_document:
-	theme: flatly
+output_dir: "."	
 navbar:
   title: ""
   left:
@@ -11,4 +9,3 @@ navbar:
       href: people.html
     - text: "Course content"
       href: content.html
-output_dir: "."
