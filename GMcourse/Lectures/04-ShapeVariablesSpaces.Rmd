@@ -551,7 +551,7 @@ par(mfcol=c(1,1))
     - Differences between groups
     - Extremes of PC axes
     - How shape changes with size (allometry)
-    - Shape evolution (differences between ancestor and descendent on a phylogeny)
+    - Shape evolution (differences between ancestor and descendant on a phylogeny)
 
 - One can also magnify shape differences to aid biological interpretation 
 
