@@ -9,7 +9,7 @@ output: html_document
 
 As we learned in lecture, phylogenetic comparative methods (PCMs) condition the data on the phylogeny during the analysis, to account for the lack of independence among species. For linear models (ANOVA and regression), this is akin to performing a generalized least squares (GLS) analysis, where the linear model is 'weighted' by the lack of independence as described by the phylogenetic covariance matrix. One can accomplish the same task (under Brownian motion) using phylogenetic transformation.  This implementation has the advantage that it is appropriate for any manner of PCM, and has opened the door for the development of multivariate PCMs for assessing a wide variety of evolutionary hypotheses (see Adams and Collyer 2018).
 
-In `geomorph`, there are several analyses that perform multivariate phylogenetic comparative methods. All are appropriate for landmark data, and require a phylogeny as well. The latter can be input using the `ape` package. **IMPORTANTLY**, the species names must be containined in the data matrices, and must correspond exactly to the tip-labels of the phylogeny. This allows the analytics to 'link' the data with the phylogeny. 
+In `geomorph`, there are several analyses that perform multivariate phylogenetic comparative methods. All are appropriate for landmark data, and require a phylogeny as well. The latter can be input using the `ape` package. **IMPORTANTLY**, the species names must be contained in the data matrices, and must correspond exactly to the tip-labels of the phylogeny. This allows the analytics to 'link' the data with the phylogeny. 
 
 
 ## **Preliminaries**
