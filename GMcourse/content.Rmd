@@ -9,13 +9,13 @@ Note: Because this is a geometric morphometrics workshop in R, it is assumed tha
 * **Monday**
     + Morphometrics: History, Introduction and Data Types
     + Linear Algebra and Linear Models 
-    + Introduction to gmShiny
-    + Software demonstration (SD) and lab practicum 
+    + Superimposition
+    + Software demonstration (SD) and lab practicum (digitizing) 
     
 * **Tuesday**
-    + Superimposition
     + Shape Spaces, Shape Variables, & PCA 
     + GPA with Semilandmarks
+    + Intro to GMShing
     + SD and lab
     
 * **Wednesday**
