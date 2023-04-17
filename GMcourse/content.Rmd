@@ -15,7 +15,7 @@ Note: Because this is a geometric morphometrics workshop in R, it is assumed tha
 * **Tuesday**
     + Shape Spaces, Shape Variables, & PCA 
     + GPA with Semilandmarks
-    + Intro to GMShing
+    + Intro to GMShiny
     + SD and lab
     
 * **Wednesday**
