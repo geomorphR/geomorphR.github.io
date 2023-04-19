@@ -4,7 +4,6 @@
 
 #### Geometric Morphometric Analysis in Ecology and Evolutionary Biology Using R
 
-### Next Installment: Barcelona, Spain (8 - 12 May 2023)
 <br>
 
 The field of geometric morphometrics (GM) is concerned with the quantification and analysis of patterns of shape variation, and its covariation with other variables. The goal of this workshop is to provide participants with both working knowledge of the theory of geometric morphometrics, as well as practical training in the application of these methods. 

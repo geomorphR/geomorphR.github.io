@@ -2,19 +2,29 @@
   title: "Reference List"
 ---
 
-Reference List for Analytical Methods
-
 **Software Packages**
 
-Collyer, M.L, and D.C. Adams. 2018. RRPP: An R package for fitting linear models to high-dimensional data using residual randomization. *Methods in Ecology and Evolution*. 9:1772-1779.
+Baken, E.K., M.L. Collyer, A. Kaliontzopoulou, and D.C. Adams. 2021. geomorph v4.0 and gmShiny: enhanced analytics and a new graphical interface for a comprehensive morphometric experience. *Methods in Ecology and Evolution*. 12:2355–2363.
 
-Adams, D.C., and E. Otarola-Castillo. 2013. geomorph: an R package for the collection and analysis of geometric morphometric shape data. *Methods in Ecology and Evolution*. 4:393-399.
+Collyer, M.L, and D.C. Adams. 2018. RRPP: An R package for fitting linear models to high-dimensional data using residual randomization. *Methods in Ecology and Evolution*. 9:1772-1779.
 
 **General Overview of Geometric Morphometrics**
 
 Adams, D.C., F. J. Rohlf, and D.E. Slice. 2013. A field comes of age: Geometric morphometrics in the 21^st^ century. *Hystrix.* 24:7-14.
 
 **General Analytical Theory of Methods**
+
+Adams, D.C. and M.L. Collyer. 2022.  Consilience of methods for phylogenetic analysis of variance. *Evolution*. 76:1406–1419.
+
+Conaway, M.A., and D.C. Adams. 2022. An effect size for comparing the strength of morphological integration across studies. *Evolution*. 76: 2244-2259.
+
+Collyer, M.L., and D.C. Adams. 2021. Phylogenetically aligned component analysis. *Methods in Ecology and Evolution*. 12:359-372.
+
+Collyer, M.L., M.A. Davis, and D.C. Adams. 2020. Making heads or tails of combined landmark configurations in geometric morphometric data. *Evolutionary Biology*. 47:193-205.
+
+Adams, D.C., and M.L. Collyer. 2019. Comparing the strength of modular signal, and evaluating alternative modular hypotheses, using covariance ratio effect sizes with morphometric data. *Evolution*. 73:2352-2367.
+
+Adams, D.C., and M.L. Collyer. 2019. Phylogenetic comparative methods and the evolution of multivariate phenotypes. *Annual Review of Ecology, Evolution, and Systematics*. 50:405-425.
 
 Adams, D.C. , and M.L. Collyer. 2018. Phylogenetic ANOVA: Group-clade aggregation, biological challenges, and a refined permutation procedure. *Evolution*. 72:1204-1215.
 
@@ -49,19 +59,13 @@ Adams, D. C., and M.L. Collyer. 2007. Analysis of character divergence along env
 Collyer, M. L., and D. C. Adams. 2007. Analysis of two-state multivariate phenotypic change in ecological studies. *Ecology*. 88:683-692. 
 
 Adams, D. C. 1999. Methods for shape analysis of landmark data from articulated structures. *Evolutionary Ecology Research.* 1:959-970.
-de
-**Further Theoretical Reading**
+
+**Further Statistical Theory Reading**
 
 Commenges, D. 2003. Transformations which preserve exchangeability and application to permutation tests. *Journal of Nonparametric Statistics*. 15:171-185.
-
-Anderson, M. J. and C. J. F. t. Braak. 2003. Permutation tests for multi-factorial analysis of variance. *Journal of Statistical Computation and Simulation*. 73:85-113.
 
 Anderson, M. J. (2001a). A new method for non-parametric multivariate analysis of variance. *Austral Ecology*. 26, 32–46.
 
 Anderson, M. J. (2001b). Permutation tests for univariate or multivariate analysis of variance and regression. *Canadian Journal of Fisheries and Aquatic Sciences, 58*. 626–639. 
 
-Anderson, M. J., and D. C. Walsh. 2012. PERMANOVA, ANOSIM, and the Mantel test in the face of heterogeneous dispersions: what null hypothesis are you testing?. *Ecological monographs.* 83:557-574.
-
 Gower J.C. 1966. Some distance properties of latent root and vector methods used in multivariate analysis. *Biometrika*. 53:325–338.
-
-McArdle, B. H., and M. J. Anderson. 2001. Fitting multivariate models to community data: a comment on distance-based redundancy analysis. *Ecology.* 82:290–297.
