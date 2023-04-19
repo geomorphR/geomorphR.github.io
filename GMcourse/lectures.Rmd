@@ -4,7 +4,7 @@
 
 [01-Morphometrics: History, Introduction and Data Types](https://geomorphR.github.io/GMcourse/Lectures/01-IntroHistory.html)
 
-[02-Linear Algebra and Linear Models]()
+[02-Linear Algebra and Linear Models]
 
 [03-Superimposition: Generalized Procrustes Analysis (GPA)](https://geomorphR.github.io/GMcourse/Lectures/03-Superimposition.html)
 
@@ -12,20 +12,20 @@
 
 [05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/Lectures/05-Semilandmarks.html)
 
-[06-Shape Statistics I]()
+[06-Shape Statistics I]
 
-[07-Allometry]()
+[07-Allometry]
 
-[08-Shape Statistics II]()
+[08-Shape Statistics II]
 
-[09-Phylogenetic Comparative Methods]( )
+[09-Phylogenetic Comparative Methods]
 
-[10-Asymmetry]()
+[10-Asymmetry]
 
-[11-Disparity]()
+[11-Disparity]
 
-[12-Integration and Modularity]()
+[12-Integration and Modularity]
 
-[13-Missing Data]()
+[13-Missing Data]
 
-[14-Future Directions and Prospectus]()
+[14-Future Directions and Prospectus]
