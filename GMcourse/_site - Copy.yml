@@ -1,5 +1,5 @@
-name: "IBE Short Course in Geometric Morphometrics"
-output_dir: "."
+name: "Geometric Morphometrics In R"
+output_dir: "."	
 navbar:
   title: ""
   left:
@@ -13,5 +13,7 @@ navbar:
       href: labs.html
     - text: "References"
       href: references.html
+    - text: "Past Workshops"
+      href: pastworkshops.html
     - text: "GMShiny"
       href: https://www.gmshiny.com/

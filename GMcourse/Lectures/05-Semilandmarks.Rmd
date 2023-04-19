@@ -1,94 +1,84 @@
 ---
-title: "Semilandmarks on Curves and Surfaces"
-author: "Dean Adams, Iowa State University"
-output: slidy_presentation
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: "5: Semilandmarks on Curves and Surfaces"
+author: ""
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css"]
+    nature:
+      highlightStyle: solarized-light
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+      self_contained: false
 ---
 
 ```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
 library(knitr)
 library(geomorph)
 opts_chunk$set(echo = TRUE)
+library(xaringanthemer)
+style_mono_light()
+
 ```
 
-# Generalized Procrustes Analysis
+### Generalized Procrustes Analysis
 
-- Align objects to common coordinate system using superimposition (GPA)
++ Align objects to common coordinate system using superimposition (GPA)
 
 $$\small\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}$$
+```{r, echo = FALSE, fig.align = "center", out.width="40%"}
+  include_graphics("LectureData/03.superimposition/OPA-steps.png")  
+```
 
-- Standardize ‘nuisance’ parameters ($\small{CS}$, $\small\mathbf{H}$, $\small\mathbf{\overline{Y}}$) as:
-    - $\small\mathbf{\overline{Y}}$ = translate centroid to the origin
-    - $\small{CS}$ = scale by centroid size
-    - $\small\mathbf{H}$ rigid rotation (based on optimal angle using all landmarks)
++ Works for both 2-D and 3-D landmarks data
++ *THE* fundamental approach for morphometrics
+---
 
->- Works for both 2-D and 3-D landmarks data
->- *THE* fundamental approach for morphometrics
+### The Problem with Curves I
 
-# The Problem with Curves I
++ Landmarks provide rigorous quantification of shape
++ Some objects have few landmarks, but have defined boundaries (curves) or surfaces
 
-- Landmarks provide rigorous quantification of shape
-- Some objects have few landmarks, but have defined boundaries (curves) or surfaces
-
-```{r, echo = FALSE, out.width="100%"}
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
 include_graphics("LectureData/05.semilandmarks/semiland-motiv.png")  
 ```
 
->- How do we capture shape information from such structures? 
++ How do we capture shape information from such structures? 
+---
 
-# The Problem with Curves II
+### The Problem with Curves II
 
-- Some objects contain multiple ‘types’ of morphometric data
-- Types typically analyzed separately
++ Some objects contain multiple ‘types’ of morphometric data
++ Types typically analyzed separately
 
-```{r, echo = FALSE, out.width="100%"}
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
 include_graphics("LectureData/05.semilandmarks/Face.png")  
 ```
 
->- How do we quantify the overall shape of such structures? 
++ How do we quantify the overall shape of such structures? 
+---
 
-# Mathematically-Defined Points: Problems
+### Mathematically-Defined Points: Problems
 
-- Define landmark homology mathematically (e.g., equal spacing)
-- Often produce suggestive (but incorrect) results 
++ Define landmark homology mathematically (e.g., equal spacing)
++ Often produce suggestive (but incorrect) results 
 
-```{r, echo = FALSE, out.width="100%"}
+```{r, echo = FALSE, fig.align = "center", out.width="70%"}
 include_graphics("LectureData/05.semilandmarks/RectangEx.png")  
 ```
 
-# Mathematically-Defined Points: Problems
+--
 
-- Define landmark homology mathematically (e.g., equal spacing)
-- Often produce suggestive (but incorrect) results 
++ Implied shape differences:
 
-```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/05.semilandmarks/RectangEx.png")  
-```
-
-- Implied shape differences:
-
-```{r, echo = FALSE, out.width="100%"}
+```{r, echo = FALSE, fig.align = "center",out.width="70%"}
 include_graphics("LectureData/05.semilandmarks/RectangTPS.png")  
 ```
 
-# Mathematically-Defined Points: Problems
-
-- Define landmark homology mathematically (e.g., equal spacing)
-- Often produce suggestive (but incorrect) results 
-
-```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/05.semilandmarks/RectangEx.png")  
-```
-
-- Implied shape differences:
-
-```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/05.semilandmarks/RectangTPS.png")  
-```
-
-- Can we estimate the shape difference without adding the twisting?
++ Can we estimate the shape difference without adding the twisting?
 
 ###### Example from: Gunz et al. (2005) in *Modern morphometrics in physical anthropology.* 
+---
 
 # Mathematically-Defined Points: Problems (Cont.)
 

@@ -1,0 +1,15 @@
+--- 
+  title: "Geometric Morphometrics in R"
+---
+
+#### Geometric Morphometric Analysis in Ecology and Evolutionary Biology Using R
+
+<br>
+
+The field of geometric morphometrics (GM) is concerned with the quantification and analysis of patterns of shape variation, and its covariation with other variables. The goal of this workshop is to provide participants with both working knowledge of the theory of geometric morphometrics, as well as practical training in the application of these methods. 
+
+The course is organized in both theoretical and practical sessions. Lectures provide a solid theoretical understanding of the mathematical underpinnings of the procedures for proper analysis of shape data from landmark coordinates. Laboratory sessions put these concepts into practice, and include worked examples, giving participants the opportunity to gain hands-on experience in the treatment of shape data using the R package geomorph. All stages of a morphometric analysis will be covered: data collection, the statistical treatment of shape variation with respect to biological hypotheses, and the visualization of patterns of shape variation and of the shapes themselves for interpretation of statistical findings, using the R language for statistical programming. While practice datasets will be available, it is strongly recommended that participants come with their own datasets.
+
+Note: Because this is a geometric morphometrics workshop in R, it is assumed that participants have some working knowledge in R, as the practical sessions will focus on GM-based analyses (not basic R use). It is therefore strongly recommended that participants refresh their R skills prior to attending the workshop.
+
+<br>
