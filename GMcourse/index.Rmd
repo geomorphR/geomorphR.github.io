@@ -14,8 +14,3 @@ The course is organized in both theoretical and practical sessions. Lectures pro
 Note: Because this is a geometric morphometrics workshop in R, it is assumed that participants have some working knowledge in R, as the practical sessions will focus on GM-based analyses (not basic R use). It is therefore strongly recommended that participants refresh their R skills prior to attending the workshop.
 
 <br>
-
-### Application procedure
-The deadline for applications has passed. 
-
-For more information or inquiries [send us an email](geometricmorphometrics@ub.edu)
