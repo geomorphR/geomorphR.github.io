@@ -11,6 +11,8 @@ navbar:
       href: lectures.html
     - text: "Lab Tutorials"
       href: labs.html
+    - text: "Previous Workshops"
+      href: previous.html
     - text: "References"
       href: references.html
     - text: "GMShiny"
