@@ -4,28 +4,28 @@
 
 [01-Morphometrics: History, Introduction and Data Types](https://geomorphR.github.io/GMcourse/Lectures/01-IntroHistory.html)
 
-[02-Linear Algebra and Linear Models](https://deanadams.github.io/2019-Glasgow/Lectures/02-Matrix-Algebra.html)
+[02-Linear Algebra and Linear Models]()
 
-[03-Superimposition: Generalized Procrustes Analysis (GPA)](https://deanadams.github.io/2019-Glasgow/Lectures/03-Superimposition.html)
+[03-Superimposition: Generalized Procrustes Analysis (GPA)](https://geomorphR.github.io/GMcourse/Lectures/03-Superimposition.html)
 
-[04-Shape Spaces, Shape Variables, & PCA](https://deanadams.github.io/2019-Glasgow/Lectures/04-ShapeVariablesSpaces.html)
+[04-Shape Spaces, Shape Variables, & PCA](https://geomorphR.github.io/GMcourse/Lectures/04-ShapeVariablesSpaces.html)
 
-[05-GPA with Semilandmarks](https://deanadams.github.io/2019-Glasgow/Lectures/05-Semilandmarks.html)
+[05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/Lectures/05-Semilandmarks.html)
 
-[06-Shape Statistics I](https://deanadams.github.io/2019-Glasgow/Lectures/06-ShapeCovariation.html)
+[06-Shape Statistics I]()
 
-[07-Allometry](https://deanadams.github.io/2019-Glasgow/Lectures/09-Allometry.html)
+[07-Allometry]()
 
-[08-Shape Statistics II](https://deanadams.github.io/2019-Glasgow/Lectures/07-GroupDifferences.html)
+[08-Shape Statistics II]()
 
-[09-Phylogenetic Comparative Methods](https://deanadams.github.io/2019-Glasgow/Lectures/10-PhyCompMethods.html)
+[09-Phylogenetic Comparative Methods]()
 
-[10-Asymmetry](https://deanadams.github.io/2019-Glasgow/Lectures/11-Asymmetry.html)
+[10-Asymmetry]()
 
-[11-Disparity](https://deanadams.github.io/2019-Glasgow/Lectures/09-Allometry.html)
+[11-Disparity]()
 
-[12-Integration and Modularity](https://deanadams.github.io/2019-Glasgow/Lectures/13-IntegrationModularity.html)
+[12-Integration and Modularity]()
 
-[13-Missing Data](https://deanadams.github.io/2019-Glasgow/Lectures/12-MissingData.html)
+[13-Missing Data]()
 
-[14-Future Directions and Prospectus](https://deanadams.github.io/2019-Glasgow/Lectures/15-Prospectus.html)
+[14-Future Directions and Prospectus]()
