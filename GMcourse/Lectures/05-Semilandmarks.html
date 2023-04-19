@@ -72,497 +72,354 @@ class: center, middle, inverse, title-slide
 ###### Example from: Gunz et al. (2005) in *Modern morphometrics in physical anthropology.* 
 ---
 
-# Mathematically-Defined Points: Problems (Cont.)
+### Mathematically-Defined Points: Problems (Cont.)
 
-- Another example
++ Another example
 
-&lt;img src="LectureData/05.semilandmarks/BarEx.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/BarEx.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-# Mathematically-Defined Points: Problems (Cont.)
+--
 
-- Another example
++ Implied shape differences:
 
-&lt;img src="LectureData/05.semilandmarks/BarEx.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/BarTPS.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-- Implied shape differences:
-
-&lt;img src="LectureData/05.semilandmarks/BarTPS.png" width="100%" /&gt;
-
-# Mathematically-Defined Points: Problems (Cont.)
-
-- Another example
-
-&lt;img src="LectureData/05.semilandmarks/BarEx.png" width="100%" /&gt;
-
-- Implied shape differences:
-
-&lt;img src="LectureData/05.semilandmarks/BarTPS.png" width="100%" /&gt;
-
-- Can we estimate the shape difference without adding the twisting?
++ Can we estimate the shape difference without adding the twisting?
 
 ###### Example from: Gunz et al. (2005) in *Modern morphometrics in physical anthropology.* 
+---
 
-# Semilandmarks and Procrustes Relaxation
+### Semilandmarks and Procrustes Relaxation
 
-- Procrustes superimposition of 2D points and curves (Bookstein 1997)
-- Points along curves are ‘degenerate’ landmarks (semilandmarks)
-- Semilandmarks constrained to be on the curve (thus have `\(\small{\approx{1}}\)` df)
++ Procrustes superimposition of 2D points and curves (Bookstein 1997)
 
-# Semilandmarks and Procrustes Relaxation
++ Points along curves are ‘degenerate’ landmarks (semilandmarks)
 
-- Procrustes superimposition of 2D points and curves (Bookstein 1997)
-- Points along curves are ‘degenerate’ landmarks (semilandmarks)
-- Semilandmarks constrained to be on the curve (thus have `\(\small{\approx{1}}\)` df)
-- Digitize a set number of points along an outline, and allow them to ‘slide’ along curve to improve the fit of a specimen to a reference curve: minimize difference between them
++ Semilandmarks constrained to be on the curve (thus have `\(\small{\approx{1}}\)` df)
 
-# Semilandmarks and Procrustes Relaxation
+--
 
-- Procrustes superimposition of 2D points and curves (Bookstein 1997)
-- Points along curves are ‘degenerate’ landmarks (semilandmarks)
-- Semilandmarks constrained to be on the curve (thus have `\(\small{\approx{1}}\)` df)
-- Digitize a set number of points along an outline, and allow them to ‘slide’ along curve to improve the fit of a specimen to a reference curve: minimize difference between them
-- Treat as points for standard landmark analysis (GPA+TPS)
++ Digitize a set number of points along an outline, and allow them to ‘slide’ along curve to improve the fit of a specimen to a reference curve: minimize difference between them
+
+--
+
++ Treat as points for standard landmark analysis (GPA+TPS)
 
 ###### Bookstein (1997) *Med. Image Anal.*
+---
 
-# Procrustes Relaxation: Conceptual Procedure
+### Procrustes Relaxation: Conceptual Procedure
 
-- Incorporate 'sliding' of semilandmarks into GPA algorithm
++ Incorporate 'sliding' of semilandmarks into GPA algorithm
 
-- GPA algorithm with sliding landmarks: Procedure
-    - 1: Translate and scale specimens
++ GPA algorithm with sliding landmarks: Procedure
+  + 1: Translate and scale specimens
+  
+  + 2: LS rotation, find consensus
+
+--
+
+  + 3: **‘Slide’ landmarks along curve in some way**
+
+  + 4: Perform GPA to obtain new consensus
+
+  + 5: Iterate steps 2-5 to improve fit
+
+--
+
++ Two analytical issues:
+  + What direction to slide?
+  + How far to slide?
+---
     
-# Procrustes Relaxation: Conceptual Procedure
+### What Direction to Slide?
 
-- Incorporate 'sliding' of semilandmarks into GPA algorithm
+&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="30%" style="display: block; margin: auto;" /&gt;
 
-- GPA algorithm with sliding landmarks: Procedure
-    - 1: Translate and scale specimens
-    - 2: LS rotation, find consensus
++ Slide landmarks along curve
 
-# Procrustes Relaxation: Conceptual Procedure
++ Adjacent points on curve define sliding directions: `\(\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]\)`
 
-- Incorporate 'sliding' of semilandmarks into GPA algorithm
+--
 
-- GPA algorithm with sliding landmarks: Procedure
-    - 1: Translate and scale specimens
-    - 2: LS rotation, find consensus
-    - 3: **‘Slide’ landmarks along curve in some way**
++ Assemble into tangent direction matrix
 
-# Procrustes Relaxation: Conceptual Procedure
+`$$\tiny\mathbf{U}=\begin{bmatrix} 0 &amp; 0 &amp; 0 \\ u_{2x} &amp; 0 &amp; 0\\ 0 &amp; u_{3x} &amp; 0 \\ 0 &amp; 0 &amp; u_{4x} \\ 0 &amp; 0 &amp; 0 \\ \hline 0 &amp; 0 &amp; 0 \\ u_{2y} &amp; 0 &amp; 0\\ 0 &amp; u_{3y} &amp; 0 \\ 0 &amp; 0 &amp; u_{4y} \\ 0 &amp; 0 &amp; 0 \\ \end{bmatrix}$$`
 
-- Incorporate 'sliding' of semilandmarks into GPA algorithm
++ Landmark positions after sliding found as: `\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
+---
 
-- GPA algorithm with sliding landmarks: Procedure
-    - 1: Translate and scale specimens
-    - 2: LS rotation, find consensus
-    - 3: **‘Slide’ landmarks along curve in some way**
-    - 4: Perform GPA to obtain new consensus
+### How Far to Slide?
 
-# Procrustes Relaxation: Conceptual Procedure
++ Most conservative approach: slide to minimize shape differences
 
-- Incorporate 'sliding' of semilandmarks into GPA algorithm
++ Sliding defined by `\(\small\mathbf{T}\)`:	`\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
 
-- GPA algorithm with sliding landmarks: Procedure
-    - 1: Translate and scale specimens
-    - 2: LS rotation, find consensus
-    - 3: **‘Slide’ landmarks along curve in some way**
-    - 4: Perform GPA to obtain new consensus
-    - 5: Iterate steps 2-5 to improve fit
+###### ( `\(\tiny\mathbf{Y^0}\)` and `\(\tiny\mathbf{Y_{ref}}\)`  are assembled by `\(\small{x}\)` then `\(\small{y}\)` coordinates) 
 
++ Two criteria: bending energy ( `\(\small{BE}\)`) &amp; Procrustes distance ( `\(\small{D}_{Proc}\)`) 
+---
 
-# Procrustes Relaxation: Conceptual Procedure
+### How Far to Slide?
 
-- Incorporate 'sliding' of semilandmarks into GPA algorithm
++ Most conservative approach: slide to minimize shape differences
 
-- GPA algorithm with sliding landmarks: Procedure
-    - 1: Translate and scale specimens
-    - 2: LS rotation, find consensus
-    - 3: **‘Slide’ landmarks along curve in some way**
-    - 4: Perform GPA to obtain new consensus
-    - 5: Iterate steps 2-5 to improve fit
++ Sliding defined by `\(\small\mathbf{T}\)`:	`\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
 
-- Two analytical issues:
-    - What direction to slide?
-    - How far to slide?
-    
-# What Direction to Slide?
+###### ( `\(\tiny\mathbf{Y^0}\)` and `\(\tiny\mathbf{Y_{ref}}\)`  are assembled by `\(\small{x}\)` then `\(\small{y}\)` coordinates) 
 
-&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="50%" /&gt;
++ Two criteria: bending energy ( `\(\small{BE}\)`) &amp; Procrustes distance ( `\(\small{D}_{Proc}\)`) 
 
-- Slide landmarks along curve
++ 1: Slide landmarks to minimize `\(\small{BE}\)` via **GLS**:   
 
-- Adjacent points on curve define sliding directions: `\(\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]\)`
+`$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$` 
 
-# What Direction to Slide?
+  + where `\(\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} \mathbf{L}_p^{-1} &amp; 0 \\ 0 &amp; \mathbf{L}_p^{-1} \end{bmatrix}\)`
+---
 
-&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="50%" /&gt;
+### How Far to Slide?
 
-- Slide landmarks along curve
++ Most conservative approach: slide to minimize shape differences
 
-- Adjacent points on curve define sliding directions: `\(\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]\)`
++ Sliding defined by `\(\small\mathbf{T}\)`:	`\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
 
-- Assemble into tangent direction matrix
+###### ( `\(\tiny\mathbf{Y^0}\)` and `\(\tiny\mathbf{Y_{ref}}\)`  are assembled by `\(\small{x}\)` then `\(\small{y}\)` coordinates) 
+ 
++ Two criteria: bending energy ( `\(\small{BE}\)`) &amp; Procrustes distance ( `\(\small{D}_{Proc}\)`) 
 
-`$$\tiny\mathbf{U}=\begin{bmatrix} 
-0 &amp; 0 &amp; 0 \\
-u_{2x} &amp; 0 &amp; 0\\
-0 &amp; u_{3x} &amp; 0 \\
-0 &amp; 0 &amp; u_{4x} \\
-0 &amp; 0 &amp; 0 \\
-\hline
-0 &amp; 0 &amp; 0 \\
-u_{2y} &amp; 0 &amp; 0\\
-0 &amp; u_{3y} &amp; 0 \\
-0 &amp; 0 &amp; u_{4y} \\
-0 &amp; 0 &amp; 0 \\
-\end{bmatrix}$$`
++ 1: Slide landmarks to minimize `\(\small{BE}\)` via **GLS**:   
 
-# What Direction to Slide?
+`$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$` 
 
-&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="50%" /&gt;
+  + where `\(\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} \mathbf{L}_p^{-1} &amp; 0 \\ 0 &amp; \mathbf{L}_p^{-1} \end{bmatrix}\)`
 
-- Slide landmarks along curve
-
-- Adjacent points on curve define sliding directions: `\(\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]\)`
-
-- Assemble into tangent direction matrix
-
-`$$\tiny\mathbf{U}=\begin{bmatrix} 
-0 &amp; 0 &amp; 0 \\
-u_{2x} &amp; 0 &amp; 0\\
-0 &amp; u_{3x} &amp; 0 \\
-0 &amp; 0 &amp; u_{4x} \\
-0 &amp; 0 &amp; 0 \\
-\hline
-0 &amp; 0 &amp; 0 \\
-u_{2y} &amp; 0 &amp; 0\\
-0 &amp; u_{3y} &amp; 0 \\
-0 &amp; 0 &amp; u_{4y} \\
-0 &amp; 0 &amp; 0 
-\end{bmatrix}$$`
-
-- Landmark positions after sliding found as: `\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
-
-# How Far to Slide?
-
-- Most conservative approach: slide to minimize shape differences
-- Sliding defined by `\(\small\mathbf{T}\)`:	`\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
-- Two criteria: bending energy ($\small{BE}$) &amp; Procrustes distance ($\small{D}_{Proc}$) 
-
-# How Far to Slide?
-
-- Most conservative approach: slide to minimize shape differences
-- Sliding defined by `\(\small\mathbf{T}\)`:	`\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
-- Two criteria: bending energy ($\small{BE}$) &amp; Procrustes distance ($\small{D}_{Proc}$) 
-- 1: Slide landmarks to minimize `\(\small{BE}\)` via **GLS**:    `$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$` 
-
-where $\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} 
-\mathbf{L}_p^{-1} &amp; 0 \\
-0 &amp; \mathbf{L}_p^{-1}
-\end{bmatrix}$
-
-# How Far to Slide?
-
-- Most conservative approach: slide to minimize shape differences
-- Sliding defined by `\(\small\mathbf{T}\)`:	`\(\small\mathbf{Y}^*=\mathbf{Y^0-UT}\)`
-- Two criteria: bending energy ($\small{BE}$) &amp; Procrustes distance ($\small{D}_{Proc}$) 
-- 1: Slide landmarks to minimize `\(\small{BE}\)` via **GLS**:    `$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$` 
-
-where $\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} 
-\mathbf{L}_p^{-1} &amp; 0 \\
-0 &amp; \mathbf{L}_p^{-1}
-\end{bmatrix}$
-
-- 2: Slide landmarks to minimize `\(\small{D}_{Proc}\)`:
++ 2: Slide landmarks to minimize `\(\small{D}_{Proc}\)`:
 `$$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$` 
 
-###### Note: `\(\small\mathbf{Y^0}\)` and `\(\small\mathbf{Y_{ref}}\)`  are assembled by `\(\small{x}\)` then `\(\small{y}\)` coordinates
+###### Sliding by `\(\tiny{D}_{Proc}\)` assumes independence of semilandmarks, as `\(\tiny(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathcal{L}_p^{-1}=\mathbf{I}\)` (this is not realistic).
+---
 
-###### Statistical note: Sliding by `\(\small{D}_{Proc}\)` assumes independence of semilandmarks, as `\(\small(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathcal{L}_p^{-1}=\mathbf{I}\)` (this is not realistic).
+### Procrustes Relaxation: Flow of Computations
 
-# Procrustes Relaxation: Flow of Computations
++ Sliding incorporated into GPA algorithm
+  + 1: Translate and scale specimens
 
-- Sliding incorporated into GPA algorithm
+  + 2: LS rotation, obtain reference and `\(\small\mathbf{L}_p^{-1}\)`
 
-# Procrustes Relaxation: Flow of Computations
+--
 
-- Sliding incorporated into GPA algorithm
-    - 1: Translate and scale specimens
-    - 2: LS rotation, obtain reference and `\(\small\mathbf{L}_p^{-1}\)`
-    
-# Procrustes Relaxation: Flow of Computations
+  + 3: Calculate tangent directions `\(\small\mathbf{U}\)`  `$$\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]$$`
 
-- Sliding incorporated into GPA algorithm
-    - 1: Translate and scale specimens
-    - 2: LS rotation, obtain reference and `\(\small\mathbf{L}_p^{-1}\)`
-    - 3: Calculate tangent directions `\(\small\mathbf{U}\)`  `$$\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]$$`
+--
 
-# Procrustes Relaxation: Flow of Computations
-
-- Sliding incorporated into GPA algorithm
-    - 1: Translate and scale specimens
-    - 2: LS rotation, obtain reference and `\(\small\mathbf{L}_p^{-1}\)`
-    - 3: Calculate tangent directions `\(\small\mathbf{U}\)`  `$$\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]$$`
-    - 4: Slide landmarks along tangents using `\(\small{BE}\)` or `\(\small{D}_{Proc}\)`
+  + 4: Slide landmarks along tangents using `\(\small{BE}\)` or `\(\small{D}_{Proc}\)`
    `$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$`
    `$$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$` 
 
-# Procrustes Relaxation: Flow of Computations
+--
 
-- Sliding incorporated into GPA algorithm
-    - 1: Translate and scale specimens
-    - 2: LS rotation, obtain reference and `\(\small\mathbf{L}_p^{-1}\)`
-    - 3: Calculate tangent directions `\(\small\mathbf{U}\)`  `$$\small{U}_{ij}=[(x_{j-1}-x_{j+1}),(y_{j-1}-y_{j+1})]$$`
-    - 4: Slide landmarks along tangents using `\(\small{BE}\)` or `\(\small{D}_{Proc}\)`
-   `$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$`
-   `$$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$` 
-    - 5: Perform GPA and obtain new reference
-    - 6: Iterate 2 - 5 to improve fit
+  + 5: Perform GPA and obtain new reference
+
+  + 6: Iterate 2 - 5 to improve fit
+---
    
-# Semilandmarks: Differing Approaches
+### Semilandmarks: Differing Approaches
 
-- Visual differences between `\(\small{BE}\)` and `\(\small{D}_{Proc}\)` sliding:
++ Visual differences between `\(\small{BE}\)` and `\(\small{D}_{Proc}\)` sliding:
 
-&lt;img src="LectureData/05.semilandmarks/SlidingCorpusEx.png" width="70%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/SlidingCorpusEx.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-###### Mathematical comments: Using `\(\small{BE}\)` is akin to a weighted regression, which accounts for spatial proximity (non-independence) of adjacent landmarks. This is a more reasonable model, as one uses semilandmarks *precisely* to represent curves by an adjacent set of points which are explicitly not independent
+###### Mathematical comments: Using `\(BE\)` is akin to a weighted regression, which accounts for spatial proximity (non-independence) of adjacent landmarks. This is a more reasonable model, as one uses semilandmarks *precisely* to represent curves by an adjacent set of points which are explicitly not independent
+---
 
-# Procrustes Relaxation: Refinements
+### Procrustes Relaxation: Refinements
 
-- Semilandmarks slide along tangent directions
-- But if slid to far they 'leave' the actual curve 
-- Solution is to project back to curve during GPA + sliding
++ Semilandmarks slide along tangent directions
++ But if slid to far they 'leave' the actual curve 
++ Solution is to project back to curve during GPA + sliding
 
-&lt;img src="LectureData/05.semilandmarks/ProjToCurve.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ProjToCurve.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
 
-# Combining Points and Curves
+### Combining Points and Curves
 
-&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="30%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="30%" style="display: block; margin: auto;" /&gt;
 
-- One can allow landmarks to remain 'fixed' while semilandmarks slide (e.g. endpoints above)
-- Information incorporated into `\(\small\mathbf{U}\)`
-- Columns of `\(\small{0}\)` represent landmarks that don't slide
++ One can allow landmarks to remain 'fixed' while semilandmarks slide (e.g. endpoints above)
++ Information incorporated into `\(\small\mathbf{U}\)`
++ Columns of `\(\small{0}\)` represent landmarks that don't slide
 
-# Combining Points and Curves
+`$$\tiny\mathbf{U}=\begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; u_{2x} &amp; 0 &amp; 0&amp; 0  \\ 0 &amp; 0 &amp; u_{3x} &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; u_{4x} &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ \hline 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; u_{2y} &amp; 0 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; u_{3y} &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; u_{4y} &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0  \end{bmatrix}$$`
 
-&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="30%" /&gt;
+###### Note: with this notation, generalized inverses are required to complete GLS sliding (and process can be SLOW).  `geomorph` uses very clever algebra to eliminate redundancies in computations to speed this process up considerably
+---
 
-- One can allow landmarks to remain 'fixed' while semilandmarks slide (e.g., endpoints above)
-- Information incorporated into `\(\small\mathbf{U}\)`
-- Columns of `\(\small{0}\)` represent landmarks that don't slide
+### Combining Landmarks and Curves: Example
 
-`$$\tiny\mathbf{U}=\begin{bmatrix} 
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
-0 &amp; u_{2x} &amp; 0 &amp; 0&amp; 0  \\
-0 &amp; 0 &amp; u_{3x} &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; 0 &amp; u_{4x} &amp; 0 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
-\hline
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
-0 &amp; u_{2y} &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; u_{3y} &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; 0 &amp; u_{4y} &amp; 0 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 
-\end{bmatrix}$$`
++ Cranial profiles in *Homo*
++ External differences in frontal bones of archaic and modern humans are well-known
++ Archaic humans have ‘frontal flattening’ while modern human crania are more vertically rounded
++ Common anthropological interpretation:  more-rounded crania in modern humans due to enlargement of frontal lobes of brain  
 
-###### Note: with this notation, generalized inverses are required to complete GLS sliding (and process can be SLOW)
-
-###### Note 2: `geomorph` uses very clever algebra to eliminate redundancies in computations to speed this process up considerably
-
-# Combining Landmarks and Curves: Example
-
-- Cranial profiles in *Homo*
-- External differences in frontal bones of archaic and modern humans are well-known
-- Archaic humans have ‘frontal flattening’ while modern human crania are more vertically rounded
-- Common anthropological interpretation:  more-rounded crania in modern humans due to enlargement of frontal lobes of brain  
-
-- Profiles of internal and external frontal bones were digitized from 5 mid-Pleistocene and Neanderthal crania, and 16 modern humans and compared
++ Profiles of internal and external frontal bones were digitized from 5 mid-Pleistocene and Neanderthal crania, and 16 modern humans and compared
 
 ###### Bookstein et al. (1999). Anatomical Record.
+---
 
-# Semilandmark Example: The Data
+### Semilandmark Example: The Data
 
-&lt;img src="LectureData/05.semilandmarks/Book99Example.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Book99Example.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
 
-# Semilandmark Example: The Data
+### Semilandmark Example: The Data
 
-&lt;img src="LectureData/05.semilandmarks/Book99Data.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Book99Data.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
 
-# Semilandmark Example: Results
+### Semilandmark Example: Results
 
-- Large differences in external profiles, but NO difference of internal profiles
++ Large differences in external profiles, but NO difference of internal profiles
 
-&lt;img src="LectureData/05.semilandmarks/Book99Results.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Book99Results.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
 
-# Semilandmarks on 3D Curves
+### Semilandmarks on 3D Curves
 
-- Semilandmarks on 3D curves work identically, by defining tangent directions of `\(\small\Delta{x}\)`, `\(\small\Delta{y}\)`, and `\(\small\Delta{z}\)`
+.pull-left[
++ Semilandmarks on 3D curves work identically, by defining tangent directions of `\(\small\Delta{x}\)`, `\(\small\Delta{y}\)`, and `\(\small\Delta{z}\)`
 
-`$$\tiny\mathbf{U}=\begin{bmatrix} 
-0 &amp; 0 &amp; 0 \\
-u_{2x} &amp; 0 &amp; 0\\
-0 &amp; u_{3x} &amp; 0 \\
-0 &amp; 0 &amp; u_{4x} \\
-0 &amp; 0 &amp; 0 \\
-\hline
-0 &amp; 0 &amp; 0 \\
-u_{2y} &amp; 0 &amp; 0\\
-0 &amp; u_{3y} &amp; 0 \\
-0 &amp; 0 &amp; u_{4y} \\
-0 &amp; 0 &amp; 0 \\
-\hline
-0 &amp; 0 &amp; 0 \\
-u_{2z} &amp; 0 &amp; 0\\
-0 &amp; u_{3z} &amp; 0 \\
-0 &amp; 0 &amp; u_{4z} \\
-0 &amp; 0 &amp; 0 
-\end{bmatrix}$$`
+`$$\tiny\mathbf{U}=\begin{bmatrix} 0 &amp; 0 &amp; 0 \\ u_{2x} &amp; 0 &amp; 0\\ 0 &amp; u_{3x} &amp; 0 \\ 0 &amp; 0 &amp; u_{4x} \\ 0 &amp; 0 &amp; 0 \\ \hline 0 &amp; 0 &amp; 0 \\ u_{2y} &amp; 0 &amp; 0\\ 0 &amp; u_{3y} &amp; 0 \\ 0 &amp; 0 &amp; u_{4y} \\ 0 &amp; 0 &amp; 0 \\ \hline 0 &amp; 0 &amp; 0 \\ u_{2z} &amp; 0 &amp; 0\\ 0 &amp; u_{3z} &amp; 0 \\ 0 &amp; 0 &amp; u_{4z} \\ 0 &amp; 0 &amp; 0  \end{bmatrix}$$`
+]
+.pull-right[
++ Slide as before: 
 
-- Slide as before: 
-
-`$$\tiny\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$`
-  $$\tiny\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} 
-\mathbf{L}_p^{-1} &amp; 0 &amp; 0 \\
-0 &amp; \mathbf{L}_p^{-1} &amp; 0 \\
-0 &amp; 0 &amp; \mathbf{L}_p^{-1}
-\end{bmatrix}$$`
+`$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$`
+`$$\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} \mathbf{L}_p^{-1} &amp; 0 &amp; 0 \\ 0 &amp; \mathbf{L}_p^{-1} &amp; 0 \\
+0 &amp; 0 &amp; \mathbf{L}_p^{-1} \end{bmatrix}$$`
   
-   `$$\tiny\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$` 
+`$$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$` 
 
-# Semilandmarks on Surfaces
+]
 
-- 3D surface landmarks slide in the plane
-- Plane defined by PC1 &amp; PC2 of surrounding points
+---
 
-&lt;img src="LectureData/05.semilandmarks/TangentPlane.png" width="30%" /&gt;
+### Semilandmarks on Surfaces
 
-- `\(\small\mathbf{U}\)` has 2 sets of tangent directions 
-Slide using `\(\small{BE}\)` or `\(\small{D}_{Proc}\)` as before
+.pull-left[
++ 3D surface landmarks slide in the plane
++ Plane defined by PC1 &amp; PC2 of surrounding points
 
-`$$\tiny\mathbf{U}=
-\left[
-\begin{array}{ccc|ccc}
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
-u_{2x} &amp; 0 &amp; 0 &amp; w_{2x} &amp; 0 &amp; 0 \\
-0 &amp; u_{3x} &amp; 0 &amp;  0 &amp; w_{3x} &amp; 0 \\
-0 &amp; 0 &amp; u_{4x} &amp; 0 &amp; 0 &amp; w_{4x}  \\
-0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\
-\hline
-0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\
-u_{2y} &amp; 0 &amp; 0 &amp; w_{2y} &amp; 0 &amp; 0 \\
-0 &amp; u_{3y} &amp; 0 &amp; 0 &amp; w_{3y} &amp; 0 \\
-0 &amp; 0 &amp; u_{4y} &amp; 0 &amp; 0 &amp; w_{4y} \\
-0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\
-\hline
-0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\
-u_{2z} &amp; 0 &amp; 0 &amp; w_{2z} &amp; 0 &amp; 0\\
-0 &amp; u_{3z} &amp; 0 &amp; 0 &amp; w_{3z} &amp; 0  \\
-0 &amp; 0 &amp; u_{4z} &amp;  0 &amp; 0 &amp; w_{4z} \\
-0 &amp; 0 &amp; 0  &amp; 0 &amp; 0 &amp; 0 \\
-\end{array}
-\right]$$`
+&lt;img src="LectureData/05.semilandmarks/TangentPlane.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
++ `\(\small\mathbf{U}\)` has 2 sets of tangent directions 
+  + Slide using `\(\small{BE}\)` or `\(\small{D}_{Proc}\)` as before
+
+`$$\tiny\mathbf{U}= \left[ \begin{array}{ccc|ccc} 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ u_{2x} &amp; 0 &amp; 0 &amp; w_{2x} &amp; 0 &amp; 0 \\ 0 &amp; u_{3x} &amp; 0 &amp;  0 &amp; w_{3x} &amp; 0 \\ 0 &amp; 0 &amp; u_{4x} &amp; 0 &amp; 0 &amp; w_{4x}  \\ 0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\ \hline 0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\ u_{2y} &amp; 0 &amp; 0 &amp; w_{2y} &amp; 0 &amp; 0 \\ 0 &amp; u_{3y} &amp; 0 &amp; 0 &amp; w_{3y} &amp; 0 \\ 0 &amp; 0 &amp; u_{4y} &amp; 0 &amp; 0 &amp; w_{4y} \\ 0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\ \hline 0 &amp; 0 &amp; 0 &amp;  0 &amp; 0 &amp; 0\\ u_{2z} &amp; 0 &amp; 0 &amp; w_{2z} &amp; 0 &amp; 0\\ 0 &amp; u_{3z} &amp; 0 &amp; 0 &amp; w_{3z} &amp; 0  \\ 0 &amp; 0 &amp; u_{4z} &amp;  0 &amp; 0 &amp; w_{4z} \\ 0 &amp; 0 &amp; 0  &amp; 0 &amp; 0 &amp; 0 \\ \end{array} \right]$$`
+]
 
 ###### NOTE: One can see that these matrices are becoming *VERY* large. That will lead to long computation time (though recall `geomorph` uses clever algorithms to speed this up! [ask Mike!])
+---
 
-# Defining Semilandmarks on Surfaces
+### Defining Semilandmarks on Surfaces
 
-- Surface semilandmarks must retain positional correspondence 
-- How to digitize?
-- 1: ‘By hand’ (digitize same set of points from all surfaces)
++ Surface semilandmarks must retain positional correspondence, so how to digitize?
 
-# Defining Semilandmarks on Surfaces
++ 1: ‘By hand’ (digitize same set of points from all surfaces)
 
-- Surface semilandmarks must retain positional correspondence, so how to digitize?
-- 1: ‘By hand’ (digitize same set of points from all surfaces)
-- 2: Semi-automate
-    - Digitize many landmarks on surface
-    - 'Thin' to a reasonable number (150-200) on 1st specimen
-    - Match these to surface points of next specimen (using TPS)
-    - Repeat
+--
 
-&lt;img src="LectureData/05.semilandmarks/DigitSurface.png" width="50%" /&gt;
++ 2: Semi-automate
+  + Digitize many landmarks on surface
+  + 'Thin' to a reasonable number (150-200) on 1st specimen
+  + Match these to surface points of next specimen (using TPS)
+  + Repeat
+
+&lt;img src="LectureData/05.semilandmarks/DigitSurface.png" width="25%" style="display: block; margin: auto;" /&gt;
 
 ###### Note: resampling methods required for significance testing as `\(\small{p&gt;&gt;n}\)`
+---
 
-# Combining Points, Curves, and Surfaces
+### Combining Points, Curves, and Surfaces
 
-- Landmarks and semilandmarks can all be combined
-    - Digitize points
-    - Digitize curve landmarks
-    - Digitize surface landmarks
++ Landmarks and semilandmarks can all be combined
+  + Digitize points
+  + Digitize curve landmarks
+  + Digitize surface landmarks
 
-- Define tangent directions and generate **U**
-- **GPA + Sliding**
++ Define tangent directions and generate **U**
++ **GPA + Sliding**
 
-&lt;img src="LectureData/05.semilandmarks/Scallop.png" width="50%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Scallop.png" width="45%" style="display: block; margin: auto;" /&gt;
+---
 
-# Complications: Shape Variables and Dimensionality
+### Complications: Shape Variables and Dimensionality
 
-- Sliding procedure results in redundant shape dimensions
-    - Minimum: ~1 df lost per 2D/3D curve semilandmark; and ~2 df lost per 3D surface semilandmark (e.g., ~ `\(\small{2p-4-m}\)` shape variables in 2D for `\(\small{m}\)` = # semilandmarks)
-    - However, usually many more dimensions lost, because adjacent semilandmarks encode redundant shape information
++ Sliding procedure results in redundant shape dimensions
+  + Minimum: ~1 df lost per 2D/3D curve semilandmark; and ~2 df lost per 3D surface semilandmark (e.g., ~ `\(\small{2p-4-m}\)` shape variables in 2D for `\(\small{m}\)` = # semilandmarks)
+  + However, usually many more dimensions lost, because adjacent semilandmarks encode redundant shape information
 
-- Causes *MAJOR* issues for statistical hypothesis testing using Procrustes residuals
++ Causes *MAJOR* issues for statistical hypothesis testing using Procrustes residuals
 
-# Complications: Shape Variables and Dimensionality
+--
 
-- Sliding procedure results in redundant shape dimensions
-    - Minimum: ~1 df lost per 2D/3D curve semilandmark; and ~2 df lost per 3D surface semilandmark (e.g., ~ `\(\small{2p-4-m}\)` shape variables in 2D for `\(\small{m}\)` = # semilandmarks)
-    - However, usually many more dimensions lost, because adjacent semilandmarks encode redundant shape information
-
-- Causes *MAJOR* issues for statistical hypothesis testing using Procrustes residuals
-- Solutions: 
-    - 1: PCA to ‘spin out’ redundant dimensions (remove dimensions with 0.0% variance)
-    - 2: Use generalized inverses in computations
-    - 3: **Use resampling procedures (RRPP) for significance testing** 
++ Solutions: 
+  + 1: PCA to ‘spin out’ redundant dimensions (remove dimensions with 0.0% variance)
+  + 2: Use generalized inverses in computations
+  + 3: **Use resampling procedures (RRPP) for significance testing** 
     
-###### Note: #3 also required when # shape variables exceeds # specimens
+###### Note: #3 also required when the number of shape variables exceeds the number of specimens
+---
 
-# Semilandmarks: Snake Example
+### Semilandmarks: Snake Example
 
-- Examined head shape in snakes (83 species)
-- Focused on aquatic species in different families
-- Is there evidence of head shape convergence? 
++ Examined head shape in snakes (83 species)
++ Focused on aquatic species in different families
++ Is there evidence of head shape convergence? 
 
-&lt;img src="LectureData/05.semilandmarks/SnakeExample.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/SnakeExample.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
 
-# Semilandmarks: *Homo* Example
+### Semilandmarks: *Homo* Example
 
-- Examined 'Zuttiyeh’ fossil morphology as compared to other early hominids
++ Examined 'Zuttiyeh’ fossil morphology as compared to other early hominids
 
 
-&lt;img src="LectureData/05.semilandmarks/HomoExample.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/HomoExample.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
 
-# Semilandmarks: Scallop Example
+### Semilandmarks: Scallop Example
 
-- Scallop species display differing life habits
-- What patterns are observed at the macroevolutionary level?
++ Scallop species display differing life habits
++ What patterns are observed at the macroevolutionary level?
 
-&lt;img src="LectureData/05.semilandmarks/ScallopData.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ScallopData.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
 
-# Semilandmarks: Scallop Example (Cont.)
+### Semilandmarks: Scallop Example (Cont.)
 
-- Recessors display unique morphology and directional evolution
++ Recessors display unique morphology and directional evolution
 
-&lt;img src="LectureData/05.semilandmarks/ScallopResults1.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ScallopResults1.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
 
-# Semilandmarks: Scallop Example (Cont.)
+### Semilandmarks: Scallop Example (Cont.)
 
-- Gliders occupy morphological convergence
++ Gliders occupy morphological convergence
 
-&lt;img src="LectureData/05.semilandmarks/ScallopResults2.png" width="100%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ScallopResults2.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
 
-# The Procrustes Paradigm
+### The Procrustes Paradigm
 
-- With landmarks and semilandmarks we arrive at a general solution for quantifying morphology
-- Quantitative information representing:
-    - Discrete anatomical points
-    - Curves (outlines) of structures
-    - Surfaces of structures
-- **Can all be combined in a single analysis of shape variation**
++ With landmarks and semilandmarks we arrive at a general solution for quantifying morphology
++ Quantitative information representing:
+  + Discrete anatomical points
+  + Curves (outlines) of structures
+  + Surfaces of structures
++ **Can all be combined in a single analysis of shape variation**
 
-&lt;img src="LectureData/05.semilandmarks/ProcParadigm.png" width="50%" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ProcParadigm.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 
