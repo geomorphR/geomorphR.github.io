@@ -1,0 +1,29 @@
+---
+  title: "Previous GM Workshops"
+---
+**Previous Geometric Morphometrics in R Workshops**
+
+* 2023. Univ. Barcelona, Spain (Current)
+* 2019. PR Statistics, Scotland
+* 2019. Univ. de Concepción, Chile
+* 2018. PR Statistics, Wales
+* 2016. Univ. of Lund, Sweden
+* 2015. CIBIO, Portugal
+* 2015. Univ. MOntreal at Quebec, Canada
+* 2015. Am. Museum Natural History, USA
+* 2014. Univ. of Tromsø, Norway
+
+
+**Other GM Workshops**
+
+* 2022 Geomorph R Short Course. Inst. Biol. Evol., Spain
+* 2013 Geometric Morphometrics Course. Univ. of Iowa, USA
+* 2013 Geometric Morphometrics Course. Boston Univ. USA
+* 2010 Advanced Geometric Morphometrics Workshop in Evolution. Univ. of Molise, Italy
+* 2010 Geometric Morphometrics Short Course. Univ. of Firenze, Italy
+* 2010 Geometric Morphometrics Short Course. Univ. of Genova, Italy
+* 2006 Geometric Morphometrics Workshop. Middle East Technical Univ., Turkey
+* 2006 Geometric Morphometrics Workshop. Iowa State Univ. USA
+* 2004 Geometric Morphometrics Workshop. Umeå Univ., Sweden
+* 2002 Geometric Morphometrics Workshop. Museo Civico di Zoologica, Italy
+* 2001 Geometric Morphometrics Workshop. Univ. de Chile, Chile
