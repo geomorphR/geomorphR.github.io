@@ -1,0 +1,382 @@
+---
+title: "2. Linear Algebra"
+author: ""
+subtitle: "AKA: The important foundation for everything that follows!"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css"]
+    nature:
+      highlightStyle: solarized-light
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+      self_contained: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(Matrix)
+library(RRPP)
+library(geomorph)
+library(scatterplot3d)
+knitr::opts_chunk$set(echo = FALSE)
+
+library(xaringanthemer)
+style_mono_light()
+```
+
+### Linear Algebra: Goals
+
+Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
+
+$$\small\mathbf{Z}=[tr[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
+---
+
+### Linear Algebra: Goals
+
+Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
+
+$$\small\mathbf{Z}=[tr[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
+
+
+Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
+
+$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$
+---
+
+### Linear Algebra: Goals
+
+Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
+
+$$\small\mathbf{Z}=[tr[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
+
+
+Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
+
+$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$
+
+Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
+
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+---
+
+### Overview:
+- Scalars and Vectors
+- Vector addition and subtraction
+- Vector multiplication
+- Matrices (collections of vectors)
+- Special Matrices
+- Matrix inversion
+- Special Matrix Properties
+- General Linear Model Preview
+- Sums of Squares and Cross-products
+- Covariance matrices
+- Decompositions
+- Summary
+---
+
+
+
+
+
+
+
+
+
+
+### Scalars and Vectors
+
+Scalars
+ 
+$$a = 5$$   $$b = 2$$   $$c = -3$$
+
+Vectors
+ 
+$$\mathbf{a} = \begin{bmatrix}
+ 5 \\ 
+ 3 \\ 
+ -2 
+\end{bmatrix}$$
+
+$$\mathbf{a}^T = \begin{bmatrix}
+ 5 & 3 & -2
+\end{bmatrix}$$
+
+The superscript, $^T$, means vector transpose.  Note, $\left(\mathbf{a}^T \right)^T = \mathbf{a}$
+
+---
+### Scalars and Vectors (cont.)
+
+Vector addition/subtraction (consistent orientation is important)
+
+$$\mathbf{b}^T = \begin{bmatrix}
+ -5 & 0 & 1
+\end{bmatrix}$$
+
+$$\mathbf{a}^T + \mathbf{b}^T= \begin{bmatrix}
+ 0 & 3 & -1
+\end{bmatrix}$$
+
+$$\mathbf{a} - \mathbf{b} = \begin{bmatrix}
+ 10 \\ 3 \\ -3
+\end{bmatrix}$$
+
+---
+### Vector Multiplication
+
+#### Not this!
+
+$$\mathbf{a}^T = \begin{bmatrix}
+ 5 & 3 & -2
+\end{bmatrix}$$
+
+$$\mathbf{b}^T = \begin{bmatrix}
+ -5 & 0 & 1
+\end{bmatrix}$$
+
+$$\mathbf{a}^T \times \mathbf{b}^T= \begin{bmatrix}
+ -25 & 0 & -2
+\end{bmatrix}$$
+
+But it is kind of that, in part...
+
+---
+
+### Vector Multiplication (cont.)
+
+Vector multiplication is both multiplication and summation of scalars.  Before performing vector multiplication, there has to be consistency with **inner dimensions**.
+
+- Dimensions $\mathbf{a}: 3 \times 1$
+
+- Dimensions $\mathbf{a}^T: 1 \times 3$
+
+- Dimensions $\mathbf{b}: 3 \times 1$
+
+- Dimensions $\mathbf{b}^T: 1 \times 3$
+
+For any vector product, arrange the dimensions for the attempted product and see if inner dimensions match; e.g., 
+$$\mathbf{a} \times \mathbf{b}: 3 \times \color{blue} {1 \times 3} \times 1$$
+Does not match, so this product is not possible
+
+---
+
+### Vector Multiplication (cont.)
+
+Vector multiplication is both multiplication and summation of scalars.  Before performing vector multiplication, there has to be consistency with **inner dimensions**.
+
+- Dimensions $\mathbf{a}: 3 \times 1$
+
+- Dimensions $\mathbf{a}^T: 1 \times 3$
+
+- Dimensions $\mathbf{b}: 3 \times 1$
+
+- Dimensions $\mathbf{b}^T: 1 \times 3$
+
+For any vector product, arrange the dimensions for the attempted product and see if inner dimensions match; e.g., 
+$$\mathbf{a}^T \times \mathbf{b}: 1 \times \color{blue} {3 \times 3} \times 1$$
+**This matches!** Multiplication is possible.
+
+---
+### Vector Multiplication (cont.): Vector Inner-products
+
+If inner dimensions match, the multiplication is possible.  The product has dimensions equal to the outer dimensions of the match.  There are two types of products:
+
+- Inner-product: the vector product results is a single scalar, i.e., the outer dimensions are $1 \times 1$
+
+- Outer-product: the vector product results in a series of scalar products with number and arrangement defined by outer dimensions
+---
+
+### Vector Multiplication (cont.): Vector Inner-products  (cont.)
+
+#### Vector Inner-Product
+
+For $n \times 1$ vectors
+
+$$\mathbf{a}^T \mathbf{b} = \sum_{i=1}^n a_ib_i$$
+
+For example, 
+$$\mathbf{a}^T = \begin{bmatrix}
+ 5 & 3 & -2
+\end{bmatrix}$$
+
+$$\mathbf{b} = \begin{bmatrix}
+ -5 \\ 0 \\ 1
+\end{bmatrix}$$
+
+$$\mathbf{a}^T \mathbf{b} = \left(5\times -5 \right) + \left(3 \times 0 \right) + \left(-2 \times 1 \right) = -27$$
+
+###### *Helpful mnemonic: "Run Amok Computational Demon!" for row-accross and column-down pattern (will be helpful for matrices)*
+---
+### Vector Multiplication (cont.): Vector Outer Products
+
+If inner dimensions match, the multiplication is possible.  The product has dimensions equal to the outer dimensions of the match.  There are two types of products:
+
+- Inner-product: the vector product results is a single scalar, i.e., the outer dimensions are $1 \times 1$
+
+- Outer-product: the vector product results in a series of scalar products with number and arrangement defined by outer dimensions
+---
+#### Vector Outer-Product
+
+For $n \times 1$ vectors
+
+$$\mathbf{a}\mathbf{b}^T  = \begin{bmatrix}
+a_1b_1 & a_1b_2 & a_1b_3 & \cdots & a_1b_n\\
+a_2b_1 & a_2b_2 & a_2b_3 & \cdots & a_2b_n\\
+a_3b_1 & a_3b_2 & a_3b_3 & \cdots & a_3b_n\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+a_nb_1 & a_nb_2 & a_nb_3 & \cdots & a_nb_n\\
+\end{bmatrix} =
+\mathbf{M}_{n \times n}$$
+---
+### Vector Multiplication (cont.): Vector Outer Products (cont.)
+
+### Important Notes
+
+$$\mathbf{a}\mathbf{b}^T  = \begin{bmatrix}
+a_1b_1 & a_1b_2 & a_1b_3 & \cdots & a_1b_n\\
+a_2b_1 & a_2b_2 & a_2b_3 & \cdots & a_2b_n\\
+a_3b_1 & a_3b_2 & a_3b_3 & \cdots & a_3b_n\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+a_nb_1 & a_nb_2 & a_nb_3 & \cdots & a_nb_n\\
+\end{bmatrix} =
+\mathbf{M}_{n \times n}$$
+
+- $\mathbf{M}$ is called a matrix, with dimensions defined
+- $\mathbf{M}$ comprises row vectors and column vectors
+- because $\mathbf{M}$ has the same number of rows and columns, it also has a diagonal vector
+- the sum of the diagonal vector, called the **trace**, is the inner-product of $\mathbf{a}$ and $\mathbf{b}$
+---
+
+
+### Matrices
+A matrix is more than a vector outer-product (more precisely, a vector outer-product is merely one type of matrix).  A matrix is a collection of vectors, arranged in a specific way, such that linear algebra operations can be carried, systematically.  For example, the arrangement of vectors in a matrix indicates how to find a series of inner-products and display their results.
+
+The most basic matrices for statistics are **data frames**.  In data frames, column vectors are variables and row vectors are observations.  We can demonstrate this easily in `R` with the `data.frame` and `matrix` functions.
+
+```{r, include = TRUE}
+y1 <- c(2, 3, 2, 5, 6, 8) # variable 1 with 6 observations
+y2 <- c(-1, -2, 0, 0, 1, -1) # variable 2 with 6 observations
+Y <- data.frame(y1 = y1, y2 = y2)
+rownames (Y) <- paste("obs", 1:6, sep = ".") # giving our observations some names
+Y
+
+```
+---
+
+### Matrices (Cont.)
+
+
+```{r, include = TRUE}
+Y
+
+```
+Which is R's way of saying,
+
+$$\small{\mathbf{Y} = \begin{bmatrix}
+2 & -1 \\
+3 & -2 \\
+2 & 0 \\
+5 & 0 \\
+6 & 1 \\
+8 & -1 \\
+\end{bmatrix}}$$
+
+$\mathbf{Y}$ is a matrix and a data frame.  Row vectors are observations for the variables represented as column vectors. The dimensions of $\mathbf{Y}$ are $n \times p$ for the $n$ observations of subjects for $p$ variables.
+---
+
+### Matrices (Cont.)
+
+#### This time with additional `R` code
+```{r, include = TRUE, echo = TRUE}
+y1 <- c(2, 3, 2, 5, 6, 8) # variable 1 with 6 observations
+y2 <- c(-1, -2, 0, 0, 1, -1) # variable 2 with 6 observations
+{{Y <- data.frame(y1 = y1, y2 = y2)}}
+rownames (Y) <- paste("obs", 1:6, sep = ".") # giving our observations some names
+Y
+
+```
+---
+
+### Matrix Addition, Subtraction, Multiplication
+
+#### Matrix addition and subtraction
+Matrix addition and subtraction is no different than vector addition and subtraction.  Matrices have to have *commensurate* dimensions (same $n \times p$).
+
+#### Matrix multiplication
+Matrix multiplication is nothing more than systematic calculation of vector inner-products and arrangement of these into precise corresponding elements of a new matrix.  Like vectors, inner dimensions must match and the product is defined by the outer dimensions.  The simplest way to define this is as follows
+
+Let $\mathbf{X}$ be an $n \times k$ matrix and let $\mathbf{Y}$ by an $n \times p$ matrix, such that
+
+$$\mathbf{X} = \begin{bmatrix}
+\mathbf{x}_1 &
+\mathbf{x}_2 &
+\cdots &
+\mathbf{x}_k 
+\end{bmatrix}$$
+
+and
+
+$$\mathbf{Y} = \begin{bmatrix}
+\mathbf{y}_1 &
+\mathbf{y}_2 &
+\cdots & 
+\mathbf{y}_p
+\end{bmatrix}$$
+
+Note that each $\mathbf{x}_i$ column vector is $n \times 1$ in dimension for $k$ vectors and each $\mathbf{y}_i$ is $n \times 1$ in dimension for $p$ vectors.  Thus,
+---
+### Matrix Addition, Subtraction, Multiplication (Cont.)
+
+$$\mathbf{X} = \begin{bmatrix}
+\mathbf{x}_1 &
+\mathbf{x}_2 &
+\cdots &
+\mathbf{x}_k 
+\end{bmatrix}$$
+
+and 
+
+$$\mathbf{Y} = \begin{bmatrix}
+\mathbf{y}_1 &
+\mathbf{y}_2 &
+\cdots & 
+\mathbf{y}_p
+\end{bmatrix}$$
+
+and 
+
+$$\mathbf{X}^T\mathbf{Y} = \begin{bmatrix}
+\mathbf{x}_1^T\mathbf{y}_1 & \mathbf{x}_1^T\mathbf{y}_2 & \cdots & \mathbf{x}_1^T\mathbf{y}_p\\
+\mathbf{x}_2^T\mathbf{y}_1 & \mathbf{x}_2^T\mathbf{y}_2 & \cdots & \mathbf{x}_2^T\mathbf{y}_p\\
+\vdots & \vdots & & \vdots\\
+\mathbf{x}_k^T\mathbf{y}_1 & \mathbf{x}_k^T\mathbf{y}_2 & \cdots & \mathbf{x}_k^T\mathbf{y}_p\\
+\end{bmatrix}$$
+
+The matrix product is a matrix with $k \times p$ inner-products
+---
+### Matrix Multiplication (Cont.)
+
+#### Matrix multiplication example (using R script)
+
+```{r, include = TRUE, echo = TRUE}
+n <- 50
+p <- 3
+y1 <- rnorm(50) # variable y1 with 50 observations
+y2 <- rnorm(50) # variable y2 with 50 observations
+y3 <- rnorm(50) # variable y2 with 50 observations
+Y <- data.frame(y1 = y1, y2 = y2, y3 = y3)  
+rownames (Y) <- paste("obs", 1:n, sep = ".") # giving our observations some names
+dim(Y)
+```
+
+---
+
+### Matrix Multiplication (Cont.)
+
+```{r, include = TRUE}
+DT::datatable(
+  round(Y, 4),
+  fillContainer = FALSE, options = list(pageLength = 6)
+)
+```
+---
