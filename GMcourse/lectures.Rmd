@@ -10,7 +10,7 @@
 
 [04-Shape Spaces, Shape Variables, & PCA](https://geomorphR.github.io/GMcourse/Lectures/04-ShapeVariablesSpaces.html)
 
-[05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/Lectures/05-Semilandmarks.html)
+[05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/05-Semilandmarks.html)
 
 [06-Shape Statistics I]
 
