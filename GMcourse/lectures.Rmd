@@ -4,8 +4,7 @@
 
 [01-Morphometrics: History, Introduction and Data Types](https://geomorphR.github.io/GMcourse/Lectures/01-IntroHistory.html)
 
-[02-Linear Algebra and Linear Models]
-(https://geomorphR.github.io/GMcourse/Lectures/02-LinearAlgebra.html)
+[02-Linear Algebra and Linear Models](https://geomorphR.github.io/GMcourse/Lectures/02-LinearAlgebra.html)
 
 [03-Superimposition: Generalized Procrustes Analysis (GPA)](https://geomorphR.github.io/GMcourse/Lectures/03-Superimposition.html)
 
