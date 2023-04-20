@@ -4,13 +4,14 @@ author: ""
 subtitle: "AKA: The important foundation for everything that follows!"
 output:
   xaringan::moon_reader:
-    css: ["xaringan-themer.css"]
+    css: ["xaringan-themer.css", "utilities.css"]
     nature:
       highlightStyle: solarized-light
       highlightLines: true
       countIncrementalSlides: true
       ratio: '16:9'
       self_contained: false
+
 ---
 
 ```{r setup, include=FALSE}
@@ -75,11 +76,14 @@ $$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
 - Summary
 ---
 
+.center[
 
+# Part I. Basics
 
+## (vector and matrix operations)
 
-
-
+]
+---
 
 
 
@@ -358,13 +362,17 @@ The matrix product is a matrix with $k \times p$ inner-products
 
 #### Matrix multiplication example (using R script)
 
+```{r, include=TRUE, echo = FALSE}
+set.seed(2003)
+```
+
 ```{r, include = TRUE, echo = TRUE}
 n <- 50
 p <- 3
 y1 <- rnorm(50) # variable y1 with 50 observations
 y2 <- rnorm(50) # variable y2 with 50 observations
 y3 <- rnorm(50) # variable y2 with 50 observations
-Y <- data.frame(y1 = y1, y2 = y2, y3 = y3)  
+Y <- as.matrix(data.frame(y1 = y1, y2 = y2, y3 = y3))
 rownames (Y) <- paste("obs", 1:n, sep = ".") # giving our observations some names
 dim(Y)
 ```
@@ -373,10 +381,99 @@ dim(Y)
 
 ### Matrix Multiplication (Cont.)
 
+#### Example data frame, $\mathbf{Y}$
+
 ```{r, include = TRUE}
 DT::datatable(
   round(Y, 4),
+  fillContainer = FALSE, options = list(pageLength = 8)
+)
+```
+---
+
+### Matrix Multiplication (Cont.)
+
+#### Matrix multiplication example (using R script)
+
+```{r, include = TRUE, echo = TRUE}
+X <- cbind(Intercept = rep(1, n), group = rep(c(0, 1), n / 2))
+rownames(X) <- rownames(Y)
+
+```
+```{r, include = TRUE}
+DT::datatable(
+  X,
   fillContainer = FALSE, options = list(pageLength = 6)
 )
 ```
+
+---
+
+### Matrix Multiplication (Cont.)
+
+#### Matrix multiplication example (using R script)
+
+```{r, include = TRUE, echo = TRUE}
+
+t(X) %*% Y
+
+crossprod(X, Y)
+```
+
++ Notice that the row names are the column names of $\mathbf{X}$ and the column names are the column names of $\mathbf{Y}$.  
++ Also notice the `crossprod` function is short for *matrix of cross-products*, which we will refer to simply as the **matrix cross-product**.  This is a bit unfortunate nomenclature, as the meaning is different than *vector cross-product*, a vector produced by multiplication in a certain way of two vectors, different from the *dot-product*, which is basically the same as the inner-product.  (Try not to let the terminology get to you!)
+---
+
+
+### ~~Matrix Division~~
+This is not something we can do.  We can invert some matrices, but we will come back to this in a moment.
+
+### Important Matrix and Vector Multiplication Properties
+>- Any matrix or vector multiplied by a scalar multiplies every element by the scalar.  The name, "scalar," means that every element is scaled.
+>- Like vectors that have inner-products (dot products) or outer-products, sometimes matrices can be similar.  The tendency though is to call these cross-product matrices.  
+>- A vector inner-product of the form, $\mathbf{x}^T\mathbf{x}$ is a generalized method of squaring.  It is precisely the sum of squared values, rather than just a squared value.
+>- A matrix cross-product of the form, $\mathbf{X}^T\mathbf{X}$ is a generalized method of squaring.  This matrix has summed squared values of column vectors of $\mathbf{X}$ on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+>- A matrix is **square** when it has equal rows and columns, e.g., $n \times n$.
+>- If $\mathbf{XY}$ is possible and $\mathbf{YX}$ is possible, they will not have the same product unless both matrices are square and $\mathbf{X} = \mathbf{Y}$.  The dimensions of matrix products are also likely different.
+>- The next slide will describe some special matrices.
+
+.center[
+
+# Part II. Special Matrices
+
+## (Orthogonal, )
+
+]
+---
+
+### Special Matrices
+
+```{r, echo = FALSE, out.width="50%",fig.align = "center"}
+include_graphics("LectureData/02.matrices/special.matrices.png")  
+```
+
+Orthogonal vectors or matrices with vectors that are also unit length, $\left( \mathbf{a}^T\mathbf{a}\right)^{1/2} = 1$, are also **orthonormal**.
+---
+
+### Special Matrices
+
+| Matrix and description | Example | Comments |
+| ------ | ---- | ------ |
+|**Square matrix** Any matrix with the same number of rows and columns, e.g., $n \times n$ | $\small{\mathbf{S} = \begin{bmatrix} 2 & 3 & 1 \\ 4 & 7 & 5\\ 1 & 10 & 0 \\ \end{bmatrix}}$ | These matrices, themselves, are generally not too compelling, unless there is a relationship between the row and column variables.|
+|**Symmetric matrix** A square matrix that has symmetry above and below the diagonal| $\small{\mathbf{S} = \begin{bmatrix} 2 & 3 & 1 \\ 3 & 7 & 10\\ 1 & 10 & 0 \\ \end{bmatrix}}$ | These matrices have the condition that $\mathbf{S} = \mathbf{S}^T$.|
+
+
+Orthogonal vectors or matrices with vectors that are also unit length, $\left( \mathbf{a}^T\mathbf{a}\right)^{1/2} = 1$, are also **orthornormal**.
+---
+
+### Special Matrices and Special Matrix Properties
+
+#### Some additional notes
+- Some sources refer to "triangular" matrices.  These might be symmetric matrices, where the elements above a diagonal match the elements below.  However, these might refer to a matrix that looks like a symmetric matrix but values below the diagonal are all 0.
+- A matrix cross-product will always produce a symmetric matrix.
+
+#### Special Matrix Properties (Really important at times!)
+- **Symmetry**: $\mathbf{X} = \mathbf{X}^T$
+- **Positive-definite**: If $\mathbf{X}$ is symmetric, $\mathbf{a}^T \mathbf{Xa}$ is a positive scalar if $\mathbf{a}$ has non-zero values.  It also means all eigenvalues of $\mathbf{X}$ are non-negative (more later).
+- **Idempotent**: If $\mathbf{X}$ is square, $\mathbf{XX} = \mathbf{X}$.
 ---

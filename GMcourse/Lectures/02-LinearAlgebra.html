@@ -15,6 +15,7 @@
     <link href="02-LinearAlgebra_files/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
     <script src="02-LinearAlgebra_files/crosstalk-1.2.0/js/crosstalk.min.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -85,11 +86,14 @@ Understand why this equation is a universal equation for describing the alignmen
 - Summary
 ---
 
+.center[
 
+# Part I. Basics
 
+## (vector and matrix operations)
 
-
-
+]
+---
 
 
 
@@ -387,13 +391,15 @@ The matrix product is a matrix with `\(k \times p\)` inner-products
 #### Matrix multiplication example (using R script)
 
 
+
+
 ```r
 n &lt;- 50
 p &lt;- 3
 y1 &lt;- rnorm(50) # variable y1 with 50 observations
 y2 &lt;- rnorm(50) # variable y2 with 50 observations
 y3 &lt;- rnorm(50) # variable y2 with 50 observations
-Y &lt;- data.frame(y1 = y1, y2 = y2, y3 = y3)  
+Y &lt;- as.matrix(data.frame(y1 = y1, y2 = y2, y3 = y3))
 rownames (Y) &lt;- paste("obs", 1:n, sep = ".") # giving our observations some names
 dim(Y)
 ```
@@ -406,8 +412,105 @@ dim(Y)
 
 ### Matrix Multiplication (Cont.)
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-f13e555b905a2e771f44" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-f13e555b905a2e771f44">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["obs.1","obs.2","obs.3","obs.4","obs.5","obs.6","obs.7","obs.8","obs.9","obs.10","obs.11","obs.12","obs.13","obs.14","obs.15","obs.16","obs.17","obs.18","obs.19","obs.20","obs.21","obs.22","obs.23","obs.24","obs.25","obs.26","obs.27","obs.28","obs.29","obs.30","obs.31","obs.32","obs.33","obs.34","obs.35","obs.36","obs.37","obs.38","obs.39","obs.40","obs.41","obs.42","obs.43","obs.44","obs.45","obs.46","obs.47","obs.48","obs.49","obs.50"],[-1.8586,0.2866,-1.5143,0.1763,-0.6458,0.9829,-0.6307,-0.836,-1.3323,0.7561,-0.9378,0.1079,0.6004,1.5474,0.4363,1.5991,1.0503,1.1405,-0.3606,0.2153,-0.7237,0.0027,0.0414,-1.1218,0.3839,0.6746,0.2394,0.7541,0.91,-0.0471,-0.3809,-2.6391,-0.6936,0.0689,-0.917,-0.5882,1.0676,-0.6099,0.0766,-0.9873,0.7963,1.1892,-0.5803,-0.6622,0.1988,1.1682,1.1209,0.7186,0.2936,-0.4201],[0.8695,0.4068,1.9464,-0.18,1.6046,-1.3503,-2.8095,-1.6913,-2.2644,-0.8345,-0.2823,0.1872,0.2133,0.5273,0.0263,-0.7453,-0.003,0.3499,-0.2162,1.9505,0.0671,0.2489,0.4083,1.1417,-0.7207,0.2983,1.0459,-0.9975,0.7815,-0.0486,-0.5271,0.206,0.3753,1.5523,-0.8084,-0.0088,-0.2257,0.8322,-0.6604,-0.8217,1.1301,1.1324,-0.0891,-0.9582,0.6074,-0.4743,-2.6139,0.1937,0.5838,0.8193],[-1.6011,-0.0448,1.1635,-0.9407,-0.4924,-0.1071,0.726,-1.5008,0.3631,0.2771,-0.2456,-0.6083,-0.0977,2.2028,-0.3153,-2.1613,0.8365,0.4538,-0.7459,-2.4845,-0.1038,1.4114,0.0806,-0.6415,0.2591,0.1235,-1.3305,1.3233,0.1264,-0.057,-0.3322,0.9705,1.2175,1.3881,0.3616,-0.4566,-0.3989,-1.5409,-0.8617,-0.5938,-0.4396,-0.165,0.123,-1.4584,-1.7008,0.2873,-0.1895,-0.9828,0.7004,1.6467]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>y1<\/th>\n      <th>y2<\/th>\n      <th>y3<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+#### Example data frame, `\(\mathbf{Y}\)`
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1a648e86760617d8a29a" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1a648e86760617d8a29a">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["obs.1","obs.2","obs.3","obs.4","obs.5","obs.6","obs.7","obs.8","obs.9","obs.10","obs.11","obs.12","obs.13","obs.14","obs.15","obs.16","obs.17","obs.18","obs.19","obs.20","obs.21","obs.22","obs.23","obs.24","obs.25","obs.26","obs.27","obs.28","obs.29","obs.30","obs.31","obs.32","obs.33","obs.34","obs.35","obs.36","obs.37","obs.38","obs.39","obs.40","obs.41","obs.42","obs.43","obs.44","obs.45","obs.46","obs.47","obs.48","obs.49","obs.50"],[1.4172,-0.7282,-0.2667,1.0735,0.723,-1.3032,0.762,1.3157,0.1616,0.5382,-1.125,-0.9247,-0.3069,0.8774,0.7183,-1.1153,-1.459,0.3562,0.1912,-0.3329,0.2793,-0.8332,2.4215,-0.6904,-0.4653,-0.0098,0.1828,0.933,0.2655,-1.067,0.327,1.0057,0.8276,0.7262,1.0841,-1.3492,0.8317,1.4915,-0.3591,0.1575,0.0182,-1.1856,-1.2937,0.6164,0.8237,0.0788,1.17,0.0369,1.1106,-1.4118],[0.7752,0.7821,1.0205,-1.6889,0.0354,-0.8363,0.2619,1.4614,-1.0031,-0.5509,-0.1107,-1.1232,-0.5396,1.3207,1.732,0.0168,-0.3069,-2.4835,1.3488,-0.0394,0.7086,-0.2577,-1.0495,-1.2812,-0.4344,-0.1469,0.8479,0.6678,-1.2007,0.5141,0.4316,-0.4485,-0.5182,-1.6906,-0.1333,1.1896,-0.3844,0.3085,0.3534,-0.2103,0.1276,0.6246,2.2465,-0.9144,-0.1832,0.0494,-1.1033,0.5866,0.4888,1.4424],[-0.0913,-0.3958,0.8213,-0.5844,-1.1732,0.124,-0.1117,0.3667,1.8759,-1.0421,1.5979,0.8733,-1.3501,-0.6104,1.0627,0.1467,-0.7203,-0.5828,-0.2574,-0.8376,-0.8407,-0.1998,-0.2236,-0.0224,-0.2883,1.6402,-0.2349,-1.0472,0.5142,-0.9789,1.8749,0.7681,0.736,0.4188,1.14,-0.9332,-1.5754,-0.7969,-1.3347,-0.5171,-0.6405,-0.2055,1.197,0.8096,1.4685,0.0188,-0.8426,0.3668,-0.9631,1.9462]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>y1<\/th>\n      <th>y2<\/th>\n      <th>y3<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+---
+
+### Matrix Multiplication (Cont.)
+
+#### Matrix multiplication example (using R script)
+
+
+```r
+X &lt;- cbind(Intercept = rep(1, n), group = rep(c(0, 1), n / 2))
+rownames(X) &lt;- rownames(Y)
+```
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3f68752ae0db151dfa62" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3f68752ae0db151dfa62">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["obs.1","obs.2","obs.3","obs.4","obs.5","obs.6","obs.7","obs.8","obs.9","obs.10","obs.11","obs.12","obs.13","obs.14","obs.15","obs.16","obs.17","obs.18","obs.19","obs.20","obs.21","obs.22","obs.23","obs.24","obs.25","obs.26","obs.27","obs.28","obs.29","obs.30","obs.31","obs.32","obs.33","obs.34","obs.35","obs.36","obs.37","obs.38","obs.39","obs.40","obs.41","obs.42","obs.43","obs.44","obs.45","obs.46","obs.47","obs.48","obs.49","obs.50"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Intercept<\/th>\n      <th>group<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### Matrix Multiplication (Cont.)
+
+#### Matrix multiplication example (using R script)
+
+
+```r
+t(X) %*% Y
+```
+
+```
+##                  y1         y2         y3
+## Intercept  6.295172  0.7029465  0.3656386
+## group     -1.744153 -2.7077558 -1.2747868
+```
+
+```r
+crossprod(X, Y)
+```
+
+```
+##                  y1         y2         y3
+## Intercept  6.295172  0.7029465  0.3656386
+## group     -1.744153 -2.7077558 -1.2747868
+```
+
++ Notice that the row names are the column names of `\(\mathbf{X}\)` and the column names are the column names of `\(\mathbf{Y}\)`.  
++ Also notice the `crossprod` function is short for *matrix of cross-products*, which we will refer to simply as the **matrix cross-product**.  This is a bit unfortunate nomenclature, as the meaning is different than *vector cross-product*, a vector produced by multiplication in a certain way of two vectors, different from the *dot-product*, which is basically the same as the inner-product.  (Try not to let the terminology get to you!)
+---
+
+
+### ~~Matrix Division~~
+This is not something we can do.  We can invert some matrices, but we will come back to this in a moment.
+
+### Important Matrix and Vector Multiplication Properties
+&gt;- Any matrix or vector multiplied by a scalar multiplies every element by the scalar.  The name, "scalar," means that every element is scaled.
+&gt;- Like vectors that have inner-products (dot products) or outer-products, sometimes matrices can be similar.  The tendency though is to call these cross-product matrices.  
+&gt;- A vector inner-product of the form, `\(\mathbf{x}^T\mathbf{x}\)` is a generalized method of squaring.  It is precisely the sum of squared values, rather than just a squared value.
+&gt;- A matrix cross-product of the form, `\(\mathbf{X}^T\mathbf{X}\)` is a generalized method of squaring.  This matrix has summed squared values of column vectors of `\(\mathbf{X}\)` on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+&gt;- A matrix is **square** when it has equal rows and columns, e.g., `\(n \times n\)`.
+&gt;- If `\(\mathbf{XY}\)` is possible and `\(\mathbf{YX}\)` is possible, they will not have the same product unless both matrices are square and `\(\mathbf{X} = \mathbf{Y}\)`.  The dimensions of matrix products are also likely different.
+&gt;- The next slide will describe some special matrices.
+
+.center[
+
+# Part II. Special Matrices
+
+## (Orthogonal, )
+
+]
+---
+
+### Special Matrices
+
+&lt;img src="LectureData/02.matrices/special.matrices.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+Orthogonal vectors or matrices with vectors that are also unit length, `\(\left( \mathbf{a}^T\mathbf{a}\right)^{1/2} = 1\)`, are also **orthonormal**.
+---
+
+### Special Matrices
+
+| Matrix and description | Example | Comments |
+| ------ | ---- | ------ |
+|**Square matrix** Any matrix with the same number of rows and columns, e.g., `\(n \times n\)` | `\(\small{\mathbf{S} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 7 &amp; 5\\ 1 &amp; 10 &amp; 0 \\ \end{bmatrix}}\)` | These matrices, themselves, are generally not too compelling, unless there is a relationship between the row and column variables.|
+|**Symmetric matrix** A square matrix that has symmetry above and below the diagonal| `\(\small{\mathbf{S} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 3 &amp; 7 &amp; 10\\ 1 &amp; 10 &amp; 0 \\ \end{bmatrix}}\)` | These matrices have the condition that `\(\mathbf{S} = \mathbf{S}^T\)`.|
+
+
+Orthogonal vectors or matrices with vectors that are also unit length, `\(\left( \mathbf{a}^T\mathbf{a}\right)^{1/2} = 1\)`, are also **orthornormal**.
+---
+
+### Special Matrices and Special Matrix Properties
+
+#### Some additional notes
+- Some sources refer to "triangular" matrices.  These might be symmetric matrices, where the elements above a diagonal match the elements below.  However, these might refer to a matrix that looks like a symmetric matrix but values below the diagonal are all 0.
+- A matrix cross-product will always produce a symmetric matrix.
+
+#### Special Matrix Properties (Really important at times!)
+- **Symmetry**: `\(\mathbf{X} = \mathbf{X}^T\)`
+- **Positive-definite**: If `\(\mathbf{X}\)` is symmetric, `\(\mathbf{a}^T \mathbf{Xa}\)` is a positive scalar if `\(\mathbf{a}\)` has non-zero values.  It also means all eigenvalues of `\(\mathbf{X}\)` are non-negative (more later).
+- **Idempotent**: If `\(\mathbf{X}\)` is square, `\(\mathbf{XX} = \mathbf{X}\)`.
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
