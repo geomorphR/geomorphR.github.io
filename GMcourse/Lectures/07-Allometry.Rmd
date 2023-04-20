@@ -1,126 +1,127 @@
 ---
-title: "Allometry"
-author: "Antigoni Kaliontzopoulou, CIBIO/InBIO, University of Porto"
-output: slidy_presentation
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: "7: Allometry"
+author: ""
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css"]
+    nature:
+      highlightStyle: solarized-light
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+      self_contained: false
 ---
 
 ```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
 library(knitr)
 library(geomorph)
 opts_chunk$set(echo = TRUE)
+
+library(xaringanthemer)
+style_mono_light()
 ```
 
-# What is Allometry?
+### What is Allometry?
 
-- From greek:  $\small\acute\alpha\lambda\lambda\omicron$ (álo) = other, different  + $\small\mu\epsilon\tau\rho\acute\omega$ (metró) = to measure
-- Differences in body proportions of an organism
-- A departure from geometric similarity
-- The relationship between size and shape
++ From greek:  $\small\acute\alpha\lambda\lambda\omicron$ (álo) = other, different  + $\small\mu\epsilon\tau\rho\acute\omega$ (metró) = to measure
++ Differences in body proportions of an organism
++ A departure from geometric similarity
++ The relationship between size and shape
+---
 
->* Why?
-* How? Types of allometry and hypothesis testing
-* Visualizing allometric trends: summarizing multivariate patterns
-* Custom tests: using permutations to approach biological questions
+### Why Is There Allometry?
 
++ Allometry occurs due to several reasons:
+  + Physical (e.g. surface area/volume ratio)
+  + Physiological
+  + Biomechanical/functional
+  + Selection (e.g. sexual selection and male ornaments)
 
-# Why Allometry?
-
-- Allometry occurs due to several reasons:
-    - Physical (e.g. surface area/volume ratio)
-    - Physiological
-    - Biomechanical/functional
-    - Selection (e.g. sexual selection and male ornaments)
-
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/AllomIntro.png")  
+```{r, echo = FALSE, fig.align = "center", out.width="70%"}
+include_graphics("LectureData/07.allometry/AllomIntro.png")  
 ```
+---
 
-# Allometry: Basic Concepts
+### Allometry: Basic Concepts
 
-- What is allometry, and compared to what?
-    - **Isometry**: no change in proportions
-    - **Allometry**: change in proportions
+.pull-left[
++ What is allometry, and compared to what?
+  + **Isometry**: no change in proportions
+  + **Allometry**: change in proportions
 
-- Easily envisioned via single trait relative to size:
++ Easily envisioned via single trait relative to size:
 
-$\small{log(Y)}=log(\beta)+\alpha{log(x)}$
-    
-```{r, echo = FALSE, out.width="50%"}
-include_graphics("LectureData/09.allometry/PosNegAllom.png")  
+$$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
+
+]
+.pull-right[    
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+include_graphics("LectureData/07.allometry/PosNegAllom.png")  
 ```
+]
 
-> #####Note: concepts of positive and negative allometry are only applicable to univariate traits! (for multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning)
+--
 
-> ###### Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size
++ #### Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (for multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning)
 
-# Types of Allometry
++ #### Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size
+---
 
-- Allometric patterns may be observed at several levels of biological organization:
-    - **Ontogenetic allometry**: throughout growth (e.g. understanding energy allocation)
-    - **Static allometry** : within a single life stage (e.g. ornaments and sexual selection)
-    - **Evolutionary allometry**: across species (e.g. adaptive shape changes) 
+### Types of Allometry
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/AllometryTypes.png")  
++ Allometric patterns may be observed at several levels of biological organization:
+  + **Ontogenetic allometry**: Variation across individuals at differing stages or ages (e.g., growth allometry)
+  + **Static allometry** : Variation across individuals in a single ontogenetic stage within a population or species
+  + **Evolutionary allometry**: Variation across species
+
+```{r, echo = FALSE, fig.align = "center",out.width="70%"}
+include_graphics("LectureData/07.allometry/AllometryTypes.png")  
 ```
+---
 
-# Allometry in GM Data
+### Allometry in GM Data
 
-- Shape: “the geometric properties of an object after standardizing the effects of location, scale and rotation”
-- Procrustes shape variables are independent of CS when no allometry is present
-- CS: mathematically independent of shape; biological allometric effects are still there!
++ Procrustes shape variables are independent of CS when no allometry is present
+  + CS: mathematically independent of shape; biological allometric effects are still there!
 
-Here is isometry...
+.pull-left[
++ Here is isometry...
 
-```{r, echo = FALSE, out.width="40%"}
-include_graphics("LectureData/09.allometry/IsometryPlot.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="70%"}
+include_graphics("LectureData/07.allometry/IsometryPlot.png")  
 ```
+]
 
-# Allometry in GM Data
+--
 
-- Shape: “the geometric properties of an object after standardizing the effects of location, scale and rotation”
-- Procrustes shape variables are independent of CS when no allometry is present
-- CS: mathematically independent of shape; biological allometric effects are still there!
+.pull-right[
++ and here is allometry
 
-Here is isometry...         and here is allometry
-
-```{r, echo = FALSE, out.width="40%"}
-par(mfrow=c(1,2)) 
-include_graphics("LectureData/09.allometry/IsometryPlot.png")  
-include_graphics("LectureData/09.allometry/AllometryPlot.png")  
-par(mfrow=c(1,1)) 
+```{r, echo = FALSE, fig.align = "center",out.width="70%"}
+include_graphics("LectureData/07.allometry/AllometryPlot.png")  
 ```
+]
 
->- But how do we assess such patterns? 
+--
 
->- We use linear models!
++ How do we assess such patterns?
++ We use linear models!
 
-# Multivariate Linear Regression
+---
 
-To characterize allometric patterns, we fit a model of `shape~size` as:
+### Multivariate Linear Regression
+
++ To characterize allometric patterns, we fit a model of `shape~size` as:
 
 $$\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$
 
-# Multivariate Linear Regression
+--
 
-To characterize allometric patterns, we fit a model of `shape~size` as:
-
-$$\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$
-
-We evaluate the allometry model $\small\mathbf{X}_{F}$ by comparing it to an intercept model $\small\mathbf{X}_{R}$:
++ We evaluate the allometry model $\small\mathbf{X}_{F}$ by comparing it to an intercept model $\small\mathbf{X}_{R}$:
 
 $\tiny\mathbf{X}_R = \begin{bmatrix} 1\\ 1\\ 1\\ 1\\ 1\\ 1 \end{bmatrix}$  & $\tiny\mathbf{X}_F = \begin{bmatrix} 1 & 0.3 \\ 1 & 0.5 \\ 1 & 0.2 \\ 1 & 1.2 \\ 1 & 0.7 \\ 1 & 1.1 \end{bmatrix}$
 
-# Multivariate Linear Regression
-
-To characterize allometric patterns, we fit a model of `shape~size` as:
-
-$$\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$
-
-We evaluate the allometry model $\small\mathbf{X}_{F}$ by comparing it to an intercept model $\small\mathbf{X}_{R}$:
-
-$\tiny\mathbf{X}_R = \begin{bmatrix} 1\\ 1\\ 1\\ 1\\ 1\\ 1 \end{bmatrix}$  & $\tiny\mathbf{X}_F = \begin{bmatrix} 1 & 0.3 \\ 1 & 0.5 \\ 1 & 0.2 \\ 1 & 1.2 \\ 1 & 0.7 \\ 1 & 1.1 \end{bmatrix}$
+--
 
 Estimate | $\small\mathbf{X}_{R}$| $\small\mathbf{X}_{F}$
 :----------- | :------------------- | :--------------------------
@@ -128,8 +129,9 @@ Coefficients |  $\tiny\hat{\mathbf{\beta_R}}=\left ( \mathbf{X}_R^{T} \mathbf{X}
 Predicted Values | $\small\hat{\mathbf{Y}}_R=\mathbf{X}_R\hat{\mathbf{\beta}}_R$ | $\small\hat{\mathbf{Y}}_F=\mathbf{X}_F\hat{\mathbf{\beta}}_F$
 Model Residuals | $\small\hat{\mathbf{E}}_R=\mathbf{Y}-\hat{\mathbf{Y}}_R$ | $\small\hat{\mathbf{E}}_F=\mathbf{Y}-\hat{\mathbf{Y}}_F$
 Model Residual Error    ($\small{SSE}$) | $\small\mathbf{S}_R=\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R$ | $\small\mathbf{S}_F=\hat{\mathbf{E}}_F^T\hat{\mathbf{E}}_F$
+---
 
-# Assessing Significance: RRPP
+### Assessing Significance: RRPP
 
 1: Fit $\small\mathbf{X}_{R}$ for each $\small\mathbf{X}_{F}$; Estimate $\small\hat{\mathbf{Y}}_{R}$ and $\small\mathbf{E}_{R}$
 
@@ -150,34 +152,39 @@ $$\small{z} = \frac{
 where $\small\mu_{\log\left(F\right)}$ and $\sigma_{\log\left(F\right)}$ are the expected value and standard deviation from the sampling distribution, respectively.
 
 ###### Collyer et al. *Heredity.* (2015); Adams & Collyer. *Evolution.* (2016); Adams & Collyer. *Evolution.* (2018)
+---
 
-# Regression: Example
+### Regression: Example
 
+.pull-left[
 Does body shape covary with size in *Pecos* pupfish? 
 
-```{r, echo = FALSE, out.width="40%"}
-include_graphics("LectureData/06.covariation/Pupfish Motivation.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/Pupfish Motivation.png")  
 ``` 
 
 This is a hypothesis of *Allometry* (shape~size covariation)
-
+]
+.pull-right[
 ```{r eval=TRUE, echo=TRUE, out.width="40%"}
 data(Pupfish)
 Pupfish$logSize <- log(Pupfish$CS)
 fit <- procD.lm(coords ~ logSize, SS.type = "I", 
                 data = Pupfish, print.progress = FALSE, iter = 999) 
-anova(fit)
+anova(fit)$table
 ```
 
->- But how does one visualize multivariate allometry??
+Great, but how does one visualize this multivariate allometry??
+]
+---
 
 # Visualizing Multivariate Allometry
 
 * Need to summarize size-related variation in shape
 * Use some rotation/projection method
 
-```{r, echo = FALSE, out.width="40%"}
-include_graphics("LectureData/09.allometry/MultiAllomPlot.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="40%"}
+include_graphics("LectureData/07.allometry/MultiAllomPlot.png")  
 ```
 
 Several (complementary) solutions:
@@ -198,15 +205,20 @@ $$\small\mathbf{P_1}=svd(\mathbf{\hat{Y}})=svd(\mathbf{X(\tilde{X}^T\tilde{X})^{
 - How does environmental disturbance influence development?
 - Are size-shape relationships modified in urban populations?
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/LizardLatImage.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/LizardLatImage.png")  
 ```
 
 # Allometry Example: *Podarcis*
 
-```{r, echo = FALSE, out.width="40%"}
-lizards <- readland.tps('LectureData/09.allometry/symm.shape2.tps', warnmsg = FALSE)
-liz.lab <- read.csv('LectureData/09.allometry/ind.info.txt',header=TRUE, sep=",")
+##### NOTE: data different from what is used in lecture 4 (SEX, now sex, M now m).
+  ## check and see if you can call the older files
+
+```{r, echo = FALSE, fig.align = "center",out.width="40%"}
+lizards <- readland.tps('LectureData/07.allometry/symm.shape2.tps', warnmsg = FALSE)
+liz.lab <- read.csv('LectureData/07.allometry/ind.info.txt',header=TRUE, sep=",")
+col.gp <- rep("red",nrow(liz.lab))
+col.gp[which(liz.lab$sex=='m')] <- 'blue'
 Y.gpa <- gpagen(lizards, print.progress = FALSE)
 CS <- liz.lab$cs
 type <- liz.lab$type
@@ -221,18 +233,19 @@ anova(fit)
 
 # Allometry Example: *Podarcis* (Cont.)
 
-```{r, echo = FALSE, out.width="80%"}
-res <- plotTangentSpace(Y.gpa$coords, groups = type, warpgrids = FALSE)
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+PCA <- gm.prcomp(Y.gpa$coords)
+plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ```
 
 # Visualization 
-```{r, echo = FALSE, out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
 par(mfrow=c(1,2)) 
-plotAllometry(fit, size = gdf$CS, logsz = FALSE, method = "RegScore", pch=21, bg=gdf$type)
-mtext("Regression Scores")
+#plotAllometry(fit, size = gdf$CS, logsz = FALSE, method = "RegScore", pch=21, bg=gdf$type)
+#mtext("Regression Scores")
 
-plotAllometry(fit, size = gdf$CS, logsz = FALSE, method = "PredLine", pch=21, bg=gdf$type)
-mtext("Predicted Lines")
+#plotAllometry(fit, size = gdf$CS, logsz = FALSE, method = "PredLine", pch=21, bg=gdf$type)
+#mtext("Predicted Lines")
 par(mfrow=c(1,1)) 
 ```
 
@@ -243,8 +256,8 @@ par(mfrow=c(1,1))
 - Use randomization methods to test custom hypotheses
 - Do urban populations show higher deviations from their group’s trajectory? – a sign of developmental instability
 
-```{r, echo = FALSE, out.width="40%"}
-include_graphics("LectureData/09.allometry/LizUrbRur.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="40%"}
+include_graphics("LectureData/07.allometry/LizUrbRur.png")  
 ```
 
 # Size-Shape Space
@@ -253,8 +266,8 @@ include_graphics("LectureData/09.allometry/LizUrbRur.png")
 - However, when other factors are present, PC1 does not necessarily relate directly to size-dependent variation (at least not to all of it)
 - Usual statistical methods do not capture subtle ontogenetic modifications in trajectories
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/SizeShapeConcept.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/SizeShapeConcept.png")  
 ```
 
 - Examine allometric variation in **size-shape space**
@@ -273,8 +286,8 @@ $$\small{CAC}=\mathbf{Y}_{cent}\alpha$$             where $$\small\alpha=\alpha\
 
 # Size-Shape Space: Example
 
-```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/09.allometry/Mitteroecker-04.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="100%"}
+include_graphics("LectureData/07.allometry/Mitteroecker-04.png")  
 ```
 
 # Note: CAC Scores vs. Regression Scores
@@ -345,20 +358,20 @@ $$\small\mathbf{s}=\mathbf{Y\beta^T(\beta^T\beta)^{-1/2}}$$
 * Foot shape is a trait with functional relevance
 * How does foot shape change across ontogeny?
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/HydromantesEx.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/HydromantesEx.png")  
 ```
 
 # Evolutionary Convergence: Example (Cont.)
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/HydroRes1.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/HydroRes1.png")  
 ```
 
 # Evolutionary Convergence: Example (Cont.)
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/HydroRes2.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/HydroRes2.png")  
 ```
 
 # Comparing allometric trajectories: geomorph example
@@ -468,8 +481,8 @@ summary(PW, test = "dist")
 - Phylogenetic relationships have long been under debate
 - What information can we extract from cranial ontogeny?
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/CrocRes1.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/CrocRes1.png")  
 ```
 
 # Empirical Example: Cranial Ontogeny in Crocodilians (Cont.)
@@ -478,8 +491,8 @@ include_graphics("LectureData/09.allometry/CrocRes1.png")
 - There is ontogenetic convergence, where adults are more similar than juveniles
 
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/CrocRes2.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/CrocRes2.png")  
 ```
 
 # A Comment on Heterochrony
@@ -488,8 +501,8 @@ include_graphics("LectureData/09.allometry/CrocRes2.png")
     - i.e. changes in ontogenetic trajectories
 - Can be evaluated via allometric/ontogenetic investigations
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/09.allometry/Heterochrony.png")  
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+include_graphics("LectureData/07.allometry/Heterochrony.png")  
 ```
 
 # Allometry: Summary

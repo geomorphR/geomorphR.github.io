@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>7: Allometry</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <script src="07-Allometry_files/header-attrs-2.21/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# 7: Allometry
+]
+.author[
+### 
+]
+
+---
+
+
+
+
+### What is Allometry?
+
++ From greek:  `\(\small\acute\alpha\lambda\lambda\omicron\)` (álo) = other, different  + `\(\small\mu\epsilon\tau\rho\acute\omega\)` (metró) = to measure
++ Differences in body proportions of an organism
++ A departure from geometric similarity
++ The relationship between size and shape
+---
+
+### Why Is There Allometry?
+
++ Allometry occurs due to several reasons:
+  + Physical (e.g. surface area/volume ratio)
+  + Physiological
+  + Biomechanical/functional
+  + Selection (e.g. sexual selection and male ornaments)
+
+&lt;img src="LectureData/07.allometry/AllomIntro.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### Allometry: Basic Concepts
+
+.pull-left[
++ What is allometry, and compared to what?
+  + **Isometry**: no change in proportions
+  + **Allometry**: change in proportions
+
++ Easily envisioned via single trait relative to size:
+
+`$$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$`
+
+]
+.pull-right[    
+&lt;img src="LectureData/07.allometry/PosNegAllom.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
++ #### Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (for multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning)
+
++ #### Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size
+---
+
+### Types of Allometry
+
++ Allometric patterns may be observed at several levels of biological organization:
+  + **Ontogenetic allometry**: Variation across individuals at differing stages or ages (e.g., growth allometry)
+  + **Static allometry** : Variation across individuals in a single ontogenetic stage within a population or species
+  + **Evolutionary allometry**: Variation across species
+
+&lt;img src="LectureData/07.allometry/AllometryTypes.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### Allometry in GM Data
+
++ Procrustes shape variables are independent of CS when no allometry is present
+  + CS: mathematically independent of shape; biological allometric effects are still there!
+
+.pull-left[
++ Here is isometry...
+
+&lt;img src="LectureData/07.allometry/IsometryPlot.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
++ and here is allometry
+
+&lt;img src="LectureData/07.allometry/AllometryPlot.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
++ How do we assess such patterns?
++ We use linear models!
+
+---
+
+### Multivariate Linear Regression
+
++ To characterize allometric patterns, we fit a model of `shape~size` as:
+
+`$$\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$`
+
+--
+
++ We evaluate the allometry model `\(\small\mathbf{X}_{F}\)` by comparing it to an intercept model `\(\small\mathbf{X}_{R}\)`:
+
+`\(\tiny\mathbf{X}_R = \begin{bmatrix} 1\\ 1\\ 1\\ 1\\ 1\\ 1 \end{bmatrix}\)`  &amp; `\(\tiny\mathbf{X}_F = \begin{bmatrix} 1 &amp; 0.3 \\ 1 &amp; 0.5 \\ 1 &amp; 0.2 \\ 1 &amp; 1.2 \\ 1 &amp; 0.7 \\ 1 &amp; 1.1 \end{bmatrix}\)`
+
+--
+
+Estimate | `\(\small\mathbf{X}_{R}\)`| `\(\small\mathbf{X}_{F}\)`
+:----------- | :------------------- | :--------------------------
+Coefficients |  `\(\tiny\hat{\mathbf{\beta_R}}=\left ( \mathbf{X}_R^{T} \mathbf{X}_R\right )^{-1}\left ( \mathbf{X}_R^{T} \mathbf{Y}\right )\)` | `\(\tiny\hat{\mathbf{\beta_F}}=\left ( \mathbf{X}_F^{T} \mathbf{X}_F\right )^{-1}\left ( \mathbf{X}_F^{T} \mathbf{Y}\right )\)` 
+Predicted Values | `\(\small\hat{\mathbf{Y}}_R=\mathbf{X}_R\hat{\mathbf{\beta}}_R\)` | `\(\small\hat{\mathbf{Y}}_F=\mathbf{X}_F\hat{\mathbf{\beta}}_F\)`
+Model Residuals | `\(\small\hat{\mathbf{E}}_R=\mathbf{Y}-\hat{\mathbf{Y}}_R\)` | `\(\small\hat{\mathbf{E}}_F=\mathbf{Y}-\hat{\mathbf{Y}}_F\)`
+Model Residual Error    ($\small{SSE}$) | `\(\small\mathbf{S}_R=\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R\)` | `\(\small\mathbf{S}_F=\hat{\mathbf{E}}_F^T\hat{\mathbf{E}}_F\)`
+---
+
+### Assessing Significance: RRPP
+
+1: Fit `\(\small\mathbf{X}_{R}\)` for each `\(\small\mathbf{X}_{F}\)`; Estimate `\(\small\hat{\mathbf{Y}}_{R}\)` and `\(\small\mathbf{E}_{R}\)`
+
+2: Permute, `\(\small\mathbf{E}_{R}\)`: obtain pseudo-values as: `\(\small\mathbf{\mathcal{Y}} = \mathbf{\hat{Y}}_{R} + \mathbf{E}_{R}\)`
+
+3: Fit `\(\small\mathbf{X}_{F}\)` using `\(\small\mathbf{\mathcal{Y}}\)`: obtain coefficients and summary statistics
+
+4: Calculate `\(\small{F}\)`-value in every random permutation (observed case counts as one permutation)
+
+5: For `\(\small{N}\)` permutations, `\(\small{P} = \frac{N(F_{random} \geq F_{obs})}{N}\)`
+
+6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
+`$$\small{z} = \frac{
+\log\left( F\right) - \mu_{\log\left(F\right)}
+} {
+ \sigma_{\log\left(F\right)}
+}$$`
+where `\(\small\mu_{\log\left(F\right)}\)` and `\(\sigma_{\log\left(F\right)}\)` are the expected value and standard deviation from the sampling distribution, respectively.
+
+###### Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
+---
+
+### Regression: Example
+
+.pull-left[
+Does body shape covary with size in *Pecos* pupfish? 
+
+&lt;img src="LectureData/07.allometry/Pupfish Motivation.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+This is a hypothesis of *Allometry* (shape~size covariation)
+]
+.pull-right[
+
+```r
+data(Pupfish)
+Pupfish$logSize &lt;- log(Pupfish$CS)
+fit &lt;- procD.lm(coords ~ logSize, SS.type = "I", 
+                data = Pupfish, print.progress = FALSE, iter = 999) 
+anova(fit)$table
+```
+
+```
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## logSize    1 0.014019 0.0140193 0.24886 17.229 4.3462  0.001 **
+## Residuals 52 0.042314 0.0008137 0.75114                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Great, but how does one visualize this multivariate allometry??
+]
+---
+
+# Visualizing Multivariate Allometry
+
+* Need to summarize size-related variation in shape
+* Use some rotation/projection method
+
+&lt;img src="LectureData/07.allometry/MultiAllomPlot.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+Several (complementary) solutions:
+
+&gt;* Regression scores (Drake and Klingenberg 2008): projection of shape data on the allometric line
+`$$\small\mathbf{s}=\mathbf{Y\beta^T(\beta^T\beta)^{-1/2}}$$`
+
+&gt;* PC1 of predicted values (Adams and Nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
+`$$\small\mathbf{P_1}=svd(\mathbf{\hat{Y}})=svd(\mathbf{X(\tilde{X}^T\tilde{X})^{-1}(\tilde{X}^T\tilde{Y})})$$`
+
+# Visualization: Example
+
+- Effects of human-mediated disturbance (urbanization) on *Podarcis* lizards
+    - 5 urban and 5 rural populations
+	  - 359 individuals
+	  - 28 bilateral landmarks
+
+- How does environmental disturbance influence development?
+- Are size-shape relationships modified in urban populations?
+
+&lt;img src="LectureData/07.allometry/LizardLatImage.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Allometry Example: *Podarcis*
+
+##### NOTE: data different from what is used in lecture 4 (SEX, now sex, M now m).
+  ## check and see if you can call the older files
+
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-10-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##            Df      SS       MS     Rsq       F      Z Pr(&gt;F)   
+## CS          1 0.05814 0.058139 0.09503 40.0581 7.2274  0.001 **
+## type        1 0.03235 0.032350 0.05287 22.2892 4.6569  0.001 **
+## CS:type     1 0.00610 0.006105 0.00998  4.2061 3.0990  0.001 **
+## Residuals 355 0.51524 0.001451 0.84212                         
+## Total     358 0.61183                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = Y.gpa$coords ~ CS * type, data = gdf, print.progress = FALSE)
+```
+
+# Allometry Example: *Podarcis* (Cont.)
+
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Visualization 
+
+
+
+
+# Post-Hoc Tests
+
+- Use randomization methods to test custom hypotheses
+- Do urban populations show higher deviations from their group’s trajectory? – a sign of developmental instability
+
+&lt;img src="LectureData/07.allometry/LizUrbRur.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+# Size-Shape Space
+
+- Size effects often dominate shape variation, especially in ontogenetic series
+- However, when other factors are present, PC1 does not necessarily relate directly to size-dependent variation (at least not to all of it)
+- Usual statistical methods do not capture subtle ontogenetic modifications in trajectories
+
+&lt;img src="LectureData/07.allometry/SizeShapeConcept.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+- Examine allometric variation in **size-shape space**
+
+# Size-Shape Space
+
+- Derived from the PCA of shape variables + `\(\small{ln}(Csize)\)`
+    - 1: Calculate shape variables and `\(\small{ln}(Csize)\)`, and join them in a single data matrix
+    - 2: Calculate PCA of this matrix ($\small{SSPC1}$)
+    - 3: Generate the **common allometric component** (CAC): the common size-shape regression coefficient, after mean-centering shapes by group `\(\small\mathbf{Y}_{cent}\)`
+    - 4: Calculate the **residual shape component**: SVD of data orthogonal to CAC
+    - 5: Visualize allometry as (CAC vs. SSPC1)   &amp; (CAC vs. RSC1)
+
+`$$\small\alpha=(\mathbf{Y}_{cent}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$`
+`$$\small{CAC}=\mathbf{Y}_{cent}\alpha$$`             where `$$\small\alpha=\alpha\sqrt{}(\alpha^T\alpha)$$`
+
+# Size-Shape Space: Example
+
+&lt;img src="LectureData/07.allometry/Mitteroecker-04.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+# Note: CAC Scores vs. Regression Scores
+
+- `\(\small{CAC}\)`: regression under a common slope after group mean-centering
+- Regression scores ($\small{s}$): shape data projected on the regression line with size
+- When a single group is considered, `\(\small{CAC}\)` and `\(\small{s}\)` are **identical**!
+- Both are projections of mean-centered data on size/shape regression
+
+`$$\small\alpha=(\mathbf{Y}_{cent}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$`
+`$$\small{CAC}=\mathbf{Y}_{cent}\alpha$$`     `$$\small\alpha=\alpha\sqrt{}(\alpha^T\alpha)$$`
+`$$\small\mathbf{s}=\mathbf{Y\beta^T(\beta^T\beta)^{-1/2}}$$`
+
+###### See Adams et al. 2013. Hystrix 24: 7-14. 
+
+# Allometry: Other Tests
+
+- Many biological hypotheses are related to the comparison of ontogenetic allometries
+- Allometric trajectories are not only about their slope, or variation around it
+
+# Allometry: Other Tests
+
+- Many biological hypotheses are related to the comparison of ontogenetic allometries
+- Allometric trajectories are not only about their slope, or variation around it
+- E.g. they have a starting and ending point
+- Are ontogenetic trajectories similar? (parallelism)
+- Do ontogenetic trajectories converge?
+- Do ontogenetic trajectories diverge?
+
+# Allometry: Other Tests
+
+- Many biological hypotheses are related to the comparison of ontogenetic allometries
+- Allometric trajectories are not only about their slope, or variation around it
+- E.g. they have a starting and ending point
+- Are ontogenetic trajectories similar? (parallelism)
+- Do ontogenetic trajectories converge?
+- Do ontogenetic trajectories diverge?
+- We need quantitative methods to test such hypotheses
+- Take advantage of the toolkit of resampling methods
+
+###### See also PTA for a general method for comparing all types of trajectories, including ontogenetic/allometric trajectories (i.e. Collyer and Adams 2007; Adams and Collyer 2009; Collyer and Adams 2013)
+
+# Allometric Convergence and Divergence
+
+- Convergence: shape is more similar at the end of the trajectory, than at the beginning
+- A simple approach: test angular difference between trajectories
+
+# Allometric Convergence and Divergence
+
+- Convergence: shape is more similar at the end of the trajectory, than at the beginning
+- A simple approach: test angular difference between trajectories
+    - 1: Obtain allometric vectors - `\(\small\mathbf{\hat{Y}}_{start}\)` &amp; `\(\small\mathbf{\hat{Y}}_{end}\)` - for groups
+    - 2: Normalize vectors (divide by their length so they are unit length) and find the cross-product between pairs of vectors; i.e, `\(r_{ij} = \mathbf{\beta}_i^T \mathbf{\beta}_j\)`
+    - 3: Obtain test measure: `\(\theta = \cos^{-1}(r_{ij})\)`
+    - 4: RRPP with appropriate null model to test `\(\theta\)`
+
+- **Convergence** when `\(\theta\)` is significant and vectors tend toward a similar shape
+- **Divergence** when `\(\theta\)` is significant and vectors tend toward a different shape
+- **Parallelism** when `\(theta\)` is not significant and/or effect size is small
+- Can also test absolute difference in vector lengths to determine if one group has greater onotogenetic shape change than another
+    
+###### Adams and Nistri. (2010) *BMC. Evol. Biol.*
+
+# Evolutionary Convergence: Example
+
+* Ontogenetic series for 8 species of *Hydromantes*
+* These salamanders live in caves and they climb extensively on the walls as adults
+* Foot shape is a trait with functional relevance
+* How does foot shape change across ontogeny?
+
+&lt;img src="LectureData/07.allometry/HydromantesEx.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Evolutionary Convergence: Example (Cont.)
+
+&lt;img src="LectureData/07.allometry/HydroRes1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Evolutionary Convergence: Example (Cont.)
+
+&lt;img src="LectureData/07.allometry/HydroRes2.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Comparing allometric trajectories: geomorph example
+
+- **Question**: Do your groups have parallel allometries?
+- **Question**: Do your groups have unique allometries?
+- **Question**: Which groups have different allometries, and how do they differ?
+
+#### Example: pupfish data
+
+
+```r
+data(pupfish)
+plotAllSpecimens(pupfish$coords)
+```
+
+![](07-Allometry_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+# Comparing allometric trajectories: geomorph example (cont.)
+
+#### Example: pupfish data
+
+
+```r
+pupfish$logSize &lt;- log(pupfish$CS)
+pupfish$Group &lt;- interaction(pupfish$Pop, pupfish$Sex)
+fit.common &lt;- procD.lm(coords ~ logSize + Group, 
+                     data = pupfish, print.progress = FALSE) 
+fit.unique &lt;- procD.lm(coords ~ logSize * Group, 
+                     data = pupfish, print.progress = FALSE)  
+```
+
+# Comparing allometric trajectories: geomorph example (cont.)
+
+#### Example: pupfish data
+
+Homogeneity of slopes test
+
+
+```r
+anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Effect sizes (Z) based on F distributions
+## 
+##                                 ResDf Df      RSS         SS         MS
+## coords ~ logSize * Group (Null)    46  1 0.022079                      
+## coords ~ logSize + Group           49 -3 0.024084 -0.0020045 0.00066816
+## Total                              53    0.056333                      
+##                                       Rsq      F       Z     P Pr(&gt;F)
+## coords ~ logSize * Group (Null)  0.000000                            
+## coords ~ logSize + Group        -0.035583 1.3594 -2.0933 0.982       
+## Total
+```
+
+Results suggest that allometric slopes are parallel. 
+We can see by plotting the prediction lines for both that a unique-allometries model is not practical.
+
+# Comparing allometric trajectories: geomorph example (cont.)
+
+#### Example: pupfish data
+
+Allometric plots
+
+
+```r
+par(mfcol = c(1,2))
+plotAllometry(fit.common, pupfish$CS, logsz = TRUE, method = "PredLine", pch = 21,
+              bg = pupfish$Group)
+plotAllometry(fit.unique, pupfish$CS, logsz = TRUE, method = "PredLine", pch = 21,
+              bg = pupfish$Group)
+```
+
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-22-1.png" width="100%" /&gt;
+
+
+
+# Comparing allometric trajectories: geomorph example (cont.)
+
+#### Example: pupfish data
+
+Hypothesis tests: vector lengths
+
+
+```r
+PW &lt;- pairwise(fit.unique, groups = pupfish$Group,
+               covariate = log(pupfish$CS), print.progress = FALSE)
+summary(PW, test = "dist")
+```
+
+```
+## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## Slopes (vectors of variate change per one unit of covariate 
+##         change, by group):
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise distances between slope vector 
+##             (end-points), plus statistics
+##                                d UCL (95%)          Z Pr &gt; d
+## Marsh.F:Sinkhole.F    0.07848121 0.1621176 -0.9763904  0.838
+## Marsh.F:Marsh.M       0.08279940 0.1640452 -0.9689342  0.829
+## Marsh.F:Sinkhole.M    0.12322729 0.1610484  0.7139190  0.236
+## Sinkhole.F:Marsh.M    0.06418279 0.1095190 -0.3981426  0.652
+## Sinkhole.F:Sinkhole.M 0.11706696 0.1001323  2.2066562  0.015
+## Marsh.M:Sinkhole.M    0.10863856 0.1132783  1.5445168  0.063
+```
+
+# Comparing allometric trajectories: geomorph example (cont.)
+
+#### Example: pupfish data
+
+Hypothesis tests: angles between vectors
+
+
+```r
+summary(PW, test = "VC", angle.type = "deg") 
+```
+
+```
+## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## Slopes (vectors of variate change per one unit of covariate 
+##         change, by group):
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise statistics based on slopes vector correlations (r) 
+##           and angles, acos(r)
+## The null hypothesis is that r = 1 (parallel vectors).
+## This null hypothesis is better treated as the angle 
+##           between vectors = 0
+##                               r    angle UCL (95%)           Z Pr &gt; angle
+## Marsh.F:Sinkhole.F    0.6318267 50.81498  83.57546 -0.07310658      0.527
+## Marsh.F:Marsh.M       0.6139591 52.12367  83.58445 -0.13196270      0.549
+## Marsh.F:Sinkhole.M    0.4461018 63.50614  81.89039  0.66791084      0.273
+## Sinkhole.F:Marsh.M    0.7175129 44.15048  63.60905  0.24275646      0.391
+## Sinkhole.F:Sinkhole.M 0.4627734 62.43378  60.22153  1.77232308      0.037
+## Marsh.M:Sinkhole.M    0.5629975 55.73665  65.19951  1.04510764      0.154
+```
+
+# Comparing allometric trajectories: geomorph example (cont.)
+
+#### Example: pupfish data
+
+Conclusion: allometries do not significantly diverge.  But concluding they are parallel allows one to compare means, accounting for common allometric variation.
+
+
+```r
+PW &lt;- pairwise(fit.common, groups = pupfish$Group,
+               print.progress = FALSE)
+
+summary(PW, test = "dist") 
+```
+
+```
+## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise distances between means, plus statistics
+##                                d  UCL (95%)        Z Pr &gt; d
+## Marsh.F:Sinkhole.F    0.03639758 0.01759231 3.805424  0.001
+## Marsh.F:Marsh.M       0.03579214 0.01841414 3.996733  0.001
+## Marsh.F:Sinkhole.M    0.03809715 0.01528439 4.529552  0.001
+## Sinkhole.F:Marsh.M    0.03681731 0.02381545 2.952476  0.002
+## Sinkhole.F:Sinkhole.M 0.01939739 0.01857347 1.833261  0.031
+## Marsh.M:Sinkhole.M    0.02694896 0.01911014 2.798642  0.001
+```
+
+
+# Empirical Example: Cranial Ontogeny in Crocodilians
+
+- Phylogenetic relationships have long been under debate
+- What information can we extract from cranial ontogeny?
+
+&lt;img src="LectureData/07.allometry/CrocRes1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Empirical Example: Cranial Ontogeny in Crocodilians (Cont.)
+
+- Some groups follow different ontogenetic paths
+- There is ontogenetic convergence, where adults are more similar than juveniles
+
+
+&lt;img src="LectureData/07.allometry/CrocRes2.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# A Comment on Heterochrony
+
+- Evolutionary changes in the rate or timing of developmental sequences
+    - i.e. changes in ontogenetic trajectories
+- Can be evaluated via allometric/ontogenetic investigations
+
+&lt;img src="LectureData/07.allometry/Heterochrony.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Allometry: Summary
+
+- Shape usually changes with size – allometry is a common pattern in biological data
+- We need to account for it when testing hypotheses about shape
+- Many biological hypotheses related directly to allometric variation
+- **Visualization**: 
+    - RegScore ($\small{s}$) vs. Csize (Drake and Klingenberg 2008)
+    - PredLine `\(\small{P_1}\)` vs. Csize (Adams and Nistri 2010)
+    - CAC, RSC, Csize (Mitteroecker et al. 2004)
+
+- **Comparison of ontogenies**: - MANCOVA
+    - Convergence &amp; divergence (Adams and Nistri 2010)
+    - Orientation (Piras et al. 2010)
+
+- Heterochrony and related topics also of interest
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-light",
+"highlightLines": true,
+"countIncrementalSlides": true,
+"ratio": "16:9",
+"self_contained": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
