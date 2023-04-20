@@ -40,14 +40,14 @@ class: center, middle, inverse, title-slide
 
 Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
 
-`$$\small\mathbf{Z}=[tr[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
+`$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
 ---
 
 ### Linear Algebra: Goals
 
 Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
 
-`$$\small\mathbf{Z}=[tr[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
+`$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
 
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
@@ -59,7 +59,7 @@ Understand why this equation is a foundational equation in multivariate statisti
 
 Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
 
-`$$\small\mathbf{Z}=[tr[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
+`$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
 
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
@@ -80,8 +80,6 @@ Understand why this equation is a universal equation for describing the alignmen
 - Matrix inversion
 - Special Matrix Properties
 - General Linear Model Preview
-- Sums of Squares and Cross-products
-- Covariance matrices
 - Decompositions
 - Summary
 ---
@@ -473,45 +471,658 @@ This is not something we can do.  We can invert some matrices, but we will come 
 &gt;- A matrix is **square** when it has equal rows and columns, e.g., `\(n \times n\)`.
 &gt;- If `\(\mathbf{XY}\)` is possible and `\(\mathbf{YX}\)` is possible, they will not have the same product unless both matrices are square and `\(\mathbf{X} = \mathbf{Y}\)`.  The dimensions of matrix products are also likely different.
 &gt;- The next slide will describe some special matrices.
+---
 
 .center[
 
-# Part II. Special Matrices
+# Part II. Special Matrices 
 
-## (Orthogonal, )
+## And some propeties that make them special
 
 ]
 ---
 
-### Special Matrices
-
-&lt;img src="LectureData/02.matrices/special.matrices.png" width="50%" style="display: block; margin: auto;" /&gt;
-
-Orthogonal vectors or matrices with vectors that are also unit length, `\(\left( \mathbf{a}^T\mathbf{a}\right)^{1/2} = 1\)`, are also **orthonormal**.
----
 
 ### Special Matrices
 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
-|**Square matrix** Any matrix with the same number of rows and columns, e.g., `\(n \times n\)` | `\(\small{\mathbf{S} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 7 &amp; 5\\ 1 &amp; 10 &amp; 0 \\ \end{bmatrix}}\)` | These matrices, themselves, are generally not too compelling, unless there is a relationship between the row and column variables.|
-|**Symmetric matrix** A square matrix that has symmetry above and below the diagonal| `\(\small{\mathbf{S} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 3 &amp; 7 &amp; 10\\ 1 &amp; 10 &amp; 0 \\ \end{bmatrix}}\)` | These matrices have the condition that `\(\mathbf{S} = \mathbf{S}^T\)`.|
-
-
-Orthogonal vectors or matrices with vectors that are also unit length, `\(\left( \mathbf{a}^T\mathbf{a}\right)^{1/2} = 1\)`, are also **orthornormal**.
+|**Square matrix:** Any matrix with the same number of rows and columns, e.g., `\(n \times n\)` | `\(\small{\mathbf{S} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 7 &amp; 5\\ 1 &amp; 10 &amp; 0 \\ \end{bmatrix}}\)` | These matrices, themselves, are generally not too compelling, unless there is a relationship between the row and column variables.|
+|**Symmetric matrix:** A square matrix that has symmetry above and below the diagonal| `\(\small{\mathbf{S} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 3 &amp; 7 &amp; 10\\ 1 &amp; 10 &amp; 0 \\ \end{bmatrix}}\)` | These matrices have the condition that `\(\mathbf{S} = \mathbf{S}^T\)`.|
+|**Diagonal matrix:** A symmetric matrix that has non-0 elements only along the diagonal; all others are 0.| `\(\small{\mathbf{D} = \begin{bmatrix} 2 &amp; 0 &amp; 0 \\ 0 &amp; 7 &amp; 0\\ 0 &amp; 0 &amp; 0 \\ \end{bmatrix}}\)` | Note that the diagonal elements can still be 0.  If all diagonal elements are equal, we can say `\(\mathbf{D} = a\mathbf{I}\)`, for a scalar, `\(a\)`, and an identity matrix, `\(\mathbf{I}\)`.|
+|**Identity matrix:** A diagonal matrix that has diagonal elements equal to 1.| `\(\small{\mathbf{I} = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 1 \\ \end{bmatrix}}\)` | This is the matrix equivalent to a value of 1, such that `\(\mathbf{AI} = \mathbf{A}\)`
 ---
 
-### Special Matrices and Special Matrix Properties
+### Special Matrices (cont.)
+
+| Matrix and description | Example | Comments |
+| ------ | ---- | ------ |
+|**Orthogonal matrix:** A symmetric matrix that has the property that `\(\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}\)`.| `\(\small{\mathbf{A} = \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix}}\)` | `\(\small{\mathbf{AA}^T} = \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix} \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix} = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix}\)` |
+|**Orthonormal matrix:** An orthogonal matrix with unit vectors (length of 1) `\(\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}\)`.| `\(\small{\mathbf{A} = \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix}}\)` | `\(\small{\lvert\lvert\mathbf{a}_1 \rvert\rvert  =(\mathbf{a}_1^T\mathbf{a}_1)^{1/2} = (0.7071^2 +0.7071^2)^{1/2} =1}\)` ;  `\(\small{\lvert\lvert\mathbf{a}_2\rvert\rvert=(\mathbf{a}_2^T\mathbf{a}_2)^{1/2} = (0.7071^2 + (-0.7071)^2)^{1/2} =1}\)`|
+|**Idempotent matrix:** A symmetric matrix with the property `\(\mathbf{HH} = \mathbf{H}\)` | `\(\small{\mathbf{H} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix}}\)` | `\(\begin{align*} \small{\mathbf{HH}} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix} \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix} \\ = \small{\begin{bmatrix} 0.5^2 + 0.5^2 &amp; 0.5^2 + 0.5^2 \\ 0.5^2 + 0.5^2 &amp; 0.5^2 + 0.5^2 \end{bmatrix} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix}} \end{align*}\)`  
+
+***Idempotency is a property that is important for orthogonal projection, covered next***
+---
+
+### Special Matrices (cont.) and Special matrix properties
+
+| Matrix and description | Example | Comments |
+| ------ | ---- | ------ |
+|**Projection matrix:** Any matrix that can be multiplied with data that map the data to new vectors (transformation), taking the form, `\(\mathbf{PY}\)` or `\(\mathbf{YP}\)`.| `\(\small{\mathbf{P} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix}}\)` | Although projection (transformation) matrices can have many forms, typical ones are: "hat" matrices, `\(\mathbf{H}\)`, which if idempotent perform orthogonal projections, but if merely symmetric perform shears (more on this soon); and eigenvectors ($\mathbf{E}$).
+|**Positive-definite matrix:** If `\(\mathbf{X}\)` is symmetric, `\(\mathbf{a}^T \mathbf{Xa}\)` is a positive scalar if `\(\mathbf{a}\)` has non-zero values.  Thus, `\(\mathbf{X}\)` is postive-definite.| `\(\small{\mathbf{X} = \begin{bmatrix} 1 &amp; 0.5 \\ 0.5 &amp; 2 \end{bmatrix}}\)` | This also means all eigenvalues of `\(\mathbf{X}\)` are non-negative (more later).  ***Covariance matrices for shape data are often not positive definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
+
+It should be clear that matrices can have several properties.  For example, a *projection matrix* can be symmetric and idempotent.
+---
+
+### Special Matrices (cont.) and Special matrix properties
 
 #### Some additional notes
 - Some sources refer to "triangular" matrices.  These might be symmetric matrices, where the elements above a diagonal match the elements below.  However, these might refer to a matrix that looks like a symmetric matrix but values below the diagonal are all 0.
-- A matrix cross-product will always produce a symmetric matrix.
+- A **matrix cross-product** will always produce a symmetric matrix.
 
-#### Special Matrix Properties (Really important at times!)
-- **Symmetry**: `\(\mathbf{X} = \mathbf{X}^T\)`
-- **Positive-definite**: If `\(\mathbf{X}\)` is symmetric, `\(\mathbf{a}^T \mathbf{Xa}\)` is a positive scalar if `\(\mathbf{a}\)` has non-zero values.  It also means all eigenvalues of `\(\mathbf{X}\)` are non-negative (more later).
-- **Idempotent**: If `\(\mathbf{X}\)` is square, `\(\mathbf{XX} = \mathbf{X}\)`.
 ---
+
+.center[
+
+# Part III. Matrix projection 
+
+## This needs further discussion because it is super important!
+
+]
+---
+
+
+### Matrix Projection
+Matrix multiplication is often used for the purpose of projection of data, `\(\mathbf{Y}\)`.  In a most technical and overly mathematical sense, projection is an alignment of data in a manifold of the data space (where Euclidean geometry is at least approximately appropriate).  In a simpler sense, projection is a method of rotating, stretching, flipping, and/or scaling a data space.  This is the essence of linear models - finding a constrained explanation of the data.
+
+
+Two ways to understand projection:
+
+`\(\mathbf{HY}\)`: where `\(\mathbf{H}\)` is an `\(n \times n\)` projection matrix
+
+`\(\mathbf{YH}\)`: where `\(\mathbf{H}\)` is a `\(p \times p\)` rotation/shear/scale matrix
+
+Both of these will make more sense with exposure to linear model uses, but for now, let's consider what the latter does.
+---
+
+## Matrix Projection: Geometric Interpretations
+
+To best understand attributes of high-dimensional data spaces and algebra applied to them, consider two-dimensional data spaces and realize the algebra can be generalized to higher dimensions.
+
+#### The Result of `\(\mathbf{YH}\)`, where `\(\mathbf{H}\)` is a `\(p \times p\)` matrix
+
+`\(\mathbf{H}\)` type | Description | Result/Comment
+:------- | :----------- | :--------------
+`\(\mathbf{I}\)` | Identity matrix | No change
+`\(c\mathbf{I}\)` | Scaled identity matrix | Enlarge (expand) or reduce (shrink).  `\(c\mathbf{I}\)` is not idempotent.
+`\(\mathbf{D}\)` | Diagonal matrix | Stretching of axes (variables).  `\(\mathbf{D}\)` is not idempotent.
+`\(\mathbf{H}_{orthogonal}\)` | `\(\mathbf{H} = \mathbf{H}^T\)` | Rigid (orthogonal) rotation of `\(\mathbf{Y}\)` (see note).  `\(\mathbf{H}\)` is idempotent.
+`\(\mathbf{H}_{oblique}\)` | `\(\mathbf{H} \neq \mathbf{H}^T\)` | Shear of `\(\mathbf{Y}\)`.  `\(\mathbf{H}_{oblique}\)` is not orthogonal. `\(\mathbf{H}\)` is not idempotent.
+---
+
+### Matrix Projection: Geometric Interpretations
+
+To best understand attributes of high-dimensional data spaces and algebra applied to them, consider two-dimensional data spaces and realize the algebra can be generalized to higher dimensions.
+
+#### The Result of `\(\mathbf{YH}\)`, where `\(\mathbf{H}\)` is a `\(p \times p\)` matrix
+
+**Note** that `\(\mathbf{H}_{orthogonal}\)` can be viewed as a rotation matrix, which makes sense in low-dimensional data spaces.  For example, in a two-dimension data space, it can be the same as:
+`$$\mathbf{H}_{orthogonal} = \begin{bmatrix} \cos\theta &amp; -\sin\theta\\ \sin\theta &amp; \cos\theta \end{bmatrix}$$`
+for a rotational angle, `\(\theta\)`, in a plane.
+---
+
+### Matrix Projection: Geometric Interpretations (Cont.)
+&lt;img src="LectureData/02.matrices/projections.png" width="90%" /&gt;
+
+---
+
+### Matrix Projection: Statistics
+
+Statistical analysis can largely be thought of as the comparison of alternate projections (transformations) of data, based on linear models.  For example, we might compare the projections between two models:
+
+`$$\mathbf{H}_{alternative}\mathbf{Y} - \mathbf{H}_{null}\mathbf{Y} = \Delta\mathbf{H}\mathbf{Y}$$`
+using, perhaps, a statistic like
+
+`$$MS= trace (\Delta\mathbf{H}\mathbf{Y}) / (k_{alternative} - k_{null})$$`
+Note that `\(trace\)` means the sum of diagonal elements.
+
+We will learn more about statistical methods, but nearly each method will be either a comparison of projections or a decomposition of a matrix obtained from a projection.
+---
+
+.center[
+
+# Part IV. Matrix inversion 
+
+## A rather challenging operation that thankfully computers can perform under certain circumstances.
+
+]
+---
+
+
+### Matrix Inversion
+
+- Matrices cannot be divided.  Much like division of a scalar is the same as multiplication by its inverse, some matrices can be inverted.
+- Matrix needs to be square, *non-singular*; symmetric, non-singular is optimal.  (A positive-definite matrix is non-singular but a non-singular matrix can be either positive-definite or positive semidefinite.)
+- Matrix inversion fulfills the property that `\(\mathbf{AA}^{-1} = \mathbf{I}\)`
+- Illustration is simplest with a `\(2 \times 2\)` matrix
+
+Let `\(\mathbf{A}\)` be a `\(2 \times 2\)` matrix,
+`$$\mathbf{A} = \begin{bmatrix}
+a &amp; b \\
+c &amp; d
+\end{bmatrix}$$`
+Then,
+`$$\mathbf{A}^{-1} = \left| \mathbf{A} \right|^{-1} \begin{bmatrix}
+d &amp; -b\\
+-c &amp; a
+\end{bmatrix}$$`
+where `\(\left| \mathbf{A} \right| = ad-bc\)`
+
+If `\(|\mathbf{A}| = 0\)`, the matrix is *singular* and cannot be inverted (dividing by 0 from matrices).
+---
+
+### Matrix Inversion (Cont.)
+
+#### Example
+`$$\mathbf{A} = \begin{bmatrix}
+3 &amp; 4 \\
+4 &amp; 6
+\end{bmatrix}$$`
+
+`$$\left| \mathbf{A} \right| = 18-16$$`
+`$$\left| \mathbf{A} \right|^{-1} = 0.5$$`
+`$$\mathbf{A}^{-1} = \left| \mathbf{A} \right|^{-1} \begin{bmatrix}
+d &amp; -b\\ -c &amp; a \end{bmatrix} = 0.5 \begin{bmatrix} 6 &amp; -4\\ -4 &amp; 3
+\end{bmatrix} = \begin{bmatrix} 3 &amp; -2\\ -2 &amp; 1.5 \end{bmatrix}$$`
+---
+
+### Matrix Inversion (Cont.)
+
+#### Example
+Confirm (using R script)
+
+
+```
+##      [,1] [,2]
+## [1,]    3    4
+## [2,]    4    6
+```
+
+```
+##      [,1] [,2]
+## [1,]    3 -2.0
+## [2,]   -2  1.5
+```
+
+```
+##      [,1] [,2]
+## [1,]    1    0
+## [2,]    0    1
+```
+---
+### Matrix Inversion (Cont.)
+
+- Note, inversion with 3 × 3 matrices or larger, not a trivial exercise
+- Plagiarized from Wikipedia…
+
+&lt;img src="LectureData/02.matrices/wiki.inversion.png" width="80%" /&gt;
+
+.center[
+
+# Part V. Practice using some matrix operations
+
+## There is a point to this -- trust it will work out.
+
+]
+---
+
+
+### Putting Our Current Knowledge to Good Use!
+- Recall that a matrix must be square in order to be inverted.
+- Recall that data frames are `\(n \times p\)` in dimension, and it might be rare that `\(n=p\)`.
+- Recall that matrix cross-products are essentially the squaring of matrices, and they are symmetric.
+- **Thus**, matrix cross-products are invertible (and frequently used as a step before inversion).
+
+#### An Example (recalling an earlier example) using R scripts
+.pull-left[.med[
+
+```r
+y1 &lt;- c(2, 3, 2, 5, 6, 8) # variable y1 with 6 observations
+y2 &lt;- c(-1, -2, 0, 0, 1, -1) # variable y2 with 6 observations
+Y &lt;- as.matrix(data.frame(y1 = y1, y2 = y2))  # R needs to know that this is precisely a matrix
+rownames (Y) &lt;- paste("obs", 1:6, sep = ".") # giving our observations some names
+Y
+```
+
+```
+##       y1 y2
+## obs.1  2 -1
+## obs.2  3 -2
+## obs.3  2  0
+## obs.4  5  0
+## obs.5  6  1
+## obs.6  8 -1
+```
+]]
+.pull-right[.med[
+
+
+```r
+x1 &lt;- rep(1, 6) # variable x1 with 6 observations
+x2 &lt;- c(rep(0, 3), rep(1,3)) # variable x2 with 6 observations
+X &lt;- as.matrix(data.frame(x1 = x1, x2 = x2))
+rownames(X) &lt;- rownames(Y)
+X
+```
+
+```
+##       x1 x2
+## obs.1  1  0
+## obs.2  1  0
+## obs.3  1  0
+## obs.4  1  1
+## obs.5  1  1
+## obs.6  1  1
+```
+]]
+---
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+
+We cannot invert `\(\mathbf{X}\)`, but let's invert the cross-product of `\(\mathbf{X}\)`.
+
+
+```r
+crossprod(X)
+```
+
+```
+##    x1 x2
+## x1  6  3
+## x2  3  3
+```
+
+```r
+solve(crossprod(X))
+```
+
+```
+##            x1         x2
+## x1  0.3333333 -0.3333333
+## x2 -0.3333333  0.6666667
+```
+---
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+
+While we are on the topic…
+Imagine that the second column is a variable, `\(X\)`, taking on the value either 0 or 1
+
+The first column is a “dummy” variable
+
+
+```r
+X
+```
+
+```
+##       x1 x2
+## obs.1  1  0
+## obs.2  1  0
+## obs.3  1  0
+## obs.4  1  1
+## obs.5  1  1
+## obs.6  1  1
+```
+With a little bit of mind-bending, one might notice that 
+
+`$$\mathbf{X}^T\mathbf{X} = \begin{bmatrix}
+n &amp; \sum X\\
+\sum X &amp; \sum X^2
+\end{bmatrix}$$`
+---
+
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+
+Let's reduce the `\(\mathbf{X}\)` matrix, such that
+`$$\mathbf{X}_0 = \begin{bmatrix}
+1\\
+1\\
+1\\
+1\\
+1\\
+1
+\end{bmatrix}$$`
+---
+
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+
+And now in R, let's find the cross-product of this, and its inverse
+
+```r
+X0 &lt;- X[,1] # just the first column
+crossprod(X0)
+```
+
+```
+##      [,1]
+## [1,]    6
+```
+
+```r
+solve(crossprod(X0))
+```
+
+```
+##           [,1]
+## [1,] 0.1666667
+```
+Thus, `\(\mathbf{X}_0^T\mathbf{X}_0 = n\)` and `\(\left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1} = n^{-1}\)`
+---
+
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+
+Now for fun, let's find the cross-product between `\(\mathbf{X}_0\)` and `\(\mathbf{Y}\)`
+
+```r
+crossprod(X0, Y)
+```
+
+```
+##      y1 y2
+## [1,] 26 -3
+```
+If we examine `\(\mathbf{Y}\)` again, you might notice something
+
+
+```
+##       y1 y2
+## obs.1  2 -1
+## obs.2  3 -2
+## obs.3  2  0
+## obs.4  5  0
+## obs.5  6  1
+## obs.6  8 -1
+```
+`\(\mathbf{X}_0^T\mathbf{Y}\)` produces vector sums, `\(\sum y_i\)` for each variable.
+---
+
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+
+One more step!  Let's find the result of two things:
+
+`\(\left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)` and `\(\mathbf{X}_0 \left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)`
+---
+
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+
+One more step!  Let's find the result of two things:
+
+`\(\left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)` and `\(\mathbf{X}_0 \left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)`
+
+.pull-left[.med[
+
+```r
+solve(crossprod(X0)) %*% crossprod(X0, Y)
+```
+
+```
+##            y1   y2
+## [1,] 4.333333 -0.5
+```
+
+
+```r
+X0 %*% solve(crossprod(X0)) %*% crossprod(X0, Y)
+```
+
+```
+##            y1   y2
+## [1,] 4.333333 -0.5
+## [2,] 4.333333 -0.5
+## [3,] 4.333333 -0.5
+## [4,] 4.333333 -0.5
+## [5,] 4.333333 -0.5
+## [6,] 4.333333 -0.5
+```
+]]
+
+.pull-right[
+
+**The former finds a (row) vector of variable means.  The latter creates a matrix of variable means for every observation in the original data matrix, `\(\mathbf{Y}\)`!**
+
+Although it might not yet be obvious, we just used the general linear model to find fitted (predicted) values for a model design that has a single mean (centroid).
+]
+---
+### Putting Our Current Knowledge to Good Use! (Cont.)
+
+#### An Example (recalling an earlier example) using R scripts
+If we now substitute `\(\mathbf{X}\)` for `\(\mathbf{X}_0\)`, this is the result
+.pull-left[
+.med[
+
+```r
+solve(crossprod(X)) %*% crossprod(X, Y)
+```
+
+```
+##          y1 y2
+## x1 2.333333 -1
+## x2 4.000000  1
+```
+
+```r
+X %*% solve(crossprod(X)) %*% crossprod(X, Y)
+```
+
+```
+##             y1 y2
+## obs.1 2.333333 -1
+## obs.2 2.333333 -1
+## obs.3 2.333333 -1
+## obs.4 6.333333  0
+## obs.5 6.333333  0
+## obs.6 6.333333  0
+```
+]]
+
+Recall
+.pull.right[
+
+```
+##       x1 x2
+## obs.1  1  0
+## obs.2  1  0
+## obs.3  1  0
+## obs.4  1  1
+## obs.5  1  1
+## obs.6  1  1
+```
+]
+
+One can see that the second variable is an indicator variable with 0 for one group and 1 for the other (two groups each with three observations).  This approach allows one to estimate two group means and create a matrix of fitted values that has two means instead of one.
+---
+
+.center[
+
+# Part VI. The General Linear Model
+
+## Only briefly
+
+]
+---
+
+### The General Linear Model
+`$$\huge \mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$`
+
+| Component | Dimension | Description
+|------- | :----------- | :-----------------------------
+| `\(\mathbf{Y}\)` | `\(n \times p\)` | Data matrix with `\(n\)` observations for `\(p\)` variables
+| `\(\mathbf{X}\)` | `\(n \times k\)` | Linear model design matrix with `\(n\)` observations for `\(k\)` parameters
+| `\(\mathbf{\beta}\)` | `\(k \times p\)` | Matrix of coefficients expressing change in values for the `\(k\)` model parameters for each of `\(p\)` variables
+| `\(\mathbf{E}\)` | `\(n \times p\)` | Matrix of residuals (error) for `\(n\)` observations for `\(p\)` variables
+
+Like any area of statistics, the coefficients for a linear model (which has parameters for variable change associated with some hypothetical process) are generally unknown but exist in a population, and are, therefore, estimated from a sample.  We can solve this algebraically as the solution that would be true if there was no error in the model (i.e., `\(\mathbf{E}\)` = 0).  The goal is to solve for `\(\mathbf{\beta}\)`.
+---
+
+### The General Linear Model (Cont.)
+$$\mathbf{Y}=\mathbf{X}\mathbf{\beta } $$
+$$\mathbf{X}^T\mathbf{Y} = \mathbf{X}^T\mathbf{X}\mathbf{\beta } $$
+
+`$$\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Y} = 
+\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{X}\mathbf{\beta } $$
+`$$\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Y} = 
+\mathbf{I}\mathbf{\beta } $$
+
+`$$\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )$$`
+The `\(\hat{ }\)` reminds us that this is a matrix of estimate values.
+
+Notice that this resembles what we did before, 
+.pull-left[.med[
+
+```r
+solve(crossprod(X0)) %*% crossprod(X0, Y)
+```
+
+```
+##            y1   y2
+## [1,] 4.333333 -0.5
+```
+]]
+.pull-left[.med[
+
+```r
+solve(crossprod(X)) %*% crossprod(X, Y)
+```
+
+```
+##          y1 y2
+## x1 2.333333 -1
+## x2 4.000000  1
+```
+]]
+
+### The General Linear Model (Cont.)
+
+***The General Linear Model will be discussed in great detail in the Shape Statistics I lecture.***
+
+Suffice it to say that the general linear model is a set of linear algebra opertation, applied to a set of data, `\(\mathbf{Y}\)`, based on a model, `\(\mathbf{X}\)`.
+
+
+.center[
+
+# Part VII. Matrix Decompositions
+
+## Also only briefly
+
+]
+---
+
+### Matrix Decompositions
+
++ Also called *matrix factorization* in some treatments.
++ There are many (but we will not consider them all)
++ Operations to decompose a matrix into multiple matrices with unique properties
++ Decompositions might be used as steps to solve an algebraic problem, or might be the solution to an algebraic problem
++ **The following are a few important decompositions**
+
+---
+
+### Matrix Decompositions
+
+### Eigen decomposition
+For an `\(p \times p\)` square matrix, `\(\mathbf{S}\)`, there exists a vector of `\(p\)` values, `\(\mathbf{\lambda}\)`, such that, 
+
+`$$\mathbf{Sv} =\lambda\mathbf{v}$$`
+which can also be written (in a more computationally feasible way) as 
+`$$\left( \mathbf{S}-\lambda\mathbf{I} \right) \mathbf{v} = 0$$`  
+
++ Solving each *possible* eigenvector ( `\(\mathbf{v}\)` ) and eigenvalue ( `\(\lambda\)` ) via a characteristic polynomial is called, eigen decomposition or "eigenanalysis".  
++ Systematically find the `\(p\)` solutions of `\(\lambda\)` for `\(\left| \mathbf{S}-\lambda\mathbf{I} \right|\)`. Up to `\(p\)` real numbers exist if `\(\mathbf{S}\)` is positive-definite.  Some of these numbers might be 0 if `\(\mathbf{S}\)` is not full-rank.  Some can be negative if `\(\mathbf{S}\)` is not symmetric.  
++ By finding the values of `\(\lambda\)` that work, the vectors, `\(\mathbf{v}\)`, are estimated such that the solution above holds true.
+
+Computers can solve characteristic polynomials easily via numerical approximation algorithms  A popular choice is the QR algorithm, which uses QR decomposition until convergence.  Do not try to perform the characteristic polynomial solution or QR algorithm by hand!
+
+---
+### Matrix Decompositions (cont.)
+
+### QR Decomposition
+`$$\mathbf{X}_{n \times k} =\mathbf{Q}_{n \times k} \mathbf{R}_{k \times k}$$`
+
+`\(\mathbf{Q}\)` and `\(\mathbf{R}\)` are solved via numerical approximation algorithms `\(\mathbf{R}\)` is a triangular matrix (only diagonal and elements above diagonal can have values other than 0).  If `\(\mathbf{R}\)` is not full-rank, some of the upper elements will be 0.  The matrix, `\(\mathbf{X}\)` was used on purpose, as QR decomposition is often used on design matrices in linear models, for calculations of coefficients or `\(SSCP\)` matrices.
+
+---
+
+### Singular Value decomposition of a Rectangular Matrix
+
+`$$\mathbf{Y}_{n \times p} =\mathbf{U}_{n \times p'} \mathbf{\Lambda}_{p' \times p'} \mathbf{V}_{p' \times p'}^T$$`
+
+`\(\mathbf{U}\)` (left singular values) and `\(\mathbf{V}\)` (right singular values) are solved via numerical approximation algorithms.  The number of singular values is `\(p'= \min(n,p)\)`. If `\(\mathbf{Y}\)` is not full-rank, some of the singular values in `\(\mathbf{\Lambda}\)` will be 0.  The singular values decrease from largest to smallest.
+
+---
+
+### Singular Value decomposition of a Symmetric Matrix
+
+`$$\mathbf{S}_{p \times p} =\mathbf{U}_{p \times p} \mathbf{\Lambda}_{p \times p} \mathbf{U}_{p \times p}^T$$`
+
+`\(\mathbf{U}\)` (left and right singular values) are solved via numerical approximation algorithms. If `\(\mathbf{S}\)` is symmetric, positive-definite, `\(\mathbf{U}\)` is the matrix of eigenvectors and `\(\mathbf{\Lambda}\)` the matrix of eigenvalues, equal to those found from eigenanalysis using the characteristic polynomial function.  This is a "short-cut" method, often employed for principal component analysis when it is sure that `\(\mathbf{S}\)` is symmetric, positive-definite.
+
+---
+
+### Cholesky decomposition of a Symmetric Matrix
+
+`$$\mathbf{S}_{p \times p} =\mathbf{U}_{p \times p}  \mathbf{U}_{p \times p}^T$$`
+
+where `\(\mathbf{U}\)` is a triangular matrix.
+
+No need for a lot of detail here but just realize that Cholesky decompositions are sometimes used as solutions to find the square-rott of a symmetric matrix.
+
+---
+
+### Matrix Decompositions (Cont.)
+
++ Matrix decompositions provide mechanisms for many multivariate methods, including ordinations, linear model coefficient calculations, and matrix covariation analyses.  Those presented here will show up again later.  One can return to this lecture to review.
+---
+
+
+### Summary/Important Points
+
++ Vectors are important.  They are the points in high-dimensional data spaces.  They are the algebraic work horses.  They have length and direction.  They are the most important component of high-dimensional data analysis.
++ Matrices are not really more special than vectors, but they bundle vectors in important ways.  
++ Many multivariate analyses involve inverting matrices, which means obtaining a symmetric matrix to invert.  It is imperative to understand how and why these steps are important.
++ Once comfortable with the process of inverting matrices, recognizing that EVERY multivariate analysis is a permutation of linear model calculations. Linear model calculations make multivariate analysis easier.
++ Understanding projection is also important.  Recognizing that different methods are just different ways of projecting data will help simplify some complex topics.
+
+
+---
+
+### Revisit Goals
+
+Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
+
+`$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
+
+
+Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
+
+`$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$`
+
+Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
+
+`$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$`
+***We will revisit these some more after a couple of other lectures.***
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

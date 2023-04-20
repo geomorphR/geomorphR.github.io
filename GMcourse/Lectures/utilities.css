@@ -10,4 +10,34 @@
   transform: translate(-50%, -50%);
 }
 
+.remark-slide-content {
+  font-size: 20px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+.remark-code {
+  font-size: 20px;
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+
+.med .remark-code { /*Change made here*/
+  font-size: 75% !important;
+}
+
+.small .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+
+.small2 .remark-code { /*Change made here*/
+  font-size: 45% !important;
+}
+
+.tiny .remark-code { /*Change made here*/
+  font-size: 35% !important;
+}
 </style>
+
