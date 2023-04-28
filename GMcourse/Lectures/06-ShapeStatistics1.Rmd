@@ -1,0 +1,521 @@
+---
+title: "6. Shape Statistics I"
+author: ""
+subtitle: "Assessing the covariation of shape and other variables."
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "utilities.css"]
+    nature:
+      highlightStyle: solarized-light
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+      self_contained: false
+
+
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(Matrix)
+library(RRPP)
+library(geomorph)
+library(scatterplot3d)
+knitr::opts_chunk$set(echo = FALSE)
+
+library(xaringanthemer)
+style_mono_light()
+```
+
+### Revisiting Linear Algebra Goals
+
+Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
+
+$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
+
+Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
+
+$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+
+Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
+
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+---
+
+### Revisiting Linear Algebra Goals
+.pull-left[.med[
+
+$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
+
+**Should be more obvious now, although it probably looks more obvious as $\small\mathbf{Z}=CS^{-1}\mathbf{(Y-\overline{Y})H}$**.
+
+Procrustes coordinates: linear transformation of coordinate data.
+
+----
+
+$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+
+**Estimation of linear model coefficients for transformed data, $\mathbf{Z}$, which Procrustes coordinates are.** 
+
+Coefficients:  transformation of the data, based on model parameters.
+
+----
+]]
+
+.pull-right[.med[
+
+
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+
+***This one might not seem familiar.***
+
+This is actually a basic equation.  Compare the left side to the equation before.  If $\mathbf{A}= \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}$, then the the left side of the equation is the same format.
+
+We will explore the latter two equations in detail in this lecture.
+]]
+---
+### Overview:
+---
+
+.center[
+
+# Part I. Simple Conceptual Premise
+
+## Statistics is making sense of alternative data transformations
+
+]
+---
+
+### The most basic equation
+
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+
+Let's look at just the first part
+
+$$\mathbf{A}^T\mathbf{Z}$$
+
+What does this say to us?  First, let's adopt the tendency to see  $\mathbf{Z}$ and assume its a transformation of data, $\mathbf{Y}$; i.e.,
+
+$$\mathbf{Z}= f(\mathbf{Y})$$
+
+For example, Procrustes coordinates are obtained through a transformation of coordinate data.
+
+Second, let's develop the tendency to see $\mathbf{A}$ and think of *.blue[association]* or *.blue[alignment]* or *.blue[adjustment]*.  A transformation of (already transformed) data either adjusts those data in some way, or aligns them to some other matrix, or maximizes some association with some other matrix.  **Thus, $\mathbf{A}^T\mathbf{Z}$ is a transformation of data based on some idea represented by $\mathbf{A}$**
+
+*Note, transformations of transformations might seem confusing, but think of basic algebra: $ay = e(d(c(by)))$, meaning $a = edcb$.*
+
+---
+
+### The most basic equation
+
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+
+Although it is useful to think of $\mathbf{A}^T\mathbf{Z}$ as a data transformation, **some caution is advised!**  Generally speaking, a ***transformation*** of data in an $n\times p$ matrix produces an $n\times p$ matrix.  This is possible only if $\mathbf{A}$ is an $n \times n$ matrix!
+
+It is better to use the term, ***.red[association]*** or ***.red[alignment]***, as this does not convey any notion of required matrix dimensions as a result.
+
+The next slide has some examples of what $\mathbf{A}$ could be.
+---
+
+### Examples of $\mathbf{A}$ matrices
+
+Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A}^T = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T$.  Then $\mathbf{A}^T\mathbf{Z}$ **is the vector of $p$ mean values for the $n \times p$ matrix of data, $\mathbf{Z}$; i.e., $\mathbf{A}^T\mathbf{Z} = \mathbf{\overline{z}}^T$**
+
+Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A}^T = \mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T$.  Then $\mathbf{A}^T\mathbf{Z}$ **is an $n \times p$ matrix where every row is $\mathbf{\overline{z}}^T$.**
+
+Let $\mathbf{X}$ be an $n \times 2$ matrix with one column the vector, $\mathbf{1}$, and the other column is $x = CS$, an $n \times 1$ vector of centroid size for $n$ specimens.  Let $\mathbf{A}^T = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T$.  Then $\mathbf{A}^T\mathbf{Z}$ **is the matrix of regression coefficients for an analysis of allometry**
+
+
+.remark-code[.blue[
+The point is that on the left, we have $\mathbf{A}^T$, which is some way to align or associate our data and on the right, we have our data $\mathbf{Z}$.  Finding the association -- like coefficients for allometry -- might be the goal or alignment might be a step for another purpose.
+
+Statistical analysis of shape can be thought of as a process that finds one or alternative $\mathbf{A}^T$ solutions, decomposes them, or compares them.
+]]
+---
+
+.center[
+# Part II. Principal Component Analysis
+
+## The simplest alignment: the identity matrix
+
+]
+---
+
+### Principal component analysis (PCA)
+
+#### How PCA is usually presented:
+
+$$\hat{\mathbf{\Sigma}} = \mathbf{V\Lambda V}^T,$$
+where 
+
++ $\hat{\mathbf{\Sigma}}$ is a residual covariance matrix (more on this soon)
++ $\mathbf{V}$ is a rectangular matrix of eigenvectors
++ $\mathbf{\Lambda}$ is a diagonal matrix with eigenvalues ($\lambda$) along the diagonal.
+
+This presentation requires understanding how to calculate a covariance matrix (which is not a bad thing).  The following presentation might be a little easier.
+
+---
+### Principal component analysis (PCA)
+
+#### How PCA can be presented:
+
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T,$$
+where $\mathbf{A}$ = $\mathbf{I}_{n \times n}$, thus 
+
+$$\mathbf{I}^T_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$
+
++ The right singular vectors (from singular value decomposition) are the same as the eigenvectors calculated in the classic way.
++ $\mathbf{Z}$ are data that have been .red[centered] or .red[standardized], and as such, $\hat{\mathbf{\Sigma}} = (n-1)^{-1} \mathbf{Z}^T\mathbf{Z}$.
++ $\mathbf{D}$ is the diagonal matrix of singular values ( $d$ ), which can be transformed to eigenvalues as $\lambda_i = d_i^2(n-1)^{-1}$.
+
+***How is this easier?***  It might not seem easier yet, but when presented as $\mathbf{A}^T\mathbf{Z}$, one can think of how data are aligned.  In this case, they are aligned to $\mathbf{I}_{n \times n}$, which is like saying **independence** of alignment.
+
+.remark-code[.blue[
+In other words, PCA finds the principal vectors of variation in the data, $\mathbf{V}$, independent of any other association.
+]]
+
+---
+### Principal component analysis (PCA)
+
+PCA finds vectors, $\mathbf{V}$, from the solution,
+$$\mathbf{I}^T_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$
++ The relative weight of each vector (.red[*importance*]) of each vector is determined as $\lambda_i / \sum(\lambda_i)$, which is the same as $d_i^2 / \sum d_i^2$.
++ Each PC (vectors of $\mathbf{V}$) is a linear combination of the variables in $\mathbf{Z}$, called .red[*loadings*].
++ Projection of the centered or standardized data onto the PCs is done as
+$$\mathbf{P} = \mathbf{ZV},$$ meaning $\mathbf{P}$ is a matrix of PC scores.
++ The number of vectors in $\mathbf{V}$ is at most $\min(p, n-1)$, but can be fewer because of redundancies in the data.  ***This is always the case with shape data, because of GPA!***  
++ An easier way to determine the number of dimensions is to find the cases where $\lambda_i > tol$, where $tol$ is a value near 0, such that any value below it can be considered 0.  
+
+---
+
+### Principal component analysis (PCA)
+
+#### Example with `plethodon` data in `geomorph`
+.med[
+```{r, include = TRUE, echo = TRUE}
+data(plethodon)
+GPA <- gpagen(plethodon$land, print.progress = FALSE)
+{{ PCA <- gm.prcomp(GPA$coords) }}
+```
+
+Let's look at the $\mathbf{V}$ matrix (PC vector loadings) for the first 5 vectors.  Recall from the lecture on linear algebra, $\mathbf{V}$ is the same as a *rotation* matrix.
+
+```{r, include = TRUE, echo = TRUE, eval = FALSE}
+PCA$rot[, 1:5]
+```
+
+
+```{r}
+DT::datatable(
+  round(PCA$rot[,1:5], 5),
+  fillContainer = FALSE, options = list(pageLength = 3)
+)
+```
+]
+
+---
+.pull-left[
+### Principal component analysis (PCA)
+
+#### Example with `plethodon` data in `geomorph`
+
+
+The .blue[`gm.prcomp`] function performs projection, and returns PC scores as `$x`.  These can be extracted and plotted, or one can use the generic plot function.
+
+We can ascertain that the first axis explains almost 37% of the shape variation and the second axis, about 31% of the shape variation.  Different groups (as differentiated by symbol and color) are in different locations of the PC space, suggesting some shape differences.
+]
+.pull-right[.med[
+```{r, include = TRUE, echo = TRUE}
+plot(PCA, 
+     pch = 15 + as.numeric(plethodon$site), 
+     col = plethodon$species, cex = 2)
+```
+]]
+---
+
+### Principal component analysis (PCA)
+
+#### Comments
+
++ PCA is the most basic way to look at a high-dimensional data space in discernible dimensions.
++ Alignment of data to its inherent, principal axes.
++ A rigid rotation of the data space (orthogonal projection)
++ The distances among observed shapes in all PC dimensions is the same as the distances in original dimensions, so long as $\sum\lambda_i = trace(\hat{\mathbf{\Sigma}})$.  In other words, the diagonals of $\mathbf{ZZ}^T$ and $\mathbf{PP}^T$ are the same.
++ .remark-code[.red[Some sources discuss PCA performed on either covariance or correlation matrices.  **This is unnecessary.**  If $\mathbf{Z}$ is a matrix of centered data, then $\hat{\mathbf{\Sigma}}$ is a covariance matrix; if $\mathbf{Z}$ is a matrix of standardized data, then $\hat{\mathbf{\Sigma}}$ is a correlation matrix.  Performing PCA on a correlation matrix is simply making the *a priori* decision to standardize data $^1$.
+]]
+
+.footnote[1. Data centering and standardization are discussed in the appendix for these lectures.]
+
+---
+
+.center[
+# Part III. Partial Least Squares
+
+## Alignment of shape data to other data
+
+]
+---
+
+### Partial Least Squares
+
+.blue[**Partial least squares (PLS)**] is the basis for finding the association between two matrices, taking the form of
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T,$$
+
+where $\mathbf{A}$ is an alternative set of data, like $\mathbf{Z}$.  Therefore, we can update the equation above to be:
+
+$$\mathbf{Z}_1^T\mathbf{Z}_2 =\mathbf{UDV}^T,$$
+where $\mathbf{Z}_1$ and $\mathbf{Z}_2$ are both sets of data that have been .red[centered] or .red[standardized].
+
+PLS is the basis for various statistical alternatives, including correlation, linear regression, and structural equation modelling.  
+
+PLS is a method that finds the maximum covariation between data sets, and allows one to consider if and to what extent shape covaries with other data.
+
+---
+
+### Partial Least Squares
+
+If we let $\mathbf{Z}_2$ be a set of shape data, $\mathbf{Z}_1$ can be the alternative data with which shape data putatively covary.  Examples of alternative data might include:
+
++ Other shape data (from different structures)
++ Specimen size (allometry)
++ Performace data (linking form and function)
++ Life history data (co-evolution of fitness-related traits?)
+
+Additionally, shape data might be split into subsets (**modules**) to examine how **integrated** the separate morphological modules are.  We defer this more in-depth consideration to the lecture on **Integration and Modularity**.
+
+---
+
+### Partial Least Squares
+
+$$\mathbf{Z}_1^T\mathbf{Z}_2 =\mathbf{UDV}^T,$$
+.pull-left[
+The singular value decomposition (SVD) finds two sets of vectors.  
+
++ The ***.blue[left]*** vectors, $\mathbf{U}$ are the set of latent vectors that maximize the covariation of $\mathbf{Z}_1$ to  $\mathbf{Z}_2$
++ The ***.blue[right]*** vectors, $\mathbf{V}$ are the set of latent vectors that maximize the covariation of $\mathbf{Z}_2$ to  $\mathbf{Z}_1$
++ The diagonal matrix, $\mathbf{D}$ contains the ***.blue[singular values]*** that are weights expressing the strength of covariation between vector pairs (e.g., between $\mathbf{u}_1$ and $\mathbf{v}_1$ or between $\mathbf{u}_2$ and $\mathbf{v}_2$).]
+
+.pull-right[
+***.blue[PLS scores]*** can be calculated as
+
+$$\mathbf{P}_1 = \mathbf{Z}_1\mathbf{U}$$
+$$\mathbf{P}_2 = \mathbf{Z}_2\mathbf{V}$$
+
+These scores represent a shear of each data space, constrained by the other.  This is awkward for plotting and does not offer any easy interpretations for how shape changes in the separate data spaces.
+
+Rather, Rohlf and Corti (2000) recommended using the correlation between $\mathbf{p}_{1_{1}}$ and $\mathbf{p}_{2_{1}}$, which can be visualized with a scatter-plot.]
+
+.footnote[Rohlf, F. J., & Corti, M. (2000). Use of two-block partial least-squares to study covariation in shape. Systematic biology, 49(4), 740-753.]
+
+---
+
+
+
+### Partial Least Squares, the GM paradigm
+
+It is worth reiterating that PLS is a SVD of $\mathbf{Z}_1^T\mathbf{Z}_2$, and that multiple statistical methods could be approached with the result.
+
+However, the typical ***GM paradigm*** via PLS is to do the following:
+
+1. Perform $\mathbf{Z}_1^T\mathbf{Z}_2 =\mathbf{UDV}^T$.
+2. Calculate $\mathbf{P}_1 = \mathbf{Z}_1\mathbf{U}$ and $\mathbf{P}_2 = \mathbf{Z}_2\mathbf{V}$, retaining just the first PLS scores for each set, $\mathbf{p}_{1_{1}}$ and $\mathbf{p}_{2_{1}}$
+3. Obtain the correlation coefficient between the scores, $r_{PLS}$. $^1$
+4. Make a plot of $\mathbf{p}_{2_{1}}$ versus $\mathbf{p}_{1_{1}}$
+5. Assess how shape changes along $\mathbf{p}_{2_{1}}$, and possibly $\mathbf{p}_{1_{1}}$, if $\mathbf{Z}_1$ is also a set of shape data.
+6. Perform a statistical test on $r_{PLS}$. $^2$
+
+.footnote[1. Rohlf and Corti (2000) demonstrated that a correlation coefficient could be obtained via the singular values of the SVD, provided data were standardized.  Finding the correlation coefficient of PLS scores is a simpler heuristic.
+
+2. A permutation test is used for statistical evaluation.  More on this a bit later.]
+---
+### Partial Least Squares, the GM paradigm
+
+#### Statistical Comment
+
+.pull-left[
+PLS is generally presented as partitioning of a covariance matrix, but this is not fully necessary.
+
+If we concatenate our data, $\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2$, then a covariance matrix found as $\hat{\mathbf{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}$ has the following form.
+
+```{r, ech0 = FALSE, eval = TRUE, fig.height=4}
+library(Matrix)
+M <- Matrix(matrix(0.1, 10, 10))
+M[1:4, 1:4] <- 0.7
+M[5:10, 5:10] <- 0.3
+image(M, sub = "", xlab = "", ylab = "")
+```
+]
+
+.pull-right[
++ The upper-left (darkest) block is the covariance matrix for $\mathbf{Z}_1$
++ The lower-right (dark) block is the covariance matrix for $\mathbf{Z}_2$
++ The other (light) blocks are the covariances between the covariance blocks, and are equal via a transpose.
++ The upper block is the same as $ (n-1)^{-1}\mathbf{Z}_1^T\mathbf{Z}_2$, which has the same singular vectors as $\mathbf{Z}_1^T\mathbf{Z}_2$ (as singular values that differ in scale by $(n-1)$).]
++ **.blue[PLS is generally referred to as two-block PLS based on this original presentation by Rohlf and Corti (2000)] .red[but there is no need to calculate a covariance matrix and partition it]**
++ Finding $\mathbf{Z}_1^T\mathbf{Z}_2$ is sufficient.
+---
+
+### Partial Least Squares, Example
+
+Before getting into a statistical test, let's look at the steps of the **.blue[GM PLS paradigm]** with an example
+
+Example from Adams, D. C., and F. J. Rohlf. 2000. Ecological character displacement in Plethodon: biomechanical differences found from a geometric morphometric study. Proceedings of the National Academy of Sciences, U.S.A. 97:4106-4111
+
+These data contain head shape data from 13 landmarks for plethodontid salamanders, plus gut content data (square-root transformed frequencies of 16 taxonomic groups).
+
+**First, data analysis set up.**
+
+```{r, echo = TRUE, eval = TRUE}
+data(plethShapeFood) 
+GPA <- gpagen(plethShapeFood$land, print.progress = FALSE) 
+Z2 <- GPA$coords
+Z1 <- plethShapeFood$food
+rownames(Z1) <- dimnames(Z2)[[3]]
+{{ PLS <- two.b.pls(Z1, Z2, print.progress = FALSE)}}
+```
+
+---
+
+### Partial Least Squares, Example
+
+**Second, left and right singular vectors.**  Only the first few are shown.
+
+.pull-left[.small[
+```{r, echo = TRUE, eval = TRUE}
+PLS$left.pls.vectors[, 1:3]
+
+```
+]]
+.pull-right[.small[
+```{r, echo = TRUE, eval = TRUE}
+
+PLS$right.pls.vectors[, 1:3]
+```
+]]
+
+
+---
+
+### Partial Least Squares, Example
+
+**Third, projected PLS scores.**  *Note that scores are called X- and Y-scores, just to be consistent with axes in a scatter plot.*  There as many vectors of scores as there are vectors, $\min(p_1, p_2)$.  Only the first vector scores are shown.
+
+.pull-left[.small[
+```{r, echo = TRUE, eval = TRUE}
+PLS$XScores[,1]
+
+```
+]]
+.pull-right[.small[
+```{r, echo = TRUE, eval = TRUE}
+
+PLS$YScores[,1]
+```
+]]
+
+
+---
+
+### Partial Least Squares, Example
+
+**Fourth, scatter plot of scores and $r_{PLS}$.**  
+
+.pull-left[.med[
+```{r, echo = TRUE, eval = TRUE}
+PLS
+
+```
+
+*Ignore $P$-value and $Z$-score for now.
+]]
+.pull-right[.small[
+```{r, echo = TRUE, eval = TRUE, fig.height=5}
+
+plot(PLS, pch = 16)
+```
+]]
+
+---
+
+### Partial Least Squares, Example
+
+These data contain head shape data from 13 landmarks for plethodontid salamanders, plus gut content data (square-root transformed frequencies of 16 taxonomic groups).
+
+**Evaluation (gut content values):** It is clear that there is an association between the shape of salamander heads and what they eat.  We can understand the association by looking at first vector loadings for food along with the scatter plot.
+
+.pull-left[.med[
+```{r, echo = TRUE, eval = TRUE}
+PLS$left.pls.vectors[, 1]
+```
+
+*Look at the largest loadings, whether negative or positive, and associate this with the axis in the plot.*
+
+
+]]
+.pull-right[.small[
+```{r, echo = TRUE, eval = TRUE, fig.height=4}
+
+plot(PLS, pch = 16)
+```
+]]
+
+---
+
+**Evaluation (head shape):** It is clear that there is an association between the shape of salamander heads and what they eat.  We can understand the association by looking at head shape change at vector extremes.
+
+.pull-left[.small[
+***Could use*** `picknplot.shape` ***instead of this code below.***
+```{r, echo = TRUE, eval = TRUE, fig.height=4}
+preds <- shape.predictor(A = PLS$A2, 
+                         x = PLS$YScores[, 1],
+                         Intercept = FALSE,
+                         method = "PLS",
+                         yAxis1min = min(PLS$YScores[, 1]),
+                         yAxis1max = max(PLS$YScores[, 1]))
+
+Ref <- mshape(PLS$A2)
+
+par(mfrow = c(1, 2))
+plotRefToTarget(Ref, preds$yAxis1min)
+title("Shape at min PLS 1")
+plotRefToTarget(Ref, preds$yAxis1max)
+title("Shape at max PLS 1")
+```
+
+
+]]
+.pull-right[.small[
+```{r, echo = TRUE, eval = TRUE, fig.height=4}
+
+plot(PLS, pch = 16)
+PLS$left.pls.vectors[, 1]
+```
+]]
+
+---
+
+
+### Partial Least Squares, Example
+
+
+```{r, echo = FALSE, eval = FALSE}
+data(plethShapeFood) 
+GPA <- gpagen(plethShapeFood$land, print.progress = FALSE) 
+Y <- two.d.array(GPA$coords)
+X <- plethShapeFood$food
+Y <- RRPP:::center(Y)
+X <- RRPP:::center(X)
+den <- sqrt(sum(diag(crossprod(X))) *sum(diag(crossprod(Y))))
+
+ind <- RRPP:::perm.index(nrow(Y), 999, NULL)
+result <- t(sapply(ind, function(x){
+  Xi <- X[x,]
+  S <- svd(crossprod(Xi, Y))
+  r <- cor(Xi %*% S$u[,1], Y %*% S$v[, 1])
+  c(r = r, d = S$d[1]^2 /sum(S$d^2), RV = sum(S$d)^2 / den)
+}))
+apply(result, 2, RRPP:::pval)
+apply(result, 2, RRPP:::effect.size)
+pairs(result)
+cor(result)
+```

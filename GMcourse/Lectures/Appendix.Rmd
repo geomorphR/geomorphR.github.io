@@ -1,0 +1,59 @@
+---
+title: "Appendix"
+author: ""
+subtitle: "A series of helpful parts that did not fit neatly into lectures."
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "utilities.css"]
+    nature:
+      highlightStyle: solarized-light
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+      self_contained: false
+
+
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(Matrix)
+library(RRPP)
+library(geomorph)
+library(scatterplot3d)
+knitr::opts_chunk$set(echo = FALSE)
+
+library(xaringanthemer)
+style_mono_light()
+```
+
+### Matrix Centering
+
+Matrix centering is the process of subtracting from every column of a matrix its mean.  After, the column means of the .blue[**mean-centered**] matrix will all be 0.  Procrustes coordinates are mean-centered via GPA.
+
+Let $\mathbf{1}$ be an $n \times 1$ vector of 1s, with $n$ the same number of observations as in the $n \times p$ matrix of data, $\mathbf{Y}$.
+
+Let $\mathbf{H}$ be the $n \times n$ idempotent matrix found as $\mathbf{H} = \mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1}\mathbf{1}^T$.
+
+Then, .blue[**mean-centered**] data are found as:
+
+$$\mathbf{Z} = \mathbf{Y} - \mathbf{HY} = (\mathbf{I} - \mathbf{H})
+\mathbf{Y}$$
+---
+
+### Matrix Standardization
+
+Standardization of data might be useful for continuous data variables that are on different scales.  (.red[This is never a concern for Procrustes coordinates.]).  After standardization, each variable in a matrix will have a mean of 0 and each value will be a standard deviation.  This is the matrix concept of variable standarization; i.e., $z=\frac{y - \hat\mu}{\hat\sigma}$
+
+Let $\mathbf{Z}_c$ be the centered data found as $\mathbf{Z}_c =(\mathbf{I} -\mathbf{H})\mathbf{Y}$, as demonstrated in the slide on **Matrix Centering**.
+
+Let $\hat{\mathbf{\Sigma}}$ be the $n \times n$ residual covariance matrix found as $(n-1)^{-1}\mathbf{Z}_c^T\mathbf{Z}_c$.
+
+Let $\mathbf{S}$ be a diagonal matrix of standard deviations, found from the square-roots of the variances along the diagonal of $\hat{\mathbf{\Sigma}}$.
+
+Then, $\mathbf{Z}_s$ are the standardized data found as 
+
+$$\mathbf{Z}_s = \mathbf{S}^{-1}\mathbf{Z}_c\mathbf{S}^{-1}$$
+
+
+

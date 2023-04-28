@@ -42,7 +42,7 @@ $$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\m
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
 
-$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$
+$$\hat{\mathbf{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
 ---
 
 ### Linear Algebra: Goals
@@ -54,7 +54,7 @@ $$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\m
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
 
-$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$
+$$\hat{\mathbf{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
 
 Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
 
@@ -471,7 +471,7 @@ This is not something we can do.  We can invert some matrices, but we will come 
 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
-|**Projection matrix:** Any matrix that can be multiplied with data that map the data to new vectors (transformation), taking the form, $\mathbf{PY}$ or $\mathbf{YP}$.| $\small{\mathbf{P} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix}}$ | Although projection (transformation) matrices can have many forms, typical ones are: "hat" matrices, $\mathbf{H}$, which if idempotent perform orthogonal projections, but if merely symmetric perform shears (more on this soon); and eigenvectors ($\mathbf{E}$).
+|**Projection matrix:** Any matrix that can be multiplied with data that map the data to new vectors (transformation), taking the form, $\mathbf{PY}$ or $\mathbf{YP}$.| $\small{\mathbf{P} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix}}$ | Although projection (transformation) matrices can have many forms, typical ones are: "hat" matrices, $\mathbf{H}$, which if idempotent perform orthogonal projections, but if merely symmetric perform shears (more on this soon); and eigenvectors ( $\mathbf{V}$ ).
 |**Positive-definite matrix:** If $\mathbf{X}$ is symmetric, $\mathbf{a}^T \mathbf{Xa}$ is a positive scalar if $\mathbf{a}$ has non-zero values.  Thus, $\mathbf{X}$ is postive-definite.| $\small{\mathbf{X} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 2 \end{bmatrix}}$ | This also means all eigenvalues of $\mathbf{X}$ are non-negative (more later).  ***Covariance matrices for shape data are often not positive definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
 
 It should be clear that matrices can have several properties.  For example, a *projection matrix* can be symmetric and idempotent.
@@ -481,7 +481,7 @@ It should be clear that matrices can have several properties.  For example, a *p
 
 #### Some additional notes
 - Some sources refer to "triangular" matrices.  These might be symmetric matrices, where the elements above a diagonal match the elements below.  However, these might refer to a matrix that looks like a symmetric matrix but values below the diagonal are all 0.
-- A **matrix cross-product** will always produce a symmetric matrix.
+- A **matrix cross-product** involving a single matrix, e.g., $\mathbf{X}^T\mathbf{X}$, will always produce a symmetric matrix.
 
 ---
 
@@ -520,7 +520,7 @@ $\mathbf{I}$ | Identity matrix | No change
 $c\mathbf{I}$ | Scaled identity matrix | Enlarge (expand) or reduce (shrink).  $c\mathbf{I}$ is not idempotent.
 $\mathbf{D}$ | Diagonal matrix | Stretching of axes (variables).  $\mathbf{D}$ is not idempotent.
 $\mathbf{H}_{orthogonal}$ | $\mathbf{H} = \mathbf{H}^T$ | Rigid (orthogonal) rotation of $\mathbf{Y}$ (see note).  $\mathbf{H}$ is idempotent.
-$\mathbf{H}_{oblique}$ | $\mathbf{H} \neq \mathbf{H}^T$ | Shear of $\mathbf{Y}$.  $\mathbf{H}_{oblique}$ is not orthogonal. $\mathbf{H}$ is not idempotent.
+$\mathbf{H}_{oblique}$ | $\mathbf{H} = \mathbf{H}^T$ or $\mathbf{H} \neq \mathbf{H}^T$ | Shear of $\mathbf{Y}$.  $\mathbf{H}_{oblique}$ is not orthogonal. $\mathbf{H}$ is not idempotent.
 ---
 
 ### Matrix Projection: Geometric Interpretations
@@ -606,12 +606,14 @@ d & -b\\ -c & a \end{bmatrix} = 0.5 \begin{bmatrix} 6 & -4\\ -4 & 3
 #### Example
 Confirm (using R script)
 
-```{r, include = TRUE}
+.med[
+```{r, include = TRUE, echo = TRUE}
 A = matrix(c(3, 4, 4, 6), nrow = 2, ncol = 2)
 A
 solve(A) # solve function finds inverse
 A %*% solve(A)
 ```
+]
 ---
 ### Matrix Inversion (Cont.)
 
@@ -635,7 +637,7 @@ include_graphics("LectureData/02.matrices/wiki.inversion.png")
 ### Putting Our Current Knowledge to Good Use!
 - Recall that a matrix must be square in order to be inverted.
 - Recall that data frames are $n \times p$ in dimension, and it might be rare that $n=p$.
-- Recall that matrix cross-products are essentially the squaring of matrices, and they are symmetric.
+- Recall that matrix cross-products with a single matrix are essentially the squaring of matrices, and they are symmetric.
 - **Thus**, matrix cross-products are invertible (and frequently used as a step before inversion).
 
 #### An Example (recalling an earlier example) using R scripts
@@ -841,12 +843,15 @@ solve(crossprod(X)) %*% crossprod(X, Y)
 ```
 ]]
 
+---
+
 ### The General Linear Model (Cont.)
 
 ***The General Linear Model will be discussed in great detail in the Shape Statistics I lecture.***
 
 Suffice it to say that the general linear model is a set of linear algebra opertation, applied to a set of data, $\mathbf{Y}$, based on a model, $\mathbf{X}$.
 
+---
 
 .center[
 
@@ -880,7 +885,7 @@ $$\left( \mathbf{S}-\lambda\mathbf{I} \right) \mathbf{v} = 0$$
 + Systematically find the $p$ solutions of $\lambda$ for $\left| \mathbf{S}-\lambda\mathbf{I} \right|$. Up to $p$ real numbers exist if $\mathbf{S}$ is positive-definite.  Some of these numbers might be 0 if $\mathbf{S}$ is not full-rank.  Some can be negative if $\mathbf{S}$ is not symmetric.  
 + By finding the values of $\lambda$ that work, the vectors, $\mathbf{v}$, are estimated such that the solution above holds true.
 
-Computers can solve characteristic polynomials easily via numerical approximation algorithms  A popular choice is the QR algorithm, which uses QR decomposition until convergence.  Do not try to perform the characteristic polynomial solution or QR algorithm by hand!
+Computers can solve characteristic polynomials easily via numerical approximation algorithms.  A popular choice is the QR algorithm, which uses QR decomposition until convergence.  Do not try to perform the characteristic polynomial solution or QR algorithm by hand!
 
 ---
 ### Matrix Decompositions (cont.)
@@ -894,17 +899,19 @@ $\mathbf{Q}$ and $\mathbf{R}$ are solved via numerical approximation algorithms 
 
 ### Singular Value decomposition of a Rectangular Matrix
 
-$$\mathbf{Y}_{n \times p} =\mathbf{U}_{n \times p'} \mathbf{\Lambda}_{p' \times p'} \mathbf{V}_{p' \times p'}^T$$
+$$\mathbf{Y}_{n \times p} =\mathbf{U}_{n \times p'} \mathbf{D}_{p' \times p'} \mathbf{V}_{p' \times p'}^T$$
 
-$\mathbf{U}$ (left singular values) and $\mathbf{V}$ (right singular values) are solved via numerical approximation algorithms.  The number of singular values is $p'= \min(n,p)$. If $\mathbf{Y}$ is not full-rank, some of the singular values in $\mathbf{\Lambda}$ will be 0.  The singular values decrease from largest to smallest.
+$\mathbf{U}$ (left singular values) and $\mathbf{V}$ (right singular values) are solved via numerical approximation algorithms.  The number of singular values is $p'= \min(n,p)$. If $\mathbf{Y}$ is not full-rank, some of the singular values in $\mathbf{D}$ will be 0.  The singular values decrease from largest to smallest.
 
 ---
 
 ### Singular Value decomposition of a Symmetric Matrix
 
-$$\mathbf{S}_{p \times p} =\mathbf{U}_{p \times p} \mathbf{\Lambda}_{p \times p} \mathbf{U}_{p \times p}^T$$
+$$\mathbf{S}_{p \times p} =\mathbf{V}_{p \times p} \mathbf{\Lambda}_{p \times p} \mathbf{V}_{p \times p}^T$$
 
-$\mathbf{U}$ (left and right singular values) are solved via numerical approximation algorithms. If $\mathbf{S}$ is symmetric, positive-definite, $\mathbf{U}$ is the matrix of eigenvectors and $\mathbf{\Lambda}$ the matrix of eigenvalues, equal to those found from eigenanalysis using the characteristic polynomial function.  This is a "short-cut" method, often employed for principal component analysis when it is sure that $\mathbf{S}$ is symmetric, positive-definite.
+$\mathbf{V}$ (left and right singular values) are solved via numerical approximation algorithms. If $\mathbf{S}$ is symmetric, positive-definite, $\mathbf{V}$ is the matrix of eigenvectors and $\mathbf{\Lambda}$ the matrix of eigenvalues, equal to those found from eigenanalysis using the characteristic polynomial function.  This is a "short-cut" method, often employed for principal component analysis when it is sure that $\mathbf{S}$ is symmetric, positive-definite.
+
+**It is also a short-cut for eigen decomposition.**  If $\mathbf{S}$ is a positive-definite, symmetric matrix, the singular values are the same as eigenvalues, hence the use of $\mathbf{\Lambda}$ as nomenclature, rather than $\mathbf{D}$.  The matching left and right singular vectors, $\mathbf{V}$ are the same as eigenvectors.
 
 ---
 
@@ -914,7 +921,9 @@ $$\mathbf{S}_{p \times p} =\mathbf{U}_{p \times p}  \mathbf{U}_{p \times p}^T$$
 
 where $\mathbf{U}$ is a triangular matrix.
 
-No need for a lot of detail here but just realize that Cholesky decompositions are sometimes used as solutions to find the square-rott of a symmetric matrix.
+No need for a lot of detail here but just realize that Cholesky decompositions are sometimes used as solutions to find the *square-root of a symmetric matrix*.
+
+*Matrix square-roots are more complex than just this.  The can also be found with singular value decomposition, and other methods.*
 
 ---
 
@@ -944,7 +953,7 @@ $$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\m
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
 
-$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$
+$$\hat{\mathbf{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
 
 Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
 
