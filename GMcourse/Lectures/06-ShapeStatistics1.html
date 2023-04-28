@@ -44,7 +44,7 @@ Understand why this equation is a foundational equation used in geometric morpho
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
 
-`$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$`
+`$$\hat{\mathbf{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$`
 
 Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
 
@@ -62,7 +62,7 @@ Procrustes coordinates: linear transformation of coordinate data.
 
 ----
 
-`$$\hat{\mathbf{B}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$`
+`$$\hat{\mathbf{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$`
 
 **Estimation of linear model coefficients for transformed data, `\(\mathbf{Z}\)`, which Procrustes coordinates are.** 
 
@@ -128,11 +128,26 @@ The next slide has some examples of what `\(\mathbf{A}\)` could be.
 
 ### Examples of `\(\mathbf{A}\)` matrices
 
-Let `\(\mathbf{1}\)` be an `\(n \times 1\)` vector of 1s.  Let `\(\mathbf{A}^T = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T\)`.  Then `\(\mathbf{A}^T\mathbf{Z}\)` **is the vector of `\(p\)` mean values for the `\(n \times p\)` matrix of data, `\(\mathbf{Z}\)`; i.e., `\(\mathbf{A}^T\mathbf{Z} = \mathbf{\overline{z}}^T\)`**
+.pull-left[
+Let `\(\mathbf{1}\)` be an `\(n \times 1\)` vector of 1s.  Let `\(\mathbf{A}^T = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T\)`.  
+]
+.pull-right[
+Then `\(\mathbf{A}^T\mathbf{Z}\)` **is the vector of `\(p\)` mean values for the `\(n \times p\)` matrix of data, `\(\mathbf{Z}\)`; i.e., `\(\mathbf{A}^T\mathbf{Z} = \mathbf{\overline{z}}^T\)`**
+]
 
-Let `\(\mathbf{1}\)` be an `\(n \times 1\)` vector of 1s.  Let `\(\mathbf{A}^T = \mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T\)`.  Then `\(\mathbf{A}^T\mathbf{Z}\)` **is an `\(n \times p\)` matrix where every row is `\(\mathbf{\overline{z}}^T\)`.**
+.pull-left[
+Let `\(\mathbf{1}\)` be an `\(n \times 1\)` vector of 1s.  Let `\(\mathbf{A}^T = \mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T\)`.
+]
+.pull-right[
+Then `\(\mathbf{A}^T\mathbf{Z}\)` **is an `\(n \times p\)` matrix where every row is `\(\mathbf{\overline{z}}^T\)`.**
+]
 
-Let `\(\mathbf{X}\)` be an `\(n \times 2\)` matrix with one column the vector, `\(\mathbf{1}\)`, and the other column is `\(x = CS\)`, an `\(n \times 1\)` vector of centroid size for `\(n\)` specimens.  Let `\(\mathbf{A}^T = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T\)`.  Then `\(\mathbf{A}^T\mathbf{Z}\)` **is the matrix of regression coefficients for an analysis of allometry**
+.pull-left[
+Let `\(\mathbf{X}\)` be an `\(n \times 2\)` matrix with one column the vector, `\(\mathbf{1}\)`, and the other column is `\(x = CS\)`, an `\(n \times 1\)` vector of centroid size for `\(n\)` specimens.  Let `\(\mathbf{A}^T = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T\)`.  
+]
+.pull-right[
+Then `\(\mathbf{A}^T\mathbf{Z}\)` **is the matrix of regression coefficients for an analysis of allometry**
+]
 
 
 .remark-code[.blue[
@@ -216,8 +231,8 @@ PCA$rot[, 1:5]
 ```
 
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-822ae45ebff6ae99219a" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-822ae45ebff6ae99219a">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1.X","1.Y","2.X","2.Y","3.X","3.Y","4.X","4.Y","5.X","5.Y","6.X","6.Y","7.X","7.Y","8.X","8.Y","9.X","9.Y","10.X","10.Y","11.X","11.Y","12.X","12.Y"],[-0.18519,0.05405,-0.25751,0.12104,0.24555,0.08671,0.01913,0.01574,0.03013,-0.06,0.03942,-0.07298,-0.03292,-0.15883,-0.07436,-0.02267,-0.1294,0.14563,-0.14615,0.04686,0.78142,-0.05272,-0.29012,-0.10285],[0.44578,0.26015,0.14487,0.35368,0.06079,0.15116,-0.00471,-0.10675,-0.04475,-0.10706,-0.02427,-0.16916,-0.14499,-0.08201,-0.0491,-0.01583,0.0163,0.10257,0.07706,0.13217,-0.18989,0.04808,-0.28709,-0.56701],[0.22986,-0.08275,0.21506,0.10056,0.32681,0.00228,-0.20322,0.35931,-0.19877,0.15439,-0.17122,0.00981,-0.21542,-0.18189,0.06254,-0.16576,0.18179,-0.23899,0.07886,-0.13614,0.01087,-0.20317,-0.31717,0.38235],[-0.26247,0.11272,-0.01087,0.46841,0.47658,-0.04908,-0.11434,-0.00444,-0.05717,0.12899,0.1062,0.0582,0.08944,0.01527,-0.1435,-0.17252,-0.17443,-0.1315,-0.16718,-0.21664,-0.17314,-0.06654,0.43089,-0.14288],[-0.16719,0.22104,0.02176,-0.25447,0.44786,0.02916,-0.0437,-0.44113,-0.16144,-0.22846,-0.05394,0.14802,0.0188,0.27939,-0.08595,0.08478,0.38216,0.11626,-0.05794,0.12139,-0.12552,-0.17414,-0.1749,0.09816]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Comp1<\/th>\n      <th>Comp2<\/th>\n      <th>Comp3<\/th>\n      <th>Comp4<\/th>\n      <th>Comp5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":3,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[3,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9aff894c6d90172cfbe7" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9aff894c6d90172cfbe7">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1.X","1.Y","2.X","2.Y","3.X","3.Y","4.X","4.Y","5.X","5.Y","6.X","6.Y","7.X","7.Y","8.X","8.Y","9.X","9.Y","10.X","10.Y","11.X","11.Y","12.X","12.Y"],[-0.18519,0.05405,-0.25751,0.12104,0.24555,0.08671,0.01913,0.01574,0.03013,-0.06,0.03942,-0.07298,-0.03292,-0.15883,-0.07436,-0.02267,-0.1294,0.14563,-0.14615,0.04686,0.78142,-0.05272,-0.29012,-0.10285],[0.44578,0.26015,0.14487,0.35368,0.06079,0.15116,-0.00471,-0.10675,-0.04475,-0.10706,-0.02427,-0.16916,-0.14499,-0.08201,-0.0491,-0.01583,0.0163,0.10257,0.07706,0.13217,-0.18989,0.04808,-0.28709,-0.56701],[0.22986,-0.08275,0.21506,0.10056,0.32681,0.00228,-0.20322,0.35931,-0.19877,0.15439,-0.17122,0.00981,-0.21542,-0.18189,0.06254,-0.16576,0.18179,-0.23899,0.07886,-0.13614,0.01087,-0.20317,-0.31717,0.38235],[-0.26247,0.11272,-0.01087,0.46841,0.47658,-0.04908,-0.11434,-0.00444,-0.05717,0.12899,0.1062,0.0582,0.08944,0.01527,-0.1435,-0.17252,-0.17443,-0.1315,-0.16718,-0.21664,-0.17314,-0.06654,0.43089,-0.14288],[-0.16719,0.22104,0.02176,-0.25447,0.44786,0.02916,-0.0437,-0.44113,-0.16144,-0.22846,-0.05394,0.14802,0.0188,0.27939,-0.08595,0.08478,0.38216,0.11626,-0.05794,0.12139,-0.12552,-0.17414,-0.1749,0.09816]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Comp1<\/th>\n      <th>Comp2<\/th>\n      <th>Comp3<\/th>\n      <th>Comp4<\/th>\n      <th>Comp5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":3,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[3,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ]
 
 ---
@@ -354,18 +369,41 @@ If we concatenate our data, `\(\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2\)`, then
 + The upper-left (darkest) block is the covariance matrix for `\(\mathbf{Z}_1\)`
 + The lower-right (dark) block is the covariance matrix for `\(\mathbf{Z}_2\)`
 + The other (light) blocks are the covariances between the covariance blocks, and are equal via a transpose.
-+ The upper block is the same as $ (n-1)^{-1}\mathbf{Z}_1^T\mathbf{Z}_2$, which has the same singular vectors as `\(\mathbf{Z}_1^T\mathbf{Z}_2\)` (as singular values that differ in scale by `\((n-1)\)`).]
++ The upper block is the same as `\((n-1)^{-1}\mathbf{Z}_1^T\mathbf{Z}_2\)`, which has the same singular vectors as `\(\mathbf{Z}_1^T\mathbf{Z}_2\)`; singular values that differ in scale by `\((n-1)\)`.
+]
+---
+
+### Partial Least Squares, the GM paradigm
+
+#### Statistical Comment
+
+.pull-left[
+PLS is generally presented as partitioning of a covariance matrix, but this is not fully necessary.
+
+If we concatenate our data, `\(\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2\)`, then a covariance matrix found as `\(\hat{\mathbf{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}\)` has the following form.
+
+
 + **.blue[PLS is generally referred to as two-block PLS based on this original presentation by Rohlf and Corti (2000)] .red[but there is no need to calculate a covariance matrix and partition it]**
+
 + Finding `\(\mathbf{Z}_1^T\mathbf{Z}_2\)` is sufficient.
+]
+
+.pull-right[
++ The upper-left (darkest) block is the covariance matrix for `\(\mathbf{Z}_1\)`
++ The lower-right (dark) block is the covariance matrix for `\(\mathbf{Z}_2\)`
++ The other (light) blocks are the covariances between the covariance blocks, and are equal via a transpose.
++ The upper block is the same as `\((n-1)^{-1}\mathbf{Z}_1^T\mathbf{Z}_2\)`, which has the same singular vectors as `\(\mathbf{Z}_1^T\mathbf{Z}_2\)`; singular values that differ in scale by `\((n-1)\)`.
+]
+
 ---
 
 ### Partial Least Squares, Example
 
 Before getting into a statistical test, let's look at the steps of the **.blue[GM PLS paradigm]** with an example
 
-Example from Adams, D. C., and F. J. Rohlf. 2000. Ecological character displacement in Plethodon: biomechanical differences found from a geometric morphometric study. Proceedings of the National Academy of Sciences, U.S.A. 97:4106-4111
++ Example from Adams, D. C., and F. J. Rohlf. 2000. Ecological character displacement in Plethodon: biomechanical differences found from a geometric morphometric study. Proceedings of the National Academy of Sciences, U.S.A. 97:4106-4111
 
-These data contain head shape data from 13 landmarks for plethodontid salamanders, plus gut content data (square-root transformed frequencies of 16 taxonomic groups).
++ These data contain head shape data from 13 landmarks for plethodontid salamanders, plus gut content data (square-root transformed frequencies of 16 taxonomic groups).
 
 **First, data analysis set up.**
 
@@ -555,7 +593,7 @@ PLS
 ## Based on 1000 random permutations
 ```
 
-*Ignore `\(P\)`-value and `\(Z\)`-score for now.
+*Ignore `\(P\)`-value and `\(Z\)`-score for now.*
 ]]
 .pull-right[.small[
 
