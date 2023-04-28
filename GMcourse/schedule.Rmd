@@ -23,7 +23,7 @@ Daily Schedule of Activities
 
 * Thursday
     + Phylogenetics and Shape Variation
-    + Asymmetry
+    + Symmetry and Asymmetry
     + Disparity
     + Integration and Modularity 
     + Laboratory Tutorial-Individual Research

@@ -14,13 +14,13 @@
 
 [06-Shape Statistics I]
 
-[07-Allometry]
+[07-Allometry](https://geomorphR.github.io/GMcourse/Lectures/07-Allometry.html)
 
 [08-Shape Statistics II]
 
 [09-Phylogenetic Comparative Methods]
 
-[10-Asymmetry]
+[10-Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Lectures/10-Asymmetry.html)
 
 [11-Disparity]
 

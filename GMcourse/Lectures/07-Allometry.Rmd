@@ -21,6 +21,18 @@ library(xaringanthemer)
 style_mono_light()
 ```
 
+```{css, echo=FALSE}
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+.scrollable {
+  height: 80%;
+  overflow-y: auto;
+} 
+```
+
+
 ### What is Allometry?
 
 + From greek:  $\small\acute\alpha\lambda\lambda\omicron$ (álo) = other, different  + $\small\mu\epsilon\tau\rho\acute\omega$ (metró) = to measure
@@ -169,354 +181,364 @@ This is a hypothesis of *Allometry* (shape~size covariation)
 ```{r eval=TRUE, echo=TRUE, out.width="40%"}
 data(Pupfish)
 Pupfish$logSize <- log(Pupfish$CS)
-fit <- procD.lm(coords ~ logSize, SS.type = "I", 
-                data = Pupfish, print.progress = FALSE, iter = 999) 
-anova(fit)$table
+fit <- procD.lm(coords ~ logSize, 
+            data = Pupfish, print.progress = FALSE) 
+round(anova(fit)$table, 4)
 ```
 
 Great, but how does one visualize this multivariate allometry??
 ]
 ---
 
-# Visualizing Multivariate Allometry
+### Visualizing Multivariate Allometry
 
-* Need to summarize size-related variation in shape
-* Use some rotation/projection method
++ Need to summarize size-related variation in shape
++ Use some rotation/projection method
 
-```{r, echo = FALSE, fig.align = "center",out.width="40%"}
+```{r, echo = FALSE, fig.align = "center",out.width="30%"}
 include_graphics("LectureData/07.allometry/MultiAllomPlot.png")  
 ```
 
-Several (complementary) solutions:
++ Several (complementary) solutions:
 
->* Regression scores (Drake and Klingenberg 2008): projection of shape data on the allometric line
+--
+
++ Regression scores (Drake and Klingenberg 2008): projection of shape data on the allometric line
 $$\small\mathbf{s}=\mathbf{Y\beta^T(\beta^T\beta)^{-1/2}}$$
 
->* PC1 of predicted values (Adams and Nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
++ PC1 of predicted values (Adams and Nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
 $$\small\mathbf{P_1}=svd(\mathbf{\hat{Y}})=svd(\mathbf{X(\tilde{X}^T\tilde{X})^{-1}(\tilde{X}^T\tilde{Y})})$$
+---
 
-# Visualization: Example
+### Visualization: Example
 
-- Effects of human-mediated disturbance (urbanization) on *Podarcis* lizards
-    - 5 urban and 5 rural populations
-	  - 359 individuals
-	  - 28 bilateral landmarks
++ Effects of human-mediated disturbance (urbanization) on *Podarcis* lizards
+  + 5 urban and 5 rural populations
+	+ 359 individuals
+	+ 28 bilateral landmarks
 
-- How does environmental disturbance influence development?
-- Are size-shape relationships modified in urban populations?
++ How does environmental disturbance influence development?
++ Are size-shape relationships modified in urban populations?
 
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="60%"}
 include_graphics("LectureData/07.allometry/LizardLatImage.png")  
 ```
+---
 
-# Allometry Example: *Podarcis*
+### Allometry Example: *Podarcis*
 
-##### NOTE: data different from what is used in lecture 4 (SEX, now sex, M now m).
-  ## check and see if you can call the older files
-
-```{r, echo = FALSE, fig.align = "center",out.width="40%"}
+.pull-left[
+```{r, echo = FALSE, fig.align = "center",out.width="80%"}
 lizards <- readland.tps('LectureData/07.allometry/symm.shape2.tps', warnmsg = FALSE)
 liz.lab <- read.csv('LectureData/07.allometry/ind.info.txt',header=TRUE, sep=",")
-col.gp <- rep("red",nrow(liz.lab))
-col.gp[which(liz.lab$sex=='m')] <- 'blue'
+col.gp <- rep("black",nrow(liz.lab))
+col.gp[which(liz.lab$type=='U')] <- 'red'
 Y.gpa <- gpagen(lizards, print.progress = FALSE)
 CS <- liz.lab$cs
-type <- liz.lab$type
+type <- as.factor(liz.lab$type)
 gdf <- geomorph.data.frame(Y.gpa, CS = CS, type = type)
 
 plotAllSpecimens(Y.gpa$coords)
-
+```
+]
+.pull-right[
+```{r, echo = TRUE, fig.align = "center",out.width="40%"}
 fit <- procD.lm(Y.gpa$coords~CS*type, data = gdf, print.progress = FALSE)
-
-anova(fit)
+anova(fit)$table
 ``` 
+]
+---
 
-# Allometry Example: *Podarcis* (Cont.)
+### Allometry Example: *Podarcis* (Cont.)
 
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="50%"}
 PCA <- gm.prcomp(Y.gpa$coords)
 plot(PCA,pch = 21, bg=col.gp,cex = 2)
+legend("topleft", levels(gdf$type), pch = 21, pt.bg = unique(col.gp))
 ```
+---
 
-# Visualization 
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+### Visualization 
+```{r, echo = FALSE, fig.align = "center",out.width="50%"}
 par(mfrow=c(1,2)) 
-#plotAllometry(fit, size = gdf$CS, logsz = FALSE, method = "RegScore", pch=21, bg=gdf$type)
-#mtext("Regression Scores")
-
-#plotAllometry(fit, size = gdf$CS, logsz = FALSE, method = "PredLine", pch=21, bg=gdf$type)
-#mtext("Predicted Lines")
+plot(fit, type = "regression", predictor = gdf$CS, 
+     reg.type = "RegScore", pch=19, col = col.gp)
+legend("topleft", levels(gdf$type), pch = 21, pt.bg = unique(col.gp))
+mtext("Regression Scores")
+plot(fit, type = "regression", predictor = gdf$CS, 
+     reg.type = "PredLine", pch=19, col = col.gp)
+legend("topleft", levels(gdf$type), pch = 21, pt.bg = unique(col.gp))
+mtext("Predicted Lines")
 par(mfrow=c(1,1)) 
 ```
+---
 
+### Post-Hoc Tests
 
-
-# Post-Hoc Tests
-
-- Use randomization methods to test custom hypotheses
-- Do urban populations show higher deviations from their group’s trajectory? – a sign of developmental instability
++ Use randomization methods to test custom hypotheses
++ Do urban populations show higher deviations from their group’s trajectory? – a sign of developmental instability
 
 ```{r, echo = FALSE, fig.align = "center",out.width="40%"}
 include_graphics("LectureData/07.allometry/LizUrbRur.png")  
 ```
+---
 
-# Size-Shape Space
+### Size-Shape Space
 
-- Size effects often dominate shape variation, especially in ontogenetic series
-- However, when other factors are present, PC1 does not necessarily relate directly to size-dependent variation (at least not to all of it)
-- Usual statistical methods do not capture subtle ontogenetic modifications in trajectories
++ Size effects often dominate shape variation, especially in ontogenetic series
++ However, when other factors are present, PC1 does not necessarily relate directly to size-dependent variation (at least not to all of it)
++ Usual statistical methods do not capture subtle ontogenetic modifications in trajectories
 
 ```{r, echo = FALSE, fig.align = "center",out.width="80%"}
 include_graphics("LectureData/07.allometry/SizeShapeConcept.png")  
 ```
 
-- Examine allometric variation in **size-shape space**
++ Examine allometric variation in **size-shape space**
+---
 
-# Size-Shape Space
+### Size-Shape Space
 
-- Derived from the PCA of shape variables + $\small{ln}(Csize)$
-    - 1: Calculate shape variables and $\small{ln}(Csize)$, and join them in a single data matrix
-    - 2: Calculate PCA of this matrix ($\small{SSPC1}$)
-    - 3: Generate the **common allometric component** (CAC): the common size-shape regression coefficient, after mean-centering shapes by group $\small\mathbf{Y}_{cent}$
-    - 4: Calculate the **residual shape component**: SVD of data orthogonal to CAC
-    - 5: Visualize allometry as (CAC vs. SSPC1)   & (CAC vs. RSC1)
++ Derived from the PCA of shape variables + $\small{ln}(Csize)$
+  + 1: Calculate shape variables and $\small{ln}(Csize)$, and join them in a single data matrix
+  + 2: Calculate PCA of this matrix ( $\small{SSPC1}$)
+  + 3: Generate the **common allometric component** (CAC): the common size-shape regression coefficient, after mean-centering shapes by group $\small\mathbf{Y}_{cent}$
+  + 4: Calculate the **residual shape component**: SVD of data orthogonal to CAC
+  + 5: Visualize allometry as (CAC vs. SSPC1)   & (CAC vs. RSC1)
 
 $$\small\alpha=(\mathbf{Y}_{cent}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$
 $$\small{CAC}=\mathbf{Y}_{cent}\alpha$$             where $$\small\alpha=\alpha\sqrt{}(\alpha^T\alpha)$$
+---
 
-# Size-Shape Space: Example
+### Size-Shape Space: Example
 
-```{r, echo = FALSE, fig.align = "center",out.width="100%"}
+```{r, echo = FALSE, fig.align = "center",out.width="70%"}
 include_graphics("LectureData/07.allometry/Mitteroecker-04.png")  
 ```
+---
 
-# Note: CAC Scores vs. Regression Scores
+### Note: CAC Scores vs. Regression Scores
 
-- $\small{CAC}$: regression under a common slope after group mean-centering
-- Regression scores ($\small{s}$): shape data projected on the regression line with size
-- When a single group is considered, $\small{CAC}$ and $\small{s}$ are **identical**!
-- Both are projections of mean-centered data on size/shape regression
++ $\small{CAC}$: regression under a common slope after group mean-centering
++ Regression scores (**s**): shape data projected on the regression line with size
++ When a single group is considered, $\small{CAC}$ and **s** are **identical**!
++ Both are projections of mean-centered data on size/shape regression (and are equivalent to PLS1 scores of a PLS of shape on size)
 
 $$\small\alpha=(\mathbf{Y}_{cent}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$
 $$\small{CAC}=\mathbf{Y}_{cent}\alpha$$     $$\small\alpha=\alpha\sqrt{}(\alpha^T\alpha)$$
 $$\small\mathbf{s}=\mathbf{Y\beta^T(\beta^T\beta)^{-1/2}}$$
 
 ###### See Adams et al. 2013. Hystrix 24: 7-14. 
+---
 
-# Allometry: Other Tests
+### Allometry: Other Tests
 
-- Many biological hypotheses are related to the comparison of ontogenetic allometries
-- Allometric trajectories are not only about their slope, or variation around it
++ Many biological hypotheses are related to the comparison of ontogenetic allometries
 
-# Allometry: Other Tests
++ Allometric trajectories are not only about their slope, or variation around it
 
-- Many biological hypotheses are related to the comparison of ontogenetic allometries
-- Allometric trajectories are not only about their slope, or variation around it
-- E.g. they have a starting and ending point
-- Are ontogenetic trajectories similar? (parallelism)
-- Do ontogenetic trajectories converge?
-- Do ontogenetic trajectories diverge?
+--
 
-# Allometry: Other Tests
++ Do they have similar starting points or ending points?
 
-- Many biological hypotheses are related to the comparison of ontogenetic allometries
-- Allometric trajectories are not only about their slope, or variation around it
-- E.g. they have a starting and ending point
-- Are ontogenetic trajectories similar? (parallelism)
-- Do ontogenetic trajectories converge?
-- Do ontogenetic trajectories diverge?
-- We need quantitative methods to test such hypotheses
-- Take advantage of the toolkit of resampling methods
++ Are ontogenetic trajectories similar? (parallelism)
+
++ Do ontogenetic trajectories converge?
+
++ Do ontogenetic trajectories diverge?
+
+--
+
++ We need quantitative methods to test such hypotheses
+
++ Take advantage of the toolkit of resampling methods
 
 ###### See also PTA for a general method for comparing all types of trajectories, including ontogenetic/allometric trajectories (i.e. Collyer and Adams 2007; Adams and Collyer 2009; Collyer and Adams 2013)
+---
 
-# Allometric Convergence and Divergence
+### Allometric Convergence and Divergence
 
-- Convergence: shape is more similar at the end of the trajectory, than at the beginning
-- A simple approach: test angular difference between trajectories
++ Convergence: shape is more similar at the end of the trajectory, than at the beginning
 
-# Allometric Convergence and Divergence
++ A simple approach: test angular difference between trajectories
 
-- Convergence: shape is more similar at the end of the trajectory, than at the beginning
-- A simple approach: test angular difference between trajectories
-    - 1: Obtain allometric vectors - $\small\mathbf{\hat{Y}}_{start}$ & $\small\mathbf{\hat{Y}}_{end}$ - for groups
-    - 2: Normalize vectors (divide by their length so they are unit length) and find the cross-product between pairs of vectors; i.e, $r_{ij} = \mathbf{\beta}_i^T \mathbf{\beta}_j$
-    - 3: Obtain test measure: $\theta = \cos^{-1}(r_{ij})$
-    - 4: RRPP with appropriate null model to test $\theta$
+--
 
-- **Convergence** when $\theta$ is significant and vectors tend toward a similar shape
-- **Divergence** when $\theta$ is significant and vectors tend toward a different shape
-- **Parallelism** when $theta$ is not significant and/or effect size is small
-- Can also test absolute difference in vector lengths to determine if one group has greater onotogenetic shape change than another
+  + 1: Obtain allometric vectors $(\small\mathbf{\hat{Y}}_{start} - \small\mathbf{\hat{Y}}_{end})$  for groups
+  + 2: Normalize vectors (divide by their length so they are unit length) and find the cross-product between pairs of vectors; i.e, $r_{ij} = \mathbf{\beta}_i^T \mathbf{\beta}_j$
+  +  3: Obtain test measure: $\theta = \cos^{-1}(r_{ij})$
+  + 4: RRPP with appropriate null model to test $\theta$
+
++ **Convergence** when $\theta$ is significant and vectors tend toward a similar shape
++ **Divergence** when $\theta$ is significant and vectors tend toward a different shape
++ **Parallelism** when $\theta$ is not significant and/or effect size is small
+  + Can also test absolute difference in vector lengths to determine if one group has greater ontogenetic shape change than another
     
 ###### Adams and Nistri. (2010) *BMC. Evol. Biol.*
+---
 
-# Evolutionary Convergence: Example
+### Evolutionary Convergence: *Hydromantes* Example
 
-* Ontogenetic series for 8 species of *Hydromantes*
-* These salamanders live in caves and they climb extensively on the walls as adults
-* Foot shape is a trait with functional relevance
-* How does foot shape change across ontogeny?
++ Ontogenetic series for 8 species of *Hydromantes*
++ These salamanders live in caves and they climb extensively on the walls as adults
++ Foot shape is a trait with functional relevance
++ How does foot shape change across ontogeny?
 
 ```{r, echo = FALSE, fig.align = "center",out.width="80%"}
 include_graphics("LectureData/07.allometry/HydromantesEx.png")  
 ```
+---
 
-# Evolutionary Convergence: Example (Cont.)
+### Evolutionary Convergence: *Hydromantes* Example (Cont.)
 
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="75%"}
 include_graphics("LectureData/07.allometry/HydroRes1.png")  
 ```
+---
 
-# Evolutionary Convergence: Example (Cont.)
+### Evolutionary Convergence: *Hydromantes* Example (Cont.)
 
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="75%"}
 include_graphics("LectureData/07.allometry/HydroRes2.png")  
 ```
+---
 
-# Comparing allometric trajectories: geomorph example
+### Comparing Allometric Trajectories: Pupfish Example
 
-- **Question**: Do your groups have parallel allometries?
-- **Question**: Do your groups have unique allometries?
-- **Question**: Which groups have different allometries, and how do they differ?
++ **Question**: Do your groups have parallel allometries?
++ **Question**: Do your groups have unique allometries?
++ **Question**: Which groups have different allometries, and how do they differ?
 
-#### Example: pupfish data
-
-```{r, include=TRUE}
+```{r, echo = TRUE, fig.align = "center",  out.width = "30%"}
 data(pupfish)
 plotAllSpecimens(pupfish$coords)
-
 ```
+---
 
-# Comparing allometric trajectories: geomorph example (cont.)
+### Comparing Allometric Trajectories: Pupfish Example (Cont.)
 
-#### Example: pupfish data
-
-```{r, include=TRUE}
+.pull-left[
+```{r, echo = FALSE, fig.align = "center",  out.width = "50%"}
 pupfish$logSize <- log(pupfish$CS)
 pupfish$Group <- interaction(pupfish$Pop, pupfish$Sex)
+```
+
+```{r, echo = TRUE, fig.align = "center", out.width = "50%"}
 fit.common <- procD.lm(coords ~ logSize + Group, 
                      data = pupfish, print.progress = FALSE) 
 fit.unique <- procD.lm(coords ~ logSize * Group, 
                      data = pupfish, print.progress = FALSE)  
-
 ```
 
-# Comparing allometric trajectories: geomorph example (cont.)
++ Now let's do a homogeneity of slopes test (right)
+]
 
-#### Example: pupfish data
-
-Homogeneity of slopes test
-
-```{r, include=TRUE}
-
+.pull-right[
+```{r, echo = TRUE, fig.align = "center",  out.width = "50%"}
 anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 ```
++ Suggests allometric slopes are parallel 
+]
 
-Results suggest that allometric slopes are parallel. 
-We can see by plotting the prediction lines for both that a unique-allometries model is not practical.
+---
 
-# Comparing allometric trajectories: geomorph example (cont.)
+### Comparing Allometric Trajectories: Pupfish Example (Cont.)
 
-#### Example: pupfish data
++ Allometric plots
+  + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
-Allometric plots
-
-```{r, include=TRUE, out.width="100%"}
-
+```{r, echo = FALSE, fig.align = "center",  out.width = "50%"}
 par(mfcol = c(1,2))
-plotAllometry(fit.common, pupfish$CS, logsz = TRUE, method = "PredLine", pch = 21,
-              bg = pupfish$Group)
-plotAllometry(fit.unique, pupfish$CS, logsz = TRUE, method = "PredLine", pch = 21,
-              bg = pupfish$Group)
-
+plot(fit.common, type = "regression", predictor = pupfish$logSize, 
+     reg.type = "PredLine", pch=19, col = pupfish$Group)
+legend("topleft", levels(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+mtext("Common Slopes")
+plot(fit.unique, type = "regression", predictor = pupfish$logSize, 
+     reg.type = "PredLine", pch=19, col = pupfish$Group)
+legend("topleft", levels(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+mtext("Unique Slopes")
 ```
+---
 
-```{r, include = FALSE}
-par(mfcol = c(1, 1))
-```
+### Comparing Allometric Trajectories: Pupfish Example (Cont.)
 
-# Comparing allometric trajectories: geomorph example (cont.)
++ Hypothesis tests: vector lengths
 
-#### Example: pupfish data
-
-Hypothesis tests: vector lengths
-
-```{r, include=TRUE}
-
-PW <- pairwise(fit.unique, groups = pupfish$Group,
+.scrollable[
+```{r, echo = TRUE, fig.align = "center",  out.width = "50%"}
+PW.u <- pairwise(fit.unique, groups = pupfish$Group,
                covariate = log(pupfish$CS), print.progress = FALSE)
-summary(PW, test = "dist")
+summary(PW.u, test = "dist")
 
 ```
+]
+---
 
-# Comparing allometric trajectories: geomorph example (cont.)
+### Comparing Allometric Trajectories: Pupfish Example (Cont.)
 
-#### Example: pupfish data
++ Hypothesis tests: angles between vectors
 
-Hypothesis tests: angles between vectors
-
-```{r, include=TRUE}
-
-summary(PW, test = "VC", angle.type = "deg") 
+.scrollable[
+```{r, echo = TRUE, fig.align = "center",  out.width = "50%"}
+summary(PW.u, test = "VC", angle.type = "deg") 
 ```
+]
+---
 
-# Comparing allometric trajectories: geomorph example (cont.)
+### Comparing Allometric Trajectories: Pupfish Example (cont.)
 
-#### Example: pupfish data
++ Conclusion: allometries do not significantly diverge.  But concluding they are parallel allows one to compare means, accounting for common allometric variation
 
-Conclusion: allometries do not significantly diverge.  But concluding they are parallel allows one to compare means, accounting for common allometric variation.
-
-```{r, include=TRUE}
-
-PW <- pairwise(fit.common, groups = pupfish$Group,
+.scrollable[
+```{r, echo = TRUE, fig.align = "center",  out.width = "50%"}
+PW.c <- pairwise(fit.common, groups = pupfish$Group,
                print.progress = FALSE)
-
-summary(PW, test = "dist") 
+summary(PW.c, test = "dist") 
 ```
+]
+---
 
+### Empirical Example: Cranial Ontogeny in Crocodilians
 
-# Empirical Example: Cranial Ontogeny in Crocodilians
++ Phylogenetic relationships have long been under debate
++ What information can we extract from cranial ontogeny?
 
-- Phylogenetic relationships have long been under debate
-- What information can we extract from cranial ontogeny?
-
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="75%"}
 include_graphics("LectureData/07.allometry/CrocRes1.png")  
 ```
+---
 
-# Empirical Example: Cranial Ontogeny in Crocodilians (Cont.)
+### Empirical Example: Cranial Ontogeny in Crocodilians (Cont.)
 
-- Some groups follow different ontogenetic paths
-- There is ontogenetic convergence, where adults are more similar than juveniles
++ Some groups follow different ontogenetic paths
++ There is ontogenetic convergence, where adults are more similar than juveniles
 
-
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="75%"}
 include_graphics("LectureData/07.allometry/CrocRes2.png")  
 ```
+---
 
-# A Comment on Heterochrony
+### A Comment on Heterochrony
++ Evolutionary changes in the rate or timing of developmental sequences
+  + i.e. changes in ontogenetic trajectories
++ Can be evaluated via allometric/ontogenetic investigations
 
-- Evolutionary changes in the rate or timing of developmental sequences
-    - i.e. changes in ontogenetic trajectories
-- Can be evaluated via allometric/ontogenetic investigations
-
-```{r, echo = FALSE, fig.align = "center",out.width="80%"}
+```{r, echo = FALSE, fig.align = "center",out.width="70%"}
 include_graphics("LectureData/07.allometry/Heterochrony.png")  
 ```
+---
 
-# Allometry: Summary
+### Allometry: Summary
 
-- Shape usually changes with size – allometry is a common pattern in biological data
-- We need to account for it when testing hypotheses about shape
-- Many biological hypotheses related directly to allometric variation
-- **Visualization**: 
-    - RegScore ($\small{s}$) vs. Csize (Drake and Klingenberg 2008)
-    - PredLine $\small{P_1}$ vs. Csize (Adams and Nistri 2010)
-    - CAC, RSC, Csize (Mitteroecker et al. 2004)
++ Shape usually changes with size – allometry is a common pattern in biological data
++ We need to account for it when testing hypotheses about shape
++ Many biological hypotheses related directly to allometric variation
++ **Visualization**: 
+  + RegScore (**s**) vs. Csize (Drake and Klingenberg 2008)
+  + PredLine $\small{P_1}$ vs. Csize (Adams and Nistri 2010)
+  + CAC, RSC, Csize (Mitteroecker et al. 2004)
 
-- **Comparison of ontogenies**: - MANCOVA
-    - Convergence & divergence (Adams and Nistri 2010)
-    - Orientation (Piras et al. 2010)
++ **Comparison of ontogenies**: - MANCOVA
+  + Convergence & divergence (Adams and Nistri 2010)
+  + Orientation (Piras et al. 2010)
 
-- Heterochrony and related topics also of interest
++ Heterochrony and related topics also of interest
