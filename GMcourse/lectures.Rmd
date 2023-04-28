@@ -14,7 +14,7 @@
 
 [06-Shape Statistics I]
 
-[07-Allometry]
+[07-Allometry](https://geomorphR.github.io/GMcourse/Lectures/07-Allometry.html)
 
 [08-Shape Statistics II]
 
