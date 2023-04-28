@@ -533,8 +533,153 @@ PLS$left.pls.vectors[, 1]
 ---
 
 
-### Partial Least Squares, Example
+### Partial Least Squares, a few other examples
 
+.pull-left[.med[
+
+**Allometry**
+
+$\mathbf{Z}_1$ is a vector of centroid size
+```{r, echo = TRUE, include = TRUE}
+Z1 <- log(GPA$Csize)
+PLS <- two.b.pls(Z1, Z2, print.progress = FALSE)
+PLS
+```
+]]
+.pull-right[.small[
+```{r, echo = TRUE, include = TRUE, fig.height=3}
+plot(PLS, pch = 16)
+```
+
+Notice this:
+```{r, echo = TRUE, include = TRUE}
+(log(GPA$Csize) - mean(log(GPA$Csize)))[1:5]
+PLS$XScores[1:5, 1]
+```
+]]
+
+---
+
+### Partial Least Squares, a few other examples
+
+.pull-left[.med[
+
+**Module shape covariation**
+
+```{r, echo = TRUE, include = TRUE}
+Z1 <- GPA$coords[1:5, , ] # Five landmarks of jaw
+Z2 <- GPA$coords[6:13, , ] # 8 landmarks of cranium
+PLS <- two.b.pls(Z1, Z2, print.progress = FALSE)
+PLS
+
+```
+]]
+
+.pull-right[.small[
+```{r, echo = TRUE, include = TRUE, fig.height=5}
+plot(PLS, pch = 16, asp = 1)
+```
+]]
+
+---
+
+### Partial Least Squares, a few other examples
+
+.pull-left[.small[
+
+**Module shape covariation**
+```{r, echo = TRUE, eval = FALSE}
+plot(PLS, pch = 16, asp = 1)
+```
+
+**Jaw shapes at the extremes**
+```{r, echo = TRUE, eval = FALSE}
+predsJ <- shape.predictor(A = PLS$A1, 
+                         x = PLS$XScores[, 1],
+                         Intercept = FALSE,
+                         method = "PLS",
+                         xAxis1min = min(PLS$XScores[, 1]),
+                         xAxis1max = max(PLS$XScores[, 1]))
+
+RefJ <- mshape(PLS$A1)
+```
+
+**Neurocranium shapes at the extremes**
+```{r, echo = TRUE, eval = FALSE}
+predsN <- shape.predictor(A = PLS$A2, 
+                         x = PLS$YScores[, 1],
+                         Intercept = FALSE,
+                         method = "PLS",
+                         yAxis1min = min(PLS$YScores[, 1]),
+                         yAxis1max = max(PLS$YScores[, 1]))
+
+RefN <- mshape(PLS$A2)
+```
+]]
+
+.pull-right[.small[
+
+**Transformation grids**
+
+```{r, echo = TRUE, eval = FALSE}
+par(mfrow = c(2, 2))
+plotRefToTarget(RefN, predsN$yAxis1min)
+title("Neuro shape at min PLS 1")
+plotRefToTarget(RefN, predsN$yAxis1max)
+title("Neuro shape at max PLS 1")
+plotRefToTarget(RefJ, predsJ$xAxis1min)
+title("Jaw shape at min PLS 1")
+plotRefToTarget(RefJ, predsJ$xAxis1max)
+title("Jaw shape at max PLS 1")
+```
+]]
+
+
+---
+
+### Partial Least Squares, a few other examples
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, fig.height=5}
+plot(PLS, pch = 16, asp = 1)
+```
+]
+
+.pull-right[
+
+```{r, echo = FALSE, eval = TRUE, fig.height=5}
+predsJ <- shape.predictor(A = PLS$A1, 
+                         x = PLS$XScores[, 1],
+                         Intercept = FALSE,
+                         method = "PLS",
+                         xAxis1min = min(PLS$XScores[, 1]),
+                         xAxis1max = max(PLS$XScores[, 1]))
+
+predsN <- shape.predictor(A = PLS$A2, 
+                         x = PLS$YScores[, 1],
+                         Intercept = FALSE,
+                         method = "PLS",
+                         yAxis1min = min(PLS$YScores[, 1]),
+                         yAxis1max = max(PLS$YScores[, 1]))
+
+RefJ <- mshape(PLS$A1)
+RefN <- mshape(PLS$A2)
+
+par(mfrow = c(2, 2))
+plotRefToTarget(RefN, predsN$yAxis1min)
+title("Neuro shape at min PLS 1")
+plotRefToTarget(RefN, predsN$yAxis1max)
+title("Neuro shape at max PLS 1")
+plotRefToTarget(RefJ, predsJ$xAxis1min)
+title("Jaw shape at min PLS 1")
+plotRefToTarget(RefJ, predsJ$xAxis1max)
+title("Jaw shape at max PLS 1")
+```
+]
+
+
+---
 
 ```{r, echo = FALSE, eval = FALSE}
 data(plethShapeFood) 
