@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>12: Integration and Modularity</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <script src="12-IntegrationModularity_files/header-attrs-2.21/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# 12: Integration and Modularity
+]
+.author[
+### 
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+.scrollable {
+  height: 80%;
+  overflow-y: auto;
+} 
+&lt;/style&gt;
+
+### Trait Covariation
+
++ Organisms are composed of recognizable parts
++ These parts are to some extent correlated
++ Why is this the case?
+
+&lt;img src="LectureData/12.integr.mod/ConceptPic.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### Trait Covariation: Integration
+
++ Trait correlations arise when biological factors elicit concomitant changes in more than one trait
++ Factors at multiple overlapping levels affect trait covariation 
+  + Developmental
+  + Ontogenetic
+  + Functional/Biomechanical
+  + Evolutionary
+
++ These associations lead to the **integration** among different body parts
+
+###### Olson and Miller. (1958). *Morphological Integration.*
+---
+
+### Integration
+
++ Integration describes how characters are correlated with each other
++ Correlations that are stronger among some subsets of traits than between others (Olson and Miller 1958)
++ Cohesion among traits that result from interactions of biological processes (Klingenberg 2008)
+
+&lt;img src="LectureData/12.integr.mod/2014-ArmbrusterIntegration.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Trait Covariation: Modularity
+
++ Trait covariation is sometimes unevenly dispersed across traits
+
++ This results in integration that is concentrated within subsets of traits
+
++ These subsets of traits are less correlated with other subsets
+
++ Such patterns are termed **Modularity**
+
+--
+
++ **Other definitions:**
+
+  + The relative degree of connectivity among traits (Klingenberg 2008)
+
+  + A complex of characters that serve a functional role, are tightly integrated, and are relatively independent from other such units (Wagner 1996)
+
+  + Maximal subset of traits for which pairs of traits within the subset of mutually informative, conditional on all other traits under consideration  (Magwene 2001)
+---
+
+### Modularity
+
++ Modular structure in snakes 
+&lt;img src="LectureData/12.integr.mod/2021-Rhoda.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Levels of Integration and Modularity
+
++ Both integration and modularity may be observed at different biological levels, and be explained by different biological processes
+  + Levels mirror those evaluated for allometric patterns: static, ontogenetic, evolutionary
+
+&lt;img src="LectureData/12.integr.mod/Klingenberg2014.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Quantifying Integration and Modularity: Conceptual Considerations
+
++ Patterns of trait covariation (integration and modularity) have been explored in different ways
+
++ Different approaches are appropriate for different hypotheses
+
++ Some considerations when embarking on a trait covariation study are:
+  + Does one evaluate overall patterns of integration or integration among subsets of traits? 
+  + What is the expected pattern when neither integration nor modularity is present?
+  + Is modularity the 'contrary' of integration, or can both simultaneously be present?
+  + What is the appropriate `\(H_0\)` for evaluating integration? Modularity, disintegration, random integration, other? 
+  + What is the appropriate `\(H_0\)` for evaluating modularity: Integration, random modularity, other? 
+  + Does `\(H_0\)` differ when testing overall integration versus integration among subsets? 
+
+##### As we will see, the empirical answer to the last few questions is found via RRPP
+---
+
+### Methods for Evaluating Integration and Modularity
+
++ Here we review some methods for evaluating patterns of integration and modularity
+  + 1: Methods for evaluating and comparing overall integration
+  + 2: Methods for evaluating and comparing integration among subsets of traits
+  + 3: Methods for evaluating and comparing modularity
+---
+
+### 1: Overall Integration
+
++ Is there integration (covariaton) in a set of traits? 
+
++ Most approaches based on exploring patterns in the trait covariance matrix:
+
+`$$\hat{\mathbf\Sigma} = \mathbf{Y_c^T}\mathbf{Y_c}/ (N-1)$$`
+
+--
+
+Using our shape data notation: 
+
+`$$\hat{\mathbf\Sigma} = \mathbf{Z^T}\mathbf{Z}/ (N-1)$$`
+
+where `\(\mathbf{Z}\)` is an `\(N \times pk\)` matrix of Procrustes coordinates
+
+--
+
++ Identify large pairwise correlations in `\(\small{R}\)` (Van Valen 1965)
+
++ Identify clusters of traits using cluster analysis (Cheverud 1982)
+
++ Factor analysis for identifying sets of correlated traits (Zelditch 1987)
+  
++ Methods attempted to identify whether integration was present, but usually without *a priori* hypotheses regarding integrated subsets
+---
+
+### 1: Quantifying Overall Integration
+
++ Integrated traits are correlated (covary)
+  + Eigenvalues of `\(\hat{\Sigma}\)` describe the degree of covariation
+  + Thus, the dispersion of `\(\lambda_p\)` for a set of `\(p\)` traits is one way to describe their integration
+  
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-6-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+
+##### From Conaway and Adams 2022 (*Evol*)
+---
+
+### 1: Quantifying Overall Integration: Some Methods
+
++ Many measures for summarizing the dispersion of `\(\lambda_p\)` have been proposed
+
+Index | Equation | Source
+:------- | :----------- | :--------------
+ICV | `\(\frac{\sigma_\lambda}{\overline{\lambda}}\)` | Shirai and Marroig, 2010
+VE | `\(\frac{{\sum}{\left(\lambda_i-\overline{\lambda}\right)^2}}{p}\)` | Wagner, 1984
+`\(V_{rel}\)` | `\(\frac{{\sum}{\left(\lambda_i-\overline{\lambda}\right)^2}}{p(p-1)\overline{\lambda}{^2}}\)` | Pavlicev et al. 2009
+`\(T_1\)` | `\(1-\frac{\sum{\sqrt{\lambda_i}}}{p\sqrt{\lambda_1}}\)` | van Valen, 1974
+`\(T_2\)` | `\(1-\frac{\sum{\lambda_i}}{p(\lambda_1)}\)` | van Valen, 1974
+`\(D_r\)` | `\(\frac{\sqrt[2R_e]{\prod{\lambda_{R_e}}}}{\sqrt{1/\pi{R_e}}}\)` | O'Keefe et al., 2022
+
++ Which one to use? 
+---
+
+### 1: Overall Integration: Which Method to Use?
+
++ Only `\(V_{rel}\)` remains stable across `\(N\)` and `\(p\)`
+
+.pull-left[
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig2a.png" width="95%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig2b.png" width="95%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+### 1: An Effect Size for `\(V_{rel}\)`
+
+.pull-left[
++ `\(V_{rel}\)` recovers known input levels of covariation
++ But variance unequal across input levels 
++ Can't compare across datasets
+
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig3.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
++ Conversion to an effect size alleviates problem!
++ Rescale: `\(V_{rel}^*=2V_{rel}-1\)`  
++ Convert to `\(Z\)`-score: `\(Z_{Vrel}=\frac{1}{2}ln \left(\frac{{1+V_{rel}^*}}{1-V_{rel}^*} \right)\)`
+
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig4.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+##### NOTE: redundant dimensions removed prior to estimating `\(V_{rel}\)`: See Conaway and Adams 2022 (Evol.)
+---
+
+### 1: Comparing Overall Integration
+
++ One can compare overall integration across datasets using `\(Z_{Vrel}\)`
++ Statistically compare integration levels as: `\(\hat{Z}_{12}=\frac{\lvert{Z_1-Z_2}\rvert}{\sqrt{\sigma^2_{Z_1}+\sigma^2_{Z_2}}}\)`
+
+
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig6.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### 1: Comparing Overall Integration: Example
+
+Compare overall integration in shape shape across *Plethodon* species 
+.scrollable[
+
+```r
+data("plethodon")
+Y.gpa &lt;- gpagen(plethodon$land, print.progress = FALSE)
+#Separate data by species
+coords.gp &lt;- coords.subset(Y.gpa$coords, plethodon$species)
+
+#Z_Vrel by species
+Vrel.gp &lt;- Map(function(x) integration.Vrel(x), coords.gp) 
+compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
+```
+
+```
+## 
+## Effect sizes
+## 
+##  Vrel.gp$Jord Vrel.gp$Teyah 
+##    -0.2978931    -0.2642648 
+## 
+## Effect sizes for pairwise differences in rel.eig effect size
+## 
+##               Vrel.gp$Jord Vrel.gp$Teyah
+## Vrel.gp$Jord    0.00000000    0.09804249
+## Vrel.gp$Teyah   0.09804249    0.00000000
+## 
+## P-values
+## 
+##               Vrel.gp$Jord Vrel.gp$Teyah
+## Vrel.gp$Jord     1.0000000     0.9218986
+## Vrel.gp$Teyah    0.9218986     1.0000000
+```
+]
+
+---
+
+### 1B: Overall Integration Across Spatial Scales
+
++ One can also examine the integration across geometric scales
+
++ Because landmarks are spatially related, one possible 'null' for integration could be whether the same pattern is observed across spatial scales 
+
++ Examining shape variance relative to spatial scale provides some guidance (i.e., regression of `\(\sigma^2_{PW}\)` vs. Bending Energy)
+
++ Self-similarity of integration across scales is found when: `\(\small\beta= -1\)`
+
++ Deviations in slope from this value provide useful heuristics regarding global integration
+  + `\(\small\beta= -1\)`: self-similarity
+  + `\(\small\beta&gt; -1\)`: global integration
+  + `\(\small\beta&lt; -1\)`: "disintegration"
+
+##### Bookstein 2015 (*Evol. Biol.*)
+---
+
+### 1B: Overall Spatial Integration: Example
+
+.scrollable[
+
+```r
+data(plethodon) 
+Y.gpa&lt;-gpagen(plethodon$land, print.progress = FALSE)    #GPA-alignment    
+
+globalIntegration(Y.gpa$coords) #not spatially integrated
+```
+
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+```
+##      BEval 
+## -0.6369198
+```
+]
+
+---
+
+### 2: Integration Among Subsets of Traits
+
++ Sometimes, we wish to know whether there there are associations among *sets* of traits (e.g., between limb traits and head traits)
+
++ This addresses whether these biological units (subsets of traits) are integrated with one another `\(^1\)`
+
++ One may evaluate such hypotheses using tests of **Multivariate Association** 
+
++ Two approaches have been used: the RV coefficient and Partial Least Squares
+
+&lt;sup&gt;1: In the literature, subsets of traits are often referred to as 'blocks' or 'modules'&lt;/sup&gt;
+---
+
+### 2: Integration Among Subsets of Traits (Cont.)
+
++ But first recall: 
+    + One can combine traits from the two subsets and estimate a combined covariance matrix: `\(\hat{\mathbf{\Sigma}}\)`
+    + `\(\small\hat{\mathbf{\Sigma}}\)` can be considered a partitioned matrix, where different sub-components describe covariation within blocks or between blocks of variables
+
+.pull-left[
+&lt;img src="LectureData/06.covariation/CovMatParts2.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+`\(\small\mathbf{S}_{11}\)`: covariation of variables in `\(\small\mathbf{Y}_{1}\)`
+
+`\(\small\mathbf{S}_{22}\)`: covariation of variables in `\(\small\mathbf{Y}_{2}\)`
+
+`\(\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}\)`: covariation between `\(\small\mathbf{Y}_{1}\)` and `\(\small\mathbf{Y}_{2}\)`
+
+`\(\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}\)` is the multivariate equivalent of `\(\small\sigma_{21}\)` 
+]
+---
+
+### 2: Integration Among Subsets: The RV Coefficient
+
++ Escoffier's RV Coefficient characterizes covariation between subsets relative to covaration within subsets
+
+`$$RV=\frac{tr(\mathbf{S}_{12}\mathbf{S}_{21})}{\sqrt{tr(\mathbf{S}_{11}\mathbf{S}_{11})tr(\mathbf{S}_{22}\mathbf{S}_{22})}}$$`
++ The RV coefficient is *analogous* to `\(\small{r}^{2}\)` but it is not a strict mathematical generalization `\(^1\)`
+
++ `\(RV\)` (like `\(r^{2}\)`) is a ratio of between-block relative to within-block variation 
+  + Range of `\(\mathbf{RV}\)`:  `\(\small{0}\rightarrow{1}\)`
+  + Significance is assessed via permutation
+
+&lt;sup&gt;1: Technically, `\(RV\)` is a ratio of squared covariances, not variances as in `\(r^2\)`: see Bookstein 2016&lt;/sup&gt;
+
+---
+
+### 2: Integration Among Subsets: Partial Least Squares
+
++ Another way to summarize the covariation between blocks is via Partial Least Squares (PLS)
+
++ *Decomposing* the information in `\(\small\mathbf{S}_{12}\)` to find rotational solution (direction) that describes greatest covariation between `\(\small\mathbf{Y}_{1}\)` and `\(\small\mathbf{Y}_{2}\)`
+
+`$$\small\mathbf{S}_{12}=\mathbf{U\Lambda{V}}^T$$`
+
++ Ordination scores found by projection of centered data on vectors `\(\small\mathbf{U}\)` and `\(\small\mathbf{V}\)`
+
+`$$\small\mathbf{P}_{1}=\mathbf{Y}_{1}\mathbf{U}$$`
+
+`$$\small\mathbf{P}_{2}=\mathbf{Y}_{2}\mathbf{V}$$`
+
++ The first columns of `\(\small\mathbf{P}_{1}\)` and `\(\small\mathbf{P}_{2}\)` describe the maximal covariation between `\(\small\mathbf{Y}_{1}\)` and `\(\small\mathbf{Y}_{2}\)`
+
++ The correlation between `\(\small\mathbf{P}_{11}\)` and `\(\small\mathbf{P}_{21}\)` is the PLS-correlation
+
+`$$\small{r}_{PLS}={cor}_{P_{11}P_{21}}$$`
+
++ Significance is assessed via permutation
+
+###### Bookstein et al. (2003). *J. Hum. Evol.*
+---
+
+### 2: Integration using RV: Example
+
+.pull-left[
++ *Pecos* pupfish
++ Is there an association between head shape and body shape?
+
+&lt;img src="LectureData/06.covariation/Pupfish Motivation.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+data(pupfish)
+Y.gpa &lt;- gpagen(pupfish$coords, print.progress = FALSE)
+shape &lt;- two.d.array(Y.gpa$coords)
+head &lt;- c(4, 10:17, 39:56)
+all &lt;- 1:56
+body &lt;- all[-head]
+land.gps&lt;-rep('b',56); land.gps[c(4,10:17,39:56)]&lt;-'a' # for PLS
+y &lt;- two.d.array(Y.gpa$coords[head, , ])
+x &lt;- two.d.array(Y.gpa$coords[body, , ])
+y&lt;-scale(y,center=TRUE, scale=FALSE)
+x&lt;-scale(x,center=TRUE, scale=FALSE)
+S12 &lt;- crossprod(x,y)/(dim(x)[1] - 1)
+S11 &lt;- var(x)
+S22 &lt;- var(y)
+RV &lt;- sum(colSums(S12^2))/sqrt(sum(S11^2)*sum(S22^2))
+```
+
+`$$\small{RV}=\frac{tr(\mathbf{S}_{12}\mathbf{S}_{21})}{\sqrt{tr(\mathbf{S}_{11}\mathbf{S}_{11})tr(\mathbf{S}_{22}\mathbf{S}_{22})}}=0.607$$`
+
+`$$\small\sqrt{RV}=0.779$$`
+]
+---
+
+### 2: Integration using PLS: Example
+
+.pull-left[
+
+```r
+PLS &lt;- two.b.pls(y,x, iter=999, print.progress = FALSE)
+summary(PLS)
+```
+
+```
+## 
+## Call:
+## two.b.pls(A1 = y, A2 = x, iter = 999, print.progress = FALSE) 
+## 
+## 
+## 
+## r-PLS: 0.917
+## 
+## Effect Size (Z): 5.4039
+## 
+## P-value: 0.001
+## 
+## Based on 1000 random permutations
+```
+`\(\tiny{RV}=\frac{tr(\mathbf{S}_{12}\mathbf{S}_{21})}{\sqrt{tr(\mathbf{S}_{11}\mathbf{S}_{11})tr(\mathbf{S}_{22}\mathbf{S}_{22})}}=0.607\)` and `\(\tiny\sqrt{RV}=0.779\)`
+
+`\(\small{r}_{PLS}={cor}_{P_{11}P_{21}}=0.917\)`
+]
+
+.pull-right[
+.scrollable[
+
+```r
+plot(PLS)
+```
+
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+]
+---
+
+### 2: Evaluating Multivariate Associations
+
++ We now have two potential test measures of multivariate correlation
+
+`$$\small{RV}=\frac{tr(\mathbf{S}_{12}\mathbf{S}_{21})}{\sqrt{tr(\mathbf{S}_{11}\mathbf{S}_{11})tr(\mathbf{S}_{22}\mathbf{S}_{22})}}$$`
+
+`$$\small{r}_{PLS}={cor}_{P_{11}P_{21}}$$`
++  Is one approach preferable over the other?
+---
+
+### 2: Permutation Tests for Multivariate Association
+
++ Test statistics: `\(\small\hat\rho=\sqrt{RV}\)` and `\(\small\hat\rho={r}_{PLS}\)`
+  + H~0~: `\(\small\rho=0\)` 
+  + H~1~: `\(\small\rho&gt;0\)` 
+
++ Use RRPP to generate empirical sampling distribution for each (note: row-permutation)
+
+
+
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-20-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
++ For the pupfish dataset, both are significant at p = 0.001
+---
+
+### 2: Permutation Tests for RV and r~PLS~: Example
+
+Compare permutation distributions with one another (minus observed in this case)
+
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-21-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
++ All things considered, *r~PLS~* performs better 
+---
+
+### 2: Integration using PLS: Example 2
+
++ Cranial integration for pairs of modules in *Homo*
+
+&lt;img src="LectureData/12.integr.mod/PLS-Bookstein03.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### 2B: Comparing Integration Across Datasets
+
++ One may wish to compare integration among subsets across datasets
++ Cannot do so directly with `\(RV\)` or `\(r_{PLS}\)` as both vary with `\(N\)` and `\(p\)`
+
+&lt;img src="LectureData/12.integr.mod/RV.PLS.n.p.png" width="50%" style="display: block; margin: auto;" /&gt;
+
++ We require appropriate effect sizes for comparison
+---
+
+### 2B: Comparing Integration Across Datasets (Cont.)
+
++ Conversion of `\(R_{PLS}\)` to an effect size alleviates the concern
+
+`$$\mathbf{Z}=\frac{r_{PLS_{obs}}-\mu_{r_{PLS_{rand}}}}{\sigma_{r_{PLS_{rand}}}}$$`
+
+&lt;img src="LectureData/12.integr.mod/Z-PLS-WithN-P.png" width="50%" style="display: block; margin: auto;" /&gt;
+
++ Statistical comparisons of effect sizes are then possible:
+
+`$$\hat{Z}_{12}=\frac{\lvert{Z_1-Z_2}\rvert}{\sqrt{\sigma^2_{Z_1}+\sigma^2_{Z_2}}}$$`
+---
+
+### 2B: Comparing Integration Across Datasets: Example
+
++ Are the modules of lizard heads equally integrated across environments?
++ Does this integration change ontogenetically?
+
+&lt;img src="LectureData/12.integr.mod/CompareIntegr_example.png" width="50%" style="display: block; margin: auto;" /&gt;
+
++ Yes it does!
+---
+
+### 2B: Comparing Integration Across Datasets: Example 2
+
++ Example using the pupfish data
+
+
+```r
+# Compare morphological integration between pupfish head and body shapes
+data(pupfish) # GPA previously performed
+group &lt;- factor(paste(pupfish$Pop, pupfish$Sex, sep = "."))
+
+# Subset 3D array by group, returning a list of 3D arrays
+  tail.LM &lt;- c(1:3, 5:9, 18:38)
+  head.LM &lt;- (1:56)[-tail.LM]
+tail.coords &lt;- pupfish$coords[tail.LM,,]
+head.coords &lt;- pupfish$coords[head.LM,,]
+
+tail.coords.gp &lt;- coords.subset(tail.coords, group)
+head.coords.gp &lt;- coords.subset(head.coords, group)
+```
+---
+
+### 2B: Comparing Integration Across Datasets: Example 2 (Cont.)
+
+.scrollable[
+
+```r
+# Obtain Integration for groups
+integ.tests &lt;- Map(function(x,y) integration.test(x, y, iter=499, 
+                print.progress = FALSE), head.coords.gp, tail.coords.gp)
+# Compare Integration
+compare.pls(integ.tests)
+```
+
+```
+## 
+## Effect sizes
+## 
+##    Marsh.F    Marsh.M Sinkhole.F Sinkhole.M 
+##  3.1410345  1.5130737  0.7429882  2.7156556 
+## 
+## Effect sizes for pairwise differences in PLS effect size
+## 
+##              Marsh.F   Marsh.M Sinkhole.F Sinkhole.M
+## Marsh.F    0.0000000 0.6586628  1.9027247  0.7518767
+## Marsh.M    0.6586628 0.0000000  0.8778808  1.1927859
+## Sinkhole.F 1.9027247 0.8778808  0.0000000  2.0927712
+## Sinkhole.M 0.7518767 1.1927859  2.0927712  0.0000000
+## 
+## P-values
+## 
+##               Marsh.F   Marsh.M Sinkhole.F Sinkhole.M
+## Marsh.F    1.00000000 0.5101123 0.05707647 0.45212519
+## Marsh.M    0.51011230 1.0000000 0.38000838 0.23295324
+## Sinkhole.F 0.05707647 0.3800084 1.00000000 0.03636958
+## Sinkhole.M 0.45212519 0.2329532 0.03636958 1.00000000
+```
+]
+
+---
+
+### 3: From Integration to Modularity
+
++ Sometimes, patterns of integration are not uniform across an organism
+
++ Instead, integration is 'concentrated' in subsets of traits 
+
++ In turn, these tratis are relatively independent of other sets of traits that are also inter-correlated
+
++ This pattern is termed 'Modularity'
+
+--
+
++ The question is: How does one identify (and then statistically evaluate!) modular structure?
+---
+
+### 3: Identifying Modules: Conditional Independence
+
++ Detect significant correlations, while accounting for correlations with other traits
+
++ Procedure
+  + Calculate `\(\small{R}\)` for a set of traits
+  + Find inverse `\(\small{R}^{-1}\)` (elements of which are `\(\small{\Omega_{ij}}\)`)
+  + Rescale `\(\small{R}^{-1}\)` to **partial** correlations: `\(\small{\rho_{ij}=\frac{-\Omega_{ij}}{\sqrt{\Omega_{ii}\Omega_{jj}}}}\)`
+  + Evaluate partial correlations: `\(\small{-Nln(1-\rho^2_{ij})\approx\chi^2}\)`			for all `\(\small{\rho_{ij}}\)`.  Set non-significant values to zero
+  + Remaining `\(\small{\rho_{ij}}\)` describe correlations among integrated traits 
+    
++ Graphically, this is equivalent to ‘pruning’ links between traits
++ Method ‘exploratory’ in that modules are not known *a priori* 
+---
+
+### 3: Identifying Modules: Conditional Independence: Example
+
++ Sewall Wright's 'chickenbone' dataset
+
+&lt;img src="LectureData/12.integr.mod/Magwene-Chickenbone.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### 3: Identifying Modularity
+
++ Modularity addresses a question complementary to that of integration
+
++ Modules: tightly integrated sets of traits, which are relatively independent from other such sets
+
+&lt;img src="LectureData/12.integr.mod/ModulCovBtwn.png" width="70%" /&gt;
+---
+
+### 3: Quantifying Modularity: `\(CR\)` Coefficient
+
++ As shown previously, the `\(RV\)` coefficient (though frequently used) is not constant across `\(N\)` and `\(p\)`
+
++ Instead use the covariance ratio:
+
+`$$CR=\frac{tr(\mathbf{S}_{12}\mathbf{S}_{21})}{\sqrt{tr(\mathbf{S}^*_{11}\mathbf{S}^*_{11})tr(\mathbf{S}^*_{22}\mathbf{S}^*_{22})}}$$`
+
++ where `\(\mathbf{S}^*_{11}\)` &amp;  `\(\mathbf{S}^*_{22}\)` represent the within-module covariance matrices with `\(0\)` along the diagonal
+
+-  The `\(CR\)` coefficient does *NOT* vary with *n* and *p*:
+
+&lt;img src="LectureData/12.integr.mod/CRPattern.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### 3: `\(CR\)` Coefficient: Statistical Properties
+
++ The `\(CR\)` coefficient displays appropriate statistical properties
+
+&lt;img src="LectureData/12.integr.mod/CRStatProp.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
+
+### 3: `\(CR\)` Coefficient: Examples
+
+&lt;img src="LectureData/12.integr.mod/CRExamples.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+
+### 3: Evaluating Modularity: Example 2
+
+
+```r
+data(pupfish) 
+Y.gpa&lt;-gpagen(pupfish$coords, print.progress = FALSE)    #GPA-alignment    
+# landmarks on the body vs. operculum
+land.gps&lt;-rep('a',56); land.gps[39:48]&lt;-'b'
+modularity.test(Y.gpa$coords,land.gps,CI=FALSE,print.progress = FALSE)
+```
+
+```
+## 
+## Call:
+## modularity.test(A = Y.gpa$coords, partition.gp = land.gps, CI = FALSE,  
+##     print.progress = FALSE) 
+## 
+## 
+## 
+## CR: 0.9075
+## 
+## P-value: 0.021
+## 
+## Effect Size: -2.3097
+## 
+## Based on 1000 random permutations
+```
+---
+
+### 3B: Comparing Modularity Across Datasets
+
++ One might be interested in evaluating alternative modular hypotheses for the same dataset...
++ ... or ask whether one group exhibits higher modular signal than another
+
++ Again, an effect size (*Z*-score) is useful for this purpose
+
+--
+
++ Convert `\(CR\)` to an effect size: 
+
+`$$\mathbf{Z}=\frac{r_{CR_{obs}}-\mu_{r_{CR_{rand}}}}{\sigma_{r_{CR_{rand}}}}$$`
+
++ Compare effect sizes as: 
+
+`$$\hat{Z}_{12}=\frac{\lvert{Z_1-Z_2}\rvert}{\sqrt{\sigma^2_{Z_1}+\sigma^2_{Z_2}}}$$`
+
+##### Adams and Collyer 2019
+
+---
+
+### 3B: Comparing Modularity Across Datasets: example
+
++ Which is the most supported modular division for the mouse mandible?
++ Do some species exhibit higher modularity than others?
+
+&lt;img src="LectureData/12.integr.mod/Fig6.png" width="35%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### 3B: Comparing Modularity Across Datasets: Example 2
+
++ Example using the pupfish data
+
+
+```r
+# Compare modularity between pupfish head and body shapes
+data(pupfish) 
+Y.gpa&lt;-gpagen(pupfish$coords, print.progress = FALSE)    #GPA-alignment    
+# landmarks on the body vs. operculum
+land.gps&lt;-rep('a',56); land.gps[39:48]&lt;-'b'
+
+# Pupfish groups (of observations)
+group &lt;- factor(paste(pupfish$Pop, pupfish$Sex, sep = "."))
+coords.gp &lt;- coords.subset(Y.gpa$coords, group)
+```
+---
+
+### 3B: Comparing Modularity Across Datasets: Example 2 (Cont.)
+
+.scrollable[
+
+```r
+# Modularity tests per group
+modul.tests &lt;- Map(function(x) modularity.test(x, land.gps,print.progress = FALSE), coords.gp) 
+# Compare modularity
+compare.CR(modul.tests, CR.null = FALSE)
+```
+
+```
+## 
+##  NOTE: more negative effects represent stronger modular signal! 
+## 
+## 
+## Effect sizes
+## 
+##    Marsh.F    Marsh.M Sinkhole.F Sinkhole.M 
+## -0.7265087 -4.1650804 -2.4916997 -2.1320218 
+## 
+## Effect sizes for pairwise differences in CR effect size
+## 
+##             Marsh.F    Marsh.M Sinkhole.F Sinkhole.M
+## Marsh.F    0.000000 2.45689940 1.74666288  1.0170828
+## Marsh.M    2.456899 0.00000000 0.07932252  1.4191065
+## Sinkhole.F 1.746663 0.07932252 0.00000000  0.9811416
+## Sinkhole.M 1.017083 1.41910651 0.98114159  0.0000000
+## 
+## P-values
+## 
+##               Marsh.F    Marsh.M Sinkhole.F Sinkhole.M
+## Marsh.F    1.00000000 0.01401419 0.08069583  0.3091141
+## Marsh.M    0.01401419 1.00000000 0.93677609  0.1558680
+## Sinkhole.F 0.08069583 0.93677609 1.00000000  0.3265229
+## Sinkhole.M 0.30911405 0.15586797 0.32652292  1.0000000
+```
+]
+
+---
+
+### Integration and Modularity: Perspectives
+
++ Integration and modularity are of relevance for many E&amp;E questions
+
++ All approaches decompose information in `\(\hat{\mathbf{\Sigma}}\)`
+
++ Require methods that are robust to `\(N\)` and `\(p\)`
+
++ Effect sizes of test statistics are most useful, and can be compared
+  + Overall integration for a set of traits: `\(Z_{Vrel}\)`
+  + Integration among subsets: `\(Z_{r_{PLS}}\)`
+  + Modularity among subsets: `\(Z_{CR}\)`
+
++ RRPP provides analytical tool for statistical evaluation and comparison of patterns
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-light",
+"highlightLines": true,
+"countIncrementalSlides": true,
+"ratio": "16:9",
+"self_contained": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

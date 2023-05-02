@@ -1,5 +1,5 @@
 For workshop
 
-2-Linear algebra: slide 54 has some dangling partial title at the bottom
+Use 'Z' in all equations for Procrustes residuals
 
  
