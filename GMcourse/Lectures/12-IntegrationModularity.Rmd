@@ -282,7 +282,7 @@ include_graphics("LectureData/12.integr.mod/2022ConawayFig3.png")
 .pull-right[
 + Conversion to an effect size alleviates problem!
 + Rescale: $V_{rel}^*=2V_{rel}-1$  
-+ Convert to $Z$-score: $Z_{Vrel}=\frac{1}{2}ln \left(\frac{{1+V_{rel}^*}}{1-V_{rel}^*} \right)$
++ Convert to $Z$-score: $Z_{Vrel}=\frac{1}{2}ln (\frac{1+V_{rel}^*}{1-V_{rel}^*})$
 
 ```{r, echo = FALSE, fig.align = "center", out.width="70%"}
 include_graphics("LectureData/12.integr.mod/2022ConawayFig4.png")  
