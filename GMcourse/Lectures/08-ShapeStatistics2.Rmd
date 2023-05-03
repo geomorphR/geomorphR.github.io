@@ -1,0 +1,63 @@
+---
+title: "8. Shape Statistics II"
+author: ""
+subtitle: "Advanced statistical analysis of linear models."
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "utilities.css"]
+    nature:
+      highlightStyle: solarized-light
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+      self_contained: false
+
+
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(Matrix)
+library(RRPP)
+library(geomorph)
+library(scatterplot3d)
+knitr::opts_chunk$set(echo = FALSE)
+
+library(xaringanthemer)
+style_mono_light()
+```
+
+### Overview:
+
++ Revisit RRPP for linear models
++ Common test statistics
++ Simple model evaluation
+  + RRPP and exchangeable units under the null hypothesis
++ Multi-model evaluation
+  + Nested models
+    + Exchangeable units under null hypotheses
+    + Types of sums of squares and cross-products
+  + Non-nested models
+    + Likelihood
+    + AIC
++ The ability of RRPP to test better hypotheses
+  + Trajectory analysis
+  + Disparity analysis
++ The common thread in all statistical analyses.
+
+---
+
+### Recall, the general linear model provides
+
++ Estimation of coefficients, $\hat{\boldsymbol{\beta}}$
++ Fitted values, based on estimate coefficients, $\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}$.  (Residuals can also be found as $\mathbf{E} =\mathbf{Z} - \hat{\mathbf{Z}}$.)
++ Covariance matrices for residual variation:
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1}\mathbf{\tilde{E}}^T\mathbf{\tilde{E}}$$
+
++ Covariance matrices for the effect of adding model paramters to a null model.
+
+$$\hat{\boldsymbol{\Sigma}} = (k-1)^{-1}(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})^T(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})$$
+
+
+---
