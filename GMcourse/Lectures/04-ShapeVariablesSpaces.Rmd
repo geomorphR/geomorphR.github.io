@@ -56,7 +56,7 @@ par(mfrow=c(1,1))
   + The of distribution of points in shape space is the consensus (the mean shape)
   + The metric defining shape space is  Procrustes distance $D_{Proc}$
 
-$$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Y}_{1.ij}-\mathbf{Y}_{2.ij}\right)^2}$$
+$$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Z}_{1.ij}-\mathbf{Z}_{2.ij}\right)^2}$$
 + **Shape space is curved!** $^1$ .left[.footnote[1: Example with 2,000 random (uniform) triangles. Note overabundance of shapes near 'north pole'.]]
 ]
 .pull-right[
@@ -96,7 +96,7 @@ plot<-scatterplot3d(pc.tri[,1],pc.tri[,2],mult.pc*pc.tri[,3], asp=1, pch=21,bg="
 
 + Orthogonal projection of shapes to linear tangent space
 
-$$\mathbf{X}'=\mathbf{X\left(I_{kp}-X_c^T(X_cX_c^T)^{-1}X_c\right)}$$
+$$\mathbf{Z}'=\mathbf{Z\left(I_{kp}-Z_c^T(Z_cZ_c^T)^{-1}Z_c\right)}$$
 
 ```{r, echo = FALSE, fig.align = "center",out.width="50%"}
 include_graphics("LectureData/04.shape.vars/OrthProj.png")  
@@ -104,12 +104,16 @@ include_graphics("LectureData/04.shape.vars/OrthProj.png")
 --
 
 + Specimen scores from projection are Kendall’s tangent space coordinates (Dryden and Mardia, 1993; Kent 1994)
-+ Perform PCA and retain only 2p-4 (3D: 3p-7) shape variables with variation if desired $^1$ .left[.footnote[1: Permutation via RRPP is now standard practice, so this step is not strictly necessary!]]
++ Perform PCA and retain only 2p-4 (3D: 3p-7) shape variables with variation if desired $^1$
+
+.footnote[1: Permutation via RRPP is now standard practice, so this step is not strictly necessary!]
 ---
 
 ### Kendall's Tangent Space Coordinates
 
-+ Random uniform shapes *ARE* uniformally distributed in Tangent Space!$^1$ .left[.footnote[1: Same set of 2,000 randomly generated triangles.]]
++ Random uniform shapes *ARE* uniformally distributed in Tangent Space! $^1$ 
+
+.footnote[1: Same set of 2,000 randomly generated triangles.]
 
 ```{r echo=FALSE, eval=TRUE,fig.align = "center", out.width="40%"}
 plot(pc.tri[,1:2], asp=1, pch=21, bg="red")
@@ -186,13 +190,14 @@ $$\small\mathbf{L}_p^{-1}=\mathbf{E\Lambda{E}^T}$$
 
 + 4: Estimate non-uniform shape variables (**Partial Warp Scores**) via projection onto principal warps $\small\mathbf{E}$:
 
-$$\small\mathbf{W}=\mathbf{V(I_2\otimes{E})=V}\begin{bmatrix}\mathbf{E} & \mathbf{0} \\ \mathbf{0} & \mathbf{E} \end{bmatrix})$$
+$$\small\mathbf{W=\mathcal{V}(I_2\otimes{E})=\mathcal{V}\begin{bmatrix}\mathbf{E} & \mathbf{0} \\ \mathbf{0} & \mathbf{E} \end{bmatrix})}$$
 
-where $\small\mathbf{V}=\mathbf{[V_x|V_y]}$ with $\small\mathbf{V_x}=\mathbf{(X-\overline{X}_{ref})}$ & $\small\mathbf{V_y}=\mathbf{(Y-\overline{Y}_{ref})}$
+where $\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}$ with $\small\mathbf{\mathcal{V_x}=\mathbf{(X-\overline{X}_{ref})}}$ & $\small\mathbf{\mathcal{V_y}}=\mathbf{(Y-\overline{Y}_{ref})}$
 
 --
 
-+ Note, one can weight partial warp scores inversely by spatial scale as: $\small\mathbf{W}=\mathbf{V(I_2\otimes{E\Lambda^{-\alpha/2}})}$
++ Note, one can weight partial warp scores inversely by spatial scale as: 
+$\small\mathbf{W}=\mathbf{\mathcal{V}(I_2\otimes{E\Lambda^{-\alpha/2}})}$
 
   + There are $2p-6$ partial warp scores ( $3p-12$ for 3D data)
 ---
@@ -204,12 +209,13 @@ where $\small\mathbf{V}=\mathbf{[V_x|V_y]}$ with $\small\mathbf{V_x}=\mathbf{(X-
 + Total shape (from GPA) is the sum of affine and non-affine shape:
 $$\small\mathbf{S=U\oplus{B}}$$
 
-+ Computations $^1$ .left[.footnote[1: From Rohlf and Bookstein 2003]] 
++ Computations $^1$  
   + Construct space orthogonal to non-affine shape component: $\small\mathbf{N=I_p-E(E^TE)^{-1}E^T}$
-  + Project specimens: $\small\mathbf{V(N\oplus{I_k})}$
-  + Extract affine (uniform) dimensions through singular-value decomposition (SVD): $\small\mathbf{LSR^T=V(N\oplus{I_k})}$  
+  + Project specimens: $\small\mathbf{\mathcal{V}(N\oplus{I_k})}$
+  + Extract affine (uniform) dimensions through singular-value decomposition (SVD): $\small\mathbf{LSR^T=\mathcal{V}(N\oplus{I_k})}$  
   + There are $2$ uniform dimensions ( $5$ for 3D)
 
+.footnote[1: From Rohlf and Bookstein 2003]
 ---
 
 ### Total Shape Variation
@@ -232,7 +238,7 @@ include_graphics("LectureData/04.shape.vars/TotalShapeVar.png")
 include_graphics("LectureData/04.shape.vars/SquareKite.png")  
 ```
 
-$\small\mathbf{X}_{sqr}=\begin{bmatrix} 0 & 0.5\\ -0.5 & 0\\ 0 & -0.5\\ 0.5 & 0 \end{bmatrix}$ and $\small\mathbf{X}_{kite}=\begin{bmatrix} 0 & 0.375\\ -0.5 & 0.125\\ 0 & -0.625\\ 0.5 & 0.125 \end{bmatrix}$
+$\small\mathbf{Z}_{sqr}=\begin{bmatrix} 0 & 0.5\\ -0.5 & 0\\ 0 & -0.5\\ 0.5 & 0 \end{bmatrix}$ and $\small\mathbf{Z}_{kite}=\begin{bmatrix} 0 & 0.375\\ -0.5 & 0.125\\ 0 & -0.625\\ 0.5 & 0.125 \end{bmatrix}$
 ---
 
 ### TPS Model: Example (Cont.)
@@ -321,7 +327,7 @@ plot(GPA.d,Kendall.d)
 + Principal Components Analysis (PCA) is one such tool
 ---
 
-# Principal Components Analysis (PCA)
+### Principal Components Analysis (PCA)
 
 + PCA attempts to summarize the variation in high-dimensional data in as few dimensions as is possible
 + Mathematically consists of a rigid rotation of the data based on directions of variation, followed by projection to those new summary axes
@@ -355,55 +361,61 @@ plot(Y.pc, asp=1,pch=21, bg="red", xlab="PC1", ylab="PC2")
 
 + Principal component analysis (PCA) is two things: (1) a singular-value decomposition (SVD) of a symmetric matrix and (2) projection of mean-centered or standardized data onto eigenvectors from SVD. 
 
-+ Using mean-centered data: $\small\mathbf{Y}_c$ we calculate: $\small\hat{\mathbf{\Sigma}}=\frac{\mathbf{Y}^{T}_c\mathbf{Y}_c}{n-1}$ 
++ Using mean-centered data $(\small\mathbf{Z})$ we calculate: $\small\hat{\mathbf{\Sigma}}=\frac{\mathbf{Z}^{T}\mathbf{Z}}{n-1}$ 
 
-+ We then decompose the covariance matrix via eigen-analysis (SVD):
-
-$$\small\hat{\mathbf{\Sigma}}=\mathbf{U} \mathbf{\Lambda} \mathbf{U}^T$$
++ We then decompose the covariance matrix via eigen-analysis (SVD): $^1$
+.pull-left[
+$$\small\hat{\mathbf{\Sigma}}=\mathbf{V} \mathbf{\Lambda} \mathbf{V}^T$$
 
 + This step identifies a set of orthogonal axes describing directions of variation. These are the columns of $\small\mathbf{U}$. Next we project the data onto these axes as: 
 
-$$\small\mathbf{P} = \mathbf{Y}_c\mathbf{U}$$
+$$\small\mathbf{P} = \mathbf{Z}\mathbf{V}$$
+]
+.pull-right[
 
 + Here, $\small\mathbf{P}$ represent the set of projection scores (principal component scores) on each of the PC axes. These are used in the subsequent plot.
 
-+ Finally, the percent variation explained by any principal component (column of $\mathbf{U}$) is: 
++ Finally, the percent variation explained by any principal component (column of $\mathbf{V}$) is: 
 $\frac{\lambda_i}{tr\mathbf{\Lambda}}$
-
-######Note: In some fields, the correlation matrix is used; particular if variables are in different units or scale. Not that this is equivalent to using $\mathbf\Sigma$ of standardized data (standard normal deviates)! 
+]
+.footnote[
+1: In some fields, the correlation matrix is used; particularly if variables are in different units or scale. (see Shape Statistics I lecture for details). 
+]
 ---
 
-### PCA: Alternative Computations
+### PCA: General Computations
 
-+ An alternative approach uses a singular-value decomposition (SVD) directly on $\small\mathbf{Y}_c$: 
++ An alternative (and more general) approach uses a singular-value decomposition (SVD) directly on $\small\mathbf{Z}$: $^1$ 
 
-$$\small{\mathbf{Y}_c}=\mathbf{V} \mathbf{D} \mathbf{U}^T$$
+$$\small{\mathbf{Z}}=\mathbf{U} \mathbf{D} \mathbf{V}^T$$
 
-+ Here, $\small\mathbf{D^2}$ expresses the percent-variation explained by each PC-axis, which are found as the right-singular vectors in $\small\mathbf{U}$.
++ Here, $\small\mathbf{D^2}$ expresses the percent-variation explained by each PC-axis, which are found as the right-singular vectors in $\small\mathbf{V}$.
 
 + PC scores are found as: 
 
-$$\small\mathbf{P} = \mathbf{VD}$$
+$$\small\mathbf{P} = \mathbf{UD}$$
 + For multivariate continuous data, this yields identical results to the previous computations
 
+.footnote[
+1 : Eigenanalysis of the *inner product* $\small\mathbf{Z}^{T}\mathbf{Z}$ yields $\small\mathbf{V}$, while eigenanalysis of the *outer product* $\small\mathbf{Z}\mathbf{Z}^{T}$ yields $\small\mathbf{U}$
 
-###### NOTE: eigenanalysis of the *inner product* $\small\mathbf{Y}^{T}_c\mathbf{Y}_c$ yields $\small\mathbf{U}$, while eigenanalysis of the *outer product* $\small\mathbf{Y}_c\mathbf{Y}^{T}_c$ yields $\small\mathbf{V}$
+2: Yet another way to obtain the same ordination is via a decomposition (SVD) of the centered outer product (distance) matrix. This is called *Principal Coordinates Analysis* or multi-dimensional scaling
 
-###### NOTE: Yet another way to obtain the same ordination is via a decomposition (SVD) of the centered outer product (distance) matrix. This is called *Principal Coordinates Analysis* or multi-dimensional scaling
-
+3: See Shape Statistics I lecture
+]
 ---
 
 ### PCA of Shape Data: Relative Warps
 
 + SVD of shape variation
 
-$$\small{\mathbf{W^*}}=\mathbf{V} \mathbf{D} \mathbf{U}^T$$
+$$\small{\mathbf{W^*}}=\mathbf{U} \mathbf{D} \mathbf{V}^T$$
 
-+ Here, $\small\mathbf{VD}$ are the PC scores (relative warp scores) of the shape data
++ Here, $\small\mathbf{UD}$ are the PC scores (relative warp scores) of the shape data
 
 --
 
-+ NOTE: if **W** found as: $\small\mathbf{W}=\mathbf{V(I_2\otimes{E\Lambda^{-\alpha/2}})}$ PCA=RWA is weighted by spatial scale of deformations of the ***non-affine*** shape variation
++ NOTE: if **W** found as: $\small\mathbf{W}=\mathcal{V}\mathbf{(I_2\otimes{E\Lambda^{-\alpha/2}})}$ PCA=RWA is weighted by spatial scale of deformations of the ***non-affine*** shape variation
 
 + In this case
   + $\small\alpha = 0$: unweighted analysis
@@ -469,7 +481,7 @@ par(mfcol=c(1,1))
   + Additionally, only non-affine component of shape may be viewed when $\small\alpha\neq{0}$ (an incomplete view of shape variation)
   + In practice, there is generally no conceptual reason of biological relevance for emphasizing deformations at different spatial scales
 
-+ $small\alpha{=0}$ is preferred: no *a priori*, arbitrary emphasis on specific variables, and it allows the use of total shape space (i.e. PW scores + U)
++ $\small\alpha{=0}$ is preferred: no *a priori*, arbitrary emphasis on specific variables, and it allows the use of total shape space (i.e. PW scores + U)
 ---
 
 ### Visualizing Shape Differences

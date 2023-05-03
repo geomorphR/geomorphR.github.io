@@ -57,19 +57,20 @@ class: center, middle, inverse, title-slide
 ### Mathematically-Defined Points: Problems
 
 + Define landmark homology mathematically (e.g., equal spacing)
-+ Often produce suggestive (but incorrect) results 
++ Often produces suggestive (but incorrect) results 
 
-&lt;img src="LectureData/05.semilandmarks/RectangEx.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/RectangEx.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 --
 
-+ Implied shape differences:
++ Implied shape differences: `\(^1\)`
 
-&lt;img src="LectureData/05.semilandmarks/RectangTPS.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/RectangTPS.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 + Can we estimate the shape difference without adding the twisting?
 
-###### Example from: Gunz et al. (2005) in *Modern morphometrics in physical anthropology.* 
+.footnote[
+1: from Gunz et al. (2005) in *Modern morphometrics in physical anthropology.*] 
 ---
 
 ### Mathematically-Defined Points: Problems (Cont.)
@@ -86,10 +87,9 @@ class: center, middle, inverse, title-slide
 
 + Can we estimate the shape difference without adding the twisting?
 
-###### Example from: Gunz et al. (2005) in *Modern morphometrics in physical anthropology.* 
 ---
 
-### Semilandmarks and Procrustes Relaxation
+### Semilandmarks and Procrustes Relaxation `\(^1\)`
 
 + Procrustes superimposition of 2D points and curves (Bookstein 1997)
 
@@ -97,6 +97,7 @@ class: center, middle, inverse, title-slide
 
 + Semilandmarks constrained to be on the curve (thus have `\(\small{\approx{1}}\)` df)
 
+.footnote[1: Bookstein (1997) *Med. Image Anal.*]
 --
 
 + Digitize a set number of points along an outline, and allow them to ‘slide’ along curve to improve the fit of a specimen to a reference curve: minimize difference between them
@@ -105,7 +106,6 @@ class: center, middle, inverse, title-slide
 
 + Treat as points for standard landmark analysis (GPA+TPS)
 
-###### Bookstein (1997) *Med. Image Anal.*
 ---
 
 ### Procrustes Relaxation: Conceptual Procedure
@@ -157,7 +157,7 @@ class: center, middle, inverse, title-slide
 
 ###### ( `\(\tiny\mathbf{Y^0}\)` and `\(\tiny\mathbf{Y_{ref}}\)`  are assembled by `\(\small{x}\)` then `\(\small{y}\)` coordinates) 
 
-+ Two criteria: bending energy ( `\(\small{BE}\)`) &amp; Procrustes distance ( `\(\small{D}_{Proc}\)`) 
++ Two criteria: bending energy `\((\small{BE})\)` &amp; Procrustes distance `\((\small{D}_{Proc})\)` 
 ---
 
 ### How Far to Slide?
@@ -254,7 +254,7 @@ class: center, middle, inverse, title-slide
 ###### Note: with this notation, generalized inverses are required to complete GLS sliding (and process can be SLOW).  `geomorph` uses very clever algebra to eliminate redundancies in computations to speed this process up considerably
 ---
 
-### Combining Landmarks and Curves: Example
+### Combining Landmarks and Curves: Example `\(^1\)`
 
 + Cranial profiles in *Homo*
 + External differences in frontal bones of archaic and modern humans are well-known
@@ -263,7 +263,7 @@ class: center, middle, inverse, title-slide
 
 + Profiles of internal and external frontal bones were digitized from 5 mid-Pleistocene and Neanderthal crania, and 16 modern humans and compared
 
-###### Bookstein et al. (1999). Anatomical Record.
+.footnote[1: Bookstein et al. (1999). *Anatomical Record*]
 ---
 
 ### Semilandmark Example: The Data

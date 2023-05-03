@@ -4,7 +4,7 @@
     <title>3: Superimposition</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="03-Superimposition_files/header-attrs-2.19/header-attrs.js"></script>
+    <script src="03-Superimposition_files/header-attrs-2.21/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -222,8 +222,8 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ## [4,] 7.586907e-03 6.831716e-03 6.049213e-03
 ## [5,] 5.992073e-03 5.275534e-03 4.900721e-03
 ## [6,] 4.129789e-03 3.339428e-03 3.200212e-03
-## [7,] 2.954954e-03 2.591265e-03 2.396099e-16
-## [8,] 1.122636e-16 6.064823e-17 2.278998e-17
+## [7,] 2.954954e-03 2.591265e-03 9.806741e-17
+## [8,] 4.924342e-17 2.783938e-17 2.279726e-17
 ```
 
 + Why are 4 exactly = 0?
@@ -355,7 +355,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 
 + **Procrustes distance**: measures the amount of shape difference between two objects
 
-`$$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Y}_{1.ij}-\mathbf{Y}_{2.ij}\right)^2}$$`
+`$$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Z}_{1.ij}-\mathbf{Z}_{2.ij}\right)^2}$$`
 
 + This measures how 'far apart' two shapes are in shape space
   + The question is: what does shape space look like? 
@@ -369,7 +369,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
   + The of distribution of points in shape space is the consensus (the mean shape)
   + The metric defining shape space is  Procrustes distance `\(D_{Proc}\)`
 
-`$$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Y}_{1.ij}-\mathbf{Y}_{2.ij}\right)^2}$$`
+`$$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Z}_{1.ij}-\mathbf{Z}_{2.ij}\right)^2}$$`
 + **Shape space is curved!** `\(^1\)` .left[.footnote[1: Example with 2,000 random (uniform) triangles. Note overabundance of shapes near 'north pole'.]]
 ]
 .pull-right[
