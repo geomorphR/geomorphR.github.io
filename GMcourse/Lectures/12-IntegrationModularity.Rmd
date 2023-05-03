@@ -239,8 +239,8 @@ par(mfrow=c(1,1))
 Index | Equation | Source
 :------- | :----------- | :--------------
 ICV | $\frac{\sigma_\lambda}{\overline{\lambda}}$ | Shirai and Marroig, 2010
-VE | $\frac{{\sum}{\left(\lambda_i-\overline{\lambda}\right)^2}}{p}$ | Wagner, 1984
-$V_{rel}$ | $\frac{{\sum}{\left(\lambda_i-\overline{\lambda}\right)^2}}{p(p-1)\overline{\lambda}{^2}}$ | Pavlicev et al. 2009
+VE | $\sum(\lambda_i-\overline{\lambda})^2/p$| Wagner, 1984
+$V_{rel}$ | $\frac{\sum(\lambda_i-\overline{\lambda})^2}{p(p-1)\overline{\lambda}^2}$ | Pavlicev et al. 2009
 $T_1$ | $1-\frac{\sum{\sqrt{\lambda_i}}}{p\sqrt{\lambda_1}}$ | van Valen, 1974
 $T_2$ | $1-\frac{\sum{\lambda_i}}{p(\lambda_1)}$ | van Valen, 1974
 $D_r$ | $\frac{\sqrt[2R_e]{\prod{\lambda_{R_e}}}}{\sqrt{1/\pi{R_e}}}$ | O'Keefe et al., 2022
