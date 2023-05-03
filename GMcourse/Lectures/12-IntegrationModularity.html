@@ -43,7 +43,7 @@ pre {
 &lt;img src="LectureData/12.integr.mod/ConceptPic.png" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
-### Trait Covariation: Integration
+### Trait Covariation: Integration `\(^1\)`
 
 + Trait correlations arise when biological factors elicit concomitant changes in more than one trait
 + Factors at multiple overlapping levels affect trait covariation 
@@ -54,7 +54,7 @@ pre {
 
 + These associations lead to the **integration** among different body parts
 
-###### Olson and Miller. (1958). *Morphological Integration.*
+.footnote[1: Olson and Miller. (1958). *Morphological Integration.*]
 ---
 
 ### Integration
@@ -116,9 +116,9 @@ pre {
   + Is modularity the 'contrary' of integration, or can both simultaneously be present?
   + What is the appropriate `\(H_0\)` for evaluating integration? Modularity, disintegration, random integration, other? 
   + What is the appropriate `\(H_0\)` for evaluating modularity: Integration, random modularity, other? 
-  + Does `\(H_0\)` differ when testing overall integration versus integration among subsets? 
+  + Does `\(H_0\)` differ when testing overall integration versus integration among subsets? `\(^1\)`
 
-##### As we will see, the empirical answer to the last few questions is found via RRPP
+.footnote[1: As we will see, the empirical answer to the last few questions is found via RRPP]
 ---
 
 ### Methods for Evaluating Integration and Modularity
@@ -268,7 +268,7 @@ compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
 
 ---
 
-### 1B: Overall Integration Across Spatial Scales
+### 1B: Overall Integration Across Spatial Scales `\(^1\)`
 
 + One can also examine the integration across geometric scales
 
@@ -283,7 +283,7 @@ compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
   + `\(\small\beta&gt; -1\)`: global integration
   + `\(\small\beta&lt; -1\)`: "disintegration"
 
-##### Bookstein 2015 (*Evol. Biol.*)
+.footnote[1: Bookstein (2015) *Evol. Biol.*]
 ---
 
 ### 1B: Overall Spatial Integration: Example
@@ -331,11 +331,11 @@ globalIntegration(Y.gpa$coords) #not spatially integrated
 ]
 
 .pull-right[
-`\(\small\mathbf{S}_{11}\)`: covariation of variables in `\(\small\mathbf{Y}_{1}\)`
+`\(\small\mathbf{S}_{11}\)`: covariation of variables in `\(\small\mathbf{Z}_{1}\)`
 
-`\(\small\mathbf{S}_{22}\)`: covariation of variables in `\(\small\mathbf{Y}_{2}\)`
+`\(\small\mathbf{S}_{22}\)`: covariation of variables in `\(\small\mathbf{Z}_{2}\)`
 
-`\(\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}\)`: covariation between `\(\small\mathbf{Y}_{1}\)` and `\(\small\mathbf{Y}_{2}\)`
+`\(\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}\)`: covariation between `\(\small\mathbf{Z}_{1}\)` and `\(\small\mathbf{Z}_{2}\)`
 
 `\(\small\mathbf{S}_{21}=\mathbf{S}_{12}^{T}\)` is the multivariate equivalent of `\(\small\sigma_{21}\)` 
 ]
@@ -360,17 +360,17 @@ globalIntegration(Y.gpa$coords) #not spatially integrated
 
 + Another way to summarize the covariation between blocks is via Partial Least Squares (PLS)
 
-+ *Decomposing* the information in `\(\small\mathbf{S}_{12}\)` to find rotational solution (direction) that describes greatest covariation between `\(\small\mathbf{Y}_{1}\)` and `\(\small\mathbf{Y}_{2}\)`
++ *Decomposing* the information in `\(\small\mathbf{S}_{12}\)` to find rotational solution (direction) that describes greatest covariation between `\(\small\mathbf{Z}_{1}\)` and `\(\small\mathbf{Z}_{2}\)`
 
-`$$\small\mathbf{S}_{12}=\mathbf{U\Lambda{V}}^T$$`
+`$$\small\mathbf{S}_{12}=\mathbf{UD{V}}^T$$`
 
 + Ordination scores found by projection of centered data on vectors `\(\small\mathbf{U}\)` and `\(\small\mathbf{V}\)`
 
-`$$\small\mathbf{P}_{1}=\mathbf{Y}_{1}\mathbf{U}$$`
+`$$\small\mathbf{P}_{1}=\mathbf{Z}_{1}\mathbf{U}$$`
 
-`$$\small\mathbf{P}_{2}=\mathbf{Y}_{2}\mathbf{V}$$`
+`$$\small\mathbf{P}_{2}=\mathbf{Z}_{2}\mathbf{V}$$`
 
-+ The first columns of `\(\small\mathbf{P}_{1}\)` and `\(\small\mathbf{P}_{2}\)` describe the maximal covariation between `\(\small\mathbf{Y}_{1}\)` and `\(\small\mathbf{Y}_{2}\)`
++ The first columns of `\(\small\mathbf{P}_{1}\)` and `\(\small\mathbf{P}_{2}\)` describe the maximal covariation between `\(\small\mathbf{Z}_{1}\)` and `\(\small\mathbf{Z}_{2}\)`
 
 + The correlation between `\(\small\mathbf{P}_{11}\)` and `\(\small\mathbf{P}_{21}\)` is the PLS-correlation
 
@@ -508,7 +508,7 @@ Compare permutation distributions with one another (minus observed in this case)
 + We require appropriate effect sizes for comparison
 ---
 
-### 2B: Comparing Integration Across Datasets (Cont.)
+### 2B: Comparing Integration Across Datasets (Cont.) `\(^1\)`
 
 + Conversion of `\(R_{PLS}\)` to an effect size alleviates the concern
 
@@ -519,6 +519,8 @@ Compare permutation distributions with one another (minus observed in this case)
 + Statistical comparisons of effect sizes are then possible:
 
 `$$\hat{Z}_{12}=\frac{\lvert{Z_1-Z_2}\rvert}{\sqrt{\sigma^2_{Z_1}+\sigma^2_{Z_2}}}$$`
+
+.footnote[1: Adams and Collyer (2016). *Evol.*]
 ---
 
 ### 2B: Comparing Integration Across Datasets: Example
@@ -637,7 +639,7 @@ compare.pls(integ.tests)
 &lt;img src="LectureData/12.integr.mod/ModulCovBtwn.png" width="70%" /&gt;
 ---
 
-### 3: Quantifying Modularity: `\(CR\)` Coefficient
+### 3: Quantifying Modularity: `\(CR\)` Coefficient `\(^1\)`
 
 + As shown previously, the `\(RV\)` coefficient (though frequently used) is not constant across `\(N\)` and `\(p\)`
 
@@ -647,9 +649,11 @@ compare.pls(integ.tests)
 
 + where `\(\mathbf{S}^*_{11}\)` &amp;  `\(\mathbf{S}^*_{22}\)` represent the within-module covariance matrices with `\(0\)` along the diagonal
 
--  The `\(CR\)` coefficient does *NOT* vary with *n* and *p*:
++ The `\(CR\)` coefficient does *NOT* vary with *n* and *p*:
 
-&lt;img src="LectureData/12.integr.mod/CRPattern.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/CRPattern.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.footnote[1: Adams (2016). *Methods Ecol. Evol.*]
 ---
 
 ### 3: `\(CR\)` Coefficient: Statistical Properties
@@ -693,13 +697,14 @@ modularity.test(Y.gpa$coords,land.gps,CI=FALSE,print.progress = FALSE)
 ```
 ---
 
-### 3B: Comparing Modularity Across Datasets
+### 3B: Comparing Modularity Across Datasets `\(^1\)`
 
 + One might be interested in evaluating alternative modular hypotheses for the same dataset...
 + ... or ask whether one group exhibits higher modular signal than another
 
 + Again, an effect size (*Z*-score) is useful for this purpose
 
+.footnote[1: Adams and Collyer (2019). *Evol.*]
 --
 
 + Convert `\(CR\)` to an effect size: 
@@ -709,8 +714,6 @@ modularity.test(Y.gpa$coords,land.gps,CI=FALSE,print.progress = FALSE)
 + Compare effect sizes as: 
 
 `$$\hat{Z}_{12}=\frac{\lvert{Z_1-Z_2}\rvert}{\sqrt{\sigma^2_{Z_1}+\sigma^2_{Z_2}}}$$`
-
-##### Adams and Collyer 2019
 
 ---
 
