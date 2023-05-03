@@ -54,6 +54,110 @@ Let $\mathbf{S}$ be a diagonal matrix of standard deviations, found from the squ
 Then, $\mathbf{Z}_s$ are the standardized data found as 
 
 $$\mathbf{Z}_s = \mathbf{S}^{-1}\mathbf{Z}_c\mathbf{S}^{-1}$$
+---
 
+### Generalized Least-Squares Estimation, coefficients
 
+The general formula for estimation of linear model coefficients is:
+
+$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X})\mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{Z}$$
+These coefficients are *generalized*, as they assume that the non-independence among observations can be explained by the hypothetical covariance matrix, $\mathbf{\Omega}$.
+
+The equation above could be *simplified* if observations could be considered independent, i.e., substituting $\mathbf{I}$ for $\mathbf{\Omega}$.  This is shown in the next slide.
+---
+
+### Ordinary Least-Squares Estimation, coefficients
+
+The general formula for estimation of linear model coefficients is:
+
+$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X})\mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{Z}$$
+In the case that **observations can be considered independent**, then we assume,
+
+$$\mathbf{\Omega} = \mathbf{I}$$
+Substituting $\mathbf{I}$ for $\mathbf{\Omega}$, above, yields
+
+$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{I}^{-1}\mathbf{X})^{-1}\mathbf{X}^T\mathbf{I}^{-1}\mathbf{Z} =  (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Z}$$
+
+---
+
+### Generalized Least-Squares Estimation, covariance matrix
+
+The general formula for estimation of the residual covariance matrix from a linear model is:
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right)^T \mathbf{\Omega}^{-1} \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right)$$
+Where:
++ $\mathbb{E}(\mathbf{Z})$ indicates the expected values, which are the fitted values, $\hat{\mathbf{Z}} = \mathbf{HZ} = \mathbf{X}(\mathbf{\tilde{X}}^T\mathbf{\Omega}^{-1}\mathbf{\tilde{X}})\mathbf{\tilde{X}}\mathbf{\Omega}^{-1}\mathbf{Z}$.  
++ $\mathbf{\Omega}$ is the $n \times n$ covariance matrix that describes the non-independence among the $n$ observations in the $n \times p$ data matrix, $\mathbf{Z}$.
++ $k$ is the number of parameters (columns) in the linear model design matrix, $\mathbf{X}$.
+
+Note the follwoing algebraic equivalency:
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \hat{\mathbf{Z}} \right)^T \mathbf{\Omega}^{-1} \left(\mathbf{Z} - \hat{\mathbf{Z}}\right)$$
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \hat{\mathbf{Z}} \right)^T \mathbf{\Omega}^{-1/2} \mathbf{\Omega}^{-1/2}\left(\mathbf{Z} - \hat{\mathbf{Z}}\right)$$
+---
+
+### Generalized Least-Squares Estimation, covariance matrix (cont.)
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{\Omega}^{-1/2}\mathbf{Z} - \mathbf{\Omega}^{-1/2}\hat{\mathbf{Z}} \right)^T \left(\mathbf{\Omega}^{-1/2}\mathbf{Z} - \mathbf{\Omega}^{-1/2}\hat{\mathbf{Z}}\right)$$
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{\Omega}^{-1/2} (\mathbf{I} - \mathbf{H})\mathbf{Z} \right)^T \left(\mathbf{\Omega}^{-1/2} (\mathbf{I} - \mathbf{H})\mathbf{Z} \right)$$
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{\Omega}^{-1/2} \mathbf{I} - \mathbf{\tilde{H}}\mathbf{Z} \right)^T \left(\mathbf{\Omega}^{-1/2}\mathbf{I} - \mathbf{\tilde{H}}\mathbf{Z} \right)$$
+In other words, the covariance matrix for GLS estimation requires using transformed GLS residuals, not GLS mean-centered residuals.
+
+---
+
+### Ordinary Least-Squares Estimation, covariance matrix
+
+The general formula for estimation of the residual covariance matrix from a linear model is:
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right)^T \mathbf{\Omega}^{-1} \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right)$$
+
+but because observations are considered independent, this simplifies to
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right)^T \mathbf{I}^{-1} \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right),$$
+
+which simplifies again to 
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right)^T  \left(\mathbf{Z} - \mathbb{E}\left(\mathbf{Z}\right)\right).$$
+
+Where:
++ $\mathbb{E}(\mathbf{Z})$ indicates the expected values, which are the fitted values, $\hat{\mathbf{Z}} = \mathbf{HZ} = \mathbf{X}(\mathbf{X}^T\mathbf{X})\mathbf{X}\mathbf{Z}$.  
++ $k$ is the number of parameters (columns) in the linear model design matrix, $\mathbf{X}$.
++ And because $\mathbb{E} \left(\mathbf{Z}\right) = \hat{\mathbf{Z}}$
+
+$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \hat{\mathbf{Z}}\right)^T  \left(\mathbf{Z} - \hat{\mathbf{Z}}\right) = (n-k)^{-1} \mathbf{E}^T\mathbf{E} $$
+---
+
+### Matrix square-root
+
+A matrix square-root (of a symmetric matrix) is a matrix that fits the condition that:
+
+$$\mathbf{\Omega}^{1/2}(\mathbf{\Omega}^{1/2})^T = \mathbf{\Omega}$$
+There are multiple ways to obtain $\mathbf{\Omega}^{1/2}$, and choice of method will influence the properties of the result.
+
+**Diagonalization**
+
+The foremost method is **diagonalization** via SVD.  If we solve,
+
+$$\mathbf{\Omega} = \mathbf{V\Lambda V}^T,$$
+then 
+$$\mathbf{\Omega}^{1/2} = \mathbf{V \Lambda^{1/2} V}^T,$$
+
+where $\mathbf{\Lambda}^{1/2}$ is a diagonal matrix with values equal to $\lambda_i^{1/2}$.
+
+---
+
+### Matrix square-root (cont.)
+
+A matrix square-root (of a symmetric matrix) is a matrix that fits the condition that:
+
+$$\mathbf{\Omega}^{1/2}(\mathbf{\Omega}^{1/2})^T = \mathbf{\Omega}$$
+There are multiple ways to obtain $\mathbf{\Omega}^{1/2}$, and choice of method will influence the properties of the result.
+
+**Cholesky decomposition**
+
+Another common method is Cholesky decomposition, which finds,
+
+$$\mathbf{\Omega} = \mathbf{TT}^T,$$
+where $\mathbf{T}$ is a triangular matrix.  Unlike diagonalization, the the resultant matrix is not symmetric, so if a Cholesky decomposition is used, the transpose of the matrix, $\mathbf{T}^T$, has to be considered carefully to avoid computational errors.  (It is easy to use $\mathbf{T}^T$ rather than $\mathbf{T}$.)
 
