@@ -53,13 +53,67 @@ class: center, middle, inverse, title-slide
 + Fitted values, based on estimate coefficients, `\(\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}\)`.  (Residuals can also be found as `\(\mathbf{E} =\mathbf{Z} - \hat{\mathbf{Z}}\)`.)
 + Covariance matrices for residual variation:
 
-`$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1}\mathbf{\tilde{E}}^T\mathbf{\tilde{E}}$$`
+`$$\hat{\boldsymbol{\Sigma}}_{residuals} = (n-k)^{-1}\mathbf{\tilde{E}}^T\mathbf{\tilde{E}}$$`
 
 + Covariance matrices for the effect of adding model paramters to a null model.
 
-`$$\hat{\boldsymbol{\Sigma}} = (k-1)^{-1}(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})^T(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})$$`
+`$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})^T(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})$$`
+**Because linear models describe hypothetical explanations for variation in shape data, it is generally of interest to test null hypotheses for putative models.**  There are various ways to do this, but any method is a *proxy* for a true distribution of possible random outcomes of a statistic calculated from covariance matrices.
+
+The best way to to generate random distributions of statistics is to randomize residuals (from null models) in a permutation procedure (RRPP).
 
 
+---
+
+### Hypothesis testing for linear model effects
+
+A null hypothesis test is one that tests the independence of alternative model projections.  Null and alternative hypotheses can be thought of as this series of dichotomies (becoming increasingly more technical):
+
+|Null hypothesis | Alternative hypothesis|
+|----|----|
+
+
+Every test of a null hypothesis must have a process of generating randomness under the null hypothesis.  For the case of linear models...
+
+
+---
+
+### Randomization of residuals in a permutation procedure (RRPP) `\(^1\)`
+
+**The steps for RRPP, performed in every permutation**
+
+1: Fit a *null* linear model, and calculate both transformed fitted values and transformed residuals.  (Recall that is OLS estimation is used, the fitted values and residuals are not transformed.)
+
+2: Permute, `\(\small\mathbf{\tilde{E}}_{0}\)`: obtain pseudo-values as: `\(\small\mathbf{\mathcal{Z}} = \mathbf{\tilde{H}_{0}{\tilde{Z}}}_{0} + \mathbf{E}_{0}^*\)`
+
+3: Fit `\(\small\mathbf{X}_{alt}\)` using `\(\small\mathbf{\mathcal{Z}}\)`: obtain coefficients, fitted values, residuals, residual covariance matrix, and the covariance matrix for adding parameters to `\(\small\mathbf{X}_{0}\)` to get `\(\small\mathbf{X}_{alt}\)`.  We can call this `\(\hat{\boldsymbol{\Sigma}}_{effect}^*\)`, where the `\(^*\)` superscript indicates this is a random value from a large set of random values.
+
+4: Calculate some statistic, `\(S\)`, consistently for every  `\(\hat{\boldsymbol{\Sigma}}_{effect}^*\)` matrix estimated in every RRPP permutation.
+
+.footnote[
+1: Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
+]
+---
+
+### Randomization of residuals in a permutation procedure (RRPP) `\(^1\)`
+
+**Steps for calculating statistics from RRPP**
+
+5: For `\(\small{n}\)` permutations, `\(\small{P} = \frac{(S^* \geq S_{obs})}{n}\)`
+
+6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
+`$$\small{z} = \frac{
+\theta_{obs} - \mu_{\theta}
+} {
+ \sigma_{\theta}
+}$$`
+where `\(\mu\)` and `\(\sigma\)` are the expected value and standard deviation from the sampling distribution of the normalized distribution, `\(\theta\)`, respectively.
+
+**.red[We will entertain what type of statistic]** *.red[S]* **.red[could be, next.]**
+
+.footnote[
+1: Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
+]
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

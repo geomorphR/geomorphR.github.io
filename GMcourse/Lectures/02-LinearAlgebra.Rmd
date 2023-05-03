@@ -31,30 +31,12 @@ style_mono_light()
 Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
 
 $$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
----
-
-### Linear Algebra: Goals
-
-Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
-
-$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
-
+--
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
 
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
----
-
-### Linear Algebra: Goals
-
-Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
-
-$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
-
-
-Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
-
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
+--
 
 Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
 
@@ -955,7 +937,7 @@ $$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\m
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
 
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
 
 Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
 

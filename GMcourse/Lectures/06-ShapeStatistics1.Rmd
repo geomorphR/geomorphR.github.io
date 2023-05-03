@@ -35,7 +35,7 @@ $$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\m
 
 Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
 
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
 
 Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
 
@@ -53,7 +53,7 @@ Procrustes coordinates: linear transformation of coordinate data.
 
 ----
 
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
 
 **Estimation of linear model coefficients for transformed data, $\mathbf{Z}$, which Procrustes coordinates are.** 
 
@@ -355,7 +355,7 @@ These scores represent a shear of each data space, constrained by the other.  Th
 
 Rather, Rohlf and Corti (2000) recommended using the correlation between $\mathbf{p}_{1_{1}}$ and $\mathbf{p}_{2_{1}}$, which can be visualized with a scatter-plot.]
 
-.footnote[Rohlf, F. J., & Corti, M. (2000). Use of two-block partial least-squares to study covariation in shape. Systematic biology, 49(4), 740-753.]
+.footnote[Rohlf & Corti. (2000). *Systematic Biology.*]
 
 ---
 
@@ -767,7 +767,7 @@ Because $\mathbf{Z}_1$ and $\mathbf{Z}_2$ are both centered or standardized, the
 .pull-right[.footnote[
 1. Could also use first singular value or sum of first few singular values, if considering multiple axes. 
 2. Using, e.g., a Box-Cox transformation; 
-3. Adams, D. C., & Collyer, M. L. (2016). On the comparison of the strength of morphological integration across morphometric datasets. Evolution, 70(11), 2623-2631.
+3. Adams & Collyer. (2016). *Evolution*.
 ]]
 
 ---
@@ -829,7 +829,8 @@ Note: two-sample $Z$ statistic is found as $Z_{12} = \frac{| (\theta_1 - \mu_1) 
 + **.blue[For PLS analyses, RRPP = randomizing the row vectors of only one set of data (sufficient to make random pairs of vectors).  Independent data?  Random] $r_{PLS}$ .blue[values consistently as large as the observed value.  Data sets covary?] $r_{PLS}$ .blue[will be rare (in a large way).]**
 + **.green[Two-sample] $Z$.green[-tests can be performed to compare the effect sizes from different PLS analyses.]**
 
-.footnote[1. Several papers by Adams and Collyer have illustrated this.  Most recently: Adams, D.C. & M.L. Collyer.  (2022). Consilience of methods for phylogenetic analysis of variance. Evolution. 76, 1406-1419. ]
+.footnote[1. Several papers by Adams and Collyer have illustrated this.  Most recently: Adams & Collyer. (2022). *Evolution*.
+]
 
 ---
 
@@ -870,7 +871,7 @@ $$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
 + $\mathbf{\Omega}$ is an $N \times N$ covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
 + **See next slide for illustration.**
 
-.footnote[1. Collyer, M.L., & D.C. Adams. (2021). Phylogenetically aligned component analysis. Methods in Ecology and Evolution, 12, 359-372]
+.footnote[1. Collyer & Adams. (2021). *Methods in Ecology and Evolution*.]
 ---
 
 ### Phylogenetically aligned component analysis (PACA) $^1$
@@ -895,8 +896,7 @@ vcv(tree)
 ```
 ]
 
-.footnote[1. Collyer, M.L., & D.C. Adams. (2021). Phylogenetically aligned component analysis. Methods in Ecology and Evolution, 12, 359-372]
-
+.footnote[1. Collyer & Adams. (2021). *Methods in Ecology and Evolution*.]
 ---
 
 ### Phylogenetically aligned component analysis (PACA) $^1$
@@ -907,8 +907,10 @@ $$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
 + ** $\mathbf{V}$ is the matrix of phylogenetically aligned components.**  These vectors maximize covariation between data and phylogenetic signal. $^2$
 + ** $\mathbf{D}$ is the diagonal matrix of singular values.**  These values help to evaluate strength of covariance.
 
-.footnote[1. Collyer, M.L., & D.C. Adams. (2021). Phylogenetically aligned component analysis. Methods in Ecology and Evolution, 12, 359-372
-2. Explained more in lecture on phylogenetic comparative methods.]
+.footnote[
+1. Collyer & Adams. (2021). *Methods in Ecology and Evolution*.
+2. Explained more in lecture on phylogenetic comparative methods.
+]
 
 ---
 
@@ -1163,15 +1165,15 @@ Let $\mathbf{\Omega}^{1/2}$ be a matrix square-root of $\mathbf{\Omega}$, found 
 
 Let $\tilde{\mathbf{X}} = \mathbf{\Omega}^{-1/2}\mathbf{X}$
 
-Let $\mathbf{Z} = \mathbf{\Omega}^{-1/2} f(\mathbf{Y})$, where $f(\mathbf{Y})$ indicates a transformation of the data matrix, $\mathbf{Y}$, to leave it unchanged, centered, or standardized. $^2$
+Let $\mathbf{\tilde{Z}} = \mathbf{\Omega}^{-1/2}\mathbf{Z}$. $^2$
 
 Then,
 
-$$\hat{\mathbf{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1}\left ( \tilde{\mathbf{X}}^{T} \mathbf{Z}\right )$$
+$$\hat{\mathbf{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1}\left ( \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}} \right)$$
 
 .footnote[
 1. Different ways of obtaining a matrix square-root are presented in the Appendix.
-2. One transformation is $f(\mathbf{Y}) = \mathbf{IY}$, which leaves data unchanged.  Centering or standardizing a matrix are discussed in the Appendix.
+2. If $\mathbf{\Omega} = \mathbf{I}$, then $\mathbf{\tilde{X}} = \mathbf{X}$ and $\mathbf{\tilde{Z}} = \mathbf{Z}$, meaning this approach finds either the GLS or OLS solution to estimation.
 ]
 
 ---
@@ -1180,8 +1182,8 @@ $$\hat{\mathbf{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right 
 
 **Regarding coefficients**
 
-1. The coefficients, $\hat{\boldsymbol{\beta}}$, explain the expected change in data, $\mathbf{Z}$, associated with the *standardized matrix of parameters*.  (This is different than standardizing each of the parameters, which could also be done.)
-2. Note that the linear model design has $k$ parameters (columns).  $\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}$ is a $k \times k$ matrix.  $\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$ is an $n \times k$ matrix, just like $\tilde{\mathbf{X}}$  Thus, $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in each of $p$ variables in $\mathbf{Z}$ associated with each of $k$ parameters in $\tilde{\mathbf{X}}$.
+1. The coefficients, $\hat{\boldsymbol{\beta}}$, explain the expected change in transformed data, $\mathbf{\tilde{Z}}$, associated with the *standardized matrix of parameters*.  (This is different than standardizing each of the parameters, which could also be done.)
+2. Note that the linear model design has $k$ parameters (columns).  $\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}$ is a $k \times k$ matrix.  $\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$ is an $n \times k$ matrix, just like $\tilde{\mathbf{X}}$  Thus, $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in each of $p$ variables in $\mathbf{\tilde{Z}}$ associated with each of $k$ parameters in $\tilde{\mathbf{X}}$.
 3. **This is beautiful just by itself!**
 
 --
@@ -1207,8 +1209,8 @@ All statistical steps take the form, $\mathbf{A}^T\mathbf{Z}$, but what $\mathbf
 | Step | $\mathbf{A}$ | $\mathbf{A}^T$ | Purpose |
 |:--|---|---|-----|
 |1.| $\tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$| $(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | Obtain coefficients that estimate expected change in $\mathbf{Z}$ associated with the parameters of $\mathbf{X}$, also accounting for the non-independence of observations.|
-|2.| $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain fitted values.  We can also obtained **.blue[GLS-centered] residuals** as $\mathbf{E} = \mathbf{Z} -\mathbf{HZ} = (\mathbf{I} - \mathbf{H})\mathbf{Z}$.|
-|3.| $\tilde{\mathbf{H}} = \mathbf{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\tilde{\mathbf{H}} = \tilde{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain **.blue[GLS-transformed] residuals** as $\tilde{\mathbf{E}} = \mathbf{\tilde{Z}} -\mathbf{\tilde{H}Z} = (\mathbf{\Omega^{-1/2} I} - \mathbf{\tilde{H}})\mathbf{Z}$ .red[The importance of this step is to simply make sure that residuals are transformed for calculating covariance matrices.  This is a bit esoteric, but it make algebraic sense.] $^1$.  Note that $\mathbf{\tilde{Z}}$ is a transformed version of $\mathbf{\hat{Z}}$.|
+|2.| $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain fitted values.  We can also obtain **.blue[GLS-centered] residuals** as $\mathbf{E} = \mathbf{Z} -\mathbf{HZ} = (\mathbf{I} - \mathbf{H})\mathbf{Z}$.|
+|3.| $\tilde{\mathbf{H}} = \mathbf{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\tilde{\mathbf{H}} = \tilde{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain **.blue[GLS-transformed] residuals** as $\tilde{\mathbf{E}} = \mathbf{\tilde{Z}} -\mathbf{\tilde{H}\tilde{Z}} = (\mathbf{ I} - \mathbf{\tilde{H}})\mathbf{\tilde{Z}}$. .red[The importance of this step is to simply make sure that residuals are transformed for calculating covariance matrices.  This is a bit esoteric, but it will hopefiully make some algebraic sense in a moment.] $^1$.  
 
 .footnote[1. A more extensive explanation of the calculation of GLS-estimated covariance matrices is provided in the Appendix.]
 
@@ -1225,7 +1227,7 @@ $$\hat{\boldsymbol{\Sigma}} = df^{-1}\mathbf{S} = df^{-1}\tilde{\mathbf{E}}^T\ti
 + In other words, covariance matrices are the cross-products of **gls-transformed** residuals, divided by degrees of freedom (mean estimates).
 + If OLS-estimation is used, $\tilde{\mathbf{E}}= \mathbf{E}$, as the observations are assumed to be independent.
 Presented this way, the algebra is less encumbered than the alternative way, shown in the Appendix.
-+ Degrees of freedom $(df)$ require a comparison of different model alignments.  This will become apparent in the next series of slides.
++ Degrees of freedom $(df)$ are typically $n-k$, where $n$ is the number of observations and $k$ is the number of parameters in the model (columns of $\mathbf{X}$).
 ---
 
 ### A tale of two model alignments -- The same story for almost any linear model application
@@ -1239,6 +1241,8 @@ Is my model good?  **This is a horrible question to ask!**
 .pull-right[
 Is my model good compared to a null model?  **This is a good question to ask!**
 ]
+
+--
 
 So what is a null model?  **A null model can take different forms and several null models can be used to entertain the properties of alternative models**  But every model has at least one null model that is estimated the same way: **the mean of the data**.
 
@@ -1262,9 +1266,9 @@ So what is a null model?  **A null model can take different forms and several nu
 
 $\tilde{\mathbf{E}}$ is the matrix of transformed residuals, and $\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\tilde{\mathbf{E}}^T\tilde{\mathbf{E}}$.
 
-This is very important!!
+**.blue[This is very important!!]**
 
-This is the basis for all model comparisons.  This is a model that suggest there are no explanatory parameters, and that estimating the mean is sufficient for predicting what a vector of values $(\mathbf{z}^T)$ should be for an entire population of data.  
+This is the basis for all model comparisons.  This is a model that suggests there are no explanatory parameters, and that estimating the mean is sufficient for predicting what a vector of values $(\mathbf{z}^T)$ should be for an entire population of data.  
 
 We can estimate the coefficients and fitted values for an alternative model, and compare covariance matrices.  The table shown next illustrates how this will be done.
 
@@ -1298,8 +1302,8 @@ It compares the residual variation between two models.  If the values are large,
 
 An algebraically equivalent way of obtaining the same result is:
 
-$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}\Delta\mathbf{\tilde{H}Z}^T\Delta\mathbf{\tilde{H}Z},$$
-where $\Delta\tilde{\mathbf{H}} = \tilde{\mathbf{H}}_{alt} - \tilde{\mathbf{H}}_{null}$.  This looks like a comparison of fitted values, but is, in fact, a comparison of transformed fitted values, since we use $\Delta\mathbf{\tilde{H}}$ rather than $\Delta\mathbf{H}$.  
+$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}},$$
+where $\Delta\tilde{\mathbf{H}} = \tilde{\mathbf{H}}_{alt} - \tilde{\mathbf{H}}_{null}$.  This looks like a comparison of fitted values, but is, in fact, a comparison of transformed fitted values, since we use $\Delta\mathbf{\tilde{H}}$ rather than $\Delta\mathbf{H}$ and $\mathbf{\tilde{Z}}$ instead of $\mathbf{Z}$.  
 
 Nevertheless, what this illustrates is we can obtain transformed fitted values or transformed residuals, and the covariance matrix for the effect of adding parameters to a null model is found from the difference between commensurate matrices.
 
@@ -1308,23 +1312,27 @@ Nevertheless, what this illustrates is we can obtain transformed fitted values o
 
 This is a model comparison:
 
-$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}Z})^T\Delta\mathbf{\tilde{H}Z},$$
+$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}},$$
 
 Why go through all this algebra?  **Because a difference in model projections is a projection of model differences!**  Henceforth we can explain what $\Delta\mathbf{\tilde{H}}$ means without having to go through this algebra again.  **We can know that $\Delta\mathbf{\tilde{H}}$ means a difference in alignments of data because of alternative models that if is large in its effect on transformation of $\mathbf{Z}$ suggests that the alternative model is a viable model for explanation of a biological phenomenon.**
 
 .remark-code[.red[
-If the preceding algebraic demonstration is daunting, please realize that $\Delta\mathbf{\tilde{H}Z}$ can be loosely translated as an effect due to differences by model predictions.  In this way, when we talk about more complex models, $\Delta\mathbf{\tilde{H}Z}$ is a prevailing concept.
+If the preceding algebraic demonstration is daunting, please realize that $\Delta\mathbf{\tilde{H}\tilde{Z}}$ can be loosely translated as an effect due to differences by model predictions.  In this way, when we talk about more complex models, $\Delta\mathbf{\tilde{H}\tilde{Z}}$ is a prevailing concept.
 ]]
 
-** $\Delta\mathbf{\tilde{H}Z}$ .red[is the difference in model predictions and] $\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}Z})^T\Delta\mathbf{\tilde{H}Z}$ .red[is the covariance matrix for the different predictions, the effect of adding parameters to the null model design.]**
+** $\Delta\mathbf{\tilde{H}\tilde{Z}}$ .red[is the difference in model predictions and] $\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}}$ .red[is the covariance matrix for the different predictions, the effect of adding parameters to the null model design.]**
 
 ---
 
 ### Finally, a linear model example.
 
 **Data:** The `plethShapeFood` data, as used before
+
 **Null model** estimates a mean
+
 **Alternative model** estimates effect of predicting specimen shape from the log of centroid size.  This is accomplished by adding a variable, $\log(CS)$ to the vector of 1s used to estimate the mean in the linear model design matrix
+
+**OLS analysis.**  Therefore, $\mathbf{\tilde{X}} = \mathbf{X}$ and $\mathbf{\tilde{Z}} = \mathbf{Z}$. 
 
 **Set up the analysis and look at $\mathbf{X}$ matrices.**
 The `procD.lm` function is a function that finds a linear model (`.lm`) using Procrustes coordinates (`proc`).  The `D` part is because fitted values can be transcribed into *distances* among predictions in the shape space.
@@ -1502,7 +1510,7 @@ Procrustes coordinates: linear transformation of coordinate data.
 
 ----
 
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
 
 **Estimation of linear model coefficients for transformed data, $\mathbf{Z}$, which Procrustes coordinates are.** 
 
