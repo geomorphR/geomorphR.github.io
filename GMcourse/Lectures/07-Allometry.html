@@ -117,7 +117,7 @@ pre {
 
 + To characterize allometric patterns, we fit a model of `shape~size` as:
 
-`$$\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$`
+`$$\small\mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$`
 
 --
 
@@ -129,22 +129,24 @@ pre {
 
 Estimate | `\(\small\mathbf{X}_{R}\)`| `\(\small\mathbf{X}_{F}\)`
 :----------- | :------------------- | :--------------------------
-Coefficients |  `\(\tiny\hat{\mathbf{\beta_R}}=\left ( \mathbf{X}_R^{T} \mathbf{X}_R\right )^{-1}\left ( \mathbf{X}_R^{T} \mathbf{Y}\right )\)` | `\(\tiny\hat{\mathbf{\beta_F}}=\left ( \mathbf{X}_F^{T} \mathbf{X}_F\right )^{-1}\left ( \mathbf{X}_F^{T} \mathbf{Y}\right )\)` 
-Predicted Values | `\(\small\hat{\mathbf{Y}}_R=\mathbf{X}_R\hat{\mathbf{\beta}}_R\)` | `\(\small\hat{\mathbf{Y}}_F=\mathbf{X}_F\hat{\mathbf{\beta}}_F\)`
-Model Residuals | `\(\small\hat{\mathbf{E}}_R=\mathbf{Y}-\hat{\mathbf{Y}}_R\)` | `\(\small\hat{\mathbf{E}}_F=\mathbf{Y}-\hat{\mathbf{Y}}_F\)`
+Coefficients |  `\(\tiny\hat{\mathbf{\beta_R}}=\left ( \mathbf{X}_R^{T} \mathbf{X}_R\right )^{-1}\left ( \mathbf{X}_R^{T} \mathbf{Z}\right )\)` | `\(\tiny\hat{\mathbf{\beta_F}}=\left ( \mathbf{X}_F^{T} \mathbf{X}_F\right )^{-1}\left ( \mathbf{X}_F^{T} \mathbf{Z}\right )\)` 
+Predicted Values | `\(\small\hat{\mathbf{Z}}_R=\mathbf{X}_R\hat{\mathbf{\beta}}_R\)` | `\(\small\hat{\mathbf{Z}}_F=\mathbf{X}_F\hat{\mathbf{\beta}}_F\)`
+Model Residuals | `\(\small\hat{\mathbf{E}}_R=\mathbf{Z}-\hat{\mathbf{Z}}_R\)` | `\(\small\hat{\mathbf{E}}_F=\mathbf{Z}-\hat{\mathbf{Z}}_F\)`
 Model Residual Error    ($\small{SSE}$) | `\(\small\mathbf{S}_R=\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R\)` | `\(\small\mathbf{S}_F=\hat{\mathbf{E}}_F^T\hat{\mathbf{E}}_F\)`
 ---
 
-### Assessing Significance: RRPP
+### Assessing Significance: RRPP `\(^1\)`
 
-1: Fit `\(\small\mathbf{X}_{R}\)` for each `\(\small\mathbf{X}_{F}\)`; Estimate `\(\small\hat{\mathbf{Y}}_{R}\)` and `\(\small\mathbf{E}_{R}\)`
+.pull-left[
+1: Fit `\(\small\mathbf{X}_{R}\)` for each `\(\small\mathbf{X}_{F}\)`; Estimate `\(\small\hat{\mathbf{Z}}_{R}\)` and `\(\small\mathbf{E}_{R}\)`
 
-2: Permute, `\(\small\mathbf{E}_{R}\)`: obtain pseudo-values as: `\(\small\mathbf{\mathcal{Y}} = \mathbf{\hat{Y}}_{R} + \mathbf{E}_{R}\)`
+2: Permute, `\(\small\mathbf{E}_{R}\)`: obtain pseudo-values as: `\(\small\mathbf{\mathcal{Z}} = \mathbf{\hat{Z}}_{R} + \mathbf{E}_{R}\)`
 
-3: Fit `\(\small\mathbf{X}_{F}\)` using `\(\small\mathbf{\mathcal{Y}}\)`: obtain coefficients and summary statistics
+3: Fit `\(\small\mathbf{X}_{F}\)` using `\(\small\mathbf{\mathcal{Z}}\)`: obtain coefficients and summary statistics
 
 4: Calculate `\(\small{F}\)`-value in every random permutation (observed case counts as one permutation)
-
+]
+.pull-right[
 5: For `\(\small{N}\)` permutations, `\(\small{P} = \frac{N(F_{random} \geq F_{obs})}{N}\)`
 
 6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
@@ -154,8 +156,13 @@ Model Residual Error    ($\small{SSE}$) | `\(\small\mathbf{S}_R=\hat{\mathbf{E}}
  \sigma_{\log\left(F\right)}
 }$$`
 where `\(\small\mu_{\log\left(F\right)}\)` and `\(\sigma_{\log\left(F\right)}\)` are the expected value and standard deviation from the sampling distribution, respectively.
+]
 
-###### Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
+.footnote[
+1: Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
+
+2: For details see Shape Statistics II
+]
 ---
 
 ### Regression: Example
@@ -192,20 +199,25 @@ Great, but how does one visualize this multivariate allometry??
 
 ### Visualizing Multivariate Allometry
 
+.pull-left[
 + Need to summarize size-related variation in shape
 + Use some rotation/projection method
 
-&lt;img src="LectureData/07.allometry/MultiAllomPlot.png" width="30%" style="display: block; margin: auto;" /&gt;
-
-+ Several (complementary) solutions:
+&lt;img src="LectureData/07.allometry/MultiAllomPlot.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
 
 --
 
+.pull-right[
++ Several (complementary) solutions:
+
 + Regression scores (Drake and Klingenberg 2008): projection of shape data on the allometric line
-`$$\small\mathbf{s}=\mathbf{Y\beta^T(\beta^T\beta)^{-1/2}}$$`
+`$$\small\mathbf{s}=\mathbf{Z\beta^T(\beta^T\beta)^{-1/2}}$$`
 
 + PC1 of predicted values (Adams and Nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
-`$$\small\mathbf{P_1}=svd(\mathbf{\hat{Y}})=svd(\mathbf{X(\tilde{X}^T\tilde{X})^{-1}(\tilde{X}^T\tilde{Y})})$$`
+
+`$$\small\mathbf{P_1}=svd(\mathbf{\hat{Z}})=svd(\mathbf{X(\tilde{X}^T\tilde{X})^{-1}(\tilde{X}^T\tilde{Z})})$$`
+]
 ---
 
 ### Visualization: Example
@@ -279,12 +291,12 @@ anova(fit)$table
 + Derived from the PCA of shape variables + `\(\small{ln}(Csize)\)`
   + 1: Calculate shape variables and `\(\small{ln}(Csize)\)`, and join them in a single data matrix
   + 2: Calculate PCA of this matrix ( `\(\small{SSPC1}\)`)
-  + 3: Generate the **common allometric component** (CAC): the common size-shape regression coefficient, after mean-centering shapes by group `\(\small\mathbf{Y}_{cent}\)`
+  + 3: Generate the **common allometric component** (CAC): the common size-shape regression coefficient, after mean-centering shapes by group `\(\small\mathbf{Z}_{c}\)`
   + 4: Calculate the **residual shape component**: SVD of data orthogonal to CAC
   + 5: Visualize allometry as (CAC vs. SSPC1)   &amp; (CAC vs. RSC1)
 
-`$$\small\alpha=(\mathbf{Y}_{cent}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$`
-`$$\small{CAC}=\mathbf{Y}_{cent}\alpha$$`             where `$$\small\alpha=\alpha\sqrt{}(\alpha^T\alpha)$$`
+`$$\small\alpha=(\mathbf{Z}_{c}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$`
+`$$\small{CAC}=\mathbf{Z}_{c}\alpha$$`             where `$$\small\alpha=\alpha\sqrt{(\alpha^T\alpha)}$$`
 ---
 
 ### Size-Shape Space: Example
@@ -292,25 +304,27 @@ anova(fit)$table
 &lt;img src="LectureData/07.allometry/Mitteroecker-04.png" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
-### Note: CAC Scores vs. Regression Scores
+### Note: CAC Scores vs. Regression Scores `\(^1\)`
 
 + `\(\small{CAC}\)`: regression under a common slope after group mean-centering
 + Regression scores (**s**): shape data projected on the regression line with size
 + When a single group is considered, `\(\small{CAC}\)` and **s** are **identical**!
 + Both are projections of mean-centered data on size/shape regression (and are equivalent to PLS1 scores of a PLS of shape on size)
 
-`$$\small\alpha=(\mathbf{Y}_{cent}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$`
-`$$\small{CAC}=\mathbf{Y}_{cent}\alpha$$`     `$$\small\alpha=\alpha\sqrt{}(\alpha^T\alpha)$$`
-`$$\small\mathbf{s}=\mathbf{Y\beta^T(\beta^T\beta)^{-1/2}}$$`
+`$$\small\alpha=(\mathbf{Z}_{c}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$`
+`$$\small{CAC}=\mathbf{Z}_{c}\alpha$$`     `$$\small\alpha=\alpha\sqrt{}(\alpha^T\alpha)$$`
+`$$\small\mathbf{s}=\mathbf{Z\beta^T(\beta^T\beta)^{-1/2}}$$`
 
-###### See Adams et al. 2013. Hystrix 24: 7-14. 
+.footnote[See Adams et al. 2013. *Hystrix* 24: 7-14.] 
 ---
 
-### Allometry: Other Tests
+### Allometry: Other Tests `\(^1\)`
 
 + Many biological hypotheses are related to the comparison of ontogenetic allometries
 
 + Allometric trajectories are not only about their slope, or variation around it
+
+.footnote[1: See Shape Statistics II lecture for discussion of PTA as a general method for comparing all types of trajectories, including ontogenetic/allometric trajectories (i.e. Collyer and Adams 2007; Adams and Collyer 2009; Collyer and Adams 2013)]
 
 --
 
@@ -328,18 +342,18 @@ anova(fit)$table
 
 + Take advantage of the toolkit of resampling methods
 
-###### See also PTA for a general method for comparing all types of trajectories, including ontogenetic/allometric trajectories (i.e. Collyer and Adams 2007; Adams and Collyer 2009; Collyer and Adams 2013)
 ---
 
-### Allometric Convergence and Divergence
+### Allometric Convergence and Divergence `\(^1\)`
 
 + Convergence: shape is more similar at the end of the trajectory, than at the beginning
 
 + A simple approach: test angular difference between trajectories
 
+.footnote[1: Adams and Nistri. (2010) *BMC. Evol. Biol.*]
 --
 
-  + 1: Obtain allometric vectors `\((\small\mathbf{\hat{Y}}_{start} - \small\mathbf{\hat{Y}}_{end})\)`  for groups
+  + 1: Obtain allometric vectors `\((\small\mathbf{\hat{Z}}_{start} - \small\mathbf{\hat{Z}}_{end})\)`  for groups
   + 2: Normalize vectors (divide by their length so they are unit length) and find the cross-product between pairs of vectors; i.e, `\(r_{ij} = \mathbf{\beta}_i^T \mathbf{\beta}_j\)`
   +  3: Obtain test measure: `\(\theta = \cos^{-1}(r_{ij})\)`
   + 4: RRPP with appropriate null model to test `\(\theta\)`
@@ -349,7 +363,6 @@ anova(fit)$table
 + **Parallelism** when `\(\theta\)` is not significant and/or effect size is small
   + Can also test absolute difference in vector lengths to determine if one group has greater ontogenetic shape change than another
     
-###### Adams and Nistri. (2010) *BMC. Evol. Biol.*
 ---
 
 ### Evolutionary Convergence: *Hydromantes* Example
@@ -400,7 +413,7 @@ fit.unique &lt;- procD.lm(coords ~ logSize * Group,
                      data = pupfish, print.progress = FALSE)  
 ```
 
-+ Now let's do a homogeneity of slopes test (right)
++ Now let's do a homogeneity of slopes test
 ]
 
 .pull-right[
