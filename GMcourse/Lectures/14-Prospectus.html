@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>14: Prospectus and Future Directions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <script src="14-Prospectus_files/header-attrs-2.21/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="utilities.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# 14: Prospectus and Future Directions
+]
+.author[
+### 
+]
+
+---
+
+
+
+
+### Week in Review: Overarching Goal
+
++ Our goals for the week were:
+  + 1: Learn how to quantify anatomical shapes using points, curves, and surfaces
+  + 2: Generate a set of shape variables from these data 
+  + 3: Statistically evaluate hypotheses of shape variation and covariation using robust statistical methods
+
+.pull-left[    
++ Accomplishing these goals required use of the **Procrustes Paradigm** 
+
+&lt;img src="LectureData/01.Intro/GenGMProtocol.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
++ This, then, **must** be coupled with **RRPP and effect size (Z-score) evaluation** for shape analysis: 
+
+`$$z =\frac{\log(F) - \mu_{\log(F)}}{\sigma_{\log(F)}}$$` 
+]
+---
+
+### Recall the RRPP Procedure `\(^1\)`
+
++ For virtually all shape-based hypotheses, we used permutation procedures (RRPP). This is embodied as:
+
+.pull-left[
+1: Fit `\(\small\mathbf{X}_{R}\)` for each `\(\small\mathbf{X}_{F}\)`; Estimate `\(\small\hat{\mathbf{Z}}_{R}\)` and `\(\small\mathbf{E}_{R}\)`
+
+2: Permute, `\(\small\mathbf{E}_{R}\)`: obtain pseudo-values as: `\(\small\mathbf{\mathcal{Z}} = \mathbf{\hat{Z}}_{R} + \mathbf{E}_{R}\)`
+
+3: Fit `\(\small\mathbf{X}_{F}\)` using `\(\small\mathbf{\mathcal{Z}}\)`: obtain coefficients and summary statistics
+
+4: Calculate `\(\small{F}\)`-value in every random permutation (observed case counts as one permutation)
+
+5: For `\(\small{N}\)` permutations, `\(\small{P} = \frac{N(F_{random} \geq F_{obs})}{N}\)`
+]
+.pull-right[
+6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
+`$$\small{z} = \frac{
+\log\left( F\right) - \mu_{\log\left(F\right)}
+} {
+ \sigma_{\log\left(F\right)}
+}$$`
+where `\(\small\mu_{\log\left(F\right)}\)` and `\(\sigma_{\log\left(F\right)}\)` are the expected value and standard deviation from the sampling distribution, respectively.
+]
+
+.footnote[
+1: Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
+
+2: Important! RRPP is *not* constrained by *n:p* ratios and in fact is quite useful when `\(\small{n}\ll{p}\)` (displays high power in such cases)
+]
+---
+
+### Procrustes Paradigm and RRPP: Present Applications
+
+What we learned this week: Procrustes + RRPP with effect sizes ( `\(Z\)`-scores) provides the tools to evaluate an inordinately large breadth of biological hypotheses related to shape variation.  A partial list includes:
+
++ 1: General linear model (GLM) questions: 
+  + Do groups differ in shape (manova)?
+  + Is there covariation between shape and a continuous variable (regression)?
+  + Is there variation in shape across multiple effects (factorial models)?
+  + Is there an association between shape &amp; `\(\small\mathbf{X}\)` while accounting for phylogeny (PGLS models)? 
++ 2: 'Advanced' GLM questions: 
+  + Which groups differ in shape; which slopes differ in terms of shape covariation (pairwise comparisons)?
+  + Do pairs of groups differ in their magnitude or direction of shape change (trajectory analysis)?
+  + Are there differences in the degree of shape disparity (dispersion) among groups?
+
+---
+    
+### Procrustes Paradigm and RRPP: Present Applications (Cont.)
+
++ 3: Covariation questions:
+  + Does shape covary with another set of variables (partial least squares - PLS)?
+  + Is the degree of covariation greater in one dataset than another (z-score comparisons)?
++ 4: Phylogenetic questions: 
+  + What is the degree of phylogenetic signal in shape?
+  + Does shape covary with other variables while accounting for phylogenetic relatedness (PGLS and P-PLS)?
+  + Do rates of phenotypic shape evolution differ?
++ 5: GM-specific questions: 
+  + Is there shape asymmetry? Is it directional or fluctuating? 
+  + Is there modular signal in my data?  Integrated signal? 
+  + Is the degree of modularity (or integration) greater in one dataset relative to another?
+  + Are there allometric patterns of shape variation? 
+
+###### NOTE: A huge advantage of what we learned this week is the visualization of patterns of shape variation (i.e., statistical plots), combined with visualizations of shape deformations (predicted values, group means, etc.)
+
+---
+
+### What's Left to Do?
+
++ Given the breadth of topics we covered, one might reasonably ask "In terms of theory, is there nothing left to do?"
+
++ That is to say, can one reasonably expect additional novel approaches to be developed going forward, that biologists can then use to address new and important questions?
+
+--
+
++ We contend that the answer to this question is **YES**!!
+
++ While we do not know all possible avenues of future analytical research, we provide a few obvious areas for future work here
+---
+
+### 1: An Improved Procrustes Algorithm
+
++ Recall the workhorse of geometric morphometrics: the Generalized Procrustes Analysis (superimposition)
+  + Translate all specimens to a common location
+  + Scale all specimens to unit centroid size
+  + Optimally rotate all specimens to minimize LS deviations
+    
+&lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-2-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+---
+
+### 1: An Improved Procrustes Algorithm
+
+.pull-left[
++ Mathematically, GPA assumes that all landmarks are 'iid' (independent, and identically distributed) in terms of their error distribution
+
++ This implies that the values for each landmark of each specimen are derived from a circular normal distribution, which is independent landmark by landmark
+
++ Such an assumption is unrealistic
+]
+
+--
+
+.pull-right[
++ For example, recall the 'Pinocchio effect'
+
+&lt;img src="LectureData/03.superimposition/GRF-Example.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
++ Here, some landmarks display greater variation than do others (and GRF was proposed to 'account' for this, via an ad-hoc procedure)
+
++ Also, consider the possibility that some landmarks are correlated with others (i.e., landmark changes are correlated)
+
++ Neither of these conditions is considered by GPA, as it is OLS (=unweighted)
+---
+
+### 1: Towards A Weighted Procrustes Algorithm
+
++ To this point (and for the past 25 years), we have conducted superimposition using GPA, which is an unweighted alignment
+
++ That is, one translates, rotates, and scales, using mean values
+
++ As implemented (and as described this week), these steps assume that all landmarks contribute equally during the alignment.
+
++ This is tantamount to including a `\(\mathbf{I}_{pk}\)` identity matrix within the GPA algorithm
+
+--
+
++ One could consider a 'weighted GPA' where the translation, rotation, and scale are performed relative to a landmark-coordinate covariance matrix (much like one performs OLS = unweighted regression versus PGLS =  phylogenetically-weighted regression)
+
++ The algebra for this is well-established statistically, but the 'weighting' covariance matrix in this case is highly singular, causing mathematical difficulties
+---
+
+### 1: Towards A Weighted Procrustes Algorithm
+
++ Some approximations have been proposed (e.g., Theobald and Wuttke 2006)
+
+&lt;img src="LectureData/14.prospectus/WGPATheobald.png" width="35%" style="display: block; margin: auto;" /&gt;
+
++ Here (with simplifying assumptions), one can align protein structures allowing for different variation among landmarks, but with equal variation within (i.e., using a partitioned `\(\hat{\mathbf\Sigma}=\mathbf\Sigma_p\otimes\Sigma_k\)`)
+
++ We are currently developing a general algorithm for weighted GPA that relaxes all of these assumptions, and where the 'standard' GPA approach would be a special case algorithm
+---
+
+### 2: Integration and Modularity: A Spatial Perspective
+
++ The past decade has seen a wonderful resurgence of interest in modularity and integration
+
++ This has lead to the development of numerous approaches for *quantifying* such patterns
+
+--
+
++ Recent work (Bookstein 2016) highlighted the need to explore integration across spatial scales 
+
++ This begs the question: should other (all?) patterns of integration and modularity among sub-units be evaluated relative to some 'null' expectation beyond that of the empirical sampling distribution derived from permuting landmarks into modules?
+
+--
+
++ We contend that this is an important issue for future investigation
+
++ Our perspective is to consider the **spatial** proximity of landmarks in developing a null model for integration and modularity tests
+---
+
+### 2: Spatial Integration and Modularity
+
+.pull-left[
++ In ecology, data obtained from different geographic localities is expected to covary due to their *spatial proximity*
+
++ In other words, geographically proximate locations are expected to be more similar, and covary more highly, than are geographically less proximate locations
+
+&lt;img src="LectureData/14.prospectus/SpatialCov.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
++ For morphometrics, **anatomical proximity** is akin to geographic proximity in spatial statistics
+
++ We contend that null models of integration and modularity should be **conditioned** on anatomical proximity; analogously to spatial proximity issues
+
+&lt;img src="LectureData/14.prospectus/Mouse.png" width="65%" style="display: block; margin: auto;" /&gt;
+
++ We are presently developing integration and modularity methods that evaluate patterns relative to this anatomical proximity
+]
+---
+
+### 3: Multivariate Model Comparison
+
++ The goal is to evaluate two or more models with different sets of parameters to determine if one is 'better' based on criteria quantifying the *fit* of the data to those models.
+
++ Procedurally, model fit is often obtained using likelihood, and models are compared using likelihood ratio tests, or indexing measures of penalized likelihood (e.g., AIC). 
+
++ The following univariate data provides a simple example: 
+
+
+
+.pull-left[
+
+```r
+fit.0&lt;-lm(Pupfish$logSize~1)
+fit.S&lt;-lm(Pupfish$logSize~Pupfish$Sex)
+fit.P&lt;-lm(Pupfish$logSize~Pupfish$Pop)
+fit.SP&lt;-lm(Pupfish$logSize~Pupfish$Sex+Pupfish$Pop)
+fit.Full&lt;-lm(Pupfish$logSize~Pupfish$Sex*Pupfish$Pop)
+```
+]
+
+.pull-right[
+
+```r
+AIC(fit.0,fit.S,fit.P,fit.SP,fit.Full)
+```
+
+```
+##          df       AIC
+## fit.0     2 -51.19887
+## fit.S     3 -65.17232
+## fit.P     3 -61.25937
+## fit.SP    4 -83.68154
+## fit.Full  5 -82.65729
+```
+]
+
++ Based on AIC, the best model is `\(\small{Size}={Sex}+{Pop}\)` 
+
+---
+
+### 3: Multivariate Model Comparison
+
++ Note we can confirm this result using likelihood ratio tests (anova), since most of these are nested models.
+
++ Unfortunately, while the above procedure potentially useful (for univariate data), this over-emphasizes the rank-order component of the process. That is, mentally we tend to think of models in a ranked list.  But is that how they are found in model space? 
+
+.scrollable[
+
+```r
+anova(fit.Full)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: Pupfish$logSize
+##                         Df  Sum Sq  Mean Sq F value    Pr(&gt;F)    
+## Pupfish$Sex              1 0.29130 0.291298 25.6202 6.006e-06 ***
+## Pupfish$Pop              1 0.26743 0.267428 23.5208 1.246e-05 ***
+## Pupfish$Sex:Pupfish$Pop  1 0.01037 0.010366  0.9117    0.3443    
+## Residuals               50 0.56849 0.011370                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+]
+
+---
+
+### An Appeal to Geometry
+
++ This week we've emphasized the 'dual' of algebra and geometry.  Typical model comparison focuses on the algebra: the fitting of models, the summarizing of models, and the comparison of those summaries. But what about the geometric side? Can we also visualize model space?
+
++ Below are plots for univariate data: first plotted directly along the number line. Then, plotted as a PCoA from the Euclidean distances among points:
+
+&lt;img src="LectureData/14.prospectus/ModelComp.png" width="80%" style="display: block; margin: auto;" /&gt;
+
++ Apart from axis reflection, the plots are the same.  Also, only the first axis contains any variation in the data. This is as it should be: the dimensionality of a data space is: `\(\small\min({p,(n-1)})\)`
+---
+
+### Visualizing Model Space
+
++ We conjecture that **the dimensionality of a model space is: `\(\small\min({p,(m-1)})\)`** where *p* is the dimensionality of the data space and *m* is the number of models under consideration.
+
++ For univariate data, model space is a single axis: models 'live' along the number line.  In this context, rank-ordered comparisons of models make sense: it is analogous to evaluating the distance between models.
+
++ However, for multivariate data, model space will have higher dimensions. Thus, model differences exist both in the *magnitude* and the *direction* in this space. If correct, it is entirely possible that evaluating only the magnitude of model difference (i.e., the typical notion of model comarison) is at best incomplete.  The question is whether these conjectures of model space are accurate. For that we need a method of visualizing model space.  
+
++ To arrive at a visualization of model space we need a summary measure comparing model fits, and one that is robust for high-dimensional data. 
+
++ **That is where RRPP can come in**
+---
+
+### Visualizing Model Space with RRPP
+
++ **CAVEAT**: The following is tentative and is not a fully developed approach! We are exploring the underlying theory and specific implementation of how RRPP and derived `\(\small{z}\)`-scores may be used in multivariate model comparison. Treat this as illustrative only. *MUCH IS YET TO BE DEVELOPED!!!*
+
++ Procedure
+  + 1: Identify set of potential models (set of H~1~) and the null (H~0~)
+  + 2: Obtain `\(\small{z}\)`-score for each H~1~ relative to H~0~ 
+  + 3: Estimate pairwise `\(\small{z}\)`-tests across models following Adams and Collyer (2016, 2019)
+  + 4: Assemble `\(\small{z}\)`-score matrix from 2 and 3     
+  + 5: Use PCoA to visualize model space 
+---
+
+### RRPP Visualization of Model Space
+
++ Here are two examples: one univariate the other multivariate (both the pupfish data): 
+
+&lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-12-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+
++ Both plots show model spaces, and each includes the null model (H~0~) against which the models are compared. Models further from H~0~ provide a better fit to the data.  **How that is to be formally evaluated has yet to be determined!!**
+---
+
+### Unknowns: RRPP Approach to Model Comparisons
+
++ Obviously the concept of using `\(\small{z}\)`-scores from RRPP for model comparison is exciting. However, considerable theoretical research is required to verify the approach, and the steps in its implementation. A partial list includes: 
+  +  1: Can we obtain a metric distance measure from `\(\small{z}\)`-scores?  The difference matrix used here is not metric, as there were negative eigenvalues. Having a metric distance for `\(\small{z}\)`-scores would allow one to confirm the conjecture as to the dimensionality of model space. 
+  + 2: What summary measures are used to statistically identify the best model? The `\(\small{z}\)`-test of Adams and Collyer (2016) *Evol.* could be considered, but if appropriate this would capture the magnitude of difference only.
+  + 3: What is the meaning of different directions in model space, and can one devise a summary test measure for comparing model directionality relative to H~0~? Obviously this question depends upon devising a `\(\small{z}\)`-score metric, as interpretation of directions requires a metric space 
+  + 4: Does the method generalize to GLS, or is it OLS specific? 
+
++ **Clearly, there is considerable work left to do, but the initial concept of using `\(\small{z}\)`-scores from RRPP for model comparison is promising!** *Stay tuned...*
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-light",
+"highlightLines": true,
+"countIncrementalSlides": true,
+"ratio": "16:9",
+"self_contained": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

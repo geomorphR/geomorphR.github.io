@@ -28,4 +28,4 @@
 
 [13-Missing Data](https://geomorphR.github.io/GMcourse/Lectures/13-MissingData.html)
 
-[14-Future Directions and Prospectus]
+[14-Future Directions and Prospectus](https://geomorphR.github.io/GMcourse/Lectures/14-Prospectus.html)
