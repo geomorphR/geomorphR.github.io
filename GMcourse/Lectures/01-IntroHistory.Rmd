@@ -4,7 +4,7 @@ author: ""
 subtitle: "A Brief History and Data Types"
 output:
   xaringan::moon_reader:
-    css: ["xaringan-themer.css"]
+    css: ["xaringan-themer.css", "utilities.css"]
     nature:
       highlightStyle: solarized-light
       highlightLines: true

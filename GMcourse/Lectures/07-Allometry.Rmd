@@ -3,7 +3,7 @@ title: "7: Allometry"
 author: ""
 output:
   xaringan::moon_reader:
-    css: ["xaringan-themer.css"]
+    css: ["xaringan-themer.css", "utilities.css"]
     nature:
       highlightStyle: solarized-light
       highlightLines: true
@@ -20,18 +20,6 @@ opts_chunk$set(echo = TRUE)
 library(xaringanthemer)
 style_mono_light()
 ```
-
-```{css, echo=FALSE}
-pre {
-  max-width: 100%;
-  overflow-x: scroll;
-}
-.scrollable {
-  height: 80%;
-  overflow-y: auto;
-} 
-```
-
 
 ### What is Allometry?
 

@@ -6,6 +6,7 @@
     <meta name="author" content="" />
     <script src="12-IntegrationModularity_files/header-attrs-2.21/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -22,17 +23,6 @@ class: center, middle, inverse, title-slide
 
 
 
-
-&lt;style type="text/css"&gt;
-pre {
-  max-width: 100%;
-  overflow-x: scroll;
-}
-.scrollable {
-  height: 80%;
-  overflow-y: auto;
-} 
-&lt;/style&gt;
 
 ### Trait Covariation
 
@@ -162,7 +152,7 @@ where `\(\mathbf{Z}\)` is an `\(N \times pk\)` matrix of Procrustes coordinates
   + Eigenvalues of `\(\hat{\Sigma}\)` describe the degree of covariation
   + Thus, the dispersion of `\(\lambda_p\)` for a set of `\(p\)` traits is one way to describe their integration
   
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-6-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-5-1.png" width="35%" style="display: block; margin: auto;" /&gt;
 
 ##### From Conaway and Adams 2022 (*Evol*)
 ---
@@ -297,7 +287,7 @@ Y.gpa&lt;-gpagen(plethodon$land, print.progress = FALSE)    #GPA-alignment
 globalIntegration(Y.gpa$coords) #not spatially integrated
 ```
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ```
 ##      BEval 
@@ -452,7 +442,7 @@ summary(PLS)
 plot(PLS)
 ```
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 ---
@@ -477,7 +467,7 @@ plot(PLS)
 
 
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-20-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-19-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 + For the pupfish dataset, both are significant at p = 0.001
 ---
@@ -486,7 +476,7 @@ plot(PLS)
 
 Compare permutation distributions with one another (minus observed in this case)
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-21-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-20-1.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 + All things considered, *r~PLS~* performs better 
 ---

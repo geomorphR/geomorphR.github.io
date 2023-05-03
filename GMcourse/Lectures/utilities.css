@@ -46,5 +46,14 @@
 .red        { color:   #DA291C }
 .warmyellow { color:   #FFB81C }
 
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+.scrollable {
+  height: 80%;
+  overflow-y: auto;
+} 
+
 </style>
 

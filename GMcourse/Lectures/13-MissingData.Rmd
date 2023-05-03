@@ -1,16 +1,25 @@
 ---
-title: "Missing Data"
-author: "Dean Adams, Iowa State University"
-output: slidy_presentation
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: "1#: Missing Data"
+author: ""
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "utilities.css"]
+    nature:
+      highlightStyle: solarized-light
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+      self_contained: false
 ---
 
 ```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
 library(knitr)
 library(geomorph)
 opts_chunk$set(echo = TRUE)
-```
 
+library(xaringanthemer)
+style_mono_light()
+```
 
 # The Problem of Missing Data
 

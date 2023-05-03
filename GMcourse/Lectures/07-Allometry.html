@@ -6,6 +6,7 @@
     <meta name="author" content="" />
     <script src="07-Allometry_files/header-attrs-2.21/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -21,18 +22,6 @@ class: center, middle, inverse, title-slide
 ---
 
 
-
-
-&lt;style type="text/css"&gt;
-pre {
-  max-width: 100%;
-  overflow-x: scroll;
-}
-.scrollable {
-  height: 80%;
-  overflow-y: auto;
-} 
-&lt;/style&gt;
 
 
 ### What is Allometry?
@@ -236,7 +225,7 @@ Great, but how does one visualize this multivariate allometry??
 ### Allometry Example: *Podarcis*
 
 .pull-left[
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -260,11 +249,11 @@ anova(fit)$table
 
 ### Allometry Example: *Podarcis* (Cont.)
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Visualization 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Post-Hoc Tests
@@ -397,7 +386,7 @@ data(pupfish)
 plotAllSpecimens(pupfish$coords)
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-21-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-20-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
@@ -449,7 +438,7 @@ anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 + Allometric plots
   + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-25-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-24-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)

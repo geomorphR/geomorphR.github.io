@@ -3,7 +3,7 @@ title: "5: Semilandmarks on Curves and Surfaces"
 author: ""
 output:
   xaringan::moon_reader:
-    css: ["xaringan-themer.css"]
+    css: ["xaringan-themer.css", "utilities.css"]
     nature:
       highlightStyle: solarized-light
       highlightLines: true

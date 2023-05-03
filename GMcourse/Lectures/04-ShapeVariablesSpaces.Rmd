@@ -3,7 +3,7 @@ title: "4: Shape Variables and Shape Spaces"
 author: ""
 output:
   xaringan::moon_reader:
-    css: ["xaringan-themer.css"]
+    css: ["xaringan-themer.css", "utilities.css"]
     nature:
       highlightStyle: solarized-light
       highlightLines: true
