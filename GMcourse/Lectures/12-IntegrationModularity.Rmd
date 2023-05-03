@@ -133,15 +133,15 @@ include_graphics("LectureData/12.integr.mod/Klingenberg2014.png")
 
 + Most approaches based on exploring patterns in the trait covariance matrix:
 
-$$\hat{\mathbf\Sigma} = \mathbf{Y_c^T}\mathbf{Y_c}/ (N-1)$$
+$$\hat{\mathbf\Sigma} = \mathbf{Y_c^T}\mathbf{Y_c}/ (n-1)$$
 
 --
 
 Using our shape data notation: 
 
-$$\hat{\mathbf\Sigma} = \mathbf{Z^T}\mathbf{Z}/ (N-1)$$
+$$\hat{\mathbf\Sigma} = \mathbf{Z^T}\mathbf{Z}/ (n-1)$$
 
-where $\mathbf{Z}$ is an $N \times pk$ matrix of Procrustes coordinates
+where $\mathbf{Z}$ is an $n \times pk$ matrix of Procrustes coordinates
 
 --
 
@@ -239,7 +239,7 @@ $D_r$ | $\frac{\sqrt[2R_e]{\prod{\lambda_{R_e}}}}{\sqrt{1/\pi{R_e}}}$ | O'Keefe 
 
 ### 1: Overall Integration: Which Method to Use?
 
-+ Only $V_{rel}$ remains stable across $N$ and $p$
++ Only $V_{rel}$ remains stable across $n$ and $p$
 
 .pull-left[
 ```{r, echo = FALSE, fig.align = "center", out.width="95%"}
@@ -537,7 +537,7 @@ include_graphics("LectureData/12.integr.mod/PLS-Bookstein03.png")
 ### 2B: Comparing Integration Across Datasets
 
 + One may wish to compare integration among subsets across datasets
-+ Cannot do so directly with $RV$ or $r_{PLS}$ as both vary with $N$ and $p$
++ Cannot do so directly with $RV$ or $r_{PLS}$ as both vary with $n$ and $p$
 
 ```{r, echo = FALSE, fig.align = "center", out.width="50%"}
 include_graphics("LectureData/12.integr.mod/RV.PLS.n.p.png")  
@@ -632,7 +632,7 @@ compare.pls(integ.tests)
   + Calculate $\small{R}$ for a set of traits
   + Find inverse $\small{R}^{-1}$ (elements of which are $\small{\Omega_{ij}}$)
   + Rescale $\small{R}^{-1}$ to **partial** correlations: $\small{\rho_{ij}=\frac{-\Omega_{ij}}{\sqrt{\Omega_{ii}\Omega_{jj}}}}$
-  + Evaluate partial correlations: $\small{-Nln(1-\rho^2_{ij})\approx\chi^2}$			for all $\small{\rho_{ij}}$.  Set non-significant values to zero
+  + Evaluate partial correlations: $\small{-nln(1-\rho^2_{ij})\approx\chi^2}$			for all $\small{\rho_{ij}}$.  Set non-significant values to zero
   + Remaining $\small{\rho_{ij}}$ describe correlations among integrated traits 
     
 + Graphically, this is equivalent to ‘pruning’ links between traits
@@ -661,7 +661,7 @@ include_graphics("LectureData/12.integr.mod/ModulCovBtwn.png")
 
 ### 3: Quantifying Modularity: $CR$ Coefficient $^1$
 
-+ As shown previously, the $RV$ coefficient (though frequently used) is not constant across $N$ and $p$
++ As shown previously, the $RV$ coefficient (though frequently used) is not constant across $n$ and $p$
 
 + Instead use the covariance ratio:
 
@@ -772,7 +772,7 @@ compare.CR(modul.tests, CR.null = FALSE)
 
 + All approaches decompose information in $\hat{\mathbf{\Sigma}}$
 
-+ Require methods that are robust to $N$ and $p$
++ Require methods that are robust to $n$ and $p$
 
 + Effect sizes of test statistics are most useful, and can be compared
   + Overall integration for a set of traits: $Z_{Vrel}$

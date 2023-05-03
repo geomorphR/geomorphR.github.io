@@ -1,5 +1,4 @@
 For workshop
 
-Use 'Z' in all equations for Procrustes residuals
-
+Prospectus: model comparison: get logLik distribution via RRPP in there (from physig paper)
  
