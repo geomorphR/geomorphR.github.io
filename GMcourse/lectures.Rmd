@@ -26,6 +26,6 @@
 
 [12-Integration and Modularity](https://geomorphR.github.io/GMcourse/Lectures/12-IntegrationModularity.html)
 
-[13-Missing Data]
+[13-Missing Data](https://geomorphR.github.io/GMcourse/Lectures/13-MissingData.html)
 
 [14-Future Directions and Prospectus]
