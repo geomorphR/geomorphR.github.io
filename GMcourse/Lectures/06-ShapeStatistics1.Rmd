@@ -1495,6 +1495,34 @@ $\mathbf{A}^T\mathbf{Z}$ describes the alignment of data $(\mathbf{Z})$ to somet
 
 All of these purposes are helpful for inferential statistics, the more prominent theme in **Shape Statistics II**.
 
+---
+
+### Revisiting Linear Algebra Goals
+.pull-left[.med[
+
+$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
+
+**Should be more obvious now, although it probably looks more obvious as $\small\mathbf{Z}=CS^{-1}\mathbf{(Y-\overline{Y})H}$**.
+
+Procrustes coordinates: linear transformation of coordinate data.
+
+----
+
+$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{Z}\right )$$
+
+**Estimation of linear model coefficients for transformed data, $\mathbf{Z}$, which Procrustes coordinates are.** 
+
+Coefficients:  transformation of the data, based on model parameters.
+
+----
+]]
+
+.pull-right[.med[
 
 
+$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+
+The decomposition of some form of data alignment: hopefully this makes sense now!
+
+]]
 
