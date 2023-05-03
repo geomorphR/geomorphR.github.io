@@ -58,7 +58,7 @@ $$z =\frac{\log(F) - \mu_{\log(F)}}{\sigma_{\log(F)}}$$
 
 4: Calculate $\small{F}$-value in every random permutation (observed case counts as one permutation)
 
-5: For $\small{N}$ permutations, $\small{P} = \frac{N(F_{random} \geq F_{obs})}{N}$
+5: For $\small{n}$ permutations, $\small{P} = \frac{n(F_{random} \geq F_{obs})}{n}$
 ]
 .pull-right[
 6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:

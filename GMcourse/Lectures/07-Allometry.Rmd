@@ -56,13 +56,13 @@ $$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
 ]
 .pull-right[    
 ```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosNegAllom.png")  
+include_graphics("LectureData/07.allometry/PosnegAllom.png")  
 ```
 ]
 
 --
 
-+ #### Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (for multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning)
++ #### note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (for multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning)
 
 + #### Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size
 ---
@@ -143,7 +143,7 @@ Model Residual Error    ($\small{SSE}$) | $\small\mathbf{S}_R=\hat{\mathbf{E}}_R
 4: Calculate $\small{F}$-value in every random permutation (observed case counts as one permutation)
 ]
 .pull-right[
-5: For $\small{N}$ permutations, $\small{P} = \frac{N(F_{random} \geq F_{obs})}{N}$
+5: For $\small{n}$ permutations, $\small{P} = \frac{n(F_{random} \geq F_{obs})}{n}$
 
 6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
 $$\small{z} = \frac{
@@ -188,7 +188,7 @@ Great, but how does one visualize this multivariate allometry??
 ### Visualizing Multivariate Allometry
 
 .pull-left[
-+ Need to summarize size-related variation in shape
++ need to summarize size-related variation in shape
 + Use some rotation/projection method
 
 ```{r, echo = FALSE, fig.align = "center",out.width="80%"}
@@ -204,7 +204,7 @@ include_graphics("LectureData/07.allometry/MultiAllomPlot.png")
 + Regression scores (Drake and Klingenberg 2008): projection of shape data on the allometric line
 $$\small\mathbf{s}=\mathbf{Z\beta^T(\beta^T\beta)^{-1/2}}$$
 
-+ PC1 of predicted values (Adams and Nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
++ PC1 of predicted values (Adams and nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
 
 $$\small\mathbf{P_1}=svd(\mathbf{\hat{Z}})=svd(\mathbf{X(\tilde{X}^T\tilde{X})^{-1}(\tilde{X}^T\tilde{Z})})$$
 ]
@@ -316,7 +316,7 @@ include_graphics("LectureData/07.allometry/Mitteroecker-04.png")
 ```
 ---
 
-### Note: CAC Scores vs. Regression Scores $^1$
+### note: CAC Scores vs. Regression Scores $^1$
 
 + $\small{CAC}$: regression under a common slope after group mean-centering
 + Regression scores (**s**): shape data projected on the regression line with size
@@ -362,11 +362,11 @@ $$\small\mathbf{s}=\mathbf{Z\beta^T(\beta^T\beta)^{-1/2}}$$
 
 + A simple approach: test angular difference between trajectories
 
-.footnote[1: Adams and Nistri. (2010) *BMC. Evol. Biol.*]
+.footnote[1: Adams and nistri. (2010) *BMC. Evol. Biol.*]
 --
 
   + 1: Obtain allometric vectors $(\small\mathbf{\hat{Z}}_{start} - \small\mathbf{\hat{Z}}_{end})$  for groups
-  + 2: Normalize vectors (divide by their length so they are unit length) and find the cross-product between pairs of vectors; i.e, $r_{ij} = \mathbf{\beta}_i^T \mathbf{\beta}_j$
+  + 2: normalize vectors (divide by their length so they are unit length) and find the cross-product between pairs of vectors; i.e, $r_{ij} = \mathbf{\beta}_i^T \mathbf{\beta}_j$
   +  3: Obtain test measure: $\theta = \cos^{-1}(r_{ij})$
   + 4: RRPP with appropriate null model to test $\theta$
 
@@ -430,7 +430,7 @@ fit.unique <- procD.lm(coords ~ logSize * Group,
                      data = pupfish, print.progress = FALSE)  
 ```
 
-+ Now let's do a homogeneity of slopes test
++ now let's do a homogeneity of slopes test
 ]
 
 .pull-right[
@@ -535,11 +535,11 @@ include_graphics("LectureData/07.allometry/Heterochrony.png")
 + Many biological hypotheses related directly to allometric variation
 + **Visualization**: 
   + RegScore (**s**) vs. Csize (Drake and Klingenberg 2008)
-  + PredLine $\small{P_1}$ vs. Csize (Adams and Nistri 2010)
+  + PredLine $\small{P_1}$ vs. Csize (Adams and nistri 2010)
   + CAC, RSC, Csize (Mitteroecker et al. 2004)
 
-+ **Comparison of ontogenies**: - MANCOVA
-  + Convergence & divergence (Adams and Nistri 2010)
++ **Comparison of ontogenies**: - MAnCOVA
+  + Convergence & divergence (Adams and nistri 2010)
   + Orientation (Piras et al. 2010)
 
 + Heterochrony and related topics also of interest
