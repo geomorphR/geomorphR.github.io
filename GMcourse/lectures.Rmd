@@ -12,7 +12,7 @@
 
 [05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/05-Semilandmarks.html)
 
-[06-Shape Statistics I]
+[06-Shape Statistics I](https://geomorphR.github.io/GMcourse/Lectures/06-ShapeStatistics1.html)
 
 [07-Allometry](https://geomorphR.github.io/GMcourse/Lectures/07-Allometry.html)
 
