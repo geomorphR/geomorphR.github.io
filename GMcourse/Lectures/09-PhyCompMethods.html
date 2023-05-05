@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>09: Phylogenetic Comparative Methods and Shape Data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <script src="09-PhyCompMethods_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="09-PhyCompMethods_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="09-PhyCompMethods_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="utilities.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# 09: Phylogenetic Comparative Methods and Shape Data
+]
+.author[
+### 
+]
+
+---
+
+
+
+
+### Lecture Outline
+
++ On Correlated Observations and Errors
++ Multivariate Phylogenetic Comparative Methods
+  1. Phylogenetic Least Squares (ANOVA/Regression/Covariation)
+  2. Phylogenetic Signal
+  3. Phylogenetic Ordination
+  4. Comparing Evolutionary Models
+---
+
+### Motivation: Correlated Observations
+
++ Imagine the following scenario:
+  + We assemble a large database of data for many mammal species to ask:
++ Is home range size predicted by body size?
+
+.pull-left[
+&lt;img src="LectureData/09.pcm/MammalBS-HR.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
++ We might consider using a linear model to investigate: `\(\mathbf{Z = X\beta + \epsilon}\)`
+
++ But what potential problem do we face?
+]
+
+--
+
++ The observations are not independent (species are related by a phylogeny)!
+  
+---
+
+### Comparative Biology Tradition
+
++ To study adaptation, biologists look comparatively across taxa, and examine trait correlations
+
++ Species values commonly utilized
+
+.pull-left[
+&lt;img src="lectureData/09.pcm/PCM-Metab.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="lectureData/09.pcm/PCM-PrimateCoev.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+--
+
++ But this has the same problem: the observations are not independent!
+
++ To resolve this, **Phylogenetic Comparative Methods** are required
+---
+
+### Phylogenetic Comparative Methods (PCMs)
+
++ PCMs condition the data on the phylogeny under an evolutionary model (i.e., account for the phylogeny during the analysis)
+
++ Empirical Goal: Evaluate evolutionary hypotheses while accounting for (phylogenetic) non-independence
+
+&lt;img src="LectureData/09.pcm/PhyloMorphoSpace.png" width="30%" style="display: block; margin: auto;" /&gt;
+
++ This requires a phylogeny, and an evolutionary model of how trait variation is expected to accumulate
+
+--
+
++ But to understand PCMs more deeply, let's first  go back to something familiar: linear models
+---
+
+### Linear Models Revisited
+
+- Statistical linear models describe patterns in data with both a deterministic component (the relationships between variables) *AND* a process for how we expect stochastic variation (random error) to be generated `\(^1\)`
+
++ The Linear Model: `\(\mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{\epsilon}\)`
+
+.footnote[1: For a refreshing perspective on correlated errors in biology see Ives (2022). *Methods Ecol. Evol.*]
+--
+
+   + `\(\mathbf{X\beta}\)` describes the predicted values `\((\hat{\mathbf{Z}})\)` given the independent variables `\((\mathbf{X})\)`
+
+   + `\(\mathbf{\epsilon}\)` captures the stochastic error in the processes generating `\(\mathbf{Z}\)`
+
+--
+
++ To this point (and in most statistics courses) we tend to focus on the deterministic component `\((\mathbf{X\beta})\)` and whether our model is an adequate description of variation in `\(\mathbf{Z}\)` (i.e., by minimizing `\(\mathbf\epsilon\)`)
+
+--
+
+- But what about `\(\mathbf{\epsilon}\)`? What does it really represent and contain?
+
+---
+
+### Thinking about the Error: `\(\large\mathbf{\epsilon}\)`
+
+.pull-left[
++ When fitting linear models, we describe `\(\mathbf{\epsilon}\)` as the 'error'
+  + It is that portion of `\(\mathbf{Z}\)` not explained by the model: `\(\hat{\mathbf{Z}}=\mathbf{X\beta}\)` `\((+\mathbf{\epsilon})\)`
+
++ Statistically, `\(\mathbf{\epsilon}\)` follows a distribution which describes how we expect the error to be distributed
+
++ For the linear models used thus far, `\(\mathbf{\epsilon}\)` is modeled as (assumed to be) *iid* `\(^1\)`. These are ordinary least squares (OLS) models
+
+.footnote[1: *iid*: independent, identically distributed error. This is where the common 'assumptions' of the OLS linear model are embodied.]
+]
+
+--
+
+.pull-right[
++ In essence, the random errors are modeled as if drawn independently from a normal distribution: `\(\epsilon \small\sim\mathcal{N}(0,\sigma^2)\)` 
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Visualizing `\(\large\mathbf{\epsilon}\)` as a Matrix
+
++ When random error is iid, this means that elements of `\(\epsilon\)` are drawn from the same normal distribution: `\(\epsilon\small\sim\mathcal{N}(0,\sigma^2)\)`
+
+.pull-left[
++ Viewed as a matrix, the Gaussian error is: `\(\sigma^2\mathbf{\Omega}\)`, where `\(\sigma^2\)` is the error variance and `\(\mathbf{\Omega}\)` describes the relationships among observations
+
+&lt;table&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+--
+
+.pull-right[
+- The diagonal elements of `\(\mathbf\Omega\)` describe differences in the expected variance for each observation. Here they are all '1', which represents *identically distributed* 
+- The off-diagonal elements of `\(\mathbf\Omega\)` describe expected covariation (correlation) between pairs of observations. Here they are '0', signifying *independent* observations
+
+- However, we can make the situation (and thus `\(\mathbf\Omega\)`) more complex
+]
+
+##### NOTE: In the PCM literature, `\(\mathbf\Omega\)` is often termed **C** or `\(\mathbf\Sigma\)`. In this workshop we use `\(\mathbf\Omega\)` so as not to confuse this matrix with a trait covariance matrix `\(\mathbf\Sigma\)`.
+---
+
+### Modeling `\(\large\mathbf{\epsilon}\)` with Heterogeneous Variance 
+
++ Imagine taking repeated caliper measurements of body size on 4 specimens
+
+  + Error is expected to be proportionately greater when measuring smaller individuals (it is harder to measure smaller specimens as accurately)   
+
+--
+
++ This means the *expected* variance differs among observations
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; smallest &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; next &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; next &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; largest &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; smallest &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; next &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; next &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; largest &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
++ Now `\(\mathbf\Omega\)` models independent observations with **heterogeneous** random variance (i.e., `\(\sigma^2\)` varies across observations)
+---
+
+### Modeling `\(\large\mathbf{\epsilon}\)` with Correlated Observations 
+
++ Now imagine we measure 2 species from each of two genera
+
+  + We expect that values are more similar between congeneric species (due to phylogenetic relatedness)
+  
++ This means the *expected* covariance is not always zero
+
+.pull-left[
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-8-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t4 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
++ Now `\(\mathbf\Omega\)` models random variation in **non-independent** observations
+
+--
+
++ For actual data, two questions remain: 
+  1. How do we generate `\(\mathbf\Omega\)`?
+  2. What do we do with it? 
+---
+
+### Generating Object Covariance Matrices `\(\large(\mathbf\Omega)\)`
+
++ `\(\mathbf\Omega\)` is an `\(N\times N\)` matrix describing the expected covariation of the random errors among observations 
+  + If `\(\epsilon\)` is iid, then `\(\mathbf\Omega\)` is an identity matrix 
+  + If `\(\epsilon\)` is NOT iid, then `\(\mathbf\Omega\)` displays some other pattern, which was caused by 'something'
+
++ Biology informs us of what that something is (phylogeny, space, time)
+
+--
+
++ In this case, generating `\(\mathbf\Omega\)` requires knowledge of the relationships among observations, and a model of how trait variation is expected to accumulate
+
++ Let's look at this for the case of a phylogeny, and what are termed phylogenetic comparative methods (PCMs)
+
+  + But first, we will describe the model of evolutionary change (Brownian motion)
+---
+
+### Brownian Motion and PCMs
+
+.pull-left[
++ Brownian motion is a useful *NULL* model of trait change
+  + Trait changes are independent from time step to time step
+  + Results in: `\(\Delta\mu = 0\)`  and `\(\sigma^2_{taxa} \uparrow \propto time\)`
+
+]
+.pull-right[
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
++ We can use this to intuit the expected covariation among species on a phylogeny
+]
+---
+
+### From Brownian Motion to `\(\large\mathbf\Omega\)`
+
++ Imagine a trait evolving through time
+  + From the root of the phylogeny, its value changes following a BM process
+  + When speciation occurs, traits in each species evolve via BM
+  
+.pull-left[
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
++ The result is that traits *tend* to be more similar in more closely related species
+  + Using BM, we can estimate `\(\mathbf\Omega\)`
+---
+
+### Phylogenetic Covariance Matrices `\((\large\mathbf\Omega)\)`
+
++ Under Brownian motion, the ***expected*** amount of change in trait values is proportional to time
+  + Species evolve 'together' on their parental branch until they speciate
+  + Thus, the more time before they speciate, the more similar their traits are expected to be (less time evolving separately means less opportunity to diverge)
+
++ This gives us the expected object covariance `\((\mathbf\Omega)\)` under Brownian motion `\(^1\)` 
+
+&lt;img src="LectureData/09.pcm/PCM-PhyCovMat.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.footnote[1: Other evolutionary models, such as OU, could also be used.]
+---
+
+### Phylogenetic Covariance Matrices `\((\large\mathbf\Omega)\)`: Example
+
++ What is the expected covariation for species related by a phylogeny under BM? 
+
+.pull-left[
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t4 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t5 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.57 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.57 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.09 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.09 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.09 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.09 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.89 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
++ Now we have `\(\mathbf\Omega\)` for our species
+
++ The next question is, what do we do with it?
+---
+
+### From Ordinary Least Squares to Generalized Least Squares
+
++ Linear models with iid error: `\(\epsilon\small\sim\mathcal{N}(0,\sigma^2)\)`, are called **Ordinary Least Squares** methods
+
+  + These include all the methods we have discussed previously
+  + ANOVA, regression, ANCOVA, factorial ANOVA, multiple regression, pairwise comparisons, trajectory analysis, are part of this paradigm
+
+--
+
++ With `\(\mathbf\Omega\)` we move from iid to correlated error
+
++ Linear models with correlated error: `\(\epsilon\small\sim\mathcal{N}(0,\sigma^2\mathbf\Omega)\)`, are called **Generalized Least Squares** methods
+  + With GLS, we can perform versions of ANOVA, regression, ANCOVA, multiple regression, pairwise comparisons, trajectory analysis, etc.
+  + These are the **SAME** statistical models as before, but now account for the correlations among observations as described by `\(\mathbf\Omega\)`
+  + Because `\(\mathbf\Omega\)` describes covariation of the errors, we must adjust our linear model algebra to accommodate it
+
++ **Phylogenetic Comparative Methods (PCMs)** are GLS approaches  
+---
+
+### PCMs: General Model
+
++ Most PCMs use GLS model: `\(\mathbf{Z}=\mathbf{X}\mathbf{\beta} +\mathbf{\epsilon}\)`
+  + `\(\mathbf{X\beta}\)` describes the predicted values `\((\hat{\mathbf{Z}})\)` given the independent variable `\((\mathbf{X})\)`
+  + `\(\epsilon\sim\mathcal{N}(0,\sigma^2\mathbf\Omega)\)` captures the stochastic error in the processes generating `\(\mathbf{Z}\)` given `\(\mathbf\Omega\)`
+
++ Model design `\((\small\mathbf{X})\)` describes the type of analysis `\(^1\)`
+
+&lt;img src="LectureData/09.pcm/ModelTypes.png" width="65%" height="35%" style="display: block; margin: auto;" /&gt;
+
++ The Phylogenetic Comparative Method Toolkit is a set of procedures for evaluating different hypotheses
+
+.footnote[1: reviewed in: Adams and Collyer (2018;2019)]
+---
+
+### PCMs: An Incomplete Historical Walk
+
++ The conceptual development of PCMs
+
+&lt;img src="lectureData/09.pcm/PCM-MethodRoad.png" width="85%" style="display: block; margin: auto;" /&gt;
+---
+
+### Phylogenetic Comparative Method Toolkit
+
+&lt;img src="LectureData/09.pcm/PCMToolkit.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+
+### 1: Phylogenetic Least Squares: Regression (Concept)
+
++ Evaluate `\(\mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{\epsilon}\)` in a phylogenetic context
+
++ The workhorse of PCMs
+      
+&lt;img src="lectureData/09.pcm/PCM-PhyloRegGarland.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+
+### 1: Phylogenetic Least Squares: Regression and ANOVA
+
++ `\(\mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{\epsilon}\)`, where `\(\epsilon \small\sim\mathcal{N}(0,\sigma^2\mathbf\Omega)\)`
+
++ Parameter estimation: `\(^1\)` `\(\hat{\mathbf\beta}=(\mathbf{X^T\Omega^{-1}X)^{-1}(X^T\Omega^{-1}Z})\)` 
+
+.footnote[1: Using Dean's favorite equation! (Recall from Shape Statistics I lecture, that this is: `\(\hat{\mathbf\beta}=(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}(\tilde{\mathbf{X}}^T\mathbf{\tilde{Z}})\)`)
+
+2: Grafen (1989). *Phil. Trans. Roy. Soc.*]
+--
+
++ Model evaluation steps:
+
+`\(\hat{\mathbf\beta}\)` | `\(\hat{\mathbf{Z}}\)` | Residuals | `\(SSE\)`
+:----- | :----- | :----- | :-----  
+`\(\small\hat{\mathbf\beta_F}\)` | `\(\small\mathbf{X}_R\hat{\mathbf\beta}_R\)` | `\(\small(\mathbf{Z}-\hat{\mathbf{Z}}_F)\)` | `\(\small\hat{\mathbf{E}}_F^T\hat{\mathbf{E}}_F\)`
+`\(\small\hat{\mathbf\beta_R}\)` | `\(\small\mathbf{X}_F\hat{\mathbf\beta}_F\)` | `\(\small(\mathbf{Z}-\hat{\mathbf{Z}}_R)\)` | `\(\small\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R\)`
+
++ Obtain `\(F\)` and compare to RRPP empirical sampling distribution to assess significance
+
+--
+
++ EVERYTHING is the same as before, only the phylogeny is incorporated in the analysis!
+---
+
+### 1: A Visual of Phylogenetic Least Squares
+
+&lt;img src="LectureData/09.pcm/PhyRegression.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### 1: Phylogenetic Least Squares Regression: Example
+
++ Is there evolutionary allometry of head shape (does shape covary with size across species while accounting for phylogeny)?
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-21-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+---
+
+### 1: Phylogenetic Least Squares Regression: Example (Cont.)
+
++ Yes, there is significant evolutionary allometry across the *Plethodon* phylogeny
+
+.scrollable[
+
+```r
+pgls.reg &lt;- procD.pgls(f1 = shape~svl, phy=plethtree, data=gdf, print.progress = FALSE)
+summary(pgls.reg)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Generalized Least-Squares (via OLS projection) 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df        SS         MS     Rsq      F      Z Pr(&gt;F)  
+## svl        1 0.0006581 0.00065811 0.07046 3.0323 1.9503  0.028 *
+## Residuals 40 0.0086814 0.00021704 0.92954                       
+## Total     41 0.0093395                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = shape ~ svl, iter = iter, seed = seed, RRPP = TRUE,  
+##     SS.type = SS.type, effect.type = effect.type, int.first = int.first,  
+##     Cov = Cov, data = data, print.progress = print.progress)
+```
+]
+
+---
+
+### 1: Phylogenetic Least Squares Regression: Visualization
+
++ Now let's visualize these results
+
+.pull-left[.small[
+
+```r
+plot.out &lt;- plot(pgls.reg, type = "regression", 
+                 predictor = svl, reg.type = "RegScore", pch=19, col = "black")
+abline(lm(plot.out$RegScore~svl))
+```
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]]
+
+.pull-right[.small[
+
+```r
+preds &lt;- shape.predictor(pgls.reg$GM$pgls.fitted, 
+  x= svl, Intercept = TRUE, predmin = min(svl), predmax = max(svl))
+```
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-25-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]]
+---
+
+### 1: Phylogenetic Least Squares ANOVA: Example
+
++ Does head shape in *Plethodon* differ between high and low elevation species? 
+
+---
+
+note on how many shifts
+
+PLS
+
+
+############# SIDE NOTE: IMPLEMENTATIONS: 
+
+
+
+Several implementations possible (yield identical results if implemented properly)
+
+# Phylogenetically Independent Contrasts
+
+Estimate contrast scores between pairs of taxa (tips or nodes)
+
+Use contrasts for analyses (OLS solution)
+
+&lt;img src="lectureData/09.pcm/PCM-PIC1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+###### see Felsenstein. *Am. Nat.* (1985)
+
+# Phylogenetically Independent Contrasts
+
+&lt;img src="lectureData/09.pcm/PCM-PIC2.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+Coefficients found as: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}_{pic} \mathbf{X}_{pic}\right )^{-1}\left ( \mathbf{X}^{T}_{pic} \mathbf{Y}_{pic}\right )\)`
+
+# Phylogenetically Independent Contrasts: Example
+
+&lt;img src="lectureData/09.pcm/PCM-PICDataFig.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+What is the association between Y and X?
+
+# Phylogenetically Independent Contrasts: Example
+
+
+
+&lt;img src="lectureData/09.pcm/PCM-PICDataFig.png" width="30%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-30-2.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+What is the association between Y and X?
+
+
+```
+## Analysis of Variance Table
+## 
+## Response: pic.y
+##           Df  Sum Sq Mean Sq F value  Pr(&gt;F)   
+## pic.x      1 14.3519 14.3519  19.285 0.00461 **
+## Residuals  6  4.4651  0.7442                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```
+##     pic.x 
+## 0.8846971
+```
+
+# Phylogenetic Generalized Least Squares (PGLS)
+
+Use GLS model with non-independent error structure
+
+Statistical model: `\(\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}\)` where `\(\small\mathbf{E} \sim \mathcal{N}(0,\textbf{V})\)`
+
+# Phylogenetic Generalized Least Squares (PGLS)
+
+Use GLS model with non-independent error structure
+
+Statistical model: `\(\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}\)` where `\(\small\mathbf{E} \sim \mathcal{N}(0,\textbf{V})\)`
+
+`\(\textbf{V}\)` is the **phylogenetic covariance matrix**
+
+Describes expected covariance among taxa due to shared evolutionary history (typically under BM)
+
+&lt;img src="lectureData/09.pcm/PCM-PhyCovMat.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+Coefficients found as: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}^{-1}\mathbf{Y}\right )\)`
+
+###### see Grafen. *Phil. Trans. Roy. Soc.* (1989)
+
+# PGLS: Example
+
+&lt;img src="lectureData/09.pcm/PCM-PICDataFig.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+
+```
+## Warning in Initialize.corPhyl(X[[i]], ...): No covariate specified, species
+## will be taken as ordered in the data frame. To avoid this message, specify a
+## covariate containing the species names with the 'form' argument.
+```
+
+```
+## Denom. DF: 6 
+##             numDF  F-value p-value
+## (Intercept)     1 12.87792  0.0115
+## X               1 19.28544  0.0046
+```
+
+```
+## (Intercept)           X 
+##  -2.3296557   0.8846971
+```
+
+Identical results to PICs!
+
+# Statistical Digression: OLS vs GLS
+
+To understand what PGLS is doing, consider the following methods for obtaining model parameters
+
+OLS model: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )\)`
+
+# Statistical Digression: OLS vs GLS
+
+To understand what PGLS is doing, consider the following methods for obtaining model parameters
+
+OLS model: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )\)`
+
+Unweighted GLS model:  `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{id}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{id}^{-1}\mathbf{Y}\right )\)`  where 
+
+$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{array} \right) $$
+
+
+# Statistical Digression: OLS vs GLS
+
+To understand what PGLS is doing, consider the following methods for obtaining model parameters
+
+OLS model: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )\)`
+
+Unweighted GLS model:  `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{id}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{id}^{-1}\mathbf{Y}\right )\)`  where 
+
+$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{array} \right) $$
+
+
+
+Weighted GLS model:  `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{phy}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{phy}^{-1}\mathbf{Y}\right )\)`  where 
+
+$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} (v_1+v_2) &amp; v_{12} &amp; 0 \\ v_{12} &amp; (v_1+v_2) &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{array} \right) $$
+
+In PGLS, the weights are the phylogenetic distances, which describe the phylogenetic non-independence
+
+# Statistical Digression: OLS vs GLS
+
+To understand what PGLS is doing, consider the following methods for obtaining model parameters
+
+OLS model: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )\)`
+
+Unweighted GLS model:  `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{id}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{id}^{-1}\mathbf{Y}\right )\)`  where 
+
+$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{array} \right) $$
+
+
+
+Weighted GLS model:  `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{phy}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{phy}^{-1}\mathbf{Y}\right )\)`  where 
+
+$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} (v_1+v_2) &amp; v_{12} &amp; 0 \\ v_{12} &amp; (v_1+v_2) &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{array} \right) $$
+
+In PGLS, the weights are the phylogenetic distances, which describe the phylogenetic non-independence
+
+&lt;img src="lectureData/09.pcm/PGLS-Attention.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+# Phylogenetic Transformation
+
+Utilize OLS transformation of GLS models 
+
+Phylogenetic transformation matrix: `\(\small\mathbf{T}=\left ( \mathbf{U}\mathbf{W}^{-1/2}  \mathbf{U}^{T}\right )^{-1}\)`
+
+**U** and **W** are eigenvectors and eigenvalues of **V**
+
+Transformed data: `\(\small\tilde{\mathbf{Y}}=\mathbf{TY}\)`
+
+Transformed design matrix: `\(\small\tilde{\mathbf{X}}=\mathbf{TX}\)`
+
+Coefficients solved as: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )\)`
+
+###### see Garland and Ives. *Am. Nat.* (2000); Adams. *Evol.* (2014); Adams and Collyer. *Evol.* (2018)
+
+# Phylogenetic Transformation: Example
+
+&lt;img src="lectureData/09.pcm/PCM-PICDataFig.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+
+```
+##           Df      SS      MS     Rsq      F      Z Pr(&gt;F)   
+## X          1 14.3519 14.3519 0.76271 19.285 3.0283  0.001 **
+## Residuals  6  4.4651  0.7442 0.23729                        
+## Total      7 18.8170                                        
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```
+##                   [,1]
+## (Intercept) -2.3296557
+## X            0.8846971
+```
+
+Identical results to PICs &amp; PGLS!
+
+# Assessing Significance
+
+PIC, PGLS, and Phylogenetic transform yield identical parameter estimates 
+
+`$$\tiny
+\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}^{-1}\mathbf{Y}\right )$$`
+
+`$$\tiny
+=\left ( \mathbf{X}^{T}_{pic} \mathbf{X}_{pic}\right )^{-1}\left ( \mathbf{X}^{T}_{pic} \mathbf{Y}_{pic}\right )$$`
+
+`$$\tiny
+=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$`
+
+* Model significance typically accomplished using parametric procedures
+
+    + F-ratios compared to parametric F-distribution
+
+    + Optimize `\(\log{L}\)` for model
+
+`$$\tiny
+\log{L}=\log{
+\left(\frac{exp{\left({-\frac{1}{2}{\left({\mathbf{Y}-E(\mathbf{Y})}\right)^{T}}}
+\mathbf{V}^{-1}\left({\mathbf{Y}-E(\mathbf{Y})}\right)\right)}}
+{\sqrt{\left({2\pi}\right)^{Np}\times\begin{vmatrix} \mathbf{V} \end{vmatrix}}}\right)}$$ 
+
+# Assessing Significance
+
+PROBLEM: Parametric significance testing suffers from Rao's paradox
+
+Power reduces as *p*-dimensions increase
+
+&lt;img src="lectureData/09.pcm/PCM-PGLS-RaoParadox.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+Another solution required
+
+###### Adams. *Evol.* (2014); Adams and Collyer. *Syst. Biol.* (2018)
+
+# Assessing Significance: RRPP
+
+Transform data: `\(\small\tilde{\mathbf{Y}}=\mathbf{TY}\)`, 
+`\(\small\tilde{\mathbf{X}}_{F}=\mathbf{TX}_{F}\)`, 
+`\(\small\tilde{\mathbf{X}}_{R}=\mathbf{TX}_{R}\)`
+
+Obtain Parameter estimates: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{X_{F}}}\right )^{-1}\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{Y}}\right )\)`, and permute residuals (as described previously)
+
+# Assessing Significance: RRPP
+
+Transform data: `\(\small\tilde{\mathbf{Y}}=\mathbf{TY}\)`, 
+`\(\small\tilde{\mathbf{X}}_{F}=\mathbf{TX}_{F}\)`, 
+`\(\small\tilde{\mathbf{X}}_{R}=\mathbf{TX}_{R}\)`
+
+Obtain Parameter estimates: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{X_{F}}}\right )^{-1}\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{Y}}\right )\)`, and permute residuals (as described previously)
+
+&lt;img src="lectureData/09.pcm/PCM-PhyTransPower.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+Appropriate for ANOVA, regression and more complex PGLS models with high-dimensional data (Adams &amp; Collyer. *Evol.* 2018)
+
+**RULE: Phylo-transform first, permute second!**
+
+# Assessing Significance: RRPP
+
+Transform data: `\(\small\tilde{\mathbf{Y}}=\mathbf{TY}\)`, 
+`\(\small\tilde{\mathbf{X}}_{F}=\mathbf{TX}_{F}\)`, 
+`\(\small\tilde{\mathbf{X}}_{R}=\mathbf{TX}_{R}\)`
+
+Obtain Parameter estimates: `\(\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{X_{F}}}\right )^{-1}\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{Y}}\right )\)`, and permute residuals (as described previously)
+
+&lt;img src="lectureData/09.pcm/PCM-PhyTransPower.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+Appropriate for ANOVA, regression and more complex PGLS models with high-dimensional data (Adams &amp; Collyer. *Evol.* 2018)
+
+**RULE: Phylo-transform first, permute second!**
+
+##### Note: alternatives permuting PICs (Klingenberg and and Marugan-Loban 2013) are not correct (see Adams and Collyer 2015. Evolution).  
+
+##### WHAT YOU SHUFFLE MATTERS! (must shuffle correct exchangeable units: see Adams and Collyer. *Evol.* 2015; Adams and Collyer. *Evol.* 2018)
+
+# Phylogenetic Regression: Example
+
+Does head shape covary with body size among *Plethodon* salamander species?
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-41-1.png" width="40%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-41-2.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+# Phylogenetic Regression: Example
+
+Are body dimensions associated with overall size across *Plethodon* salamander species?
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-42-1.png" width="40%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-42-2.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+```
+##           Df        SS         MS     Rsq      F      Z Pr(&gt;Cohen's f-squared)
+## svl        1 0.0006586 0.00065861 0.07039 3.0289 1.9485                  0.029
+## Residuals 40 0.0086977 0.00021744 0.92961                                     
+## Total     41 0.0093563                                                        
+##            
+## svl       *
+## Residuals  
+## Total      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+YES! There is a significant association between head shape and body size in salamanders
+
+# Phylogenetic ANOVA: Example
+
+Does head shape differ between high-elevation and low-elevation salamander species?
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-43-1.png" width="40%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-43-2.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+# Phylogenetic ANOVA: Example
+
+Does head shape differ between high-elevation and low-elevation salamander species?
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-44-1.png" width="40%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-44-2.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+```
+##           Df        SS         MS     Rsq      F      Z Pr(&gt;Cohen's f-squared)
+## elev       1 0.0006142 0.00061420 0.06565 2.8103 1.7772                  0.044
+## Residuals 40 0.0087421 0.00021855 0.93435                                     
+## Total     41 0.0093563                                                        
+##            
+## elev      *
+## Residuals  
+## Total      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+YES!  Head shape differs in high- and low-elevation species
+
+# Phylogenetic ANOVA: Visualizations
+
+One can visualize group dispersion in morphospace... 
+
+
+
+# Phylogenetic ANOVA: Visualizations
+
+... and via TPS deformation grids
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+# Phylogenetic ANOVA: Group Aggregation
+
+How groups are distributed on the phylogeny can make a difference: Adams and Collyer. *Evol.* (2018)
+
+&lt;img src="lectureData/09.pcm/PCM-PhyANOVA-Groups.png" width="1736" style="display: block; margin: auto;" /&gt;
+
+Too few group 'state' changes across phylogeny results in lower power
+
+# 2: Phylogenetic PLS
+
+Assess correlation between two blocks of variables in a phylogenetic context
+
+PLS of evolutionary covariance (rate) matrix
+
+`$$\small\mathbf{R}=\frac{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}\mathbf{V}^{-1}
+\left(\mathbf{Y}-E(\mathbf{Y})\right)}
+{N-1}$$`
+
+SVD of `\(\small\mathbf{R}_{12}=\mathbf{U}_{12}\mathbf{D}\mathbf{V}^{T}_{12}\)`
+
+# 2: Phylogenetic PLS
+
+Assess correlation between two blocks of variables in a phylogenetic context
+
+PLS of evolutionary covariance (rate) matrix
+
+`$$\small\mathbf{R}=\frac{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}\mathbf{V}^{-1}
+\left(\mathbf{Y}-E(\mathbf{Y})\right)}
+{N-1}$$`
+
+SVD of `\(\small\mathbf{R}_{12}=\mathbf{U}_{12}\mathbf{D}\mathbf{V}^{T}_{12}\)`
+
+Equivalently found from PLS of `\(\small\Sigma\)` from `\(\small\tilde{\mathbf{Y}}=\mathbf{TY}\)`
+
+Significance from RRPP of `\(\small\tilde{\mathbf{Y}}\)`
+
+###### Adams and Felice. *PLoS One* (2014); Adams and Collyer. *Syst. Biol.* (2018)
+
+###### Use of PICs yields same `\(r_{PLS}\)` (Klingenberg and Marugan-Loban. *Syst. Biol.* 2013); but significance tests based on permuting PICs (this is incorrect: see Adams and Collyer 2015. Evolution).
+
+# Phylogenetic PLS: Example
+
+Is there phenotypic integration between the cranium and mandible in salamanders (same data)? 
+
+
+```
+## [1] 0.8434773
+```
+
+```
+##   obs 
+## 0.001
+```
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-48-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+YES!
+
+# Phylogenetic Ordination
+
+- Ordinations that incorporate phylogenetic relatedness
+
+- Two approaches: 
+
+  - Phylogenetic PCA (pPCA): account for phylogeny in PCA computations: 
+    - SVD of evolutionary rate matrix (the covariance matrix ‘standardized’ by phylogeny):       `\(\small\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}\)`
+    - Produces phylogenetically corrected eigenvectors, Preserves specimen distances, but pPCA scores correlated (see Polly et al. *Hystrix*. 2013)
+
+  - Phylomorphspace: project phylogeny into PCA space (using ancestral states)
+  
+# Phylogenetic Ordination
+
+- Ordinations that incorporate phylogenetic relatedness
+
+- Two approaches: 
+
+  - Phylogenetic PCA (pPCA): account for phylogeny in PCA computations: 
+    - SVD of evolutionary rate matrix (the covariance matrix ‘standardized’ by phylogeny):       `\(\small\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}\)`
+    - Produces phylogenetically corrected eigenvectors, Preserves specimen distances, but pPCA scores correlated (see Polly et al. *Hystrix*. 2013)
+
+  - Phylomorphspace: project phylogeny into PCA space (using ancestral states)
+
+- Intent of both approaches is to provide visual insights into macroevolutionary patterns
+
+  - NOTE: One approach is not more useful than the other (and alternatives could be envisioned)
+
+
+# Phylo-PCA: Example
+
+&lt;img src="lectureData/09.pcm/PodarcisPhyloPCA.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+# Phylomorphospace: Example
+
+Phylomorphospace of the *Plethodon* data
+
+
+
+# Phylomorphospace: Example (Cont.)
+
+&lt;img src="lectureData/09.pcm/PCM-Phylomorphospace1.png" width="40%" style="display: block; margin: auto;" /&gt;&lt;img src="lectureData/09.pcm/PCM-Phylomorphospace2.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+Visual inspection of phylomorphospaces useful for hypothesis generation
+
+# Phylogenetic Ordination: Comments
+
+- Approaches intend to provide visualization of phenotypic variation and evolutionary relationships
+
+  - Phylomorphospace rotates the dataspace based on the original covariation (without regard to phylogeny), and ancestral states are subsequently projected into the space to visualize evolutionary changes
+  
+  - By contrast, pPCA rotates the dataspace relative to evolutionary covariation, which takes phylogeny into account
+
+- However, .... 
+
+  - pPCA does not perform an orthogonal projection of data (oblique projection and distortion of projected ancestral states)
+  - Because phylogenetic variation is "removed", correspondence between shapes and location in projection is lost
+  - Cannot visualize phylogenetic signal, which might be possible in phylomorphopsace
+  - Much like removing size to obtain shape variables in GPA does not remove shape allometry, pPCA does not remove phylogenetic signal from the data; it just obscures it
+ 
+### We are working on new ordination methods to better visualize phylogenetic signal.  Stay tuned!
+
+# 4: Phylogenetic Signal
+
+The degree to which phenotypic similarity associates with phylogenetic relatedness
+
+&lt;img src="lectureData/09.pcm/PCM-PhySigFels85.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+# Phylogenetic Signal
+
+Kappa statistic: Blomberg et al. *Evol.* (2003)
+
+`$$\small
+K=\frac{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}
+\left(\mathbf{Y}-E(\mathbf{Y})\right)}
+{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}\mathbf{V}^{-1}
+\left(\mathbf{Y}-E(\mathbf{Y})\right)} /
+\frac{tr(\mathbf{V})-N(\mathbf{1}^{T}\mathbf{V1})^{-1}}{N-1}$$`
+
+&lt;img src="lectureData/09.pcm/PCM-PhySigBlomberg.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+Univariate response data only!
+
+# Multivariate Phylogenetic Signal
+
+`\(\small{K}_{mult}\)`: A multivariate generalization of *Kappa* (Adams. *Syst. Biol.* 2014)
+
+Based on distances between objects in original and phylo-transformed dataspaces
+
+`$$\small\
+K_{mult}=
+\frac{\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}^{T}\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}}
+{\mathbf{PD}_{\tilde{\mathbf{Y}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Y}},0}} 
+/
+\frac{tr(\mathbf{V})-N(\mathbf{1}^{T}\mathbf{V1})^{-1}}{N-1}$$`
+
+# Multivariate Phylogenetic Signal
+
+`\(\small{K}_{mult}\)`: A multivariate generalization of *Kappa* (Adams. *Syst. Biol.* 2014)
+
+Based on distances between objects in original and phylo-transformed dataspaces
+
+`$$\small\
+K_{mult}=
+\frac{\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}^{T}\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}}
+{\mathbf{PD}_{\tilde{\mathbf{Y}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Y}},0}} 
+/
+\frac{tr(\mathbf{V})-N(\mathbf{1}^{T}\mathbf{V1})^{-1}}{N-1}$$`
+
+Where `\(\small\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}\)` is the distance from each object to the phylogenetic mean, and `\(\small\mathbf{PD}_{\tilde{\mathbf{Y}},0}\)` is the distance between each object in the phylogenetically-transformed space (found as: `\(\small\tilde{\mathbf{Y}}=\mathbf{P}(\mathbf{Y-E(\mathbf{Y})})\)`) and the origin
+
+# Multivariate Phylogenetic Signal: Example
+
+Does head shape in in *Plethodon* display phylogenetic signal? 
+
+
+```
+## [1] 0.3920913
+```
+
+```
+## [1] 0.001
+```
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-54-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+Yes it does.
+
+# 5: Comparing Evolutionary Models
+
+What evolutionary model best describes trait variation? 
+
+Fit data to phylogeny under differing evolutionary models
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-55-1.png" width="50%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-55-2.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+# 5: Comparing Evolutionary Models
+
+What evolutionary model best describes trait variation? 
+
+Fit data to phylogeny under differing evolutionary models
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-56-1.png" width="50%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-56-2.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+Model comparisons of:
+
+1: Evolutionary rate models: BM1, BMM, etc.
+
+2: Evolutionary 'mode' models: BM1, OU1, OUM, etc.
+
+# Evolutionary Rates
+
+*"How fast, as a matter of fact, do animals evolve in nature?"* (Simpson, 1944)
+
+&lt;img src="lectureData/09.pcm/TurtleRate.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+# Comparing Rates Among Traits
+
+Is there evidence that one trait evolves faster than another? 
+
+Obtain `\(\small\mathbf{R}_0\)` and `\(\small{logL}\)`: 
+
+`$$\tiny\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}=\left( \begin{array}{ccc} \sigma^2_{1} &amp; \sigma^2_{1,2} &amp; \sigma^2_{1,3} \\ \sigma^2_{2,1} &amp; \sigma^2_{2} &amp; \sigma^2_{2,3} \\ \sigma^2_{3,1} &amp; \sigma^2_{3,2} &amp; \sigma^2_{3} \end{array} \right)$$`
+
+`$$\tiny\log{L}=-\frac{np}{2}ln{2\pi}-\frac{n}{2}ln{\begin{vmatrix}{(\mathbf{R\otimes{C}})}\end{vmatrix}}-\frac{1}{2}tr{(\mathbf{Y}-E(\mathbf{Y}))^{T}(\mathbf{R\otimes{C}})^{-1}(\mathbf{Y}-E(\mathbf{Y}))}$$`
+
+# Comparing Rates Among Traits
+
+Is there evidence that one trait evolves faster than another? 
+
+Obtain `\(\small\mathbf{R}_0\)` and `\(\small{logL}\)`: 
+
+`$$\tiny\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}=\left( \begin{array}{ccc} \sigma^2_{1} &amp; \sigma^2_{1,2} &amp; \sigma^2_{1,3} \\ \sigma^2_{2,1} &amp; \sigma^2_{2} &amp; \sigma^2_{2,3} \\ \sigma^2_{3,1} &amp; \sigma^2_{3,2} &amp; \sigma^2_{3} \end{array} \right)$$`
+
+`$$\tiny\log{L}=-\frac{np}{2}ln{2\pi}-\frac{n}{2}ln{\begin{vmatrix}{(\mathbf{R\otimes{C}})}\end{vmatrix}}-\frac{1}{2}tr{(\mathbf{Y}-E(\mathbf{Y}))^{T}(\mathbf{R\otimes{C}})^{-1}(\mathbf{Y}-E(\mathbf{Y}))}$$`
+
+Estimate `\(\small\mathbf{R}_C\)` and `\(\small{logL}_C\)` where diagonal of `\(\mathbf{R}\)` is contrained to be equal:  
+
+`$$\tiny\mathbf{R}_C=\left( \begin{array}{ccc} \sigma^2_{p} &amp;  &amp;  \\ \sigma^2_{2,1} &amp; \sigma^2_{p} &amp;  \\ \sigma^2_{3,1} &amp; \sigma^2_{3,2} &amp; \sigma^2_{p} \end{array} \right)$$`
+
+Compare `\(\small{logL}_C\)` against `\(\small{logL}\)`
+
+###### Adams. *Syst. Biol.* (2013); Denton and Adams. *Evol.* (2015)
+
+# Compare Rates Among Traits: Example
+
+&lt;img src="lectureData/09.pcm/Hydromantes.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+# Compare Rates Among Clades
+
+Is there evidence for multiple evolutionary rates on the phylogeny? 
+
+&lt;img src="lectureData/09.pcm/PCM-BM1BMM.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+**Procedure**: Fit data to phylogeny under single-rate and multi-rate models. Estimate `\(\small\mathbf{R}\)` and `\(\small\log{L}\)` &amp; compare `\(\small\log{L}\)` between models (LRT, AIC, simulation, etc.)
+
+# Compare Rates Among Clades
+
+Is there evidence for multiple evolutionary rates on the phylogeny? 
+
+&lt;img src="lectureData/09.pcm/PCM-BM1BMM.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+**Procedure**: Fit data to phylogeny under single-rate and multi-rate models. Estimate `\(\small\mathbf{R}\)` and `\(\small\log{L}\)` &amp; compare `\(\small\log{L}\)` between models (LRT, AIC, simulation, etc.)
+
+Works well for univariate `\(\mathbf{Y}\)`, but Type I error `\(\small\uparrow\)` with *p*-dimensions
+
+&lt;img src="lectureData/09.pcm/PCM-logLMult-BMM.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+**$\small\log{L_{mult}}$ not a general solution for high-dimensional data**
+
+###### see: Adams. *Syst. Biol.*  (2014); Adams and Collyer. *Syst. Biol.* (2018); Adams and Collyer. *Ann. Rev. Ecol. Evol. Syst.* (2019)
+
+# Compare Multivariate Rates: `\(\small\sigma^{2}_{mult}\)`
+
+Generalizes `\(\small\sigma^{2}\)` to estimate the *net* evolutionary rate in multivariate data
+
+**Procedure**: Phylogenetic-transform data `\(\small\tilde{\mathbf{Y}}=\mathbf{TY}\)`
+
+Estimate `\(\small\sigma^{2}_{mult}=\frac{\mathbf{PD}_{\tilde{\mathbf{Y}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Y}},0}}{N}\)` for regimes in BMM
+
+Obtain rate ratio: `\(\small{RR}=\frac{\sigma^{2}_{mult.max}}{\sigma^{2}_{mult.min}}\)`; evaluate via simulation or permutation (RRPP).
+
+Displays appropriate type I error and power (breaks Rao's paradox)
+
+&lt;img src="lectureData/09.pcm/SigmaMultPower.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+###### Adams. *Syst. Biol.* (2014); Denton and Adams. *Evol.* (2015)
+
+# Comparing Net Evolutionary Rates Among Clades: Example
+
+Do high-elevation *Plethodon* species evolve head shape at a faster rate?
+
+
+```
+## 
+## Call:
+## 
+## 
+## Observed Rate Ratio: 1.0136
+## 
+## P-value: 0.9645
+## 
+## Effect Size: -1.5875
+## 
+## Based on 1000 random permutations
+## 
+## The rate for group High is 1.00251311341122e-05  
+## 
+## The rate for group Low is 1.01615797201557e-05
+```
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-63-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+No they do not.
+
+# Comparing Rates Among Multivariate Traits
+
+One can also compare multivariate rates among traits (generalizes both concepts above) 
+
+Example: Do salamander mandibles evolve faster than crania?
+
+
+```
+## 
+## Call:
+## 
+## 
+## Observed Rate Ratio: 1.0825
+## 
+## P-value: 0.975
+## 
+## Effect Size: -1.9557
+## 
+## Based on 1000 random permutations
+## 
+## The rate for group A is 9.68976335011522e-06  
+## 
+## The rate for group B is 1.04892430487162e-05
+```
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-64-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+No they do not.
+
+###### Denton and Adams. *Evolution.* (2015)
+
+
+
+# Comparing Evolutionary 'Modes'
+
+Compare models that describe the manner in which trait variation accumulates over evolutionary time
+
+BM1, BMM, OU (Ornstein-Uhlenbeck), Early Burst (EB), ACDC, etc.
+
+Fit data to phylogeny under differing evolutionary models and compare fit (LRT, AIC, etc.)
+
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-65-1.png" width="30%" style="display: block; margin: auto;" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-65-2.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+# Comparing Evolutionary 'Modes': Example
+
+- How did *Anolis* body size groups evolve?
+     - 5 models: BM, `\(\small{OU}_1\)`, `\(\small{OU}_3\)` `\(\small{OU}_4\)` (3 group+anc), `\(\small{OU}_{LP}\)` (3 gp + history of colonization)
+
+&lt;img src="lectureData/09.pcm/AnoleBSEvol.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+- `\(\small{OU}_{LP}\)` (3 gp + col. hist.) best explains body size evolution
+
+
+# Comparing Multivariate Evolutionary 'Modes'
+
+Unfortunately, *ALL* current implementations for multivariate OU models display high misspecification rates
+
+More work is needed in this area
+
+&lt;img src="lectureData/09.pcm/MultiOUProblems.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+###### see: Adams. *Syst. Biol.* (2014); Adams and Collyer. *Syst. Biol.* (2018); Adams and Collyer. *Ann. Rev. Ecol. Evol. Syst.* (2019)
+
+
+
+# Univariate PCMs: Conclusions
+
+- Phylogenetic comparative method provide useful tools to account for phylogenetic non-independence among observations
+- Hypotheses one can evaluate include:
+    - phylogenetic ANOVA
+    - Phylogenetic regression
+    - Phylogenetic correlation (PLS)
+    - Phylogenetic signal
+    - Comparing rates and modes of evolution
+
+- There is now a rich analytical toolkit for PCMs for univariate data: this lecture serves only as a gateway to this literature
+
+# Multivariate PCMs: Conclusions
+
+- Multivariate PCMs have developed rapidly in recent years
+- Algebraic generalization methods (phylogenetic-transform + RRPP) are useful for 
+    - PGLS, PLS, phylogenetic signal, and net evolutionary rate comparisons
+- More work needed on high-dimensional model comparison (i.e., comparing evolutionary 'modes')
+
+&lt;img src="lectureData/09.pcm/MultiTableConclusions.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-light",
+"highlightLines": true,
+"countIncrementalSlides": true,
+"ratio": "16:9",
+"self_contained": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

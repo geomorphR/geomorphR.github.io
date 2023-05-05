@@ -1,4 +1,6 @@
 For workshop
 
+add arguments to add examples "A=xxx', not just 'xxx'
+
 Prospectus: model comparison: get logLik distribution via RRPP in there (from physig paper)
  
