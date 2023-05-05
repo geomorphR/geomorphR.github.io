@@ -18,7 +18,7 @@
 
 [08-Shape Statistics II]
 
-[09-Phylogenetic Comparative Methods]
+[09-Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Lectures/09-PhyCompMethods.html) 
 
 [10-Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Lectures/10-Asymmetry.html)
 

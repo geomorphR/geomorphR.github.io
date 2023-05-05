@@ -421,15 +421,21 @@ include_graphics("lectureData/09.pcm/PCM-PhyloRegGarland.png")
 
 ### 1: Phylogenetic Least Squares: Regression and ANOVA
 
+.pull-left[
 + $\mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{\epsilon}$, where $\epsilon \small\sim\mathcal{N}(0,\sigma^2\mathbf\Omega)$
 
-+ Parameter estimation: $^1$ $\hat{\mathbf\beta}=(\mathbf{X^T\Omega^{-1}X)^{-1}(X^T\Omega^{-1}Z})$ 
++ Parameter estimation: $^1$ $\hat{\mathbf\beta}=(\mathbf{X^T\Omega^{-1}X)^{-1}(X^T\Omega^{-1}Z})$.  
 
-.footnote[1: Using Dean's favorite equation! (Recall from Shape Statistics I lecture, that this is: $\hat{\mathbf\beta}=(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}(\tilde{\mathbf{X}}^T\mathbf{\tilde{Z}})$)
++ Also expressed as: $\hat{\mathbf\beta}=(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}(\tilde{\mathbf{X}}^T\mathbf{\tilde{Z}})$ 
+]
+
+.footnote[
+
+1: Using Dean's favorite equation! 
 
 2: Grafen (1989). *Phil. Trans. Roy. Soc.*]
 --
-
+.pull-right[
 + Model evaluation steps:
 
 $\hat{\mathbf\beta}$ | $\hat{\mathbf{Z}}$ | Residuals | $SSE$
@@ -438,8 +444,7 @@ $\small\hat{\mathbf\beta_F}$ | $\small\mathbf{X}_R\hat{\mathbf\beta}_R$ | $\smal
 $\small\hat{\mathbf\beta_R}$ | $\small\mathbf{X}_F\hat{\mathbf\beta}_F$ | $\small(\mathbf{Z}-\hat{\mathbf{Z}}_R)$ | $\small\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R$
 
 + Obtain $F$ and compare to RRPP empirical sampling distribution to assess significance
-
---
+]
 
 + EVERYTHING is the same as before, only the phylogeny is incorporated in the analysis!
 ---
@@ -455,7 +460,8 @@ include_graphics("LectureData/09.pcm/PhyRegression.png")
 
 + Is there evolutionary allometry of head shape (does shape covary with size across species while accounting for phylogeny)?
 
-```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width = "40%"}
+.pull-left[
+```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width = "80%"}
 plethtree <- read.tree('LectureData/09.pcm/plethtree.tre')
 plethland <- readland.tps('LectureData/09.pcm/PlethodonLand.tps',specID = "ID",
                           warnmsg = FALSE)
@@ -476,16 +482,22 @@ gdf <- geomorph.data.frame(shape=shape, svl=svl,elev = elev, plethtree=plethtree
 
 links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
                 ncol=2,byrow=FALSE)
-par(mfrow=c(1,3))
 plot(ladderize(plethtree),edge.width=3)
 axisPhylo(1)
 mtext("Phylogeny")
-hist(svl, main = "")
-mtext("SVL")
+```
+
+]
+.pull-right[
+```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width = "80%"}
+par(mfrow=c(1,2))
 plotAllSpecimens(shape,links=links)
 mtext("Shape Data")
+hist(svl, main = "")
+mtext("SVL")
 par(mfrow=c(1,1))
 ```
+]
 ---
 
 ### 1: Phylogenetic Least Squares Regression: Example (Cont.)
@@ -534,584 +546,434 @@ plotRefToTarget(M, preds$predmax, mag=3)
 
 + Does head shape in *Plethodon* differ between high and low elevation species? 
 
+.pull-left[
+```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width = "80%"}
+plot(ladderize(plethtree),edge.width=3)
+axisPhylo(1)
+mtext("Phylogeny")
+```
+
+]
+.pull-right[
+```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width = "80%"}
+plotAllSpecimens(shape,links=links)
+mtext("Shape Data")
+```
+]
 ---
 
-note on how many shifts
+### 1: Phylogenetic Least Squares ANOVA: Example (Cont.)
 
-PLS
++ No, head shape does not differ across elevational groups when phylogeny is considered
 
-
-############# SIDE NOTE: IMPLEMENTATIONS: 
-
-
-
-Several implementations possible (yield identical results if implemented properly)
-
-# Phylogenetically Independent Contrasts
-
-Estimate contrast scores between pairs of taxa (tips or nodes)
-
-Use contrasts for analyses (OLS solution)
-
-```{r, echo = FALSE, fig.align = "center", out.width="40%"}
-include_graphics("lectureData/09.pcm/PCM-PIC1.png")  
+.scrollable[
+```{r eval = TRUE, echo = TRUE}
+pgls.aov <- procD.pgls(f1 = shape~elev, phy=plethtree, data=gdf, print.progress = FALSE)
+summary(pgls.aov)
 ```
+]
 
-###### see Felsenstein. *Am. Nat.* (1985)
+---
 
-# Phylogenetically Independent Contrasts
+### 1: Phylogenetic Least Squares ANOVA: Visualization
 
-```{r, echo = FALSE, fig.align = "center", out.width="60%"}
-include_graphics("lectureData/09.pcm/PCM-PIC2.png")  
++ Now let's visualize these results
+
+.pull-left[.small[
+```{r echo = TRUE, eval = TRUE, out.width = "70%", fig.align = "center"}
+plot.res <- gm.prcomp(shape,phy=plethtree)
+plot(plot.res,phylo = FALSE, pch=21, bg=gdf$elev, cex=2)
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 ```
+]]
 
-Coefficients found as: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}_{pic} \mathbf{X}_{pic}\right )^{-1}\left ( \mathbf{X}^{T}_{pic} \mathbf{Y}_{pic}\right )$
-
-# Phylogenetically Independent Contrasts: Example
-
-```{r, echo = FALSE, fig.align = "center", out.width="30%"}
-include_graphics("lectureData/09.pcm/PCM-PICDataFig.png")  
-```
-
-What is the association between Y and X?
-
-# Phylogenetically Independent Contrasts: Example
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE, out.width="30%"}
-library(ape)
-library(geiger)
-n=8
-tree<-compute.brlen(stree(n,type="left"), method=c(7,1,6,1,5,1,4,1,3,1,2,1,1,1))
-X<-c(8,4,7,13,11,9,5,4)
-names(X)<-tree$tip.label
-Y<-c(3,2,5,9,7,8,4,1)
-names(Y)<-tree$tip.label
-pic.x<-pic(x=X,phy=tree) 
-pic.y<-pic(x=Y,phy=tree) 
-```
-
-```{r, echo = FALSE, fig.align = "center", out.width="30%"}
-include_graphics("lectureData/09.pcm/PCM-PICDataFig.png")
-plot(pic.y~pic.x, asp=1, cex=2, pch=21,bg="black")  
-```
-
-What is the association between Y and X?
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE, out.width="30%"}
-anova(lm(pic.y~pic.x + 0))
-coef(lm(pic.y~pic.x+0))
-```
-
-# Phylogenetic Generalized Least Squares (PGLS)
-
-Use GLS model with non-independent error structure
-
-Statistical model: $\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$ where $\small\mathbf{E} \sim \mathcal{N}(0,\textbf{V})$
-
-# Phylogenetic Generalized Least Squares (PGLS)
-
-Use GLS model with non-independent error structure
-
-Statistical model: $\small\mathbf{Y}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$ where $\small\mathbf{E} \sim \mathcal{N}(0,\textbf{V})$
-
-$\textbf{V}$ is the **phylogenetic covariance matrix**
-
-Describes expected covariance among taxa due to shared evolutionary history (typically under BM)
-
-```{r, echo = FALSE, fig.align = "center", out.width="40%"}
-include_graphics("lectureData/09.pcm/PCM-PhyCovMat.png")  
-```
-
-Coefficients found as: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}^{-1}\mathbf{Y}\right )$
-
-###### see Grafen. *Phil. Trans. Roy. Soc.* (1989)
-
-# PGLS: Example
-
-```{r, echo = FALSE, fig.align = "center", out.width="30%"}
-include_graphics("lectureData/09.pcm/PCM-PICDataFig.png")
-```
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE, out.width="30%"}
-library(nlme)
-bm.gls<-gls(Y~X, correlation=corBrownian(phy=tree), data=data.frame(Y,X))
-anova(bm.gls)
-coef(bm.gls)  #Here the correlation structure of the phylogeny is used
-```
-
-Identical results to PICs!
-
-# Statistical Digression: OLS vs GLS
-
-To understand what PGLS is doing, consider the following methods for obtaining model parameters
-
-OLS model: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )$
-
-# Statistical Digression: OLS vs GLS
-
-To understand what PGLS is doing, consider the following methods for obtaining model parameters
-
-OLS model: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )$
-
-Unweighted GLS model:  $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{id}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{id}^{-1}\mathbf{Y}\right )$  where 
-
-$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{array} \right) $$
-
-
-# Statistical Digression: OLS vs GLS
-
-To understand what PGLS is doing, consider the following methods for obtaining model parameters
-
-OLS model: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )$
-
-Unweighted GLS model:  $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{id}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{id}^{-1}\mathbf{Y}\right )$  where 
-
-$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{array} \right) $$
-
-
-
-Weighted GLS model:  $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{phy}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{phy}^{-1}\mathbf{Y}\right )$  where 
-
-$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} (v_1+v_2) & v_{12} & 0 \\ v_{12} & (v_1+v_2) & 0 \\ 0 & 0 & 1 \end{array} \right) $$
-
-In PGLS, the weights are the phylogenetic distances, which describe the phylogenetic non-independence
-
-# Statistical Digression: OLS vs GLS
-
-To understand what PGLS is doing, consider the following methods for obtaining model parameters
-
-OLS model: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Y}\right )$
-
-Unweighted GLS model:  $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{id}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{id}^{-1}\mathbf{Y}\right )$  where 
-
-$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{array} \right) $$
-
-
-
-Weighted GLS model:  $\small\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}_{phy}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}_{phy}^{-1}\mathbf{Y}\right )$  where 
-
-$$\tiny\mathbf{V}_{id}= \left( \begin{array}{ccc} (v_1+v_2) & v_{12} & 0 \\ v_{12} & (v_1+v_2) & 0 \\ 0 & 0 & 1 \end{array} \right) $$
-
-In PGLS, the weights are the phylogenetic distances, which describe the phylogenetic non-independence
-
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("lectureData/09.pcm/PGLS-Attention.png")
-```
-
-# Phylogenetic Transformation
-
-Utilize OLS transformation of GLS models 
-
-Phylogenetic transformation matrix: $\small\mathbf{T}=\left ( \mathbf{U}\mathbf{W}^{-1/2}  \mathbf{U}^{T}\right )^{-1}$
-
-**U** and **W** are eigenvectors and eigenvalues of **V**
-
-Transformed data: $\small\tilde{\mathbf{Y}}=\mathbf{TY}$
-
-Transformed design matrix: $\small\tilde{\mathbf{X}}=\mathbf{TX}$
-
-Coefficients solved as: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$
-
-###### see Garland and Ives. *Am. Nat.* (2000); Adams. *Evol.* (2014); Adams and Collyer. *Evol.* (2018)
-
-# Phylogenetic Transformation: Example
-
-```{r, echo = FALSE, fig.align = "center", out.width="30%"}
-include_graphics("lectureData/09.pcm/PCM-PICDataFig.png")
-```
-
-```{r echo = FALSE, fig.align = "center",  eval=TRUE}
-library(rgl)
-library(geomorph)
-pgls.res<-procD.pgls(Y~X,phy=tree,data=geomorph.data.frame(Y=Y,X=X), print.progress = FALSE) 
-pgls.res$aov.table 
-pgls.res$pgls.coefficients
-```
-
-Identical results to PICs & PGLS!
-
-# Assessing Significance
-
-PIC, PGLS, and Phylogenetic transform yield identical parameter estimates 
-
-$$\tiny
-\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}  \mathbf{V}^{-1}  \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{V}^{-1}\mathbf{Y}\right )$$
-
-$$\tiny
-=\left ( \mathbf{X}^{T}_{pic} \mathbf{X}_{pic}\right )^{-1}\left ( \mathbf{X}^{T}_{pic} \mathbf{Y}_{pic}\right )$$
-
-$$\tiny
-=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Y}}\right )$$
-
-* Model significance typically accomplished using parametric procedures
-
-    + F-ratios compared to parametric F-distribution
-
-    + Optimize $\log{L}$ for model
-
-$$\tiny
-\log{L}=\log{
-\left(\frac{exp{\left({-\frac{1}{2}{\left({\mathbf{Y}-E(\mathbf{Y})}\right)^{T}}}
-\mathbf{V}^{-1}\left({\mathbf{Y}-E(\mathbf{Y})}\right)\right)}}
-{\sqrt{\left({2\pi}\right)^{Np}\times\begin{vmatrix} \mathbf{V} \end{vmatrix}}}\right)}$$ 
-
-# Assessing Significance
-
-PROBLEM: Parametric significance testing suffers from Rao's paradox
-
-Power reduces as *p*-dimensions increase
-
-```{r, echo = FALSE, fig.align = "center", out.width="60%"}
-include_graphics("lectureData/09.pcm/PCM-PGLS-RaoParadox.png")
-```
-
-Another solution required
-
-###### Adams. *Evol.* (2014); Adams and Collyer. *Syst. Biol.* (2018)
-
-# Assessing Significance: RRPP
-
-Transform data: $\small\tilde{\mathbf{Y}}=\mathbf{TY}$, 
-$\small\tilde{\mathbf{X}}_{F}=\mathbf{TX}_{F}$, 
-$\small\tilde{\mathbf{X}}_{R}=\mathbf{TX}_{R}$
-
-Obtain Parameter estimates: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{X_{F}}}\right )^{-1}\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{Y}}\right )$, and permute residuals (as described previously)
-
-# Assessing Significance: RRPP
-
-Transform data: $\small\tilde{\mathbf{Y}}=\mathbf{TY}$, 
-$\small\tilde{\mathbf{X}}_{F}=\mathbf{TX}_{F}$, 
-$\small\tilde{\mathbf{X}}_{R}=\mathbf{TX}_{R}$
-
-Obtain Parameter estimates: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{X_{F}}}\right )^{-1}\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{Y}}\right )$, and permute residuals (as described previously)
-
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("lectureData/09.pcm/PCM-PhyTransPower.png")
-```
-
-Appropriate for ANOVA, regression and more complex PGLS models with high-dimensional data (Adams & Collyer. *Evol.* 2018)
-
-**RULE: Phylo-transform first, permute second!**
-
-# Assessing Significance: RRPP
-
-Transform data: $\small\tilde{\mathbf{Y}}=\mathbf{TY}$, 
-$\small\tilde{\mathbf{X}}_{F}=\mathbf{TX}_{F}$, 
-$\small\tilde{\mathbf{X}}_{R}=\mathbf{TX}_{R}$
-
-Obtain Parameter estimates: $\small\hat{\mathbf{\beta }}=\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{X_{F}}}\right )^{-1}\left ( \mathbf{\tilde{X_{F}}}^{T} \mathbf{\tilde{Y}}\right )$, and permute residuals (as described previously)
-
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("lectureData/09.pcm/PCM-PhyTransPower.png")
-```
-
-Appropriate for ANOVA, regression and more complex PGLS models with high-dimensional data (Adams & Collyer. *Evol.* 2018)
-
-**RULE: Phylo-transform first, permute second!**
-
-##### Note: alternatives permuting PICs (Klingenberg and and Marugan-Loban 2013) are not correct (see Adams and Collyer 2015. Evolution).  
-
-##### WHAT YOU SHUFFLE MATTERS! (must shuffle correct exchangeable units: see Adams and Collyer. *Evol.* 2015; Adams and Collyer. *Evol.* 2018)
-
-# Phylogenetic Regression: Example
-
-Does head shape covary with body size among *Plethodon* salamander species?
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-plethtree <- read.tree('LectureData/09.pcm/plethtree.tre')
-dat <- read.csv('LectureData/09.pcm/svl.csv', header=TRUE, row.names=1)
-svl <-dat[,1]; names(svl) <- rownames(dat)
-shape <- readland.tps('LectureData/09.pcm/headshape.tps',specID = "ID",warnmsg = FALSE)
-plethgps <- read.csv('LectureData/09.pcm/Gps.csv',header=TRUE, row.names=1)
-  plethgps <- plethgps[match(dimnames(shape)[[3]],rownames(plethgps)),]
-elev <- as.factor(plethgps$ElevGp); names(elev) <- rownames(plethgps)
-  
-gdf <- geomorph.data.frame(shape=shape, svl=svl,elev = elev, plethtree=plethtree)
-links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
-                ncol=2,byrow=FALSE)
-plot(ladderize(plethtree),edge.width=3)
-axisPhylo(1)
-
-plotAllSpecimens(shape,links=links)
-```
-
-# Phylogenetic Regression: Example
-
-Are body dimensions associated with overall size across *Plethodon* salamander species?
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-plot(ladderize(plethtree),edge.width=3)
-axisPhylo(1)
-
-plotAllSpecimens(shape,links=links)
-
-pgls.reg <- procD.pgls(f1 = shape~svl, effect.type = 'cohen', data=gdf,
-                       phy=plethtree, print.progress = FALSE)
-summary(pgls.reg)$table
-```
-
-YES! There is a significant association between head shape and body size in salamanders
-
-# Phylogenetic ANOVA: Example
-
-Does head shape differ between high-elevation and low-elevation salamander species?
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-plot(ladderize(plethtree),edge.width=3)
-axisPhylo(1)
-
-plotAllSpecimens(shape,links=links)
-```
-
-
-# Phylogenetic ANOVA: Example
-
-Does head shape differ between high-elevation and low-elevation salamander species?
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-plot(ladderize(plethtree),edge.width=3)
-axisPhylo(1)
-
-plotAllSpecimens(shape,links=links)
-
-pgls.aov <- procD.pgls(f1 = shape~elev, effect.type = 'cohen', data=gdf,
-                       phy=plethtree, print.progress = FALSE)
-summary(pgls.aov)$table
-```
-
-YES!  Head shape differs in high- and low-elevation species
-
-# Phylogenetic ANOVA: Visualizations
-
-One can visualize group dispersion in morphospace... 
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
-#plot.res <- gm.prcomp(shape,phy=plethtree, data=gdf)
-#ord.plot <- plot(plot.res,phylo = FALSE, pch=21, bg=gdf$elev, cex=1.5)
-#shapeHulls(ord.plot, groups = gdf$elev, 
-#           group.cols = c("red", "black"),
-#           group.lwd = rep(1, 2), group.lty = c(2, 1))
-#legend("topright", levels(gdf$elev), 
-#       col = c("black", "red"),
-#       lwd = rep(1,2), lty = c(2, 1))
-```
-
-# Phylogenetic ANOVA: Visualizations
-
-... and via TPS deformation grids
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="100%"}
-M <- mshape(shape)
+.pull-right[.small[
+```{r echo = FALSE, fig.align = "center", eval=TRUE, out.width="90%"}
 Low <- c(1) # design for low elevation
 High <- c(0) # design for high elevation
-preds <- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$X[,-1],
-           Intercept = TRUE, Low = Low, High = High)   
-par(mfrow=c(1,2)) 
-plotRefToTarget(M, preds$Low, mag=2, links=links)
-mtext("Low Elevation")
-plotRefToTarget(M, preds$High, mag=2, links=links)
-mtext("High Elevation")
-par(mfrow=c(1,1)) 
 ```
 
-# Phylogenetic ANOVA: Group Aggregation
+```{r echo = TRUE, fig.align = "center", eval=TRUE, out.width="90%"}
+preds <- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$X[,-1],
+           Intercept = TRUE, Low = Low, High = High)   
+```
 
-How groups are distributed on the phylogeny can make a difference: Adams and Collyer. *Evol.* (2018)
+```{r echo = FALSE, fig.align = "center", eval=TRUE, out.width="70%"}
+par(mfrow=c(2,1))              
+plotRefToTarget(M, preds$Low, mag=1, links=links)
+mtext("Low Elevation: 1X")
+plotRefToTarget(M, preds$High, mag=1, links=links)
+mtext("High Elevation: 1X")
+ par(mfrow=c(1,1))              
+```
+]]
+---
 
-```{r, echo = FALSE, fig.align = "center"}
+### 1: Phylogenetic ANOVA: Group Aggregation
+
++ How groups are distributed on the phylogeny can make a difference: Adams and Collyer. *Evol.* (2018)
+
+```{r, echo = FALSE, fig.align = "center", out.width = "70%"}
 include_graphics("lectureData/09.pcm/PCM-PhyANOVA-Groups.png")
 ```
 
-Too few group 'state' changes across phylogeny results in lower power
++ Too few group 'state' changes across phylogeny results in lower power
+---
 
-# 2: Phylogenetic PLS
+### 1: Phylogenetic Least Squares: Implementations
 
-Assess correlation between two blocks of variables in a phylogenetic context
++ Three implementations are found in the literature
 
-PLS of evolutionary covariance (rate) matrix
+```{r, echo = FALSE, fig.align = "center", out.width = "90%"}
+include_graphics("lectureData/09.pcm/PGLS-Implementations.png")
+```
 
-$$\small\mathbf{R}=\frac{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}\mathbf{V}^{-1}
-\left(\mathbf{Y}-E(\mathbf{Y})\right)}
-{N-1}$$
++ All yield equivalent results if performed properly
 
-SVD of $\small\mathbf{R}_{12}=\mathbf{U}_{12}\mathbf{D}\mathbf{V}^{T}_{12}$
+---
 
-# 2: Phylogenetic PLS
+### 1B: Phylogenetic Partial Least Squares $^1$
 
-Assess correlation between two blocks of variables in a phylogenetic context
++ A related approach assesses the covariation between blocks of variables while accounting for phylogenetic non-independence
 
-PLS of evolutionary covariance (rate) matrix
+.pull-left[
++ PLS of evolutionary covariance (i.e., rate) matrix
+  1. Calculate: $\mathbf{R}=\frac{(\mathbf{Z}-E(\mathbf{Z}))^{T}\mathbf\Omega^{-1}(\mathbf{Z}-E(\mathbf{Z}))}{N-1}$
+  2. Decompose:  $\small\mathbf{R}_{12}=\mathbf{U}_{12}\mathbf{D}\mathbf{V}^{T}_{12}$
+  3. Obtain $r_{PLS}$ from correlation of singular values, $\mathbf{P}_1$ and $\mathbf{P}_2$
+  4. Significance evaluated using RRPP
+]
 
-$$\small\mathbf{R}=\frac{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}\mathbf{V}^{-1}
-\left(\mathbf{Y}-E(\mathbf{Y})\right)}
-{N-1}$$
+.footnote[
+1: Adams and Felice. *PLoS One* (2014); Adams and Collyer. *Syst. Biol.* (2018)
 
-SVD of $\small\mathbf{R}_{12}=\mathbf{U}_{12}\mathbf{D}\mathbf{V}^{T}_{12}$
+2: Use of PICs yields same $r_{PLS}$ (Klingenberg and Marugan-Loban. *Syst. Biol.* 2013); but significance tests based on permuting PICs is incorrect (see Adams and Collyer 2015. Evolution).
+]
+--
 
-Equivalently found from PLS of $\small\Sigma$ from $\small\tilde{\mathbf{Y}}=\mathbf{TY}$
+.pull-right[
++ This may be obtained directly from the phylo-transformed data: 
+  1. Decompose: $\tilde{\mathbf{Z}}_1^T\tilde{\mathbf{Z}}_2=\mathbf{U}_{12}\mathbf{D}\mathbf{V}^{T}_{12}$
+  2. Obtain $r_{PLS}$ from correlation of singular values, $\mathbf{P}_1$ and $\mathbf{P}_2$ from phylogenetically-transformed data
+  3. Significance evaluated using RRPP 
+  
+]  
 
-Significance from RRPP of $\small\tilde{\mathbf{Y}}$
+---
 
-###### Adams and Felice. *PLoS One* (2014); Adams and Collyer. *Syst. Biol.* (2018)
+### 1B: Phylogenetic Partial Least Squares: Example
 
-###### Use of PICs yields same $r_{PLS}$ (Klingenberg and Marugan-Loban. *Syst. Biol.* 2013); but significance tests based on permuting PICs (this is incorrect: see Adams and Collyer 2015. Evolution).
++ Is there phenotypic integration between the cranium and mandible in *Plethodon* salamanders? 
 
-# Phylogenetic PLS: Example
-
-Is there phenotypic integration between the cranium and mandible in salamanders (same data)? 
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
+.scrollable[
+```{r echo = TRUE, fig.align = "center", eval=TRUE,out.width="80%"}
 land.gps<-c("A","A","A","A","A","B","B","B","B","B","B")
 PLS.Y <- phylo.integration(A = gdf$shape, partition.gp = land.gps, phy= plethtree, print.progress = FALSE)
-PLS.Y$r.pls; PLS.Y$P.value
+summary(PLS.Y)
+```
+]
+---
+
+### 1B: Phylogenetic Partial Least Squares: Visualization
+
++ Now let's visualize these results
+
+.pull-left[.small[
+```{r echo = TRUE, eval = TRUE, out.width = "70%", fig.align = "center"}
 plot(PLS.Y)
 ```
+]]
 
-YES!
-
-# Phylogenetic Ordination
-
-- Ordinations that incorporate phylogenetic relatedness
-
-- Two approaches: 
-
-  - Phylogenetic PCA (pPCA): account for phylogeny in PCA computations: 
-    - SVD of evolutionary rate matrix (the covariance matrix ‘standardized’ by phylogeny):       $\small\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}$
-    - Produces phylogenetically corrected eigenvectors, Preserves specimen distances, but pPCA scores correlated (see Polly et al. *Hystrix*. 2013)
-
-  - Phylomorphspace: project phylogeny into PCA space (using ancestral states)
-  
-# Phylogenetic Ordination
-
-- Ordinations that incorporate phylogenetic relatedness
-
-- Two approaches: 
-
-  - Phylogenetic PCA (pPCA): account for phylogeny in PCA computations: 
-    - SVD of evolutionary rate matrix (the covariance matrix ‘standardized’ by phylogeny):       $\small\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}$
-    - Produces phylogenetically corrected eigenvectors, Preserves specimen distances, but pPCA scores correlated (see Polly et al. *Hystrix*. 2013)
-
-  - Phylomorphspace: project phylogeny into PCA space (using ancestral states)
-
-- Intent of both approaches is to provide visual insights into macroevolutionary patterns
-
-  - NOTE: One approach is not more useful than the other (and alternatives could be envisioned)
-
-
-# Phylo-PCA: Example
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-include_graphics("lectureData/09.pcm/PodarcisPhyloPCA.png")
+.pull-right[.small[
+**NOT CORRECT. NEED TO FIX THESE**
+```{r echo = TRUE, fig.align = "center", eval=TRUE, out.width="90%"}
+preds <- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$X[,-1],
+           Intercept = TRUE, Low = Low, High = High)   
 ```
 
-# Phylomorphospace: Example
-
-Phylomorphospace of the *Plethodon* data
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-#plot.res <- gm.prcomp(shape,phy=plethtree, data=gdf)
-#plot(plot.res,phylo = TRUE, pch=21, bg="red", cex=1.5)
+```{r echo = FALSE, fig.align = "center", eval=TRUE, out.width="70%"}
+par(mfrow=c(2,1))              
+plotRefToTarget(M, preds$Low, mag=1, links=links)
+mtext("Low Elevation: 1X")
+plotRefToTarget(M, preds$High, mag=1, links=links)
+mtext("High Elevation: 1X")
+ par(mfrow=c(1,1))              
 ```
+]]
+---
 
-# Phylomorphospace: Example (Cont.)
+### 2: Phylogenetic Signal 
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-include_graphics("lectureData/09.pcm/PCM-Phylomorphospace1.png")
-include_graphics("lectureData/09.pcm/PCM-Phylomorphospace2.png")
-```
-
-Visual inspection of phylomorphospaces useful for hypothesis generation
-
-# Phylogenetic Ordination: Comments
-
-- Approaches intend to provide visualization of phenotypic variation and evolutionary relationships
-
-  - Phylomorphospace rotates the dataspace based on the original covariation (without regard to phylogeny), and ancestral states are subsequently projected into the space to visualize evolutionary changes
-  
-  - By contrast, pPCA rotates the dataspace relative to evolutionary covariation, which takes phylogeny into account
-
-- However, .... 
-
-  - pPCA does not perform an orthogonal projection of data (oblique projection and distortion of projected ancestral states)
-  - Because phylogenetic variation is "removed", correspondence between shapes and location in projection is lost
-  - Cannot visualize phylogenetic signal, which might be possible in phylomorphopsace
-  - Much like removing size to obtain shape variables in GPA does not remove shape allometry, pPCA does not remove phylogenetic signal from the data; it just obscures it
- 
-### We are working on new ordination methods to better visualize phylogenetic signal.  Stay tuned!
-
-# 4: Phylogenetic Signal
-
-The degree to which phenotypic similarity associates with phylogenetic relatedness
++ The degree to which phenotypic similarity associates with phylogenetic relatedness
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="70%"}
 include_graphics("lectureData/09.pcm/PCM-PhySigFels85.png")
 ```
+---
 
-# Phylogenetic Signal
+### 2: Phylogenetic Signal Summary Measures
 
-Kappa statistic: Blomberg et al. *Evol.* (2003)
++ Kappa statistic: Blomberg et al. *Evol.* (2003)
 
-$$\small
-K=\frac{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}
-\left(\mathbf{Y}-E(\mathbf{Y})\right)}
-{\left(\mathbf{Y}-E(\mathbf{Y})\right)^{T}\mathbf{V}^{-1}
-\left(\mathbf{Y}-E(\mathbf{Y})\right)} /
-\frac{tr(\mathbf{V})-N(\mathbf{1}^{T}\mathbf{V1})^{-1}}{N-1}$$
+$$\small{K=\frac{(\mathbf{Z}-E(\mathbf{Z}))^T(\mathbf{Z}-E(\mathbf{Z}))}{(\mathbf{Z}-E(\mathbf{Z}))^T\mathbf\Omega^{-1}(\mathbf{Z}-E(\mathbf{Z}))}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^T\mathbf{\Omega1})^{-1}}{N-1}}$$
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="70%"}
-include_graphics("lectureData/09.pcm/PCM-PhySigBlomberg.png")
-```
+--
 
-Univariate response data only!
++ $\lambda$ statistic: Pagel *Nature* (1999)
 
-# Multivariate Phylogenetic Signal
+$$\small{logL=log(\frac{(\mathbf{Z}-E(\mathbf{Z}))^T\mathbf\Omega^\lambda{^{-1}}(\mathbf{Z}-E(\mathbf{Z})))}{\sqrt{(2\pi)^{Np}\times|\mathbf\Omega^\lambda|}}}$$
+  + Branch-length scaling during ML fit of data to phylogeny
 
-$\small{K}_{mult}$: A multivariate generalization of *Kappa* (Adams. *Syst. Biol.* 2014)
+--
 
-Based on distances between objects in original and phylo-transformed dataspaces
++ Both are for univariate response data only!
+---
 
-$$\small\
-K_{mult}=
-\frac{\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}^{T}\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}}
-{\mathbf{PD}_{\tilde{\mathbf{Y}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Y}},0}} 
-/
-\frac{tr(\mathbf{V})-N(\mathbf{1}^{T}\mathbf{V1})^{-1}}{N-1}$$
+### 2: Multivariate Phylogenetic Signal $^1$
 
-# Multivariate Phylogenetic Signal
++ A multivariate generalization of *Kappa* has been proposed: $\small{K}_{mult}$
+  + Approach based on the distance-covariance equivalency
+  + Uses distances between species in the original and phylo-transformed dataspaces
 
-$\small{K}_{mult}$: A multivariate generalization of *Kappa* (Adams. *Syst. Biol.* 2014)
+$$\small{K_{mult}=\frac{\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}^{T}\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}}{\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^{T}\mathbf{\Omega1})^{-1}}{N-1}}$$
 
-Based on distances between objects in original and phylo-transformed dataspaces
+  + $\small\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}$ is the distance from each object to the phylogenetic mean
+  + $\small\mathbf{PD}_{\tilde{\mathbf{Z}},0}$ is the distance between each object in the phylogenetically-transformed space (found as: $\small\tilde{\mathbf{Z}}=\mathbf{P}(\mathbf{Z-E(\mathbf{Z})})$) and the origin
 
-$$\small\
-K_{mult}=
-\frac{\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}^{T}\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}}
-{\mathbf{PD}_{\tilde{\mathbf{Y}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Y}},0}} 
-/
-\frac{tr(\mathbf{V})-N(\mathbf{1}^{T}\mathbf{V1})^{-1}}{N-1}$$
+.footnote[1: Adams (2014). *Syst. Biol.*]
+---
 
-Where $\small\mathbf{D}_{\mathbf{Y},E(\mathbf{Y})}$ is the distance from each object to the phylogenetic mean, and $\small\mathbf{PD}_{\tilde{\mathbf{Y}},0}$ is the distance between each object in the phylogenetically-transformed space (found as: $\small\tilde{\mathbf{Y}}=\mathbf{P}(\mathbf{Y-E(\mathbf{Y})})$) and the origin
-
-# Multivariate Phylogenetic Signal: Example
+### 2: Multivariate Phylogenetic Signal: Example
 
 Does head shape in in *Plethodon* display phylogenetic signal? 
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
+.pull-left[
+```{r echo = TRUE, eval=TRUE,out.width="40%"}
 PS.shape <- physignal(A=shape,phy=plethtree,iter=999, print.progress = FALSE)
-PS.shape$phy.signal
-PS.shape$pvalue
-plot(PS.shape)
+summary(PS.shape)
 ```
 
-Yes it does.
+]
+.pull-right[
+```{r echo = TRUE, fig.aling = "center", eval=TRUE,out.width="80%"}
+plot(PS.shape)
+```
+]
+---
 
-# 5: Comparing Evolutionary Models
+### 2: Phylogenetic Signal: An Effect Size $^1$
 
-What evolutionary model best describes trait variation? 
++ Optimizing $\Omega$ by $\lambda$ in the equation of $Kappa$ provides a direct link between the two statistics $^2$
++ This formulation lends itself nicely to evaluation via RRPP
 
-Fit data to phylogeny under differing evolutionary models
+  + RRPP many times, obtaining $logL$
 
-```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width="50%",  results='hide'}
+  + Calculate Effect size as: 
+  
+  $$\small{Z=\frac{\theta_{obs}-\mu_\theta}{\sigma_\theta}}$$
+  where $\theta_{obs}=f(logL_\Omega)$
+
+.footnote[
+1: See Collyer et al. (2022) *Methods Ecol. Evol.*
+
+2: Blomberg et al. (2003) *Evol.*
+]  
+--
+
++ One can now compare effect sizes to evaluate the strength of phylogenetic signal across datasets:
+
+$$\small{Z_{12}=\frac{(\theta_{obs_1}-\mu_{\theta_1})-(\theta_{obs_2}-\mu_{\theta_2})}{\sqrt{\sigma^2_{\theta_1}+\sigma^2_{\theta_2}}}}$$
+---
+
+### 2: Comparing Phylogenetic Signal: Example
+.pull-left[
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
+include_graphics("lectureData/09.pcm/ComparePhySignal.png")
+```
+]
+.pull-right[
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
+include_graphics("lectureData/09.pcm/ComparePhySignal2.png")
+```
+
+Greater phylogenetic signal in SA:V ratios!
+]
+
+##### From Collyer et al. (2022). *Methods Ecol. Evol.*
+---
+
+### 2: Phylogenetic Signal: Multivariate Frontiers
+
++ $Z_\theta$ provides a path for comparing the strength of phylogenetic signal across datasets
+
++ However, an unexplored frontier is how to generalize $Z_\theta$ for multivariate data
+
+--
+
++ One issue: How to obtain logL when $p>N$?
+
+  1. Use trace of **R** rather than determinant
+
+  2. Use penalized likelihood to regularize **R**
+
+  3. Use PACA for dimension reduction prior to calculating logL
+
+--
+
++ Another issue: separate  or common $\lambda$ for each trait (or trait dimension)?
+
+--
+
++ Future work will investigate the efficacy of these approaches
+---
+
+### 3: Phylogenetic Ordination
+
++ Ordinations that incorporate phylogenetic relatedness
+
++ Intent is to provide visual insights into macroevolutionary patterns
+
++ Three approaches: 
+
+--
+
+
+1. Phylomorphspace: project phylogeny into PCA space (using ancestral states)
+
+2. Phylogenetic PCA (pPCA): account for phylogeny in PCA computations
+  
+  + Rotates data 'away' from phylogenetic signal (i.e., $pPC_1$ is uncorrelated with phylogenetic signal)
+
+3. Phylogenetically-Aligned Components Analysis (PACA)
+
+  + Rotates data 'towards' phylogenetic signal (i.e., $PACA_1$ maximizes phylogenetic signal)
+---
+
+### 3: Phylogenetic Ordination $^1$
+
++ Recall the general ordination equation (Shape Statistics I lecture): 
+
+$$\mathbf{I}^T_{n \times n} \mathbf{Z}=\mathbf{UDV}^T$$
+
+where: $\mathbf{A}$ = $\mathbf{I}_{n \times n}$.  This is PCA, and finds the principal directions of variation in the data independent of any other association.
+
+.footnote[1: See Collyer and Adams (2021). *Methods Ecol. Evol.*]
+
+--
+
+.pull-left[.small[
+But what if we do: 
+
+$$\mathbf{T^T_\Omega}\mathbf{Z} =\mathbf{UDV}^T$$
+
+where: $\mathbf{A}=\mathbf{T_\Omega}$ and $\mathbf\Omega=\mathbf{TT^T}$. Data is aligned to directions independent of phylogenetic signal (the least phylogenetic signal in the first component).
+
+]]
+
+--
+
+.pull-right[.small[
+
+Or if instead we perform: 
+
+$$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
+
+where $\mathbf{A}=\mathbf{\Omega}$. Data is aligned to directions that maximize phylogenetic signal (most phylogenetic signal in the first few components).
+]]
+
+--
+
+Mathematically the difference between these phylogenetic ordination procedures is that they align the data relative to different matrices in $\mathbf{A}$. 
+---
+
+### 3: Phylogenetic Ordination: Phylomorphospace (PCA)
+
++ Phylomorphospace is a PCA with the phylogeny superimposed (via projection of ancestral states)
+
+$$\mathbf{I}^T_{n \times n} \mathbf{Z}=\mathbf{UDV}^T$$
+.scrollable[
+```{r echo = TRUE, fig.align = "center", eval=TRUE,out.width="80%"}
+plot.pca <- gm.prcomp(shape,phy=plethtree)
+plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+```
+]
+---
+
+### 3: Phylogenetic Ordination: Phylogenetic PCA (pPCA)
+
++ Aligns data to directions independent of phylogenetic signal
+
+$$\mathbf{T^T_\Omega}\mathbf{Z} =\mathbf{UDV}^T$$
+
+.scrollable[
+```{r echo = TRUE, fig.align = "center", eval=TRUE,out.width="80%"}
+plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
+plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+```
+]
+---
+
+### 3: Phylogenetic Ordination: Phylogenetically Aligned Components (PACA)
+
++ Aligns data to directions that maximize phylogenetic signal
+
+$$\mathbf{\Omega^T}\mathbf{Z} =\mathbf{UDV}^T$$
+
+.scrollable[
+```{r echo = TRUE, fig.align = "center", eval=TRUE,out.width="80%"}
+plot.paca <- gm.prcomp(shape,phy=plethtree, align.to.phy = TRUE)
+plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+```
+]
+---
+
+### 3: Phylogenetic Ordination: Side By Side
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="50%"}
+par(mfrow=c(1,3))
+
+plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "Phylomorphospace" )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "pPCA" )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "PACA" )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+par(mfrow=c(1,1))
+
+```
+---
+
+### 3: Phylogenetic Ordination: Comments
+
++ Methods provide contrasting views of the data
+  + Phylomorphospace is a 'pure' view of the space
+  + pPCA and PACA rotate relative to the phylogeny (albeit differently)
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="60%"}
+include_graphics("lectureData/09.pcm/pPCA-PACA.png")
+```
+
++ Utilizing several may be helpful
+
+---
+
+### 4: Comparing Evolutionary Models
+
++ What evolutionary model best describes trait variation? 
+
+.pull-left[
+
++ Models fit as: $\mathbf{Z=1\beta+\epsilon}$, where $\epsilon\small\sim\mathcal{N}(0,\sigma^2\mathbf\Omega)$
+
+  + Differing evolutionary models are embodied in different $\mathbf\Omega$
+
+```{r echo = FALSE, eval=TRUE, out.width = "60%",results='hide',fig.align = "center"}
+par(mfrow=c(1,2))
  nsim <- 100
   t <- 0:100  # time
   sig2 <- 0.005
@@ -1133,158 +995,143 @@ Fit data to phylogeny under differing evolutionary models
   plot(OU1.sim2[[1]],xlab = "time", ylab = "phenotype", ylim = c(0,1), type = "l",
        main = "Ornstein-Uhlenbeck Trait Evolution")
     for(i in 2:100){lines(OU1.sim2[[i]])}
+par(mfrow=c(1,1))
 ```
+]
 
-# 5: Comparing Evolutionary Models
+--
 
-What evolutionary model best describes trait variation? 
+.pull-right[
 
-Fit data to phylogeny under differing evolutionary models
++ Model comparisons of:
 
-```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width="50%",  results='hide'}
-  plot(t, X[1, ], xlab = "time", ylab = "phenotype", ylim = c(-2, 2), type = "l",
-       main = "Brownian Motion Trait Evolution")
-  apply(X[2:nsim, ], 1, function(x, t) lines(t, x), t = t)
-  plot(OU1.sim2[[1]],xlab = "time", ylab = "phenotype", ylim = c(0,1), type = "l",
-       main = "Ornstein-Uhlenbeck Trait Evolution")
-    for(i in 2:100){lines(OU1.sim2[[i]])}
-```
+1. Evolutionary rate models: BM1, BMM, etc.
+2. Evolutionary 'mode' models: BM1, OU1, OUM, etc.
 
-Model comparisons of:
++ Major issue: multivariate generalizations for some evolutionary model comparisons remain underdeveloped (see Adams and Collyer (2018;2019))
+]
+---
 
-1: Evolutionary rate models: BM1, BMM, etc.
-
-2: Evolutionary 'mode' models: BM1, OU1, OUM, etc.
-
-# Evolutionary Rates
-
-*"How fast, as a matter of fact, do animals evolve in nature?"* (Simpson, 1944)
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-include_graphics("lectureData/09.pcm/TurtleRate.png")
-```
-
-# Comparing Rates Among Traits
-
-Is there evidence that one trait evolves faster than another? 
-
-Obtain $\small\mathbf{R}_0$ and $\small{logL}$: 
-
-$$\tiny\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}=\left( \begin{array}{ccc} \sigma^2_{1} & \sigma^2_{1,2} & \sigma^2_{1,3} \\ \sigma^2_{2,1} & \sigma^2_{2} & \sigma^2_{2,3} \\ \sigma^2_{3,1} & \sigma^2_{3,2} & \sigma^2_{3} \end{array} \right)$$
-
-$$\tiny\log{L}=-\frac{np}{2}ln{2\pi}-\frac{n}{2}ln{\begin{vmatrix}{(\mathbf{R\otimes{C}})}\end{vmatrix}}-\frac{1}{2}tr{(\mathbf{Y}-E(\mathbf{Y}))^{T}(\mathbf{R\otimes{C}})^{-1}(\mathbf{Y}-E(\mathbf{Y}))}$$
-
-# Comparing Rates Among Traits
-
-Is there evidence that one trait evolves faster than another? 
-
-Obtain $\small\mathbf{R}_0$ and $\small{logL}$: 
-
-$$\tiny\mathbf{R}=\frac{(\mathbf{Y}-E(\mathbf{Y}))^{T}\mathbf{C}^{-1}(\mathbf{Y}-E(\mathbf{Y}))}{N-1}=\left( \begin{array}{ccc} \sigma^2_{1} & \sigma^2_{1,2} & \sigma^2_{1,3} \\ \sigma^2_{2,1} & \sigma^2_{2} & \sigma^2_{2,3} \\ \sigma^2_{3,1} & \sigma^2_{3,2} & \sigma^2_{3} \end{array} \right)$$
-
-$$\tiny\log{L}=-\frac{np}{2}ln{2\pi}-\frac{n}{2}ln{\begin{vmatrix}{(\mathbf{R\otimes{C}})}\end{vmatrix}}-\frac{1}{2}tr{(\mathbf{Y}-E(\mathbf{Y}))^{T}(\mathbf{R\otimes{C}})^{-1}(\mathbf{Y}-E(\mathbf{Y}))}$$
-
-Estimate $\small\mathbf{R}_C$ and $\small{logL}_C$ where diagonal of $\mathbf{R}$ is contrained to be equal:  
-
-$$\tiny\mathbf{R}_C=\left( \begin{array}{ccc} \sigma^2_{p} &  &  \\ \sigma^2_{2,1} & \sigma^2_{p} &  \\ \sigma^2_{3,1} & \sigma^2_{3,2} & \sigma^2_{p} \end{array} \right)$$
-
-Compare $\small{logL}_C$ against $\small{logL}$
-
-###### Adams. *Syst. Biol.* (2013); Denton and Adams. *Evol.* (2015)
-
-# Compare Rates Among Traits: Example
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-include_graphics("lectureData/09.pcm/Hydromantes.png")
-```
-
-# Compare Rates Among Clades
+### 4: Comparing Evolutionary Rates Among Clades
 
 Is there evidence for multiple evolutionary rates on the phylogeny? 
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="30%"}
+```{r echo = FALSE, eval=TRUE,out.width="40%", fig.align = "center"}
 include_graphics("lectureData/09.pcm/PCM-BM1BMM.png")
 ```
 
-**Procedure**: Fit data to phylogeny under single-rate and multi-rate models. Estimate $\small\mathbf{R}$ and $\small\log{L}$ & compare $\small\log{L}$ between models (LRT, AIC, simulation, etc.)
++ Fit data to phylogeny under single-rate and multi-rate models, where 
+$$\small\log{L}=-\frac{np}{2}ln{2\pi}-\frac{n}{2}ln{\begin{vmatrix}{(\mathbf{\sigma^2\Omega})}\end{vmatrix}}-\frac{1}{2}tr{(\mathbf{Z}-E(\mathbf{Z}))^{T}(\mathbf{\sigma^2\Omega})^{-1}(\mathbf{Z}-E(\mathbf{Z}))}$$
+Perform LRT, AIC, simulation, or permutation-based (RRPP) evaluation
 
-# Compare Rates Among Clades
+---
+### 4: Comparing Multivariate Evolutionary Rates Among Clades 
 
-Is there evidence for multiple evolutionary rates on the phylogeny? 
++ Approach has been extended to multivariate traits (using distance-based procedure of Adams 2014)
++ $\sigma^2_{mult}=\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}/N-1$
+  + RRPP used for model evaluation
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="30%"}
-include_graphics("lectureData/09.pcm/PCM-BM1BMM.png")
-```
+--
 
-**Procedure**: Fit data to phylogeny under single-rate and multi-rate models. Estimate $\small\mathbf{R}$ and $\small\log{L}$ & compare $\small\log{L}$ between models (LRT, AIC, simulation, etc.)
-
-Works well for univariate $\mathbf{Y}$, but Type I error $\small\uparrow$ with *p*-dimensions
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="60%"}
-include_graphics("lectureData/09.pcm/PCM-logLMult-BMM.png")
-```
-
-**$\small\log{L_{mult}}$ not a general solution for high-dimensional data**
-
-###### see: Adams. *Syst. Biol.*  (2014); Adams and Collyer. *Syst. Biol.* (2018); Adams and Collyer. *Ann. Rev. Ecol. Evol. Syst.* (2019)
-
-# Compare Multivariate Rates: $\small\sigma^{2}_{mult}$
-
-Generalizes $\small\sigma^{2}$ to estimate the *net* evolutionary rate in multivariate data
-
-**Procedure**: Phylogenetic-transform data $\small\tilde{\mathbf{Y}}=\mathbf{TY}$
-
-Estimate $\small\sigma^{2}_{mult}=\frac{\mathbf{PD}_{\tilde{\mathbf{Y}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Y}},0}}{N}$ for regimes in BMM
-
-Obtain rate ratio: $\small{RR}=\frac{\sigma^{2}_{mult.max}}{\sigma^{2}_{mult.min}}$; evaluate via simulation or permutation (RRPP).
-
-Displays appropriate type I error and power (breaks Rao's paradox)
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-include_graphics("lectureData/09.pcm/SigmaMultPower.png")
-```
-
-###### Adams. *Syst. Biol.* (2014); Denton and Adams. *Evol.* (2015)
-
-# Comparing Net Evolutionary Rates Among Clades: Example
-
-Do high-elevation *Plethodon* species evolve head shape at a faster rate?
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
+Does head shape in high-elevation *Plethodon* species evolve more rapidly than in low-elevation species?
+.scrollable[.small[
+.pull-left[
+```{r eval = TRUE, echo = TRUE, fig.align = "center", out.height = "50%"}
 ER<-compare.evol.rates(A=gdf$shape, phy=plethtree,gp=gdf$elev,iter=999, method = 'permutation',print.progress = FALSE)
 summary(ER)
+```
+]
+.pull-right[
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.height = "30%"}
 plot(ER)
 ```
+]]]
+---
 
-No they do not.
+### 4: Comparing Evolutionary Rates Among Traits
 
-# Comparing Rates Among Multivariate Traits
++ Is there evidence that one trait evolves faster than another? 
 
-One can also compare multivariate rates among traits (generalizes both concepts above) 
+.pull-left[
 
-Example: Do salamander mandibles evolve faster than crania?
++ Calculate evolutionary rate matrix: 
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-EMR <- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=land.gps, print.progress = FALSE)
+$$\small{\mathbf{R}=\frac{(\mathbf{Z}-E(\mathbf{Z}))^{T}\mathbf\Omega^{-1}(\mathbf{Z}-E(\mathbf{Z}))}{N-1}=\left( \begin{array}{ccc} \sigma^2_{1} & \sigma^2_{1,2} & \sigma^2_{1,3} \\ \sigma^2_{2,1} & \sigma^2_{2} & \sigma^2_{2,3} \\ \sigma^2_{3,1} & \sigma^2_{3,2} & \sigma^2_{3} \end{array} \right)}$$
+
++ Obtain $\small{logL}$: 
+$$\small\log{L}=-\frac{np}{2}ln{2\pi}-\frac{n}{2}ln{\begin{vmatrix}{(\mathbf{R\otimes{\Omega}})}\end{vmatrix}}-\frac{1}{2}tr{(\mathbf{Z}-E(\mathbf{Z}))^{T}(\mathbf{R\otimes{\Omega}})^{-1}(\mathbf{Z}-E(\mathbf{Z}))}$$
+]
+
+.footnote[
+1: Adams (2013). *Syst. Biol.*; Denton and Adams (2015). *Evol.*
+
+]
+--
+.pull-right[
++ Estimate $\small\mathbf{R}_C$ and $\small{logL}_C$ where diagonal of $\mathbf{R}$ is constrained to be equal:  
+
+$$\small\mathbf{R}_C=\left( \begin{array}{ccc} \sigma^2_{p} &  &  \\ \sigma^2_{2,1} & \sigma^2_{p} &  \\ \sigma^2_{3,1} & \sigma^2_{3,2} & \sigma^2_{p} \end{array} \right)$$
++ Compare $\small{logL}_C$ against $\small{logL}$
+]
+
+---
+
+### 4: Comparing Evolutionary Rates Among Traits: Example
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
+include_graphics("lectureData/09.pcm/Hydromantes.png")
+```
+---
+
+### 4: Comparing Evolutionary Rates Among Multivariate Traits
+
++ Approach has been extended to multivariate traits (using distance-based procedure of Adams 2014)
++ $\sigma^2_{mult}=\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}/N-1$
+  + Rate-ratio used as test measure: $R=\frac{max(\sigma^2_{mult})}{min(\sigma^2_{mult})}$
+  + Permutation tests used for statistical evaluation
+
+.scrollable[.small[
+.pull-left[
+```{r eval = TRUE, echo = TRUE, fig.align = "center", out.height = "50%"}
+EMR <- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=c(rep(1,5),rep(2,6)), print.progress = FALSE)
 summary(EMR)
+```
+]
+.pull-right[
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.height = "30%"}
 plot(EMR)
 ```
+]]]
+---
 
-No they do not.
+### 4: Comparing Multivariate Evolutionary Rates: Other Approaches $^1$
 
-###### Denton and Adams. *Evolution.* (2015)
++ Likelihood-based model comparisons comparing rates for multivariate data have also been proposed
 
++ logL (various authors): Methods work so long as $N>>p$. 
 
+  +  When this is not the case, $|\mathbf{R\otimes\Omega}|$ is singular, and the logL cannot be completed. 
 
-# Comparing Evolutionary 'Modes'
+.footnote[1: see Adams and Collyer (2018;2019)]
+--
 
-Compare models that describe the manner in which trait variation accumulates over evolutionary time
++ PCL (Pairwise Composite Likelihood: Goolsby 2016)
 
-BM1, BMM, OU (Ornstein-Uhlenbeck), Early Burst (EB), ACDC, etc.
+  + Method obtains set of logL for pairs of traits and sums them
 
-Fit data to phylogeny under differing evolutionary models and compare fit (LRT, AIC, etc.)
+  + Method has high type I error rate which differs by the rotation of the data!
 
-```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width="30%",  results='hide'}
+---
+
+### 4: Comparing Evolutionary Models: Evolutionary 'Modes'
+
++ Compare models that describe the manner in which trait variation accumulates over evolutionary time
+
++ BM1, BMM, OU (Ornstein-Uhlenbeck), Early Burst (EB), ACDC, etc.
+
++ Fit data to phylogeny under differing evolutionary models and compare fit (LRT, AIC, simulation, RRPP, etc.)
+
+```{r echo = FALSE, eval=TRUE, out.width="30%",  results='hide'}
   plot(t, X[1, ], xlab = "time", ylab = "phenotype", ylim = c(-2, 2), type = "l",
        main = "Brownian Motion Trait Evolution")
   apply(X[2:nsim, ], 1, function(x, t) lines(t, x), t = t)
@@ -1292,53 +1139,48 @@ Fit data to phylogeny under differing evolutionary models and compare fit (LRT, 
        main = "Ornstein-Uhlenbeck Trait Evolution")
     for(i in 2:100){lines(OU1.sim2[[i]])}
 ```
+---
 
-# Comparing Evolutionary 'Modes': Example
+### 4: Comparing Evolutionary 'Modes': Univariate Example
 
-- How did *Anolis* body size groups evolve?
-     - 5 models: BM, $\small{OU}_1$, $\small{OU}_3$ $\small{OU}_4$ (3 group+anc), $\small{OU}_{LP}$ (3 gp + history of colonization)
++ How did *Anolis* body size groups evolve?
+  + 5 models: BM, $\small{OU}_1$, $\small{OU}_3$ $\small{OU}_4$ (3 group+anc), $\small{OU}_{LP}$ (3 gp + history of colonization)
 
 ```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width="80%"}
 include_graphics("lectureData/09.pcm/AnoleBSEvol.png")
 ```
 
-- $\small{OU}_{LP}$ (3 gp + col. hist.) best explains body size evolution
++ $\small{OU}_{LP}$ (3 gp + col. hist.) best explains body size evolution
+---
 
+### 4: Comparing Evolutionary 'Modes': Multivariate Data
 
-# Comparing Multivariate Evolutionary 'Modes'
++ Several methods proposed for comparing multivariate evolutionary models: $logL_{mult}$, $PCL$, $\sum{logL_{indiv}}$
 
-Unfortunately, *ALL* current implementations for multivariate OU models display high misspecification rates
-
-More work is needed in this area
++ Unfortunately, *ALL* current implementations for multivariate OU models display high misspecification rates
 
 ```{r echo = FALSE, eval=TRUE,fig.align = "center", out.width="80%"}
 include_graphics("lectureData/09.pcm/MultiOUProblems.png")
 ```
 
-###### see: Adams. *Syst. Biol.* (2014); Adams and Collyer. *Syst. Biol.* (2018); Adams and Collyer. *Ann. Rev. Ecol. Evol. Syst.* (2019)
++ More analytical development needed here
+---
 
+### Phylogenetic Comparative Methods: Conclusions
 
++ Phylogenetic comparative methods provide useful tools to account for phylogenetic non-independence among observations
 
-# Univariate PCMs: Conclusions
++ Hypotheses one can evaluate with shape data include:
 
-- Phylogenetic comparative method provide useful tools to account for phylogenetic non-independence among observations
-- Hypotheses one can evaluate include:
-    - phylogenetic ANOVA
-    - Phylogenetic regression
-    - Phylogenetic correlation (PLS)
-    - Phylogenetic signal
-    - Comparing rates and modes of evolution
+  + phylogenetic ANOVA
+  
+  + Phylogenetic regression
 
-- There is now a rich analytical toolkit for PCMs for univariate data: this lecture serves only as a gateway to this literature
+  + Phylogenetic covariation (PLS)
 
-# Multivariate PCMs: Conclusions
+  + Phylogenetic signal (development regarding $\lambda_{mult}$  ongoing)
 
-- Multivariate PCMs have developed rapidly in recent years
-- Algebraic generalization methods (phylogenetic-transform + RRPP) are useful for 
-    - PGLS, PLS, phylogenetic signal, and net evolutionary rate comparisons
-- More work needed on high-dimensional model comparison (i.e., comparing evolutionary 'modes')
-
-```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width="75%"}
-include_graphics("lectureData/09.pcm/MultiTableConclusions.png")
-```
+  + Comparing evolutionary rates 
+    
+  + Comparing evolutionary modes (requires more analytical development)
 
