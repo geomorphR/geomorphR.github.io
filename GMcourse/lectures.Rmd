@@ -16,7 +16,7 @@
 
 [07-Allometry](https://geomorphR.github.io/GMcourse/Lectures/07-Allometry.html)
 
-[08-Shape Statistics II]
+[08-Shape Statistics II](https://geomorphR.github.io/GMcourse/Lectures/08-ShapeStatistics2.html) 
 
 [09-Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Lectures/09-PhyCompMethods.html) 
 
