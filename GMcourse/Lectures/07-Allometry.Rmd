@@ -128,7 +128,7 @@ Estimate | $\small\mathbf{X}_{R}$| $\small\mathbf{X}_{F}$
 Coefficients |  $\tiny\hat{\mathbf{\beta_R}}=\left ( \mathbf{X}_R^{T} \mathbf{X}_R\right )^{-1}\left ( \mathbf{X}_R^{T} \mathbf{Z}\right )$ | $\tiny\hat{\mathbf{\beta_F}}=\left ( \mathbf{X}_F^{T} \mathbf{X}_F\right )^{-1}\left ( \mathbf{X}_F^{T} \mathbf{Z}\right )$ 
 Predicted Values | $\small\hat{\mathbf{Z}}_R=\mathbf{X}_R\hat{\mathbf{\beta}}_R$ | $\small\hat{\mathbf{Z}}_F=\mathbf{X}_F\hat{\mathbf{\beta}}_F$
 Model Residuals | $\small\hat{\mathbf{E}}_R=\mathbf{Z}-\hat{\mathbf{Z}}_R$ | $\small\hat{\mathbf{E}}_F=\mathbf{Z}-\hat{\mathbf{Z}}_F$
-Model Residual Error    ($\small{SSE}$) | $\small\mathbf{S}_R=\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R$ | $\small\mathbf{S}_F=\hat{\mathbf{E}}_F^T\hat{\mathbf{E}}_F$
+Model Residual Error    $(\small{SSE})$ | $\small\mathbf{S}_R=\hat{\mathbf{E}}_R^T\hat{\mathbf{E}}_R$ | $\small\mathbf{S}_F=\hat{\mathbf{E}}_F^T\hat{\mathbf{E}}_F$
 ---
 
 ### Assessing Significance: RRPP $^1$
