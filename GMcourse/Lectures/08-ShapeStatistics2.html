@@ -4,7 +4,16 @@
     <title>8. Shape Statistics II</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="08-ShapeStatistics2_files/header-attrs-2.19/header-attrs.js"></script>
+    <script src="08-ShapeStatistics2_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="08-ShapeStatistics2_files/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+    <link href="08-ShapeStatistics2_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="08-ShapeStatistics2_files/datatables-binding-0.27/datatables.js"></script>
+    <script src="08-ShapeStatistics2_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <link href="08-ShapeStatistics2_files/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="08-ShapeStatistics2_files/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="08-ShapeStatistics2_files/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+    <link href="08-ShapeStatistics2_files/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+    <script src="08-ShapeStatistics2_files/crosstalk-1.2.0/js/crosstalk.min.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -62,6 +71,14 @@ class: center, middle, inverse, title-slide
 
 The best way to to generate random distributions of statistics is to randomize residuals (from null models) in a permutation procedure (RRPP).
 
+---
+.center[
+
+# Part I. Hypothesis testing with RRPP 
+
+## The general concept for testing linear model hypotheses.
+
+]
 
 ---
 
@@ -71,10 +88,51 @@ A null hypothesis test is one that tests the independence of alternative model p
 
 |Null hypothesis | Alternative hypothesis|
 |----|----|
+|A null model and alternative model are approximately equally viable for explaining the variation in a data set. | The alternative model is an improvement over the null model for explaining variation in a data set.|
+|The residual covariance matrices are similar between null and alternative models. | The residual covariance matrices are different between null and alternative models, and the variances along the diagonal of the alternative model covariance matrix are smaller.|
+|A statistic based on the covariance matrix for the effect of adding parameters to the null model to obtain the alternative model is not unlike what one would expect by chance. | A statistic based on the covariance matrix for the effect of adding parameters to the null model to obtain the alternative model is rare in a sampling distribution.
+| `\(S \approx 0\)` | `\(S &gt; 0\)`|
 
+Every test of a null hypothesis must have a process of generating randomness under the null hypothesis.  For the case of linear models, RRPP is a good way to approximate true sampling distributions.
 
-Every test of a null hypothesis must have a process of generating randomness under the null hypothesis.  For the case of linear models...
+---
+### Exchangeable units under a null hypothesis
 
+***Have you ever wondered what parametric distributions are all about?***  You might have a comfort with them but have you thought about the pursuit of them?  They are a good proxy under certain conditions for probability distributions of random outcomes of a process applied to a null model (set of conditions that allow an observed statistics to exist but do not influence it).
+
+One might realize that there are a finite set of random possibilities, at least based on a sample of data, but enumerating all possibilities is perhaps not possible, or at least excrutiating.
+
+Parametric probability density functions that can be integrated are one way to have a proxy for the true sampling distribution.  **Resampling procedures** are another.  The latter means to resample data from a sample as if the stratigraphic bounds inherent in the data are removed, for the purpose of simulating random outcomes sampling from a single population. 
+
+Unfortunately, resampling procedures have tended to historically involve either randomizing data or sampling data with replacement (a bootstrap technique).  Although statistical research has been done to identify how to resample data, many applications just default to a simple randomizing of data, as if this is either appropriate or sufficient.
+
+---
+
+### Exchangeable units under a null hypothesis
+
+Nevertheless, there is a simple way to consider the appropriateness of resampling techniques `\(^1\)`.  Resampling techniques are best if they have
+
+|Attribute|Meaning|
+|------|-----------|
+|First-moment exchangeability| The mean of the sample is the same with every permutation of the sample|
+|Second-moment exchangeability| The covariance matrix of the sample is the same in every random permutation of the sample.|
+
+For example, if we have 10 specimens from a phylogenetic clade with two ecotypes, we find the mean specimen shape as a null model and mean ecotype shapes as an alternative model, we might use a randomization procedure that randomly assigns specimens to ecotype and re-estimates the ecotype means many times.  **For OLS estimation, this method has first- and second-moment exchangeability,**  Why?  Because the overall mean and covariance matrix for the null model are the same in every random permutation.
+
+.footnote[
+1. Commenges. (2003). *Journal of Nonparametric Statistics*.
+]
+---
+
+### Exchangeable units under a null hypothesis
+
+However, specimens are species values form a clade, so a GLS solution that accounts for phylogenetic relatedness should be used, assuming shapes are not independent.  **.red[For GLS estimation, this method lacks first- and second-moment exchangeability!]**  The GLS mean and covariance structure will change in every permutation if the specimens and their phylogenetic covariances become mismatched.
+
+.blue[Through a bit of research, we have found that] **.blue[randomization of transformed null model residuals]** .blue[is the best, universal solution for maintaining (approximately) first- and second-moment exchangeability for most linear model designs.]
+
+We have also found that when the conditions are appropriate that parametric probability density function assumptions are apt, randomization of (transformed) residuals in a permutation procedure (RRPP) produces the same distributions as parametric functions.
+
+Henceforth, only RRPP statistical solutions will be presented.
 
 ---
 
@@ -86,9 +144,9 @@ Every test of a null hypothesis must have a process of generating randomness und
 
 2: Permute, `\(\small\mathbf{\tilde{E}}_{0}\)`: obtain pseudo-values as: `\(\small\mathbf{\mathcal{Z}} = \mathbf{\tilde{H}_{0}{\tilde{Z}}}_{0} + \mathbf{E}_{0}^*\)`
 
-3: Fit `\(\small\mathbf{X}_{alt}\)` using `\(\small\mathbf{\mathcal{Z}}\)`: obtain coefficients, fitted values, residuals, residual covariance matrix, and the covariance matrix for adding parameters to `\(\small\mathbf{X}_{0}\)` to get `\(\small\mathbf{X}_{alt}\)`.  We can call this `\(\hat{\boldsymbol{\Sigma}}_{effect}^*\)`, where the `\(^*\)` superscript indicates this is a random value from a large set of random values.
+3: Fit `\(\small\mathbf{X}_{alt}\)` using `\(\small\mathbf{\mathcal{Z}}\)`: obtain coefficients, fitted values, residuals, residual covariance matrix, and the covariance matrix for adding parameters to `\(\small\mathbf{X}_{0}\)` to get `\(\small\mathbf{X}_{alt}\)`.  We can call this later covariance matrix, `\(\hat{\boldsymbol{\Sigma}}_{effect}^*\)`, where the `\(^*\)` superscript indicates this is a random value from a large set of random values.
 
-4: Calculate some statistic, `\(S\)`, consistently for every  `\(\hat{\boldsymbol{\Sigma}}_{effect}^*\)` matrix estimated in every RRPP permutation.
+4: Calculate some statistic, `\(S\)`, consistently from either every  `\(\hat{\boldsymbol{\Sigma}}_{residuals}^*\)` or `\(\hat{\boldsymbol{\Sigma}}_{effect}^*\)` matrix estimated in every RRPP permutation.
 
 .footnote[
 1: Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
@@ -102,7 +160,7 @@ Every test of a null hypothesis must have a process of generating randomness und
 5: For `\(\small{n}\)` permutations, `\(\small{P} = \frac{(S^* \geq S_{obs})}{n}\)`
 
 6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
-`$$\small{z} = \frac{
+`$$\small{Z} = \frac{
 \theta_{obs} - \mu_{\theta}
 } {
  \sigma_{\theta}
@@ -115,6 +173,1751 @@ where `\(\mu\)` and `\(\sigma\)` are the expected value and standard deviation f
 1: Collyer et al. *Heredity.* (2015); Adams &amp; Collyer. *Evolution.* (2016); Adams &amp; Collyer. *Evolution.* (2018)
 ]
 ---
+
+.center[
+
+# Part II. Common Test Staistics
+
+## This is a reference section.
+
+]
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+The following will be a pretty long list/table of possible statistics that can be estimated with RRPP.  
+
+The purpose is not to become quickly comfortable with them but to see that there are various statistics that can be used for various purposes.
+
+Examples will indicate statistics used and this list (**also in the appendix**) can be quickly referenced.
+
+Focus more so on RRPP, what the null model is, how residuals are randomized, and how the opportunity to calculate these statistics is made.
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| `\(SS\)` | `\(\small SS = trace(\mathbf{S}_{effect})\)` | ANOVA| Yes | No | For OLS estimation, the total `\(SS\)` is consistent in every permutation.  Not the case for GLS estimation.|
+| `\(R^2\)` | `\(\small R^2 = \frac{trace(\mathbf{S}_{effect})}{trace(\mathbf{S}_{total})}\)` | ANOVA| Yes | No | For OLS estimation, the total `\(SS\)` is consistent in every permutation.  Not the case for GLS estimation.  `\(\mathbf{S}_{total}\)` is the SSCP for residuals of the estimated mean.|
+| `\(MS\)` | `\(\small MS = (k-1)^{-1}trace(\mathbf{S}_{effect})\)` | ANOVA| Yes | No | For OLS estimation, the total `\(SS\)` is consistent in every permutation.  Not the case for GLS estimation.|
+| `\(F\)` | `\(\small F = \frac{(k-1)^{-1}trace(\mathbf{S}_{effect})}{(n-k)^{-1}trace(\mathbf{S}_{residuals})}\)` | ANOVA| Yes | Yes | Even if the total `\(SS\)` changes across permutations, as a ratio, this statistic will accommodate the changes.  `\(\mathbf{S}_{residuals}\)` is the SSCP for residuals in the alternative model. |
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Roy's maximum `\(\lambda\)` | `\(\lambda_{Roy} = \max(\lambda_i)\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+| Wilks' `\(\lambda\)` | `\(\lambda_{Wilks} = \prod(\frac{1}{1+ \lambda_i}) = \frac{\lvert\mathbf{S}_{effect}\rvert}{\lvert\mathbf{S}_{effect} + \mathbf{S}_{residuals}\rvert}\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+| Pillai's trace | `\(trace_{Pillais} = \sum(\frac{1}{1+ \lambda_i})\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+| Hotelling-Lawley trace| `\(trace_{HT} = \sum(\lambda_i)\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+
+*Note that `\(p \leq n-1\)` is required because of matrix inversion, and in some cases, unless `\(p &lt;&lt; n\)`, results could be spurious.*
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| `\(\log\)`-likelihood | `\(\small L(\hat{\boldsymbol{\Sigma}}_{residuals} \vert \mathbf{V}) =\)` `\(-\frac{Np}{2} log(2\pi)\)` `\(- \frac{1}{2} log(\lvert\mathbf{V}\rvert)\)` `\(-\frac{1}{2} vec(\mathbf{E}) ^T \mathbf{\Omega}^{-1}vec(\mathbf{E})\)` | Likelihood| Yes | Yes | `\(\mathbf{V} = \hat{\boldsymbol{\Sigma}}_{residuals} \otimes \mathbf{\Omega}\)`.  This does not explicitly test a hypothesis but calculating the log-likelihood allows hypothesis testing.  **The best use for multivariate data is to obtain an effect size `\((Z)\)` for the log-likelihood via RRPP.**|
+| Two-sample `\(Z\)`-test | `\(\small Z_{12} = \frac{\lvert(\theta_1 - \mu_1) - (\theta_2 - \mu_2)\rvert}{\sqrt{\sigma_1^2 + \sigma_2^2}}\)` | Likelihood| Yes | Yes | This test allows one to compare effect sizes for log-likelihoods from two RRPP distributions.  `\(\mu\)` and `\(\sigma\)` refer to expected value and standard deviation of `\(\theta\)` (normalized RRPP distributions of log-likelihoods), respectively.  ***There is no explicit reason that the null model has to be be nested within the alternative model.***|
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Coefficient `\(d\)` | `\(d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}\)` | RRPP first order| Yes | Yes | Let `\(\mathbf{b}^T\)` be a vector of `\(\hat{\boldsymbol{\beta}}\)`  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
+| Pairwise `\(d\)` | `\(d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}\)` | RRPP first order| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Vector MD | `\(\small MD = \lvert d_{{12}_A} - d_{{12}_B}\rvert\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
+| Vector Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between vectors that consistently estimate changes from state 1 to state 2, or slopes associated with a covariate.  **This can only be done with RRPP.**  Note that `\(\mathbf{v}\)` means `\((\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\)` and `\(\lvert\lvert \mathbf{v}\rvert\rvert\)` is the length of `\(\mathbf{v}\)`.|
+|Trajectory MD| `\(\small MD = \lvert \sum d_A - \sum d_B \rvert\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the difference in *path distances* connecting estimates from state 1 to state 2 to state 3 to ... **This can only be done with RRPP.**  This is a component of **trajectory analysis.**
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Trajectory Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between first PC vectors found separately for each group.  **This can only be done with RRPP.**  
+| Trajectory Shape (Procrustes distance)| `\(PD = \left[(\mathbf{z}_A-\mathbf{z}_B)^T(\mathbf{z}_A-\mathbf{z}_B)\right]^{1/2}\)` |RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the Procrustes distance between two vectors of estimates, `\(\mathbf{z}_A\)` and `\(\mathbf{z}_B\)`, which were obtained from GPA on trajectory points.  **This can only be done with RRPP.**  
+| Any logical statistic | You define |RRPP| Maybe | Maybe| RRPP is most appropriate for exploring new frontiers.
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+**General comments**
+
++ ANOVA statistics are based on dispersion of points in the multivariate space.  **Because a distance between point estimates in the space is univariate, regardless of the dimensions of the space, the number of variables `\((p)\)` is irrelevant.**  However, the covariances among variables of the data space do not influence the statistics.
+
++ MANOVA and likelihood statistics are based on covariance matrix determinants.  **Because a determinant is singular if variables exceed observations, these statistics can be limited to cases of "long" rather than "wide" data sets.**  However, in certain cases they can have more statistical power because of their innate ability to consider covariance structure.
+
++ RRPP-specific statistics tend to be more informative as descriptive statistics.  **Because RRPP can be a proxy for the true sampling distributions of statistics that have no parametric probability density function, RRPP is uniquely qualified to test certain hypotheses.**  ANOVA or MANOVA statistics often "go along for the ride" but are unneeded if good specific test statistics can be used.
+
++ Coefficient-specific test statistics generally offer little appeal, as statistics summarizing several coefficients as *effects* are easier to appreciate.  But coefficients, themselves, can be informative.
+---
+
+### RRPP Statistical Properties (a small glance)
+
+![](LectureData/08.statistics2/rrpp.curves.png)&lt;!-- --&gt;
+---
+
+
+.center[
+
+# Part III. Simple Linear Model Evaluation
+
+## Models that have a single effect
+
+]
+---
+
+### Linear Model Examples
+
+A series of linear model examples will be presented, first using `geomorph::pupfish` data.  For these examples, OLS estimation is used, so no transformation is required; i.e., `\(\mathbf{\tilde{Z}} = \mathbf{Z}\)`, `\(\mathbf{\tilde{X}} = \mathbf{X}\)`, and `\(\mathbf{\tilde{E}} = \mathbf{E}\)`. An example will also be provided to highlight GLS estimation, using the `geomorph::plethspecies` data.
+
+
+.pull-left[
+
+&lt;img src="LectureData/07.groupdifferences/pupfish.example.png" width="100%" /&gt;
+]
+.pull-right[
+For each example, expect the following:
+
+1. Purpose 
+2. Description of `\(\mathbf{X}\)`
+3. Estimation of `\(\hat{\boldsymbol{\beta}}\)`
+4. Description of what `\(\hat{\boldsymbol{\beta}}\)` informs
+5. Null and alternative hypotheses
+6. Hypothesis test results, with interpretations
+]
+
+---
+
+### Linear regression example
+
+1. Purpose: Test the allometric relationship between body size and body shape.
+2. `\(\mathbf{X}_{alt}\)` is an `\(n \times 2\)` matrix with first vector a vector of 1s and second vector the log of centroid size, `\(\log{CS}\)`
+
+**Let's set everything up!**
+
+
+```r
+library(geomorph)
+data("pupfish")
+system.time(fit &lt;- procD.lm(coords ~ log(CS), data = pupfish,
+                iter = 99))
+```
+
+```
+##    user  system elapsed 
+##   0.034   0.005   0.045
+```
+
+Yup, that is 10,000 RRPP permutations in less than 1 second.  We will understand what happened soon.
+---
+
+### Linear regression example
+
+1. Purpose: Test the allometric relationship between body size and body shape.
+2. `\(\mathbf{X}_{alt}\)` is an `\(n \times 2\)` matrix with first vector a vector of 1s and second vector the log of centroid size, `\(\log{CS}\)`
+
+**Look at `\(\mathbf{X}_{alt}\)`**
+
+
+```r
+model.matrix(fit)
+```
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-cc590dbf29ae8722464a" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-cc590dbf29ae8722464a">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.15471205016809,4.18984918983712,4.17818521858998,4.22892909022818,4.23191407704071,4.28811978884011,4.29923710822059,4.2671559342153,4.25594349748359,4.25411692594672,4.2687441772169,4.30408862380278,4.34419937613886,4.30396695837895,4.27880492438232,4.34953408532385,4.29125757429802,4.18556287109768,4.41793207389008,4.40886186736836,4.44026014717523,4.42440827511505,4.49454237076523,4.52438987016918,4.5044654333212,4.50766200877124,4.50006377937509,4.53888987793006,4.55157864890887,3.84847264459506,4.00518876885285,4.05425644121798,4.09438519912349,4.10670144719369,4.15586878411191,4.13202327948573,4.26725431555302,4.21707382034098,4.30058586427634,4.29163583770382,4.30218729466989,4.05899814913958,4.20119212180867,4.23633929304128,4.14505659849253,4.19139151939246,4.15615822521441,4.27911544874055,4.35277078926652,4.30548924769962,4.42256987887174,4.45612637411853,4.40728588329518,4.36595837890348]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+---
+
+### Linear regression example
+
+3. Coefficients
+.med[
+
+```r
+coef(fit)[, 1:4]
+```
+
+```
+##                    [,1]        [,2]         [,3]        [,4]
+## (Intercept)  0.03825649  0.01443957 -0.002678365  0.08096039
+## log(CS)     -0.01814519 -0.01984714 -0.009053525 -0.02756364
+```
+]
+
+The coefficient provide an intercept and slope for each shape variable.  Thus, the row vectors of `\(\hat{\boldsymbol{\beta}}\)` are `\(\mathbf{b}_0^T\)`, a vector of intercepts, and `\(\mathbf{b}_1^T\)`, a vector of slopes.  We can explicitly test their length to ascertain if the multivariate slope -- the change in shape associated with size -- is significant.
+
+.med[
+`$$H_0:d_{slope} = 0$$`
+`$$H_{A}:d_{slope} &gt; 0$$`
+`$$\alpha = 0.05$$`
+]
+
+.remark-code[.red[Look at the second row of the cofficients above.  The sign of the values does not matter.  It's the square of the values and whether they are quite different from 0 that confirms a significant amount of shape change associated with size change.]]
+---
+
+
+### Linear regression example
+
+3. Coefficients
+
+
+
+
+.med[
+
+```r
+coef(fit, test = TRUE)
+```
+
+```
+## 
+## Linear Model fit with lm.rrpp
+## 
+## Number of observations: 54
+## Number of dependent variables: 112
+## Data space dimensions: 53
+## Sums of Squares and Cross-products: Type I
+## Number of permutations: 100
+## 
+## Statistics (distances) of coefficients with 95 percent confidence intervals,
+## effect sizes, and probabilities of exceeding observed values 
+##           based on
+## 100 random permutations using RRPP 
+## 
+##             d.obs  UCL (95%)       Zd Pr(&gt;d)
+## log(CS) 0.1110123 0.04684489 4.326067   0.01
+```
+]
+
+We would allow with 95% confidence that a vector length of 0.047 could be obtained by chance.  Beyond this, we reject the null hypothesis that there is no shape change associated with size change.  The observed vector length of 0.11 is much larger than 0.57, such that the observed value is 4.14 `\(SD\)` greater than expect by chance.
+
+
+---
+
+
+### Linear regression example
+
+3. Coefficients, via ANOVA statistics
+
+.med[
+
+```r
+anova(fit, effect.type = "SS")
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 100 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on SS distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;SS)  
+## log(CS)    1 0.014019 0.0140193 0.24886 17.229 4.3261    0.01 *
+## Residuals 52 0.042314 0.0008137 0.75114                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 99, turbo = FALSE, data = pupfish)
+```
+]
+
+We reject the null hypothesis that there is no shape change associated with size change.  The `\(SS\)` statistic has an effect size of `\(Z&gt;4\)` and a `\(P\)`-value much lower than `\(\alpha\)`.  **Notice the `\(Z\)`-score is exactly the same as the previous test!**
+
+---
+
+
+
+### Linear regression example
+
+3. Coefficients, via ANOVA statistics
+
+.med[
+
+```r
+anova(fit, effect.type = "Rsq")
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 100 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on R-squared distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;R-squared)  
+## log(CS)    1 0.014019 0.0140193 0.24886 17.229 4.3261           0.01 *
+## Residuals 52 0.042314 0.0008137 0.75114                               
+## Total     53 0.056333                                                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 99, turbo = FALSE, data = pupfish)
+```
+]
+
+We reject the null hypothesis that there is no shape change associated with size change.  The `\(R^2\)` statistic has an effect size of `\(Z&gt;4\)` and a `\(P\)`-value much lower than `\(\alpha\)`.  **Notice the `\(Z\)`-score is exactly the same as the previous test!**
+
+---
+
+
+
+### Linear regression example
+
+3. Coefficients, via ANOVA statistics
+
+.med[
+
+```r
+anova(fit, effect.type = "MS")
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 100 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on MS distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;MS)  
+## log(CS)    1 0.014019 0.0140193 0.24886 17.229 4.3261    0.01 *
+## Residuals 52 0.042314 0.0008137 0.75114                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 99, turbo = FALSE, data = pupfish)
+```
+]
+
+We reject the null hypothesis that there is no shape change associated with size change.  The `\(MS\)` statistic has an effect size of `\(Z&gt;4\)` and a `\(P\)`-value much lower than `\(\alpha\)`.  **Notice the `\(Z\)`-score is exactly the same as the previous test!**
+
+---
+
+### Linear regression example
+
+3. Coefficients, via ANOVA statistics
+
+.med[
+
+```r
+anova(fit, effect.type = "F")
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 100 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)  
+## log(CS)    1 0.014019 0.0140193 0.24886 17.229 4.5357   0.01 *
+## Residuals 52 0.042314 0.0008137 0.75114                       
+## Total     53 0.056333                                         
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 99, turbo = FALSE, data = pupfish)
+```
+]
+
+We reject the null hypothesis that there is no shape change associated with size change.  The `\(F\)` statistic has an effect size of `\(Z&gt;4\)` and a `\(P\)`-value much lower than `\(\alpha\)`.  **Notice the `\(Z\)`-score is approximately the same as the previous test!**
+
+---
+
+### Linear regression example
+
+3. Coefficients, via ANOVA statistics
+
+.med[
+
+```r
+fitm &lt;- manova.update(fit, 
+                      print.progress = FALSE) # this can take a while 
+summary(fitm, test = "Roy")
+```
+
+```
+## 
+## Linear Model fit with lm.rrpp
+## 
+## Number of observations: 54
+## Number of dependent variables: 112
+## Data space dimensions: 53
+## Residual covariance matrix rank: 52
+## Sums of Squares and Cross-products: Type I
+## Number of permutations: 100 
+## 
+##            Df Rand      Roy      Z        Pr(&gt;Roy)
+## log(CS)     1 Residuals 25.61999 8.389284 0.01    
+## Full.Model  1 Residuals 25.61999 8.389284 0.01    
+## Residuals  52
+```
+]
+
+We reject the null hypothesis that there is no shape change associated with size change.  The `\(\lambda_{Roy}\)` statistic has an effect size of `\(Z&gt;7\)` and a `\(P\)`-value much lower than `\(\alpha\)`.  **Notice the `\(Z\)`-score is larger than when using a dispersion statistic.**
+
+---
+
+
+### Linear regression example
+
+3. Coefficients, via ANOVA statistics
+
+.med[
+
+```r
+summary(fitm, test = "Pillai")
+```
+
+```
+## 
+## Linear Model fit with lm.rrpp
+## 
+## Number of observations: 54
+## Number of dependent variables: 112
+## Data space dimensions: 53
+## Residual covariance matrix rank: 52
+## Sums of Squares and Cross-products: Type I
+## Number of permutations: 100 
+## 
+##            Df Rand      Pillai    Z       Pr(&gt;Pillai)
+## log(CS)     1 Residuals 0.9624342 5.60855 0.01       
+## Full.Model  1 Residuals 0.9624342 5.60855 0.01       
+## Residuals  52
+```
+]
+
+We reject the null hypothesis that there is no shape change associated with size change.  The `\(trace_{Pillai}\)` statistic has an effect size of `\(Z&gt;5\)` and a `\(P\)`-value much lower than `\(\alpha\)`.  **Notice the `\(Z\)`-score is larger than when using a dispersion statistic.  Notice also that MANOVA stats can have more varied effect sizes.**
+
+---
+
+
+### Let's stop here for a moment and come up for air!
+
+Basically we learned via any statistic that there is significant size-shape allometry!  Did it matter which statistic we used?
+
+**What is more important is to understand that the null model estimated just the mean shape.  (The linear model design was a vector of 1s.)  The residuals from this model were randomized 10,000 times.  (The observed case is one random permutation).  Regardless of statistic, we generated 10,000 linear models and ask how rare was the observed case for a statistic calculated for all 10,000 random permutations.**
+
+We will just keep doing this until it makes sense.
+
+---
+
+### Linear regression example
+
+3. Coefficients, interpretations
+
+**This is the more important part!!**  We will find a small fish and large fish and visualize how shape changes.  This is easier to do with `picknplot.shape`, which will be demonstrated in lab.
+
+.med[.center[
+
+```r
+plotAllometry(fit, size = pupfish$CS, logsz = TRUE,
+              method = "RegScore")
+```
+
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+]]
+
+---
+
+### Linear regression example
+
+3. Coefficients, interpretations
+
+**This is the more important part!!**  We will find a small fish and large fish and visualize how shape changes.  This is easier to do with `picknplot.shape`, which will be demonstrated in lab.
+
+**Predicting shape for smallest and largest fish, `\(\mathbf{x}^T\hat{\boldsymbol{\beta}}\)`**
+.pull-left[.med[
+`\(\mathbf{x}^T\hat{\boldsymbol{\beta}} = \begin{bmatrix} 1 &amp; \min CS \\  \end{bmatrix} \hat{\boldsymbol{\beta}}\)`
+
+```r
+crossprod(c(1, min(pupfish$CS)), coef(fit))
+```
+
+```
+##          [,1]       [,2]       [,3]      [,4]       [,5]       [,6]      [,7]
+## [1,] -0.81314 -0.9168148 -0.4274819 -1.212363 -0.1296283 -0.7629303 0.3877756
+##            [,8]       [,9]     [,10]      [,11]     [,12]      [,13]
+## [1,] 0.09309741 -0.6853702 0.9410316 -0.1280406 0.3520179 -0.3028696
+##            [,14]      [,15]      [,16]     [,17]      [,18]     [,19]     [,20]
+## [1,] -0.05466783 -0.8140557 -0.9236525 0.1237694 -0.7281978 0.1911926 0.0154538
+##           [,21]      [,22]       [,23]      [,24]       [,25]      [,26]
+## [1,] 0.02150018 -0.3238133 0.006521125 -0.3426955 -0.03933749 -0.2779537
+##           [,27]      [,28]     [,29]      [,30]      [,31]     [,32]      [,33]
+## [1,] -0.1176404 -0.1057841 -0.175959 0.06102596 -0.2341076 0.2560182 -0.2647314
+##          [,34]      [,35]     [,36]      [,37]     [,38]    [,39]     [,40]
+## [1,] 0.4116278 -0.2873397 0.5750842 -0.2922019 0.8043039 -0.25251 0.9148309
+##           [,41]     [,42]       [,43]    [,44]       [,45]     [,46]     [,47]
+## [1,] -0.1844229 0.9848177 -0.08959172 0.969242 -0.03059513 0.9117373 0.1935206
+##          [,48]     [,49]     [,50]     [,51]     [,52]     [,53]     [,54]
+## [1,] 0.8390697 0.2276198 0.8392916 0.2227255 0.8010317 0.1950911 0.7264443
+##          [,55]     [,56]     [,57]     [,58]      [,59]     [,60]      [,61]
+## [1,] 0.1857143 0.7107538 0.1403455 0.5948985 0.09704248 0.4597579 0.07895355
+##          [,62]      [,63]     [,64]      [,65]      [,66]     [,67]     [,68]
+## [1,] 0.2375931 0.07310225 0.1449816 0.07273854 0.05629029 0.0614015 -0.850911
+##           [,69]      [,70]     [,71]      [,72]     [,73]      [,74]     [,75]
+## [1,] 0.09814429 -0.7415528 0.1142898 -0.7054579 0.1146277 -0.7077077 0.1100026
+##           [,76]     [,77]      [,78]    [,79]       [,80]     [,81]     [,82]
+## [1,] -0.6491235 0.4627481 -0.6001497 0.401104 -0.01660596 0.5055106 -0.181433
+##          [,83]      [,84]     [,85]      [,86]     [,87]      [,88]      [,89]
+## [1,] 0.3999856 -0.2819915 0.2856273 -0.2912366 0.2470318 -0.3935995 0.08473961
+##           [,90]       [,91]      [,92]      [,93]      [,94]     [,95]
+## [1,] -0.4494802 -0.09054977 -0.4872373 -0.1957783 -0.3665001 0.2141631
+##           [,96]      [,97]      [,98]      [,99]      [,100]      [,101]
+## [1,] -0.4423918 -0.2007748 -0.1709803 -0.1327796 -0.01312833 -0.04921654
+##           [,102]     [,103]       [,104]     [,105]    [,106]    [,107]
+## [1,] 0.002249042 -0.1897857 0.0001976823 -0.1807337 0.3075069 0.3616775
+##        [,108]    [,109]     [,110]  [,111]     [,112]
+## [1,] 0.456453 0.5116957 -0.1166455 0.11828 -0.3518028
+```
+]]
+
+.pull-right[.med[
+`\(\mathbf{x}^T\hat{\boldsymbol{\beta}} = \begin{bmatrix} 1 &amp; \max CS \\  \end{bmatrix} \hat{\boldsymbol{\beta}}\)`
+
+```r
+crossprod(c(1, max(pupfish$CS)), coef(fit))
+```
+
+```
+##           [,1]     [,2]       [,3]      [,4]       [,5]      [,6]     [,7]
+## [1,] -1.681579 -1.86671 -0.8607888 -2.531574 -0.3865154 -1.540188 1.018427
+##           [,8]      [,9]    [,10]      [,11]     [,12]     [,13]      [,14]
+## [1,] 0.2009199 -1.500883 1.931883 -0.4557624 0.7171961 -0.899729 -0.1363297
+##          [,15]     [,16]     [,17]     [,18]     [,19]      [,20]     [,21]
+## [1,] -1.981628 -1.906566 0.1061498 -1.486648 0.5544969 0.03301745 0.2246763
+##           [,22]    [,23]      [,24]      [,25]      [,26]      [,27]      [,28]
+## [1,] -0.6963542 0.179364 -0.7454359 0.06673058 -0.6160023 -0.1155929 -0.2571617
+##           [,29]      [,30]      [,31]     [,32]      [,33]    [,34]     [,35]
+## [1,] -0.2560047 0.09079713 -0.3959341 0.4990504 -0.4784427 0.823402 -0.543966
+##         [,36]      [,37]    [,38]      [,39]    [,40]      [,41]    [,42]
+## [1,] 1.165009 -0.5722235 1.647056 -0.5067804 1.878332 -0.3824305 2.024074
+##           [,43]    [,44]       [,45]    [,46]     [,47]    [,48]     [,49]
+## [1,] -0.2015804 1.990286 -0.09606263 1.868649 0.3443345 1.720588 0.3995497
+##         [,50]     [,51]    [,52]     [,53]    [,54]     [,55]    [,56]    [,57]
+## [1,] 1.726437 0.3723522 1.650484 0.2972171 1.497294 0.2607961 1.468638 0.147748
+##         [,58]      [,59]     [,60]       [,61]     [,62]       [,63]     [,64]
+## [1,] 1.226864 0.03888034 0.9431547 -0.03348846 0.4772149 -0.06297335 0.2837425
+##            [,65]      [,66]      [,67]     [,68]       [,69]     [,70]
+## [1,] -0.08167937 0.09818848 -0.1095304 -1.753025 -0.01659149 -1.520806
+##           [,71]     [,72]      [,73]     [,74]      [,75]    [,76]    [,77]
+## [1,] 0.03291462 -1.443204 0.04997818 -1.446707 0.05710471 -1.32092 1.043981
+##          [,78]     [,79]       [,80]    [,81]      [,82]     [,83]      [,84]
+## [1,] -1.271076 0.9107222 -0.02071664 1.133888 -0.3566237 0.9164581 -0.5557092
+##          [,85]      [,86]     [,87]      [,88]     [,89]     [,90]       [,91]
+## [1,] 0.6815451 -0.5623611 0.6085109 -0.7683353 0.2753045 -0.878344 -0.08419781
+##           [,92]      [,93]     [,94]     [,95]      [,96]      [,97]      [,98]
+## [1,] -0.9544294 -0.2934555 -0.699209 0.5864096 -0.8646755 -0.2783898 -0.3829796
+##           [,99]      [,100]     [,101]      [,102]     [,103]     [,104]
+## [1,] -0.1480034 -0.04474524 0.02071713 0.001242672 -0.2721019 0.01379256
+##          [,105]    [,106]    [,107]    [,108]   [,109]     [,110]    [,111]
+## [1,] -0.2344315 0.6744667 0.9333505 0.9846204 1.256338 -0.2481698 0.4128015
+##        [,112]
+## [1,] -0.76139
+```
+]]
+
+---
+.pull-left[.med[
+### Linear regression example
+
+3. Coefficients, interpretations
+
+
+
+```r
+par(mfcol = c(1, 2))
+ref &lt;- mshape(pupfish$coords)
+smallfish &lt;- arrayspecs(
+  crossprod(c(1, min(log(pupfish$CS))),
+            coef(fit)), p = 56, k = 2)[,,1]
+largefish &lt;- arrayspecs(
+  crossprod(c(1, max(log(pupfish$CS))),
+            coef(fit)), p = 56, k = 2)[,,1]
+```
+]]
+
+.pull-right[.med[
+
+```r
+plotRefToTarget(ref, smallfish)
+```
+
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+```r
+plotRefToTarget(ref, largefish)
+```
+
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-19-2.png)&lt;!-- --&gt;
+]]
+---
+
+### Linear regression example
+
+**Conclusions**
++ Allometric shape variation is significant, `\(P = 0.0001\)`. Choose any statistic and associated `\(Z\)`... Allometric shape variation is also has a large effect size.
++ As fish increase in size, they become more deep-bodied, and their eye size increases at a slower rate than their body size.
+
+---
+
+Before another pupfish example...
+
+### Linear regression example, GLS coefficient estimation
+
+1. Purpose: Test the allometric relationship between body size and body shape in plethodontid salamander **species**.
+2. `\(\mathbf{X}_{alt}\)` is an `\(n \times 2\)` matrix with first vector a vector of 1s and second vector the log of centroid size, `\(\log{CS}\)`
+
+We can set this up two ways:
+
+...med[
+
+```r
+data("plethspecies")
+GPA &lt;- gpagen(plethspecies$land, print.progress = FALSE)
+library(ape)
+Omega &lt;- vcv(plethspecies$phy)
+fit.ols &lt;- procD.lm(coords ~ log(Csize), data = GPA)
+fit.gls &lt;- procD.lm(coords ~ log(Csize), data = GPA, Cov = Omega)
+```
+]
+---
+
+Before another pupfish example...
+
+### Linear regression example, GLS coefficient estimation
+
+Side-by-side comparison of coefficients
+
+.pull-left[.med[
+
+```r
+coef(fit.ols)[,1:4]
+```
+
+```
+##                   1.X         1.Y       2.X          2.Y
+## (Intercept) 0.2113671 -0.02012406 0.2472026  -0.07425798
+## log(Csize)  6.7444759 -3.40630890 1.7950267 -22.68683303
+```
+]]
+
+.pull-right[.med[
+
+```r
+coef(fit.gls)[,1:4]
+```
+
+```
+##                   1.X         1.Y       2.X          2.Y
+## (Intercept) 0.2101804 -0.01795206 0.2456539  -0.07236235
+## log(Csize)  7.8985758 -4.18637763 5.0637004 -21.60283406
+```
+]]
+
+Side-by-side comparison of ANOVA
+
+.pull-left[.small[.pre[
+
+```r
+anova(fit.ols)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##            Df        SS         MS     Rsq      F       Z Pr(&gt;F)
+## log(Csize)  1 0.0006370 0.00063700 0.13358 1.0793 0.27342  0.395
+## Residuals   7 0.0041315 0.00059022 0.86642                      
+## Total       8 0.0047685                                         
+## 
+## Call: procD.lm(f1 = coords ~ log(Csize), data = GPA)
+```
+]]]
+
+.pull-right[.small[.pre[
+
+```r
+anova(fit.gls)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Generalized Least-Squares (via OLS projection) 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##            Df       SS        MS     Rsq      F       Z Pr(&gt;F)
+## log(Csize)  1 0.006813 0.0068125 0.15733 1.3069 0.55593  0.299
+## Residuals   7 0.036490 0.0052128 0.84267                      
+## Total       8 0.043302                                        
+## 
+## Call: procD.lm(f1 = coords ~ log(Csize), Cov = Omega, data = GPA)
+```
+]]]
+---
+
+Before another pupfish example...
+
+### Linear regression example, GLS coefficient estimation
+
+Note that the `procD.pgls` function can perform the same analysis with input of a class `phylo` object (tree) rather than a covariance matrix.  
+
+What this example shows is the GLS estimation gets us to the same place, without assuming observations are independent.  The statistics changed a little (but allometry was not significant).  There might be cases where a significant effect **BECAUSE** of phylogenetic relatedness is redder non-significant after accounting for the non-independence of observations.
+
+Now let's move onto different types of effects.
+---
+
+### Shape differences among groups, example
+
+1. Purpose: Test whether males and females, or fish from sinkhole ponds or marshes have different shapes≥
+2. `\(\mathbf{X}_{alt}\)` is an `\(n \times 4\)` matrix with first vector a vector of 1s and the next three vectors are ***dummy variables***.
+
+.med[
+
+```r
+group &lt;- interaction(pupfish$Sex, pupfish$Pop)
+group
+```
+
+```
+##  [1] F.Marsh    F.Marsh    F.Marsh    F.Marsh    F.Marsh    F.Marsh   
+##  [7] F.Marsh    F.Marsh    F.Marsh    F.Marsh    F.Marsh    F.Marsh   
+## [13] F.Marsh    F.Marsh    F.Marsh    F.Marsh    M.Marsh    M.Marsh   
+## [19] M.Marsh    M.Marsh    M.Marsh    M.Marsh    M.Marsh    M.Marsh   
+## [25] M.Marsh    M.Marsh    M.Marsh    M.Marsh    M.Marsh    F.Sinkhole
+## [31] F.Sinkhole F.Sinkhole F.Sinkhole F.Sinkhole F.Sinkhole F.Sinkhole
+## [37] F.Sinkhole F.Sinkhole F.Sinkhole F.Sinkhole F.Sinkhole M.Sinkhole
+## [43] M.Sinkhole M.Sinkhole M.Sinkhole M.Sinkhole M.Sinkhole M.Sinkhole
+## [49] M.Sinkhole M.Sinkhole M.Sinkhole M.Sinkhole M.Sinkhole M.Sinkhole
+## Levels: F.Marsh M.Marsh F.Sinkhole M.Sinkhole
+```
+
+```r
+system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
+                iter = 99))
+```
+
+```
+##    user  system elapsed 
+##   0.016   0.004   0.021
+```
+]
+
+---
+
+### Shape differences among groups, example
+
+**Look at `\(\mathbf{X}_{alt}\)`**
+
+
+```r
+model.matrix(fit)
+```
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-7ce56c24b8e034098ed9" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-7ce56c24b8e034098ed9">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+---
+
+
+### Shape differences among groups, example
+
+1. Purpose: Test whether males and females, or fish from sinkhole ponds or marshes have different shapes≥
+2. `\(\mathbf{X}_{alt}\)` is an `\(n \times 4\)` matrix with first vector a vector of 1s and the next three vectors are ***dummy variables***.
+3. Coefficients
+
+
+```r
+coef(fit)[, 1:4]
+```
+
+```
+##                         [,1]         [,2]         [,3]         [,4]
+## (Intercept)     -0.036294242 -0.067944354 -0.039057429 -0.037142090
+## groupM.Marsh    -0.007954355 -0.006809087 -0.004651518 -0.005555351
+## groupF.Sinkhole -0.001025498  0.001497946 -0.001806445  0.006363817
+## groupM.Sinkhole -0.004329360 -0.005553181 -0.003679935 -0.000248115
+```
+
+But what does this mean??
+
+Let's explore that in a 2-dimensional PC space, for simplicity
+
+---
+
+
+### Shape differences among groups, example
+
+
+
+```
+##                        Comp1       Comp2
+## (Intercept)     -0.017419803 -0.01603444
+## groupM.Marsh     0.043855363  0.01090589
+## groupF.Sinkhole  0.003334104  0.03025778
+## groupM.Sinkhole  0.025426184  0.02776844
+```
+.pull-left[
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+]
+
+---
+
+
+### Shape differences among groups, example
+
+
+
+```
+##                        Comp1       Comp2
+## (Intercept)     -0.017419803 -0.01603444
+## groupM.Marsh     0.043855363  0.01090589
+## groupF.Sinkhole  0.003334104  0.03025778
+## groupM.Sinkhole  0.025426184  0.02776844
+```
+.pull-left[
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-33-1.png)&lt;!-- --&gt;
+]
+---
+
+
+### Shape differences among groups, example
+
+
+
+```
+##                        Comp1       Comp2
+## (Intercept)     -0.017419803 -0.01603444
+## groupM.Marsh     0.043855363  0.01090589
+## groupF.Sinkhole  0.003334104  0.03025778
+## groupM.Sinkhole  0.025426184  0.02776844
+```
+.pull-left[
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-35-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+]
+
+---
+
+
+### Shape differences among groups, example
+
+
+
+```
+##                        Comp1       Comp2
+## (Intercept)     -0.017419803 -0.01603444
+## groupM.Marsh     0.043855363  0.01090589
+## groupF.Sinkhole  0.003334104  0.03025778
+## groupM.Sinkhole  0.025426184  0.02776844
+```
+.pull-left[
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-39-1.png)&lt;!-- --&gt;
+]
+---
+
+### Shape differences among groups, example
+
+What have we learned?
+
+The coefficients tell us that (1) the first group assumes the intercept location, and then (2) each other coefficient indicates the change in shape expected for a different group, **from the first group's location**.  With 3 coefficients, we can explain the differences in location of groups 2-4, from 1.  (*This is why `\(k-1\)`  `\(df\)` are all that is needed to explain group shape variation, after a mean has been established.*)
+
+If we only had the intercept, we would only have one overall mean.  Adding parameters meant the overall mean became rather the group 1 mean.
+
+There are four levels in `\(\mathbf{X}_{alt}\)`:
+
+|Group | `\(\mathbf{x}^T\)`|
+|----|----|
+|Females, Marsh | `\(1 0 0 0\)`|
+|Males, Marsh | `\(1 1 0 0\)`|
+|Females, Sinkhole | `\(1 0 1 0\)`|
+|Females, Sinkhole | `\(1 0 0 1\)`|
+---
+
+### Shape differences among groups, example
+
+What have we learned?
+
+These dummy variables turn on and off the coefficients.  For every individual fish, the first coefficient is "turned on".  Then either none (Females from Marsh) are turned on or one other vector of coefficients, if changing to a different group.
+
+.pull-left[
+
+`$$\begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 1 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 0 &amp; 1 \\\end{bmatrix}$$`
+.small[
+
+```r
+unique(model.matrix(fit))
+```
+
+```
+##    (Intercept) groupM.Marsh groupF.Sinkhole groupM.Sinkhole
+## 1            1            0               0               0
+## 17           1            1               0               0
+## 30           1            0               1               0
+## 42           1            0               0               1
+```
+]
+]
+
+.pull-right[ .med[
+
+```r
+coef(fit)[, 1:2]
+```
+
+```
+##                         [,1]         [,2]
+## (Intercept)     -0.036294242 -0.067944354
+## groupM.Marsh    -0.007954355 -0.006809087
+## groupF.Sinkhole -0.001025498  0.001497946
+## groupM.Sinkhole -0.004329360 -0.005553181
+```
+]]
+
+The **.red[intercept]** establishes the location of the first group mean.  The three **.blue[slopes]** establish how to change that mean to find the locations of the other group means.  The **.green[dummy variables]** make sure the change is 0 or 1 units.
+
+---
+
+### Shape differences among groups, example
+
+1. Purpose: Test whether males and females, or fish from sinkhole ponds or marshes have different shapes≥
+2. `\(\mathbf{X}_{alt}\)` is an `\(n \times 4\)` matrix with first vector a vector of 1s and the next three vectors are ***dummy variables***.
+3. Coefficients
+4. Hypothesis tests
+
+|Style|Null hypothesis|Alternative hypothesis|
+|---|----|-------|
+|Statistic| `\(S = 0\)` | `\(S &gt; 0\)` |
+|Concept | `\(H_0: \mu_1 = \mu_2 = ...\)` | `\(H_A: \mu_1 \neq \mu_2\)` or `\(\mu_1 \neq \mu_3\)` or `\(\mu_2 \neq \mu_2...\)`|
+|In words | No group means are different | At least one group means differs from one other group mean.|
+
+The statistic, `\(S\)`, can be one of `\(SS\)`, `\(R^2\)`, `\(MS\)`, `\(F\)`, `\(\lambda_{Roy}\)`, `\(\lambda_{Wilks}\)`, etc.  Note, however, that with ANOVA statistics, `\(=\)` or `\(\neq\)` considers .red[difference between locations in multivariate data space].  With MANOVA statistics, `\(=\)` or `\(\neq\)` considers .blue[differences between the covariance structures of residual covariance matrices].
+
+We will just do one ANOVA, using `\(F\)` statistics and one MANOVA, using `\(\lambda{Roy}\)` statistics.  ***Note that there are internal methods for dealing with the fact that `\(p &gt; n\)`.  The function finds the appropriate number of PCs to use in lieu of Procrustes coordinates.**
+
+---
+
+### Shape differences among groups, example
+
+.pull-left[.pre[.med[
+
+```r
+anova(fit)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 100 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)  
+## group      3 0.028363 0.0094543 0.50349 16.901 7.4372   0.01 *
+## Residuals 50 0.027970 0.0005594 0.49651                       
+## Total     53 0.056333                                         
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ group, iter = 99, data = pupfish)
+```
+]]]
+
+.pull-right[.pre[.med[
+
+```r
+fitm &lt;- manova.update(fit, print.progress = FALSE)
+summary(fitm)
+```
+
+```
+## 
+## Linear Model fit with lm.rrpp
+## 
+## Number of observations: 54
+## Number of dependent variables: 112
+## Data space dimensions: 53
+## Residual covariance matrix rank: 50
+## Sums of Squares and Cross-products: Type I
+## Number of permutations: 100 
+## 
+##            Df Rand      Roy      Z       Pr(&gt;Roy)
+## group       3 Residuals 54.35676 7.08249 0.01    
+## Full.Model  3 Residuals 54.35676 7.08249 0.01    
+## Residuals  50
+```
+]]]
+
+
+.center[
+
+With either approach, group shape differences are significant and effect sizes are large.  **So now what?**
+]
+
+**Test the null hypothesis:** `\(\lvert d_{12} \rvert = 0\)`, for every pairwise comparison.
+
+---
+
+### Shape differences among groups, example
+
+.pre[
+
+```r
+PW &lt;- pairwise(fit, groups = group)
+summary(PW)
+```
+
+```
+## 
+## Pairwise comparisons
+## 
+## Groups: F.Marsh M.Marsh F.Sinkhole M.Sinkhole 
+## 
+## RRPP: 100 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise distances between means, plus statistics
+##                                d  UCL (95%)        Z Pr &gt; d
+## F.Marsh:M.Marsh       0.04611590 0.02016921 3.548441   0.01
+## F.Marsh:F.Sinkhole    0.03302552 0.01887698 3.457719   0.01
+## F.Marsh:M.Sinkhole    0.03881514 0.01758396 5.490432   0.01
+## M.Marsh:F.Sinkhole    0.04605211 0.02226737 3.319372   0.01
+## M.Marsh:M.Sinkhole    0.02802087 0.02246999 2.403636   0.01
+## F.Sinkhole:M.Sinkhole 0.02568508 0.01887211 2.973788   0.01
+```
+]
+
+---
+
+### Shape differences among groups, example
+
+Conclusions?
+
+Every shape mean appears to be unique, as each is significantly different from every other.
+
+**But this is not the full story!**  What comes next is rather important.
+
+**TECHNICAL NOTE**
+
+Henceforth to keep things simple, we will present primarily hat matrices, e.g., 
+
+`$$\mathbf{H}_{mean},$$`
+`$$\mathbf{H}_{allometry},$$`
+`$$\mathbf{H}_{group:means},$$`
+recalling the `\(\mathbf{H}\)` matrices find fitted values based on suites of parameters.  To test is group means are divergent, as in the last example, is a test of `\(\mathbf{H}_{mean}\)` versus `\(\mathbf{H}_{group:means}\)`.
+
+
+
+---
+
+
+.center[
+
+# Part IV. Multiple Model Comparisons
+
+## Or, what to do when a single model might have multiple effects?  
+
+]
+---
+
+### Here is something that could make you crazy
+
+.med[
+
+
+```r
+fit.null &lt;- procD.lm(coords ~ 1, data = pupfish)
+fit1 &lt;- procD.lm(coords ~ group, data = pupfish)
+```
+]
+
+Note the consistency with application here:
+.pull-left[.small[
+
+```r
+anova(fit1)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## group      3 0.028363 0.0094543 0.50349 16.901 6.1979  0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ group, data = pupfish)
+```
+]]
+
+.pull-right[.small[
+
+```r
+anova(fit.null, fit1, print.progress = FALSE)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Effect sizes (Z) based on F distributions
+## 
+##                   ResDf Df      RSS       SS        MS     Rsq      F      Z
+## coords ~ 1 (Null)    53  1 0.056333                    0.00000              
+## coords ~ group       50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.1979
+## Total                53    0.056333                                         
+##                       P Pr(&gt;F)
+## coords ~ 1 (Null)             
+## coords ~ group    0.001       
+## Total
+```
+]]
+
+---
+
+### Here is something that could make you crazy
+
+
+.med[
+
+
+```r
+fit.null &lt;- procD.lm(coords ~ 1, data = pupfish)
+fit1 &lt;- procD.lm(coords ~ group, data = pupfish)
+fit2 &lt;- procD.lm(coords ~ Sex * Pop, data = pupfish)
+```
+]
+
+Note the redundancy here:
+
+.pull-left[.small[
+
+```r
+anova(fit.null, fit1, print.progress = FALSE)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Effect sizes (Z) based on F distributions
+## 
+##                   ResDf Df      RSS       SS        MS     Rsq      F      Z
+## coords ~ 1 (Null)    53  1 0.056333                    0.00000              
+## coords ~ group       50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.1979
+## Total                53    0.056333                                         
+##                       P Pr(&gt;F)
+## coords ~ 1 (Null)             
+## coords ~ group    0.001       
+## Total
+```
+]]
+
+.pull-right[.small[
+
+```r
+anova(fit.null, fit2, print.progress = FALSE)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Effect sizes (Z) based on F distributions
+## 
+##                    ResDf Df      RSS       SS        MS     Rsq      F      Z
+## coords ~ 1 (Null)     53  1 0.056333                    0.00000              
+## coords ~ Sex * Pop    50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.1979
+## Total                 53    0.056333                                         
+##                        P Pr(&gt;F)
+## coords ~ 1 (Null)              
+## coords ~ Sex * Pop 0.001       
+## Total
+```
+]]
+
+
+---
+
+### Here is something that could make you crazy
+
+
+.med[
+
+
+```r
+fit.null &lt;- procD.lm(coords ~ 1, data = pupfish)
+fit1 &lt;- procD.lm(coords ~ group, data = pupfish)
+fit2 &lt;- procD.lm(coords ~ Sex * Pop, data = pupfish)
+```
+]
+
+Note the non-redundancy here:
+.pull-left[.small[
+
+```r
+anova(fit1)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## group      3 0.028363 0.0094543 0.50349 16.901 6.1979  0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ group, data = pupfish)
+```
+]]
+
+.pull-right[.small[
+
+```r
+anova(fit2)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## Sex        1 0.015780 0.0157802 0.28012 28.209 4.7773  0.001 **
+## Pop        1 0.009129 0.0091294 0.16206 16.320 4.7097  0.001 **
+## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ Sex * Pop, data = pupfish)
+```
+]]
+
+### What just happened??
+---
+
+### Multi-model comparisons
+
+Biological hypotheses would be boring if they were always `\(\mathbf{H}_{mean}\)` versus `\(\mathbf{H}_{somthing}\)`.
+
+There are often multiple hypotheses for multiple levels of organization or multiple phenomena that could be considered.  Sometimes the organization is hierarchical, like female and male fish that could differ in shape, living in habitats that might impose also difference in shape.  Sometimes separate explanations might be relevant, like fish vary in shape as they vary with size or they vary in shape between habitats.
+
+Ultimately, if we add every possible factor for variation in our data to a model, there exists some finite number of smaller, *nested* models that could be considered.
+
+.remark-code[What the previous result showed is that groups comprised other groups: sex and population from which fish were sampled.  We can have various sub-models that can be compared in certain ways.]
+
+---
+### Multi-model comparisons
+
++ Let `\(\mathbf{H}_{mean}\)` always be THE null model
++ Let `\(\mathbf{H}_{reduced}\)` be any model that serves as a null model for another alternative model.  It could be the null model or one that is lacking parameters compared to the alternative.
++ Let `\(\mathbf{H}_{full}\)` be any model that is comapred to a reduced model, having some parameters that the reduced model lacks.
++ Let the parameters that differ between `\(\mathbf{H}_{full}\)` and `\(\mathbf{H}_{reduced}\)` constitute a **.blue[TERM]** and let the coefficients estimated by the term constitute an **.red[EFFECT]**.
+
+|Term |Type I `\(\mathbf{H}_{reduced}\)` | Type I `\(\mathbf{H}_{full}\)` | Type II `\(\mathbf{H}_{reduced}\)` | Type II `\(\mathbf{H}_{full}\)` | Type III `\(\mathbf{H}_{reduced}\)` | Type III `\(\mathbf{H}_{full}\)` |
+|---|---|---|---|---|---|---|
+|**Sex**|.blue[Mean]|.blue[Sex]|.red[Pop]|.red[Pop + Sex]|.green[Pop + Pop:Sex]| .green[Sex + Pop + Pop:Sex]|
+|**Pop**|.blue[Sex]|.blue[Pop + Sex]|.red[Sex]|.red[Pop + Sex]|.green[Sex + Pop:Sex]| .green[Sex + Pop + Pop:Sex]|
+|**Pop:Sex**|.blue[Sex + Pop]|.blue[Sex + Pop + Pop:Sex]|.red[Sex + Pop]|.red[Pop + Sex + Pop:Sex]|.green[Pop + Sex]| .green[Sex + Pop + Pop:Sex]|
+
+.center[
+#### Meaning: .blue[Sequential] .red[Conditional] .green[Marginal]
+]
+
+---
+### Multi-model comparisons
+
+An ANOVA table with multiple lines is just a multiple-model comparison.
+
+.med[
+
+```r
+fit1 &lt;- procD.lm(coords ~ Sex * Pop,
+                data = pupfish,
+                SS.type = "I")
+anova(fit1)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## Sex        1 0.015780 0.0157802 0.28012 28.209 4.7773  0.001 **
+## Pop        1 0.009129 0.0091294 0.16206 16.320 4.7097  0.001 **
+## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ Sex * Pop, SS.type = "I", data = pupfish)
+```
+]
+
+---
+### Multi-model comparisons
+
+An ANOVA table with multiple lines is just a multiple-model comparison.
+
+.med[
+
+```r
+fit2 &lt;- procD.lm(coords ~ Sex * Pop,
+                data = pupfish,
+                SS.type = "II")
+anova(fit2)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type II 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## Sex        1 0.015917 0.0159169 0.28255 28.453 4.1103  0.001 **
+## Pop        1 0.009129 0.0091294 0.16206 16.320 4.7097  0.001 **
+## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ Sex * Pop, SS.type = "II", data = pupfish)
+```
+
+]
+---
+### Multi-model comparisons
+
+An ANOVA table with multiple lines is just a multiple-model comparison.
+
+.med[
+
+```r
+fit3 &lt;- procD.lm(coords ~ Sex * Pop,
+                data = pupfish,
+                SS.type = "III")
+anova(fit3)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type III 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## Sex        1 0.015253 0.0152534 0.27077 27.267 4.5358  0.001 **
+## Pop        1 0.007479 0.0074790 0.13276 13.370 4.7007  0.001 **
+## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ Sex * Pop, SS.type = "III", data = pupfish)
+```
+]
+
+---
+### Multi-model comparisons
+
+.pull-left[.med[
+Logic has to dictate which type of SSCP philosophy to use, or whether to just compare the models one wishes to compare, without using all permutations of model comparisons.
+
+For example
+
+
+```r
+fit.pop &lt;- procD.lm(coords ~ Pop, data = pupfish)
+fit.all &lt;- procD.lm(coords ~ Pop * Sex, data = pupfish)
+anova(fit.pop, fitl.all)
+```
+]]
+.pull-right[
+
+**Some things to keep in mind**
+
++ Only in the case of Type I SSCPs the sum of the effect `\(SS\)` is the same as the total `\(SS\)` (residual `\(SS\)` of the null model).
++ With Type I SSCPs, the **order of terms matters!**  If one changes the order they change the effect, because the reduced models have changed.
++ Order does not matter with Type II or Type III SSCPs.
++ Type III SSCPs might not seem to make a lot of sense on inspection but can be very helpful with linear mixed models (combination of fixed and random effects) `\(^1\)`.
+]
+
+.footnote[Mixed effects in a linear model are beyond the scope of this workshop, but we could probably help somone with such needs in lab time.]
+---
+### Multi-model comparisons, not involving hypothesis tests
+
+For ANOVA, MANOVA, and likelihood ratio tests, models must be nested
+
+What if the one you want to test are not nested?  Or what if you are not explicitly interested in the significance of model effects but just wish to evaluate which models explain the most variation with the fewest parameters?
+---
+### Multi-model comparisons, not involving hypothesis tests
+
+Let's start by considering a panoply of possible models for the pupfish data.  Our candidate models look like this:
+
+|Model|Terms|Purpose|
+|---|------|------------|
+|`fit0`|Mean| Baseline null model.|
+|`fit1`| `\(\log CS\)` | General allometry.|
+|`fit2`|Sex | Sexual dimorphism.|
+|`fit3`|Pop | Ecological shape divergence.|
+|`fit4`| `\(\log CS\)` + Sex| Sexual dimorphism, accounting for allometry.|
+|`fit5`| `\(\log CS\)` + Pop| Ecological divergence, accounting for allometry.|
+---
+### Multi-model comparisons, not involving hypothesis tests
+
+Let's start by considering a panoply of possible models for the pupfish data.  Our candidate models look like this:
+
+|Model|Terms|Purpose|
+|---|------|------------|
+|`fit6`| `\(\log CS\)` + Sex + `\(\log CS\)`:Sex| Sexual dimorphism in allometry allometry.|
+|`fit7`| `\(\log CS\)` + Pop + `\(\log CS\)`:Pop| Ecological allometric divergence.|
+|`fit8`|Pop + Sex + Pop:Sex | Interacting sexual dimorphism and ecological divergence.|
+|`fit9`| `\(\log CS\)` + Pop + Sex + Pop:Sex | Interacting sexual dimorphism and ecological divergence, accounting for allometry.|
+|`fit10`| `\(\log CS\)` + (Pop + Sex + Pop:Sex): `\(\log CS\)`| Interacting sexual dimorphism and ecological divergence in allometries.|
+
+
+
+
+
+---
+### Multi-model comparisons, not involving hypothesis tests
+
+.med[
+
+```r
+modComp1 &lt;- model.comparison(fit1, fit2, fit3, fit4, fit5, 
+fit6, fit7, fit8, fit9, fit10, type = "cov.trace")
+modComp2 &lt;- model.comparison(fit1, fit2, fit3, fit4, fit5, 
+fit6, fit7, fit8, fit9, fit10, type = "logLik", tol = 0.01)
+```
+]
+
+
+
+.pull-left[.med[
+
+```r
+summary(modComp1)
+```
+
+```
+## 
+## 
+##  Summary statistics for traces of model covariance matrices 
+## 
+## 10 Models compared.
+## 
+##          cov.trace penalty
+## fit1  1.283775e-07    3074
+## fit2  1.114099e-07    3074
+## fit3  2.313976e-07    3074
+## fit4  7.943160e-08    3180
+## fit5  6.708767e-08    3180
+## fit6  7.320295e-08    3286
+## fit7  5.853806e-08    3286
+## fit8  4.732530e-08    3286
+## fit9  3.488754e-08    3392
+## fit10 2.786243e-08    3710
+```
+]]
+
+.pull-right[.med[
+
+```r
+summary(modComp2)
+```
+
+```
+## 
+## 
+##  Summary statistics for model log-likelihoods 
+## 
+## 10 Models compared.
+## 
+##         logLik residual.pc.no penalty       AIC
+## fit1  16397.21             52    3074 -29720.42
+## fit2  16392.51             52    3074 -29711.02
+## fit3  15998.66             51    3074 -28923.31
+## fit4  16082.75             51    3180 -28985.51
+## fit5  16106.04             51    3180 -29032.09
+## fit6  15745.78             50    3286 -28205.57
+## fit7  15773.07             50    3286 -28260.14
+## fit8  15792.57             50    3286 -28299.14
+## fit9  15481.89             49    3392 -27571.77
+## fit10 14444.10             46    3710 -25178.20
+```
+]]
+
+
+---
+### Multi-model comparisons, not involving hypothesis tests
+
+
+.pull-left[.med[
+
+```r
+plot(modComp1)
+```
+
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-63-1.png)&lt;!-- --&gt;
+]]
+
+.pull-right[.med[
+
+```r
+plot(modComp2)
+```
+
+![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-64-1.png)&lt;!-- --&gt;
+]]
+---
+### Multi-model comparisons, not involving hypothesis tests
+
+**Comments:**
+
+Be weary of AIC scores or the likelihoods that generate them when calculated at the limit of possible data dimenisons, because `\(p &gt; n\)`.
+
+The trace of a residual covariance matrix will be smaller if the model explains more variation.  Plotting it against the same parameter penalty used in AIC can be helpful for finding a .blue[parsimonious model].
+---
+
+# RRPP extensions, a preview
+
+The analyses we have mostly done are analyses that are typical, facilitated by RRPP
+
+There are cases where RRPP offers the ability to find new statistical paradigms.  
+
+With the pupfish data, we will briefly explore three such cases before leaving these for a more formal treatment in **Lecture 14 RRPP Extensions**.
+
+---
+
+### RRPP extensions: comparing allometric slopes, or other linear regressions, among groups
+
+First we have to fit a model that allows estimating of unique allomteric trends.
+
+.med[
+
+```r
+fit &lt;- procD.lm(coords ~ log(CS) * group, data = pupfish)
+anova(fit)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##               Df       SS        MS     Rsq       F      Z Pr(&gt;F)   
+## log(CS)        1 0.014019 0.0140193 0.24886 29.2078 5.0041  0.001 **
+## group          3 0.018230 0.0060766 0.32361 12.6601 6.4891  0.001 **
+## log(CS):group  3 0.002004 0.0006682 0.03558  1.3921 1.1451  0.136   
+## Residuals     46 0.022079 0.0004800 0.39194                         
+## Total         53 0.056333                                           
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: procD.lm(f1 = coords ~ log(CS) * group, data = pupfish)
+```
+]
+
+---
+
+### RRPP extensions: comparing allometric slopes, or other linear regressions, among groups
+
+Test the null hypotheses: `\(\theta_{12} = \theta_{13}=...\)`, where `\(\theta\)` is the angle between group allometric vectors.
+
+.med[.scrollable[
+
+```r
+PW &lt;- pairwise(fit, groups = group, covariate = log(pupfish$CS))
+summary(PW, test.type = "VC", angle.type = "deg")
+```
+
+```
+## 
+## Pairwise comparisons
+## 
+## Groups: F.Marsh M.Marsh F.Sinkhole M.Sinkhole 
+## 
+## RRPP: 1000 permutations
+## 
+## Slopes (vectors of variate change per one unit of covariate 
+##         change, by group):
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise statistics based on slopes vector correlations (r) 
+##           and angles, acos(r)
+## The null hypothesis is that r = 1 (parallel vectors).
+## This null hypothesis is better treated as the angle 
+##           between vectors = 0
+##                               r    angle UCL (95%)           Z Pr &gt; angle
+## F.Marsh:M.Marsh       0.6139591 52.12367  83.58445 -0.13196270      0.549
+## F.Marsh:F.Sinkhole    0.6318267 50.81498  83.57546 -0.07310658      0.527
+## F.Marsh:M.Sinkhole    0.4461018 63.50614  81.89039  0.66791084      0.273
+## M.Marsh:F.Sinkhole    0.7175129 44.15048  63.60905  0.24275646      0.391
+## M.Marsh:M.Sinkhole    0.5629975 55.73665  65.19951  1.04510764      0.154
+## F.Sinkhole:M.Sinkhole 0.4627734 62.43378  60.22153  1.77232308      0.037
+```
+]]
+
+---
+
+### RRPP extensions: comparing morphological disparity among groups
+
+First we have to fit a model that allows estimating group means.  ANOVA would just be a distraction
+
+.med[
+
+```r
+fit &lt;- procD.lm(coords ~ group, data = pupfish)
+```
+]
+
+---
+
+### RRPP extensions: comparing morphological disparity among groups
+Test the null hypotheses: `\(\sigma^2_{1} = \sigma^2_{2}=...\)`, where `\(\sigma^2\)` is variance of points scattered aroun a group mean.  This is a measure of how variable in shape each group is.
+
+.pull-left[.med[.pre[
+
+```r
+PW &lt;- pairwise(fit, groups = group) 
+summary(PW, test.type = "var")
+```
+
+```
+## 
+## Pairwise comparisons
+## 
+## Groups: F.Marsh M.Marsh F.Sinkhole M.Sinkhole 
+## 
+## RRPP: 1000 permutations
+## 
+## 
+## Observed variances by group
+## 
+##      F.Marsh      M.Marsh   F.Sinkhole   M.Sinkhole 
+## 0.0003439300 0.0003607052 0.0005803226 0.0008318581 
+## 
+## Pairwise distances between variances, plus statistics
+##                                  d    UCL (95%)         Z Pr &gt; d
+## F.Marsh:M.Marsh       1.677513e-05 0.0002492051 -1.346688  0.902
+## F.Marsh:F.Sinkhole    2.363925e-04 0.0002473769  1.518166  0.053
+## F.Marsh:M.Sinkhole    4.879280e-04 0.0002412492  3.180101  0.001
+## M.Marsh:F.Sinkhole    2.196174e-04 0.0002806646  1.160169  0.130
+## M.Marsh:M.Sinkhole    4.711529e-04 0.0002662683  2.741881  0.002
+## F.Sinkhole:M.Sinkhole 2.515355e-04 0.0002726187  1.441515  0.075
+```
+]]]
+
+.pull-right[
+The statistic used is `\(\lvert \hat{\sigma}^2_{1} - \hat{\sigma}^2_{2} \rvert\)`.
+
+**RRPP allows calculation of second-order statistics like these in every random permutation.**
+
+The residuals are residuals of the group means, not the overall mean.
+]
+
+---
+
+###Trajectory analysis
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

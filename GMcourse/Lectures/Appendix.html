@@ -4,7 +4,7 @@
     <title>Appendix</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="Appendix_files/header-attrs-2.19/header-attrs.js"></script>
+    <script src="Appendix_files/header-attrs-2.21/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -26,6 +26,22 @@ class: center, middle, inverse, title-slide
 
 
 
+
+
+### Outline
+
+
+-  Matrix Centering
+-  Matrix Standardization
+-  Generalized Least-Squares Estimation, coefficients
+-  Ordinary Least-Squares Estimation, coefficients
+-  Generalized Least-Squares Estimation, covariance matrix
+-  Ordinary Least-Squares Estimation, covariance matrix
+-  Matrix square-root
+-  Viable test statistics statistics for evaluating null hypotheses
+
+
+---
 
 ### Matrix Centering
 
@@ -96,7 +112,7 @@ Note the follwoing algebraic equivalency:
 `$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{Z} - \hat{\mathbf{Z}} \right)^T \mathbf{\Omega}^{-1/2} \mathbf{\Omega}^{-1/2}\left(\mathbf{Z} - \hat{\mathbf{Z}}\right)$$`
 ---
 
-### Generalized Least-Squares Estimation, covariance matrix (cont.)
+### Generalized Least-Squares Estimation, covariance matrix
 
 `$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{\Omega}^{-1/2}\mathbf{Z} - \mathbf{\Omega}^{-1/2}\hat{\mathbf{Z}} \right)^T \left(\mathbf{\Omega}^{-1/2}\mathbf{Z} - \mathbf{\Omega}^{-1/2}\hat{\mathbf{Z}}\right)$$`
 `$$\hat{\boldsymbol{\Sigma}} = (n-k)^{-1} \left(\mathbf{\Omega}^{-1/2} (\mathbf{I} - \mathbf{H})\mathbf{Z} \right)^T \left(\mathbf{\Omega}^{-1/2} (\mathbf{I} - \mathbf{H})\mathbf{Z} \right)$$`
@@ -147,7 +163,7 @@ where `\(\mathbf{\Lambda}^{1/2}\)` is a diagonal matrix with values equal to `\(
 
 ---
 
-### Matrix square-root (cont.)
+### Matrix square-root
 
 A matrix square-root (of a symmetric matrix) is a matrix that fits the condition that:
 
@@ -161,6 +177,47 @@ Another common method is Cholesky decomposition, which finds,
 `$$\mathbf{\Omega} = \mathbf{TT}^T,$$`
 where `\(\mathbf{T}\)` is a triangular matrix.  Unlike diagonalization, the the resultant matrix is not symmetric, so if a Cholesky decomposition is used, the transpose of the matrix, `\(\mathbf{T}^T\)`, has to be considered carefully to avoid computational errors.  (It is easy to use `\(\mathbf{T}^T\)` rather than `\(\mathbf{T}\)`.)
 
+---
+
+### Viable test statistics statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| `\(SS\)` | `\(\small SS = trace(\mathbf{S}_{effect})\)` | ANOVA| Yes | No | For OLS estimation, the total `\(SS\)` is consistent in every permutation.  Not the case for GLS estimation.|
+| `\(R^2\)` | `\(\small R^2 = \frac{trace(\mathbf{S}_{effect})}{trace(\mathbf{S}_{total})}\)` | ANOVA| Yes | No | For OLS estimation, the total `\(SS\)` is consistent in every permutation.  Not the case for GLS estimation.  `\(\mathbf{S}_{total}\)` is the SSCP for residuals of the estimated mean.|
+| `\(MS\)` | `\(\small MS = (k-1)^{-1}trace(\mathbf{S}_{effect})\)` | ANOVA| Yes | No | For OLS estimation, the total `\(SS\)` is consistent in every permutation.  Not the case for GLS estimation.|
+| `\(F\)` | `\(\small F = \frac{(k-1)^{-1}trace(\mathbf{S}_{effect})}{(n-k)^{-1}trace(\mathbf{S}_{residuals})}\)` | ANOVA| Yes | Yes | Even if the total `\(SS\)` changes across permutations, as a ratio, this statistic will accommodate the changes.  `\(\mathbf{S}_{residuals}\)` is the SSCP for residuals in the alternative model. |
+
+---
+
+### Viable test statistics statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Roy's maximum `\(\lambda\)` | `\(\lambda_{Roy} = \max(\lambda_i)\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+| Wilks' `\(\lambda\)` | `\(\lambda_{Wilks} = \prod(\frac{1}{1+ \lambda_i}) = \frac{\lvert\mathbf{S}_{effect}\rvert}{\lvert\mathbf{S}_{effect} + \mathbf{S}_{residuals}\rvert}\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+| Pillai's trace | `\(trace_{Pillais} = \sum(\frac{1}{1+ \lambda_i})\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+| Hotelling-Lawley trace| `\(trace_{HT} = \sum(\lambda_i)\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+
+*Note that `\(p \leq n-1\)` is required because of matrix inversion, and in some cases, unless `\(p &lt;&lt; n\)`, results could be spurious.*
+---
+
+### Viable test statistics statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| `\(\log\)`-likelihood | `\(\small L(\hat{\boldsymbol{\Sigma}}_{residuals} \vert \mathbf{V}) =\)` `\(-\frac{Np}{2} log(2\pi)\)` `\(- \frac{1}{2} log(\lvert\mathbf{V}\rvert)\)` `\(-\frac{1}{2} vec(\mathbf{E}) ^T \mathbf{\Omega}^{-1}vec(\mathbf{E})\)` | Likelihood| Yes | Yes | `\(\mathbf{V} = \hat{\boldsymbol{\Sigma}}_{residuals} \otimes \mathbf{\Omega}\)`.  This does not explicitly test a hypothesis but calculating the log-likelihood allows hypothesis testing.  **The best use for multivariate data is to obtain an effect size `\((Z)\)` for the log-likelihood via RRPP.**|
+| Two-sample `\(Z\)`-test | `\(\small Z_{12} = \frac{\lvert(\theta_1 - \mu_1) - (\theta_2 - \mu_2)\rvert}{\sqrt{\sigma_1^2 + \sigma_2^2}}\)` | Likelihood| Yes | Yes | This test allows one to compare effect sizes for log-likelihoods from two RRPP distributions.  `\(\mu\)` and `\(\sigma\)` refer to expected value and standard deviation of `\(\theta\)` (normalized RRPP distributions of log-likelihoods), respectively.  ***There is no explicit reason that the null model has to be be nested within the alternative model.***|
+
+---
+
+### Viable test statistics statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Coefficient `\(d\)` | `\(d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}\)` | RRPP first order| Yes | Yes | Let `\(\mathbf{b}^T\)` be a vector of `\(\hat{\boldsymbol{\beta}}\)`  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
+| Pairwise `\(d\)` | `\(d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}\)` | RRPP first order| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
