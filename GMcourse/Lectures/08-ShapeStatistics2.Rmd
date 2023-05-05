@@ -1283,4 +1283,5 @@ The residuals are residuals of the group means, not the overall mean.
 
 ---
 
-###Trajectory analysis
+### Trajectory analysis
+### The common thread
