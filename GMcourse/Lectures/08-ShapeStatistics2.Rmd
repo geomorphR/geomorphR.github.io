@@ -56,7 +56,7 @@ style_mono_light()
 
 $$\hat{\boldsymbol{\Sigma}}_{residuals} = (n-k)^{-1}\mathbf{\tilde{E}}^T\mathbf{\tilde{E}}$$
 
-+ Covariance matrices for the effect of adding model paramters to a null model.
++ Covariance matrices for the effect of adding model parameters to a null model.
 
 $$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})^T(\hat{\mathbf{Z}}_{alt}-\hat{\mathbf{Z}}_{null})$$
 **Because linear models describe hypothetical explanations for variation in shape data, it is generally of interest to test null hypotheses for putative models.**  There are various ways to do this, but any method is a *proxy* for a true distribution of possible random outcomes of a statistic calculated from covariance matrices.
@@ -92,7 +92,7 @@ Every test of a null hypothesis must have a process of generating randomness und
 
 ***Have you ever wondered what parametric distributions are all about?***  You might have a comfort with them but have you thought about the pursuit of them?  They are a good proxy under certain conditions for probability distributions of random outcomes of a process applied to a null model (set of conditions that allow an observed statistics to exist but do not influence it).
 
-One might realize that there are a finite set of random possibilities, at least based on a sample of data, but enumerating all possibilities is perhaps not possible, or at least excrutiating.
+One might realize that there are a finite set of random possibilities, at least based on a sample of data, but enumerating all possibilities is perhaps not possible, or at least excruciating.
 
 Parametric probability density functions that can be integrated are one way to have a proxy for the true sampling distribution.  **Resampling procedures** are another.  The latter means to resample data from a sample as if the stratigraphic bounds inherent in the data are removed, for the purpose of simulating random outcomes sampling from a single population. 
 
@@ -168,7 +168,7 @@ where $\mu$ and $\sigma$ are the expected value and standard deviation from the 
 
 .center[
 
-# Part II. Common Test Staistics
+# Part II. Common Test Statistics
 
 ## This is a reference section.
 
@@ -312,7 +312,7 @@ For each example, expect the following:
 library(geomorph)
 data("pupfish")
 system.time(fit <- procD.lm(coords ~ log(CS), data = pupfish,
-                iter = 99))
+                iter = 9999))
 
 ```
 
@@ -356,7 +356,7 @@ $$H_{A}:d_{slope} > 0$$
 $$\alpha = 0.05$$
 ]
 
-.remark-code[.red[Look at the second row of the cofficients above.  The sign of the values does not matter.  It's the square of the values and whether they are quite different from 0 that confirms a significant amount of shape change associated with size change.]]
+.remark-code[.red[Look at the second row of the coefficients above.  The sign of the values does not matter.  It's the square of the values and whether they are quite different from 0 that confirms a significant amount of shape change associated with size change.]]
 ---
 
 
@@ -366,7 +366,7 @@ $$\alpha = 0.05$$
 
 ```{r, echo = FALSE}
 fit <- procD.lm(coords ~ log(CS), data = pupfish,
-                iter = 99, turbo = FALSE)
+                iter = 9999, turbo = FALSE)
 ```
 
 
@@ -615,14 +615,14 @@ Before another pupfish example...
 
 Note that the `procD.pgls` function can perform the same analysis with input of a class `phylo` object (tree) rather than a covariance matrix.  
 
-What this example shows is the GLS estimation gets us to the same place, without assuming observations are independent.  The statistics changed a little (but allometry was not significant).  There might be cases where a significant effect **BECAUSE** of phylogenetic relatedness is redder non-significant after accounting for the non-independence of observations.
+What this example shows is the GLS estimation gets us to the same place, without assuming observations are independent.  The statistics changed a little (but allometry was not significant).  There might be cases where a significant effect **BECAUSE** of phylogenetic relatedness is rendered non-significant after accounting for the non-independence of observations.
 
 Now let's move onto different types of effects.
 ---
 
 ### Shape differences among groups, example
 
-1. Purpose: Test whether males and females, or fish from sinkhole ponds or marshes have different shapes≥
+1. Purpose: Test whether males and females, or fish from sinkhole ponds or marshes have different shapes
 2. $\mathbf{X}_{alt}$ is an $n \times 4$ matrix with first vector a vector of 1s and the next three vectors are ***dummy variables***.
 
 .med[
@@ -630,7 +630,7 @@ Now let's move onto different types of effects.
 group <- interaction(pupfish$Sex, pupfish$Pop)
 group
 system.time(fit <- procD.lm(coords ~ group, data = pupfish,
-                iter = 99))
+                iter = 9999))
 
 ```
 ]
@@ -1015,7 +1015,7 @@ anova(fit2)
 
 ### Multi-model comparisons
 
-Biological hypotheses would be boring if they were always $\mathbf{H}_{mean}$ versus $\mathbf{H}_{somthing}$.
+Biological hypotheses would be boring if they were always $\mathbf{H}_{mean}$ versus $\mathbf{H}_{something}$.
 
 There are often multiple hypotheses for multiple levels of organization or multiple phenomena that could be considered.  Sometimes the organization is hierarchical, like female and male fish that could differ in shape, living in habitats that might impose also difference in shape.  Sometimes separate explanations might be relevant, like fish vary in shape as they vary with size or they vary in shape between habitats.
 
@@ -1028,7 +1028,7 @@ Ultimately, if we add every possible factor for variation in our data to a model
 
 + Let $\mathbf{H}_{mean}$ always be THE null model
 + Let $\mathbf{H}_{reduced}$ be any model that serves as a null model for another alternative model.  It could be the null model or one that is lacking parameters compared to the alternative.
-+ Let $\mathbf{H}_{full}$ be any model that is comapred to a reduced model, having some parameters that the reduced model lacks.
++ Let $\mathbf{H}_{full}$ be any model that is compared to a reduced model, having some parameters that the reduced model lacks.
 + Let the parameters that differ between $\mathbf{H}_{full}$ and $\mathbf{H}_{reduced}$ constitute a **.blue[TERM]** and let the coefficients estimated by the term constitute an **.red[EFFECT]**.
 
 |Term |Type I $\mathbf{H}_{reduced}$ | Type I $\mathbf{H}_{full}$ | Type II $\mathbf{H}_{reduced}$ | Type II $\mathbf{H}_{full}$ | Type III $\mathbf{H}_{reduced}$ | Type III $\mathbf{H}_{full}$ |
@@ -1109,7 +1109,7 @@ anova(fit.pop, fitl.all)
 + Type III SSCPs might not seem to make a lot of sense on inspection but can be very helpful with linear mixed models (combination of fixed and random effects) $^1$.
 ]
 
-.footnote[Mixed effects in a linear model are beyond the scope of this workshop, but we could probably help somone with such needs in lab time.]
+.footnote[Mixed effects in a linear model are beyond the scope of this workshop, but we could probably help someone with such needs in lab time.]
 ---
 ### Multi-model comparisons, not involving hypothesis tests
 
@@ -1208,7 +1208,7 @@ plot(modComp2)
 
 **Comments:**
 
-Be weary of AIC scores or the likelihoods that generate them when calculated at the limit of possible data dimenisons, because $p > n$.
+Be weary of AIC scores or the likelihoods that generate them when calculated at the limit of possible data dimensions, because $p > n$.
 
 The trace of a residual covariance matrix will be smaller if the model explains more variation.  Plotting it against the same parameter penalty used in AIC can be helpful for finding a .blue[parsimonious model].
 ---
@@ -1225,7 +1225,7 @@ With the pupfish data, we will briefly explore three such cases before leaving t
 
 ### RRPP extensions: comparing allometric slopes, or other linear regressions, among groups
 
-First we have to fit a model that allows estimating of unique allomteric trends.
+First we have to fit a model that allows estimating of unique allometric trends.
 
 .med[
 ```{r, echo = TRUE}
@@ -1263,7 +1263,7 @@ fit <- procD.lm(coords ~ group, data = pupfish)
 ---
 
 ### RRPP extensions: comparing morphological disparity among groups
-Test the null hypotheses: $\sigma^2_{1} = \sigma^2_{2}=...$, where $\sigma^2$ is variance of points scattered aroun a group mean.  This is a measure of how variable in shape each group is.
+Test the null hypotheses: $\sigma^2_{1} = \sigma^2_{2}=...$, where $\sigma^2$ is variance of points scattered around a group mean.  This is a measure of how variable in shape each group is.
 
 .pull-left[.med[.pre[
 ```{r, echo = TRUE}
@@ -1283,5 +1283,64 @@ The residuals are residuals of the group means, not the overall mean.
 
 ---
 
-### Trajectory analysis
-### The common thread
+### RRPP extensions: trajectory analysis
+
+Test the null hypothesis: $\lvert (\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2}) - (\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2})| = 0$
+
+Test the null hypothesis: $\theta_{(\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2}) : (\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2})} = 0$
+
+For the pupfish data, this is a test for whether sexual dimorphism vectors -- vectors between male and female means -- differ in length and direction, respectively.  In other words, do the two populations have different patterns of sexual dimorphism?
+
+---
+
+### RRPP extensions: trajectory analysis
+
+.pull-left[.med[
+```{r, echo = TRUE}
+fit <- procD.lm(coords ~ Pop * Sex, data = pupfish)
+TA <- trajectory.analysis(fit, groups = pupfish$Pop, 
+                          traj.pts = pupfish$Sex)
+summary(TA, attribute = "MD")
+```
+]]
+
+.pull-right[
+.med[
+```{r, echo = TRUE}
+
+summary(TA, attribute = "TC", angle.type = "deg")
+```
+]]
+
+---
+
+### RRPP extensions: trajectory analysis
+
+**Comments**
+
++ Sexual dimorphism can be thought of as a trajectory in the data space for two or more groups.  It is a trajectory with two points, in this case.  Other trajectories (e.g., developmental stages) can have more than two points.
++ When there are more than two points, the attribute, shape, is also viable and can be tested for differences among groups.
++ **RRPP allows calculation of second-order statistics like these in every random permutation.**
++ The residuals are residuals of a model with main effect (Pop and Sex) but lacking interactions.  Trajectory analysis focuses only on the interactions.
+
+Trajectory analysis and analysis of disparity will be discussed in more detail in **Lecture 14: RRPP Extensions**. 
+
+---
+
+### The common threads in statistical analysis of shape
+
+There have been a few common threads that pervade the analysis of GM data
+1. GM data are always multivariate and can be highly multivariate.  (An exception might be analysis of differences in centroid size among groups).
+2. Shape analyses involve aligning data to some kind of matrix or vector, $\mathbf{A}^T\mathbf{Z}$.
+  + That alignment can be decomposed with SVD: PCA, PLS, PACA
+  + That alignment can be compared to alternative alignments: GLM
+3. Statistical analysis means attaining a distribution of random alignments
+  + The analysis might ascertain the location of the observed alignment in the distribution: PLS
+  + The analysis might ascertain the location of an alignment comparison in the distribution: GLM (ANOVA, MANOVA)
+  + The analysis might ascertain the location of a comparison of predictions made by the alignment (pairwise comparisons)
+
++ **In all cases, $\mathbf{A}^T\mathbf{Z}$ is the starting point.  $\mathbf{Z}$ is the matrix of shape data.  Understanding what $\mathbf{A}$ is helps inform what the analysis intends to do.**
++ **In all cases that a $P$-value or $Z$-score is needed, RRPP is the workhorse for that.**
+
+
+
