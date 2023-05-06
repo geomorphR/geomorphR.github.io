@@ -214,7 +214,7 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
 | $\log$-likelihood | $\small L(\hat{\boldsymbol{\Sigma}}_{residuals} \vert \mathbf{V}) =$ $-\frac{Np}{2} log(2\pi)$ $- \frac{1}{2} log(\lvert\mathbf{V}\rvert)$ $-\frac{1}{2} vec(\mathbf{E}) ^T \mathbf{\Omega}^{-1}vec(\mathbf{E})$ | Likelihood| Yes | Yes | $\mathbf{V} = \hat{\boldsymbol{\Sigma}}_{residuals} \otimes \mathbf{\Omega}$.  This does not explicitly test a hypothesis but calculating the log-likelihood allows hypothesis testing.  **The best use for multivariate data is to obtain an effect size $(Z)$ for the log-likelihood via RRPP.**|
-| Two-sample $Z$-test | $\small Z_{12} = \frac{\lvert(\theta_1 - \mu_1) - (\theta_2 - \mu_2)\rvert}{\sqrt{\sigma_1^2 + \sigma_2^2}}$ | Likelihood| Yes | Yes | This test allows one to compare effect sizes for log-likelihoods from two RRPP distributions.  $\mu$ and $\sigma$ refer to expected value and standard deviation of $\theta$ (normalized RRPP distributions of log-likelihoods), respectively.  ***There is no explicit reason that the null model has to be be nested within the alternative model.***|
+| Two-sample $Z$-test | stat | Likelihood| Yes | Yes | This test allows one to compare effect sizes for log-likelihoods from two RRPP distributions.  $\mu$ and $\sigma$ refer to expected value and standard deviation of $\theta$ (normalized RRPP distributions of log-likelihoods), respectively.  ***There is no explicit reason that the null model has to be be nested within the alternative model.***|
 
 ---
 
