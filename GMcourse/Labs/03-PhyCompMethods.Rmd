@@ -1,7 +1,6 @@
 ---
-title: "03.3: Phylogenetic Comparative Methods"
-author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: "Day-03: Phylogenetic Comparative Methods"
+author: ""
 output: html_document
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "01.1: Digitizing Landmarks in StereoMorph"
+title: "Day-01: Digitizing Landmarks in StereoMorph"
 author: ""
 output: html_document
 ---

@@ -1,5 +1,5 @@
 ---
-title: "02.3: Regression and covariation"
+title: "Day-02: Regression and covariation"
 author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output: html_document
