@@ -230,8 +230,8 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Coefficient `\(d\)` | `\(d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}\)` | RRPP first order| Yes | Yes | Let `\(\mathbf{b}^T\)` be a vector of `\(\hat{\boldsymbol{\beta}}\)`  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
-| Pairwise `\(d\)` | `\(d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}\)` | RRPP first order| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
+| Coefficient `\(d\)` | `\(d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}\)` | RRPP primary| Yes | Yes | Let `\(\mathbf{b}^T\)` be a vector of `\(\hat{\boldsymbol{\beta}}\)`  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
+| Pairwise `\(d\)` | `\(d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}\)` | RRPP primary| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
 
 ---
 
@@ -239,9 +239,9 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Vector MD | `\(\small MD = \lvert d_{12_A} - d_{12_B}\rvert\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
-| Vector Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between vectors that consistently estimate changes from state 1 to state 2, or slopes associated with a covariate.  **This can only be done with RRPP.**  Note that `\(\mathbf{v}\)` means `\((\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\)` and `\(\lvert\lvert \mathbf{v}\rvert\rvert\)` is the length of `\(\mathbf{v}\)`.|
-|Trajectory MD| `\(\small MD = \lvert \sum d_A - \sum d_B \rvert\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the difference in *path distances* connecting estimates from state 1 to state 2 to state 3 to ... **This can only be done with RRPP.**  This is a component of **trajectory analysis.**
+| Vector MD | `\(\small MD = \lvert d_{12_A} - d_{12_B}\rvert\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
+| Vector Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between vectors that consistently estimate changes from state 1 to state 2, or slopes associated with a covariate.  **This can only be done with RRPP.**  Note that `\(\mathbf{v}\)` means `\((\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\)` and `\(\lvert\lvert \mathbf{v}\rvert\rvert\)` is the length of `\(\mathbf{v}\)`.|
+|Trajectory MD| `\(\small MD = \lvert \sum d_A - \sum d_B \rvert\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the difference in *path distances* connecting estimates from state 1 to state 2 to state 3 to ... **This can only be done with RRPP.**  This is a component of **trajectory analysis.**
 
 ---
 
@@ -249,8 +249,8 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Trajectory Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between first PC vectors found separately for each group.  **This can only be done with RRPP.**  
-| Trajectory Shape (Procrustes distance)| `\(PD = \left[(\mathbf{z}_A-\mathbf{z}_B)^T(\mathbf{z}_A-\mathbf{z}_B)\right]^{1/2}\)` |RRPP second order| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the Procrustes distance between two vectors of estimates, `\(\mathbf{z}_A\)` and `\(\mathbf{z}_B\)`, which were obtained from GPA on trajectory points.  **This can only be done with RRPP.**  
+| Trajectory Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between first PC vectors found separately for each group.  **This can only be done with RRPP.**  
+| Trajectory Shape (Procrustes distance)| `\(PD = \left[(\mathbf{z}_A-\mathbf{z}_B)^T(\mathbf{z}_A-\mathbf{z}_B)\right]^{1/2}\)` |RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the Procrustes distance between two vectors of estimates, `\(\mathbf{z}_A\)` and `\(\mathbf{z}_B\)`, which were obtained from GPA on trajectory points.  **This can only be done with RRPP.**  
 | Any logical statistic | You define |RRPP| Maybe | Maybe| RRPP is most appropriate for exploring new frontiers.
 
 ---
@@ -322,7 +322,7 @@ system.time(fit &lt;- procD.lm(coords ~ log(CS), data = pupfish,
 
 ```
 ##    user  system elapsed 
-##   0.788   0.048   0.841
+##   0.808   0.053   0.885
 ```
 
 Yup, that is 10,000 RRPP permutations in less than 1 second.  We will understand what happened soon.
@@ -340,8 +340,8 @@ Yup, that is 10,000 RRPP permutations in less than 1 second.  We will understand
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-257a3cca51b8801d46d8" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-257a3cca51b8801d46d8">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.15471205016809,4.18984918983712,4.17818521858998,4.22892909022818,4.23191407704071,4.28811978884011,4.29923710822059,4.2671559342153,4.25594349748359,4.25411692594672,4.2687441772169,4.30408862380278,4.34419937613886,4.30396695837895,4.27880492438232,4.34953408532385,4.29125757429802,4.18556287109768,4.41793207389008,4.40886186736836,4.44026014717523,4.42440827511505,4.49454237076523,4.52438987016918,4.5044654333212,4.50766200877124,4.50006377937509,4.53888987793006,4.55157864890887,3.84847264459506,4.00518876885285,4.05425644121798,4.09438519912349,4.10670144719369,4.15586878411191,4.13202327948573,4.26725431555302,4.21707382034098,4.30058586427634,4.29163583770382,4.30218729466989,4.05899814913958,4.20119212180867,4.23633929304128,4.14505659849253,4.19139151939246,4.15615822521441,4.27911544874055,4.35277078926652,4.30548924769962,4.42256987887174,4.45612637411853,4.40728588329518,4.36595837890348]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ab75c17293bf90fdf6dc" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ab75c17293bf90fdf6dc">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.15471205016809,4.18984918983712,4.17818521858998,4.22892909022818,4.23191407704071,4.28811978884011,4.29923710822059,4.2671559342153,4.25594349748359,4.25411692594672,4.2687441772169,4.30408862380278,4.34419937613886,4.30396695837895,4.27880492438232,4.34953408532385,4.29125757429802,4.18556287109768,4.41793207389008,4.40886186736836,4.44026014717523,4.42440827511505,4.49454237076523,4.52438987016918,4.5044654333212,4.50766200877124,4.50006377937509,4.53888987793006,4.55157864890887,3.84847264459506,4.00518876885285,4.05425644121798,4.09438519912349,4.10670144719369,4.15586878411191,4.13202327948573,4.26725431555302,4.21707382034098,4.30058586427634,4.29163583770382,4.30218729466989,4.05899814913958,4.20119212180867,4.23633929304128,4.14505659849253,4.19139151939246,4.15615822521441,4.27911544874055,4.35277078926652,4.30548924769962,4.42256987887174,4.45612637411853,4.40728588329518,4.36595837890348]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 ### Linear regression example
@@ -936,7 +936,7 @@ system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
 
 ```
 ##    user  system elapsed 
-##   0.810   0.039   0.854
+##   0.820   0.042   0.863
 ```
 ]
 
@@ -951,8 +951,8 @@ system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-67d1a33f79b2fa1da998" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-67d1a33f79b2fa1da998">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-95636ab5ddbeb2ffad4b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-95636ab5ddbeb2ffad4b">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 
@@ -1910,7 +1910,7 @@ summary(PW, test.type = "var")
 .pull-right[
 The statistic used is `\(\lvert \hat{\sigma}^2_{1} - \hat{\sigma}^2_{2} \rvert\)`.
 
-**RRPP allows calculation of second-order statistics like these in every random permutation.**
+**RRPP allows calculation of secondary statistics like these in every random permutation.**
 
 The residuals are residuals of the group means, not the overall mean.
 ]
@@ -1992,7 +1992,7 @@ summary(TA, attribute = "TC", angle.type = "deg")
 
 + Sexual dimorphism can be thought of as a trajectory in the data space for two or more groups.  It is a trajectory with two points, in this case.  Other trajectories (e.g., developmental stages) can have more than two points.
 + When there are more than two points, the attribute, shape, is also viable and can be tested for differences among groups.
-+ **RRPP allows calculation of second-order statistics like these in every random permutation.**
++ **RRPP allows calculation of secondary statistics like these in every random permutation.**
 + The residuals are residuals of a model with main effect (Pop and Sex) but lacking interactions.  Trajectory analysis focuses only on the interactions.
 
 Trajectory analysis and analysis of disparity will be discussed in more detail in **Lecture 14: RRPP Extensions**. 

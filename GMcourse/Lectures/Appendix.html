@@ -179,7 +179,18 @@ where `\(\mathbf{T}\)` is a triangular matrix.  Unlike diagonalization, the the 
 
 ---
 
-### Viable test statistics statistics for evaluating null hypotheses
+### Viable test statistics for evaluating null hypotheses
+
+The following will be a pretty long list/table of possible statistics that can be estimated with RRPP.  
+
+The purpose is not to become quickly comfortable with them but to see that there are various statistics that can be used for various purposes.
+
+Examples will indicate statistics used and this list (**also in the appendix**) can be quickly referenced.
+
+Focus more so on RRPP, what the null model is, how residuals are randomized, and how the opportunity to calculate these statistics is made.
+---
+
+### Viable test statistics for evaluating null hypotheses
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
@@ -190,7 +201,7 @@ where `\(\mathbf{T}\)` is a triangular matrix.  Unlike diagonalization, the the 
 
 ---
 
-### Viable test statistics statistics for evaluating null hypotheses
+### Viable test statistics for evaluating null hypotheses
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
@@ -202,7 +213,7 @@ where `\(\mathbf{T}\)` is a triangular matrix.  Unlike diagonalization, the the 
 *Note that `\(p \leq n-1\)` is required because of matrix inversion, and in some cases, unless `\(p &lt;&lt; n\)`, results could be spurious.*
 ---
 
-### Viable test statistics statistics for evaluating null hypotheses
+### Viable test statistics for evaluating null hypotheses
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
@@ -211,12 +222,46 @@ where `\(\mathbf{T}\)` is a triangular matrix.  Unlike diagonalization, the the 
 
 ---
 
-### Viable test statistics statistics for evaluating null hypotheses
+### Viable test statistics for evaluating null hypotheses
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Coefficient `\(d\)` | `\(d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}\)` | RRPP first order| Yes | Yes | Let `\(\mathbf{b}^T\)` be a vector of `\(\hat{\boldsymbol{\beta}}\)`  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
-| Pairwise `\(d\)` | `\(d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}\)` | RRPP first order| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
+| Coefficient `\(d\)` | `\(d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}\)` | RRPP primary| Yes | Yes | Let `\(\mathbf{b}^T\)` be a vector of `\(\hat{\boldsymbol{\beta}}\)`  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
+| Pairwise `\(d\)` | `\(d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}\)` | RRPP primary| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Vector MD | `\(\small MD = \lvert d_{12_A} - d_{12_B}\rvert\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
+| Vector Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between vectors that consistently estimate changes from state 1 to state 2, or slopes associated with a covariate.  **This can only be done with RRPP.**  Note that `\(\mathbf{v}\)` means `\((\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\)` and `\(\lvert\lvert \mathbf{v}\rvert\rvert\)` is the length of `\(\mathbf{v}\)`.|
+|Trajectory MD| `\(\small MD = \lvert \sum d_A - \sum d_B \rvert\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the difference in *path distances* connecting estimates from state 1 to state 2 to state 3 to ... **This can only be done with RRPP.**  This is a component of **trajectory analysis.**
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+|Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
+|---|-----|---|--|--|-------|
+| Trajectory Correlation or Angle | `\(\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}\)` `\(\small \theta = \cos^{-1}VC\)` | RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the vector correlation or angular difference between first PC vectors found separately for each group.  **This can only be done with RRPP.**  
+| Trajectory Shape (Procrustes distance)| `\(PD = \left[(\mathbf{z}_A-\mathbf{z}_B)^T(\mathbf{z}_A-\mathbf{z}_B)\right]^{1/2}\)` |RRPP secondary| Yes | Yes | For two groups, `\(A\)` and `\(B\)`, find the Procrustes distance between two vectors of estimates, `\(\mathbf{z}_A\)` and `\(\mathbf{z}_B\)`, which were obtained from GPA on trajectory points.  **This can only be done with RRPP.**  
+| Any logical statistic | You define |RRPP| Maybe | Maybe| RRPP is most appropriate for exploring new frontiers.
+
+---
+
+### Viable test statistics for evaluating null hypotheses
+
+**General comments**
+
++ ANOVA statistics are based on dispersion of points in the multivariate space.  **Because a distance between point estimates in the space is univariate, regardless of the dimensions of the space, the number of variables `\((p)\)` is irrelevant.**  However, the covariances among variables of the data space do not influence the statistics.
+
++ MANOVA and likelihood statistics are based on covariance matrix determinants.  **Because a determinant is singular if variables exceed observations, these statistics can be limited to cases of "long" rather than "wide" data sets.**  However, in certain cases they can have more statistical power because of their innate ability to consider covariance structure.
+
++ RRPP-specific statistics tend to be more informative as descriptive statistics.  **Because RRPP can be a proxy for the true sampling distributions of statistics that have no parametric probability density function, RRPP is uniquely qualified to test certain hypotheses.**  ANOVA or MANOVA statistics often "go along for the ride" but are unneeded if good specific test statistics can be used.
+
++ Coefficient-specific test statistics generally offer little appeal, as statistics summarizing several coefficients as *effects* are easier to appreciate.  But coefficients, themselves, can be informative.
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
