@@ -1,7 +1,6 @@
 ---
 title: "01.3: Data Pre-Processing"
-author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+author: ""
 output: html_document
 ---
 
@@ -15,260 +14,70 @@ opts_chunk$set(echo = TRUE)
 
 As with any quantitative data analysis, there are numerous 'pre-processing' steps that improve our morphometric analysis. Simply put, ensuring that one's data are of the highest quality provides the best chance of arriving at meaningful, and interpretable, biological patterns.  At all costs one wishes to avoid **GIGO**: 'garbage in-garbage out!
 
-While there are many considerations for ensuring high-quality data are obtained, many of these occur prior to data collection: selecting appropriate, well-preserved specimens, ensuring that images are taken in standard format, limiting parallax, etc.  However, once the data are collected, several additional steps may be necessary, or are advisable. Here we discuss two: examining for potential outliers, and estimating the positions of missing landmarks. 
+While there are many considerations for ensuring high-quality data are obtained, many of these occur prior to data collection: selecting appropriate, well-preserved specimens, ensuring that images are taken in standard format, limiting parallax, etc.  However, once the data are collected, several additional steps may be necessary, or are advisable. Here we discuss two: estimating the positions of missing landmarks, and examining for potential outliers. 
 
+## **1: Missing Landmarks**
 
-## **Identifying Outliers**
+#### NOTE: we will discuss this topic at length in our *Missing Data* lecture on Thursday!
 
-All statistical analyses are sensitive to outliers. For instance, regression and most ordination approaches are heavily influenced by extremal data points, which can have a disproportionate leverage on the resulting statistical inferences. In GM data, one may have outliers for any number of reasons. First, specimens may be 'true' biological outliers; or there may be errors in digitizing (digitizing landmarks out of order is common); or any other number of reasons.
+Sometimes, specimens are not fully intact, and are missing landmarks. Because geometric morphometric methods requires objects containing a complete set of landmarks, one must first estimate those landmarks prior to downstream analyses. 
 
-`Geomorph` provides a means of quickly identifying outliers for further inspection, using the function `plotOutliers`. Here we demonstrate its use, and provide a visualization of the shape of a potential outlier (relative to the mean shape), which aides in determining whether the outlier is something of concern. 
+In `geomorph` the function `estimate.missing` allows for two approaches: estimating the locations of missing landmarks based on the thin-plate spline, and based on multivariate regression (for details see **Missing Data Lecture**). In `geomorph` missing landmarks should be designated using `NA` in place of their x,y,(z) coordinates.
+
+### Missing Landmarks: Simple example
+
+To illustrate the approaches, here we will create some missing data and estimate their landmark locations using `estimate.missing`: 
+
+```{r eval=TRUE,out.width="70%"}
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
+plethland<-Y.gpa$coords
+  plethland[3,,2]<-plethland[8,,2]<-NA  #create missing landmarks
+  plethland[3,,5]<-plethland[8,,5]<-plethland[9,,5]<-NA  
+  plethland[3,,10]<-NA  
+```
+
+Here, specimens #3, #8, and #10 are missing one or more landmarks. Now let's estimate them using both the TPS and regression procedures:
+
+```{r eval=TRUE,out.width="70%"}
+new.tps <- estimate.missing(plethland,method="TPS")
+new.reg <- estimate.missing(plethland,method="Reg")
+```
+
+Finally, let's visually compare one of these to the original, and see how 'far' they are using $D_{Proc}$. 
+
+```{r eval=TRUE,out.width="90%"}
+#plots
+par(mfrow=c(1,2))
+plotRefToTarget(Y.gpa$coords[,,3],new.tps[,,3],links=plethodon$links)
+mtext("TPS: Original #3 --> Estimated TPS")
+plotRefToTarget(Y.gpa$coords[,,3],new.reg[,,3],links=plethodon$links)
+mtext("TPS: Original #3--> Estimated Regression")
+par(mfrow=c(1,1)) 
+
+dist(rbind(as.vector(Y.gpa$coords[,,3]),as.vector(new.tps[,,3])))
+dist(rbind(as.vector(Y.gpa$coords[,,3]),as.vector(new.reg[,,3])))
+```
+
+## **2: Identifying Outliers**
+
+Another important pre-processing step is the identification of potential outliers. While some extreme shapes in a sample may be biological, others are due to digitizing errors. The function `plotOutliers` provides a means of quickly identifying outliers for further inspection.
+
+As a simple example, here we generate some outliers and subsequently identify them: 
 
 ```{r eval=TRUE}
 # Let's first make some outliers
-library(geomorph)
-data(plethodon)
 newland <- plethodon$land
-newland[c(1,8),,2] <- newland[c(8,1),,2]
-newland[c(3,11),,26] <- newland[c(11,3),,2]
+newland[c(1,8),,2] <- newland[c(8,1),,2]  #landmarks digitized 'out of order'
+newland[c(3,11),,26] <- newland[c(11,3),,2] #ditto
 Y <- gpagen(newland, print.progress = FALSE) 
+```
 
-
-# Now let's inspect for outliers in our dataset
+Now we inspect for outliers
+```{r eval=TRUE}
 plotOutliers(Y$coords, inspect.outliers = T)
 ``` 
 
 As seen above, the function plots Procrustes distances ($\small{D}_{Proc}$) of all specimens relative to the mean. Large values are flagged as potential outliers, which can be subsequently inspected. 
 
 Notice that landmark plots of the outliers relative to the mean show the problem. Several landmarks were digitized out of order. We can now go back and correct our data prior to downstream analyses. 
-
-## **Fixing Articulation Angles**
-
-Sometimes, we obtain landmarks from specimens containing more than one anatomical component, and the relative positions of those components cannot be standardized *a priori*. In such cases, we must 'fix' their relative positions prior to GPA.  `Geomorph` has this ability through the function `fixed.angle`, which implements one approach to the problem as outlined in Adams (1999) *Evol. Ecol. Res.*
-
-Here we provide a simple example: 
-
-Create some data with varying articulations (**NOTE: THIS STEP NOT REQUIRED, AS SPECIMENS WILL COME WITH SUCH VARIATION!!**)
-```{r eval=TRUE}
-library(geomorph)
-data(plethodon)
-Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
-
-rand.jaw <-Y.gpa$coords
-for (i in 1:dim(Y.gpa$coords)[[3]]){
-  tmp <- fixed.angle(Y.gpa$coords,art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, 
-                     rot.pts = c(2,3,4,5),angle = -1*runif(1,min=0,max=40),degrees=TRUE)
-  rand.jaw[,,i] <- tmp[,,i]
-}
-gpa.rand <- gpagen(rand.jaw, print.progress = FALSE)$coords
-
-```
-
-Now let's fix the articulation angle using `fixed.angle`. We must specify the articulation point, and either 'endpoints' for each subset, or a list of landmarks in each subset (in which case, centroids are used):
-
-```{r eval=TRUE}
-jaw.fixed <- fixed.angle(gpa.rand,
-                     art.pt=1, angle.pts.1 = 5, 
-                     angle.pts.2 = 6, rot.pts = c(2,3,4,5))
-
-gpa.fixed <- gpagen(jaw.fixed, print.progress = FALSE)$coords
-
-plotAllSpecimens(gpa.rand, links = plethodon$links)
-mtext("Jaws Random Angles")
-plotAllSpecimens(gpa.fixed, links = plethodon$links)
-mtext("Jaws Standardized to Common Angle")
-
-```
-
-## **Estimating Missing Landmarks**
-
-#### NOTE: we will discuss this topic at length in our *Missing Data* lecture on Thursday!
-
-Sometimes, specimens are not fully intact, and are missing landmarks. For these specimens, one cannot digitize the locations of those points, as the are found in broken, or otherwise absent regions. Because geometric morphometric methods requires objects containing a complete set of landmarks for subsequent analyses (GPA superimposition and downstream statistical assessments), one must do one of the following:
-
-1: eliminate all specimens with missing data
-2: eliminate all landmarks that are not found on all specimens
-3: estimate the locations of missing landmarks in some intelligent manner
-
-Here we describe three ways of estimating the locations of missing landmarks: two of which are contained in the `estimate.missing` function of `geomorph`:
-
-## 1: Exploit Object Symmetry
-
-If one's specimens are symmetric, the locations on one side of the axis of symmetry may be used to estimate the locations of missing landmarks on the other side of the symmetry axis. Below is a simple example: 
-
-Here is some sample data (lizard skulls)
-
-```{r eval=TRUE,out.width="70%"}
-library(geomorph)
-mydat<-readland.tps("Data/LizardShape.tps",warnmsg = FALSE)
-shape <- gpagen(mydat,print.progress = FALSE)$coords
-land.prs<-matrix(c(13, 14,2,11,15, 16,27, 28,3,10,17,19,4, 9,20, 21,22, 24,25, 26,5, 8, 6 ,7),ncol=2,byrow=T)
-
-links<-read.table("Data/lizardlinks.txt",header=T)
-ref<-mshape(shape)
-shape.pca <- gm.prcomp(shape)
-col.spec <- rep("black",dim(shape)[[3]]); col.spec[62] ="red"
-sz.spec <- rep(1.0,dim(shape)[[3]]); sz.spec[62] =2
-
-par(mfrow=c(1,2)) 
-plotAllSpecimens(shape,links=links)
-plot(shape.pca,pch=21, bg=col.spec, cex=sz.spec)
-par(mfrow=c(1,1)) 
-```
-
-
-In the right-hand plot, the red dot represents the location of the specimen for which we will delete some landmarks, and then estimate them via  symmetry. 
-
-Now we will delete some landmarks on that specimen. (NOTE: to retain the original we will 'flip' the specimen about its mid-line and retain the original):
-
-```{r eval=TRUE,out.width="70%"}
-flipped<-spec<-shape[,,62]
-flipped[,2]<-flipped[,2]*-1  #reflect about Y-axis
-  spec[c(5,28,14,4),]<-NA  #create missing
-```
-
-Here we show the deleted landmarks: 
-
-```{r echo = FALSE, out.width="30%"}
-include_graphics("Data/missing/LizardMissing.png")
-```
-
-Now let's estimate the locations of the missing landmarks by their respective landmarks on the other side of the symmetry axis: 
-
-```{r eval=TRUE,out.width="70%"}
-spec[c(5,28,14,4),]<-flipped[c(8,27,13,9),]  #use mirrored landmarks
-```
-
-Now plot and compare
-
-```{r eval=TRUE,out.width="70%"}
-par(mfrow=c(1,2)) 
-plotRefToTarget(shape[,,62],shape[,,62],links=links)
-mtext("Original Specimen")
-plotRefToTarget(shape[,,62],spec,links=links)
-mtext("TPS: Original --> Estimated Specimen")
-par(mfrow=c(1,1)) 
-dist(rbind(t(matrix(spec)),t(matrix(shape[,,62]))))
-```
-
-The number above is the amount of shape difference expressed as Procrustes distance.
-
-**Not too shabby!**
-
-## 2: Using Thin-Plate Spline Interpolation
-
-Exploiting symmetry is a biologically-driven manner of estimating missing landmarks, but is only appropriate for symmetric objects. A second, more general approach is to use thin-plate spline interpolation. Here, one uses the covariation among existing landmarks on one object to infer the position of the missing landmark on the other (*method discussed in detail on Thursday*)
-
-* Second, one can perform a multivariate regression (implemented using PLS) to perform the estimation.
-
-Let's see an example. First we'll simulate a sample of shapes:
-
-```{r eval=TRUE,out.width="90%"}
-spec <- readland.tps('Data/fakefish.tps', specID = "imageID", warnmsg = FALSE)
-spec <- geomorph:::center.scale(spec[,,1])$coords
-links <- read.table("Data/fishlinks.txt")
-#Simulate specimens with large allometry effect
-CS <- seq(.5,1.5, by =.01)  #size
-Dil <- seq(.5,1.5, by =.01)  #size
-n <- length(CS); p<-40; k<-2
-specs <- array(NA,dim=c(p,k,n))
-  for (i in 1:n){
-    trans <- matrix(c(Dil[i],0,0,1),nrow=2)
-    specs[,,i] <- CS[i]*(spec%*%trans)+.3*CS[i]*matrix(rnorm(n=p*k, sd = 0.01),ncol=2)  
-  }
-Y.gpa <- gpagen(specs, print.progress = FALSE)  
-fishshapes <- Y.gpa$coords
-ref <- mshape(fishshapes)
-
-PCA <- gm.prcomp(fishshapes)
-PC <- PCA$x[,1]
-preds <- shape.predictor(fishshapes, x= PC, Intercept = FALSE, 
-                         pred1 = min(PC), pred2 = max(PC)) 
-
-par(mfrow=c(2,2)) 
-plot(PCA, pch=21, cex=1,bg="black")
-plotRefToTarget(ref,ref,links=links)
-plotRefToTarget(ref, preds$pred1, links = links)
-mtext("PC1-Negative")
-plotRefToTarget(ref, preds$pred2, links = links)
-mtext("PC1-Positive")
-par(mfrow=c(1,1)) 
-
-```
-
-Now let's delete some landmarks from the two specimens highlighted in red: 
-
-```{r eval=TRUE,out.width="70%"}
-fish.col <- rep("black",dim(fishshapes)[[3]]); fish.col[c(1,101)] ="red"
-fish.sz <- rep(1.0,dim(fishshapes)[[3]]); fish.sz[c(1,101)] =2
-plot(PCA,pch=21, bg=fish.col, cex=fish.sz)
-
-shapes.missing<-fishshapes  #delete 1, 7, 15, 26 
-shapes.missing[c(1,7,17,26),,1]<-NA
-shapes.missing[c(1,7,17,26),,101]<-NA
-```
-
-```{r echo = FALSE, out.width="30%"}
-include_graphics(c("Data/missing/FishMinMissing.png","Data/missing/FishMaxMissing.png"))
-```
-
-Finally, let's estimate the landmarks via the thin-plate spline and compare to the actual specimens: 
-
-```{r eval=TRUE,out.width="90%"}
-new.tps<-estimate.missing(shapes.missing,method="TPS")
-```
-
-Now plot and compare
-
-```{r eval=TRUE,out.width="90%"}
-#plots
-par(mfrow=c(2,2))
-plotRefToTarget(ref,ref,links=links)
-mtext("Reference")
-plotRefToTarget(ref,fishshapes[,,1],links=links)
-mtext("TPS: Reference --> Original")
-plotRefToTarget(ref,new.tps[,,1],links=links)
-mtext("TPS: Ref --> Estimated Specimen")
-plotRefToTarget(fishshapes[,,1],new.tps[,,1],links=links)
-mtext("TPS: Original --> Estimated Specimen")
-
-par(mfrow=c(1,1)) 
-
-as.matrix(dist(rbind(t(matrix(ref)),t(matrix(fishshapes[,,1])),t(matrix(new.tps[,,1])))))
-```
-
-The numbers above are measures of shape difference (Procrustes distance). As we can see, this is pretty good also, and does not require object symmetry.
-
-**Again, not too shabby!**
-
-## 3: Using Regression
-
-Finally, a third, and perhaps the most general, approach is to use regression to estimate the locations of missing landmarks. (*method discussed in detail on Thursday*)  Using the same fish data: 
-
-```{r eval=TRUE,out.width="90%"}
-new.reg<-estimate.missing(shapes.missing,method="Reg")
-new.reg<-gpagen(new.reg, print.progress=FALSE)$coords
-```
-
-Now plot and compare:
-
-```{r eval=TRUE,out.width="90%"}
-
-#plots
-par(mfrow=c(2,2))
-plotRefToTarget(ref,ref,links=links)
-mtext("Reference")
-plotRefToTarget(ref,fishshapes[,,1],links=links)
-mtext("TPS: Reference --> Original")
-plotRefToTarget(ref,new.reg[,,1],links=links)
-mtext("TPS: Ref --> Estimated Specimen")
-plotRefToTarget(fishshapes[,,1],new.reg[,,1],links=links)
-mtext("TPS: Original --> Estimated Specimen")
-
-par(mfrow=c(1,1)) 
-as.matrix(dist(rbind(t(matrix(ref)),t(matrix(fishshapes[,,1])),t(matrix(new.tps[,,1])))))
-```
-
-As we can see from the Procrustes distances, this method is even better at estimating the locations of missing landmarks!
-
-**Very 'not' shabby!**

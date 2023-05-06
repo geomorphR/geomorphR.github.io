@@ -1,7 +1,6 @@
 ---
 title: "01.2: Reading Data"
-author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+author: ""
 output: html_document
 ---
 
@@ -9,24 +8,27 @@ output: html_document
 
 In addition to reading in data digitized in `StereoMorph` (see 01.1-Digitizing-Stereomorph) you may need to read in other types of GM-related files, or other files containing information about your specimens. Below are some basic instructions on how to do that.
 
-Geomorph has several built-in functions to read landmark data files. Additionally, one can use standard IO functions in R to read in a text file. Geomorph also has the ability to digitize 2D or 3D data. For 3D, one can read in a 3D image in the form of a PLY file. 
+`Geomorph` has several built-in functions to read landmark data files. Additionally, one can use standard IO functions in R to read in a text file. `Geomorph` also has the ability to digitize 2D or 3D data. For 3D, one can read in a 3D image in the form of a PLY file. 
 
 ## **Read in Data from StereoMorph Files**
 
-In the previous lab, we learned how to digitize using StereoMorph. Here we take those datafiles and read them into geomorph using the `readShapes` function in `StereoMorph` combined with the `readland.shapes` function in `geomorph`. The result is an geomorphShapes object which may be used in downstream GM analyses. 
+In the previous lab, we learned how to digitize using `StereoMorph`. Here we take those datafiles and read them into geomorph using the `readShapes` function in `StereoMorph` combined with the `readland.shapes` function in `geomorph`. The result is an geomorphShapes object which may be used in downstream GM analyses. 
 
 ```{r eval=TRUE}
 library(geomorph)
 library(StereoMorph)
-myShapes <- readShapes("Shapes")
+myShapes <- readShapes("Data/Fish-Shapes")
 mydata <- readland.shapes(myShapes)
 
 mydata$landmarks$Fish1
 
 ```
 
+---
+
 #### **Important detail!** Specimens with missing data can still be read using the procedure above. In these cases, the landmark values will be replaced with `NA`, and can be estimated in subsequent data-processing steps using `estimate.missing`.
 
+---
 
 ## **Read Landmark Data from Other Files**
 

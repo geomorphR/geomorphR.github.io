@@ -1,15 +1,14 @@
 ---
 title: "01.1: Digitizing Landmarks in StereoMorph"
-author: "Antigoni Kaliontzopoulou, Dean Adams & Michael Collyer"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+author: ""
 output: html_document
 ---
 
 ## **Content Description**
 
-This tutorial summarizes the basic steps of digitizing 2D GM data using the R-package StereoMorph, and then importing them to geomorph. As StereoMorph uses Shiny to allow the user to digitize, it is interactive, so you need to run the code to gain hands-on experience on the details of how digitizing proceeds. 
+This tutorial summarizes the basic steps of digitizing 2D GM data using the R-package StereoMorph, and then importing them to `geomorph`. As `StereoMorph` uses Shiny to allow the user to digitize, it is interactive, so you need to run the code to gain hands-on experience on the details of how digitizing proceeds.
 
-You will need to install and load StereoMorph first.
+You will need to install and load `StereoMorph` first.
 ```{r eval=FALSE}
 install.packages("StereoMorph")
 
@@ -24,12 +23,11 @@ library(geomorph)
 
 ## **Digitizing Landmarks**
 
-First, let´s see how one can digitize fixed landmarks. These correspond to well-defined anatomical points on your structure of interest.
-You will need a folder with the pictures you will digitize (Images, in our example)
+First, let´s see how one can digitize fixed landmarks. These correspond to well-defined anatomical points on your structure of interest. You will need a folder with the pictures you will digitize (Images, in our example)
 In this script, digitized data are stored in another folder, called Shapes
 To digitize, e.g., five fixed landmarks, run: 
 ```{r eval=FALSE}
-digitizeImages(image.file='Images', shapes.file='Shapes',
+digitizeImages(image.file='Data/Fish-Images', shapes.file='Data/Fish-Shapes-ex',
                landmarks.ref=paste("LM", c(1:5), sep=""))
 ```
 
@@ -46,7 +44,13 @@ To digitize for the first time:
 
 * NOTE: one has the ability to copy all landmarks to each image, and then move them to the desired locations. This can be useful so that landmarks remain in the correct order.
 
-**Important detail!** Any specimen with missing data (e.g., a broken specimen) may still be digitized. In this case, simply leave the missing landmarks **BLANK**. They will be treated as `NA` and can be estimated in subsequent data-processing steps.
+---
+
+#### **IMPORTANT DETAIL: MISSING LANDMARKS!!** Any specimen with missing data (e.g., a broken specimen) may still be digitized. In this case, simply leave the missing landmarks **BLANK**. They will be treated as `NA` and can be estimated in subsequent data-processing steps.
+
+#### **IMPORTANT DETAIL: DELETING LANDMARKS!!** To delete a landmark, click on the lm, and hit 'D'.
+
+---
 
 ## **Scaling**
 
@@ -66,9 +70,9 @@ The easiest way to obtain sliding semilandmarks to describe the shape of curves,
 2. Re-open the digitizer to record the curves
 
 ```{r eval=FALSE}
-digitizeImages(image.file='Images', shapes.file='Shapes',
+digitizeImages(image.file='Data/Fish-Images', shapes.file='Data/Fish-Shapes-ex',
                landmarks.ref=paste("LM", c(1:5), sep=""),
-               curves.ref = "example.curves.txt")
+               curves.ref = "Data/example.curves.txt")
 ```
 
 You can then:
@@ -80,7 +84,7 @@ You can then:
 Once the curve is digitized, you can **subsample a desired number of semilandmarks** from it.  This is accomplished easiest with the function, **readland.shapes**.  This is a geomorph function that reads in data from a class `shapes` object.  (In geomorph, there are several readland.___ functions for different landmark file types.)  Before using `readland.shapes`, a shapes object must be created (a Stereomorph function).
 ```{r eval=TRUE}
 
-shapes <- readShapes("Shapes")
+shapes <- readShapes("Data/Fish-Shapes-ex")
 shapesGM <- readland.shapes(shapes, nCurvePts = 10) # can change 10 to a different number
 
 # Perform GPA
@@ -95,7 +99,7 @@ Too demonstrate this, let's use a digitizing set with 11 landmarks and 9 curves.
 
 ```{r eval=TRUE}
 
-shapes <- readShapes("example.digitized")
+shapes <- readShapes("Data/example.digitized")
 
 # curves include eye, head, tail 1, tail end, tail 2, anal fin, 
 # pectoral fin, opercle, pre-opercle

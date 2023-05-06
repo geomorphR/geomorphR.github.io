@@ -1,13 +1,12 @@
 ---
 title: "01.4: GPA: Generalized Procrustes Analysis"
-author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+author: ""
 output: html_document
 ---
 
 ## **Content Description**
 
-As we have seen in the theory classes, Generalized Procrustes Analysis is the main tool that allows one to extract shape (and size) variables from landmark coordinates . This procedure standardizes for size, location and rotation effects and provides meaningful shape data for downstream statistical analyses.  Let's take a look at how one performs GPA in `geomorph`, using the function `gpagen`:
+Generalized Procrustes Analysis (GPA) aligns our landmark configurations to a common coordinate system, and allows us to extract shape (and size) data from them. The function `gpagen` performs this procedure. Here we demonstrate its use for landmark data: 
 
 ## **Performing GPA Superimposition**
 
@@ -27,28 +26,9 @@ attributes(pleth.gpa)
 
 ## **Plotting GPA-Aligned Specimens**
 
-Of course, one wishes to plot the shapes once they are superimposed. We can do this with one of several functions, shown here:
-
 ```{r eval=TRUE}
 plot(pleth.gpa)
 plotAllSpecimens(pleth.gpa$coords, links = plethodon$links)
 ```
 
 Use of `plot.param` can facilitate additional flexibility (change point or link colors, thickness, etc.)
-
-### Note!
-
-As we learned incidentally, class `geomorphShapes` objects can be loaded directly into `gpagen`.  Whereas most data read into `geomorph` produce a 3D array, only, the landmarks are merely one component of a class `geomorphShapes` object.  They are also a list rather than a 3D array.  The `gpagen` function can work with this list but other functions, like `plotAllSpecimens` require an array.  There is a base R function, `simplify2array`, which can convert a list to an array, making landmarks useable in other functions; e.g., 
-
-```{r eval=TRUE}
-library(StereoMorph)
-shapes <- readShapes("example.digitized")
-shapesGM <- readland.shapes(shapes) # just the fixed landmarks
-justLM <- simplify2array(shapesGM$landmarks)
-plotAllSpecimens(justLM)
-plot(gpagen(justLM, print.progress = FALSE))
-```
-
-
-
-
