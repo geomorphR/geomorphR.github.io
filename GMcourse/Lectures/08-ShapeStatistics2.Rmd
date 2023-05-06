@@ -214,7 +214,7 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
 | $\log$-likelihood | $\small L(\hat{\boldsymbol{\Sigma}}_{residuals} \vert \mathbf{V}) =$ $-\frac{Np}{2} log(2\pi)$ $- \frac{1}{2} log(\lvert\mathbf{V}\rvert)$ $-\frac{1}{2} vec(\mathbf{E}) ^T \mathbf{\Omega}^{-1}vec(\mathbf{E})$ | Likelihood| Yes | Yes | $\mathbf{V} = \hat{\boldsymbol{\Sigma}}_{residuals} \otimes \mathbf{\Omega}$.  This does not explicitly test a hypothesis but calculating the log-likelihood allows hypothesis testing.  **The best use for multivariate data is to obtain an effect size $(Z)$ for the log-likelihood via RRPP.**|
-| Two-sample $Z$-test | stat | Likelihood| Yes | Yes | This test allows one to compare effect sizes for log-likelihoods from two RRPP distributions.  $\mu$ and $\sigma$ refer to expected value and standard deviation of $\theta$ (normalized RRPP distributions of log-likelihoods), respectively.  ***There is no explicit reason that the null model has to be be nested within the alternative model.***|
+| Two-sample $Z$-test | $\small Z_{12} = \frac{\lvert(\theta_1 - \mu_1) - (\theta_2 - \mu_2)\rvert}{\sqrt{\sigma_1^2 + \sigma_2^2}}$ | Likelihood| Yes | Yes | This test allows one to compare effect sizes for log-likelihoods from two RRPP distributions.  $\mu$ and $\sigma$ refer to expected value and standard deviation of $\theta$ (normalized RRPP distributions of log-likelihoods), respectively.  ***There is no explicit reason that the null model has to be be nested within the alternative model.***|
 
 ---
 
@@ -231,7 +231,7 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Vector MD | $\small MD = \lvert d_{{12}_A} - d_{{12}_B}\rvert$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
+| Vector MD | $\small MD = \lvert d_{12_A} - d_{12_B}\rvert$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
 | Vector Correlation or Angle | $\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}$ $\small \theta = \cos^{-1}VC$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, find the vector correlation or angular difference between vectors that consistently estimate changes from state 1 to state 2, or slopes associated with a covariate.  **This can only be done with RRPP.**  Note that $\mathbf{v}$ means $(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})$ and $\lvert\lvert \mathbf{v}\rvert\rvert$ is the length of $\mathbf{v}$.|
 |Trajectory MD| $\small MD = \lvert \sum d_A - \sum d_B \rvert$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, find the difference in *path distances* connecting estimates from state 1 to state 2 to state 3 to ... **This can only be done with RRPP.**  This is a component of **trajectory analysis.**
 
