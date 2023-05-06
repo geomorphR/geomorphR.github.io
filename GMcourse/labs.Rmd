@@ -23,10 +23,10 @@
     - [Day 3 R-script](https://geomorphR.github.io/GMcourse/Labs/Day03-RCode.R)  
 
 ### Day 4 Tutorials
-- [Tutorial 4.1: Symmetry and Asymmetry] 
-- [Tutorial 4.2: Integration and Modularity] 
+- [Tutorial 4.1: Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Labs/04-Asymmetry.html) 
+- [Tutorial 4.2: Integration and Modularity](https://geomorphR.github.io/GMcourse/Labs/04-IntegrationModularity.html) 
 - [Tutorial 4.3: Morphological Disparity] 
-    - [Day 4 R-script] 
+    - [Day 4 R-script](https://geomorphR.github.io/GMcourse/Labs/Day03-RCode.R) 
 
 ### Example data for Workshop (can be cloned, pulled, or files downloaded)
 [Link to Data Repository](https://github.com/geomorphR/geomorphR.github.io/tree/main/GMcourse/Labs/Data)

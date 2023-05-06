@@ -3,104 +3,96 @@
 
 library(geomorph)
 
-##### 1: Asymmetry ==================================================================
+## 1: Asymmetry
 
 ## matching symmetry
-
 data(mosquito)
-str(mosquito)
-mosq.sym <- bilat.symmetry(mosquito$wingshape, 
-                           ind = mosquito$ind, side = mosquito$side,
-                           replicate = mosquito$replicate, 
-                           object.sym = FALSE, print.progress = FALSE)
-summary(mosq.sym)
-plot(mosq.sym)
+Y.gpa <- gpagen(mosquito$wingshape, print.progress = FALSE)
+plot(Y.gpa)
+mosquito.sym <- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, 
+                               object.sym = FALSE, print.progress = FALSE)
+summary(mosquito.sym)
 
 ## object symmetry
-data(scallops)
-str(scallops)
-plot(mshape(scallops$coorddata))
-scallops$land.pairs
+data('lizards')
+Y.gpa <- gpagen(lizards$coords, print.progress = FALSE)
+plot(Y.gpa)
 
-scallop.sym <- bilat.symmetry(scallops$coorddata, 
-                              ind = scallops$ind, object.sym = TRUE,
-                              land.pairs = scallops$land.pairs, 
-                              print.progress = FALSE)
-summary(scallop.sym)
-plot(scallop.sym)
+lizard.sym <- bilat.symmetry(A = Y.gpa, ind = lizards$ind, replicate = lizards$rep,
+                             object.sym = TRUE, land.pairs = lizards$lm.pairs, print.progress = FALSE)
+summary(lizard.sym)
+plot(lizard.sym, warpgrids = TRUE)
 
-##### 2: Integration and Modularity ==================================================
+#### Comparison of overall vs. symmetrized aligned shapes
+plotAllSpecimens(Y.gpa$coords)
+plotAllSpecimens(lizard.sym$symm.shape)
 
-# Integration
-data(plethodon)
+## 2: Integration and Modularity
+## Overall Integration
+data("plethodon")
 Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
-integration.test(Y.gpa$coords[1:5,,], Y.gpa$coords[6:12,,],
-                 iter=999, print.progress = FALSE)
+#Separate data by species
+coords.gp <- coords.subset(Y.gpa$coords, plethodon$species)
 
-integration.test(Y.gpa$coords, partition.gp=c(rep("A", 5), rep("B", 7)), 
-                 iter=999, print.progress = FALSE)
+#Z_Vrel by species
+Vrel.gp <- Map(function(x) integration.Vrel(x), coords.gp) 
+compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
 
-two.b.pls(Y.gpa$coords[1:5,,], Y.gpa$coords[6:12,,], iter=999, 
-          print.progress = FALSE)
+## Integration Across Spatial Scales
+globalIntegration(Y.gpa$coords) #data are not spatially integrated
 
-pleth.integr <- integration.test(Y.gpa$coords[1:5,,], 
-                                 Y.gpa$coords[6:12,,], iter=999, 
-                                 print.progress = FALSE)
-summary(pleth.integr)
-pls.plot <- plot(pleth.integr)
-
-picknplot.shape(pls.plot)
-
-### ----------------------------------------------------------------------------------
-
-# Compare Strength of Integration
-gps <- factor(paste(plethodon$species, plethodon$site))
-ljaw.gp <- coords.subset(Y.gpa$coords[1:5,,], gps)
-ujaw.gp <- coords.subset(Y.gpa$coords[6:12,,], gps)
-integ.tests <- Map(function(x,y) integration.test(x, y, iter=999, 
-                   print.progress = FALSE),
-                   ljaw.gp, ujaw.gp)
-group.z <- compare.pls(integ.tests)
-summary(group.z)
-
-### ----------------------------------------------------------------------------------
-
-# Global Integration
-globalIntegration(Y.gpa$coords)
-
-### ----------------------------------------------------------------------------------
-# Modularity
-land.gps <- c("A","A","A","A","A","B","B","B","B","B","B","B") #specify partitions
-modularity.test(Y.gpa$coords, land.gps, iter=999, print.progress = FALSE)
-
-### ----------------------------------------------------------------------------------
-# Compare modularity patterns
-
-data(pupfish) 
-Y.gpa<-gpagen(pupfish$coords, print.progress = FALSE)    #GPA-alignment    
-
-## landmarks on the body and operculum
-land.gps<-rep('a',56); land.gps[39:48]<-'b'
-
+## Integration Among Subsets
+data(pupfish) # GPA previously performed
 group <- factor(paste(pupfish$Pop, pupfish$Sex, sep = "."))
-levels(group)
 
-coords.gp <- coords.subset(Y.gpa$coords, group)
+# Subset 3D array by group, returning a list of 3D arrays
+tail.LM <- c(1:3, 5:9, 18:38)
+head.LM <- (1:56)[-tail.LM]
+tail.coords <- pupfish$coords[tail.LM,,]
+head.coords <- pupfish$coords[head.LM,,]
 
-modularity.tests <- lapply(1:nlevels(group), function(j) modularity.test(coords.gp[[j]],
-                                                                         land.gps, iter = 499, print.progress = FALSE))
-## the lapply function performs the modularity test on each 3D array in the lists provided
+IT <- integration.test(tail.coords, head.coords, print.progress = F)
+summary(IT)
+plot(IT)
 
-modularity.tests[[1]]
-modularity.tests[[2]]
-modularity.tests[[3]]
-modularity.tests[[4]]
+land.gp <- rep(1,56); land.gp[tail.LM] <- 2
+integration.test(pupfish$coords, partition.gp=land.gp, print.progress = FALSE)
 
-group.Z <- compare.CR(modularity.tests, CR.null = FALSE)
-group.Z 
+two.b.pls(tail.coords, head.coords, print.progress = FALSE)
 
+## Comparing the Strength of Integration
+tail.coords.gp <- coords.subset(tail.coords, group)
+head.coords.gp <- coords.subset(head.coords, group)
 
-##### 3: Morphological Disparity ====================================================
+# Obtain Integration for groups
+integ.tests <- Map(function(x,y) integration.test(x, y, iter=499, 
+                                                  print.progress = FALSE), head.coords.gp, tail.coords.gp)
+compare.pls(integ.tests)
+
+## Tests of Modularity
+MT <- modularity.test(pupfish$coords,land.gp,CI=FALSE,print.progress = FALSE)
+summary(MT)
+plot(MT)
+
+## Comparing the Strength of Modularity
+coords.gp <- coords.subset(pupfish$coords, group)
+modul.tests <- Map(function(x) modularity.test(x, land.gp,print.progress = FALSE), coords.gp) 
+compare.CR(modul.tests, CR.null = FALSE)
+
+## Comparing Alternative Modular Partitions
+land.gps3 <- rep('a',56); land.gps3[39:48]<-'b'; land.gps3[c(6:9,28:38)] <- 'c' 
+#3 module hypothesis (tail now a module)
+land.gps4 <- rep('a',56); land.gps4[39:48]<-'b'; land.gps4[c(6:9,28:38)] <- 'c'; 
+land.gps4[c(10,49:56)] <- 'd'  #4 module hypothesis (eye now a module)
+
+m3.test <- modularity.test(coords.gp$Marsh.F,land.gps3, iter = 499, print.progress = FALSE)
+m4.test <- modularity.test(coords.gp$Marsh.F,land.gps4, iter = 499, print.progress = FALSE)
+
+model.Z <- compare.CR(m3.test,m4.test, CR.null = TRUE)
+model.Z 
+#########################################################
+
+## 3: Morphological Disparity
 data(plethodon)
 Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)    
 gdf <- geomorph.data.frame(Y.gpa, species = plethodon$species, site = plethodon$site)
