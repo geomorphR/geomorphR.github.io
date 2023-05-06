@@ -16,7 +16,7 @@
     - [Day 2 R-script](https://geomorphR.github.io/GMcourse/Labs/Day02-RCode.R) 
 
 ### Day 3 Tutorials
-- [Tutorial 3.1: Allometry] 
+- [Tutorial 3.1: Allometry](https://geomorphR.github.io/GMcourse/Labs/03.1-Allometry.html) 
 - [Tutorial 3.2: ANOVA and Pairwise Comparisons] 
 - [Tutorial 3.3: Trajectory Analysis] 
 - [Tutorial 3.4: Phylogenetic Comparative Methods] 

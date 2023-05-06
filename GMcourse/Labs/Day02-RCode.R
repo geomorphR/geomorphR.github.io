@@ -106,14 +106,14 @@ allom.plot <- plot(plethAllometry,
                    predictor = log(gdf$Csize),
                    reg.type ="PredLine") # make sure to have a predictor 
 
-preds <- shape.predictor(plethAllometry$GM$fitted, x= allom.plot$RegScore, Intercept = FALSE, 
+preds <- shape.predictor(plethAllometry$GM$fitted, x= allom.plot$RegScore, Intercept = TRUE, 
                          predmin = min(allom.plot$RegScore), 
                          predmax = max(allom.plot$RegScore)) 
 par(mfrow=c(1,2))
 plotRefToTarget(M, preds$predmin, mag=3, links = plethodon$links)
-mtext("Regression Min")
+mtext("Regression Min: 3X")
 plotRefToTarget(M, preds$predmax, mag=3, links = plethodon$links)
-mtext("Regression Max")
+mtext("Regression Max: 3X")
 par(mfrow=c(1,1))
 
 # via picknplot.shape (more detail below)
@@ -131,9 +131,9 @@ preds <- shape.predictor(arrayspecs(pleth.anova$fitted, 12, 2), x = X, Intercept
                          symJord=symJord, alloJord=alloJord)
 par(mfrow=c(1,2))
 plotRefToTarget(M, preds$symJord, links = plethodon$links, mag=2)
-mtext("Sympatric P. Jordani")
+mtext("Sympatric P. Jordani: 2X")
 plotRefToTarget(M, preds$alloJord, links = plethodon$links, mag=2)
-mtext("Allopatric P. Jordani")
+mtext("Allopatric P. Jordani: 2X")
 par(mfrow=c(1,1))
 
 # via picknplot.shape (more detail below)
