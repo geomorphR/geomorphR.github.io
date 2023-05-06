@@ -19,7 +19,7 @@
 - [Tutorial 3.1: Allometry](https://geomorphR.github.io/GMcourse/Labs/03-Allometry.html) 
 - [Tutorial 3.2: ANOVA and Pairwise Comparisons] 
 - [Tutorial 3.3: Trajectory Analysis] 
-- [Tutorial 3.4: Phylogenetic Comparative Methods] 
+- [Tutorial 3.4: Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Labs/03-PhyCompMethods.html)  
     - [Day 3 R-script] 
 
 ### Day 4 Tutorials
