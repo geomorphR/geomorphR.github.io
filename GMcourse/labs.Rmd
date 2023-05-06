@@ -10,10 +10,10 @@
     - [Day 1 R-script](https://geomorphR.github.io/GMcourse/Labs/Day01-RCode.R)
 
 ### Day 2 Tutorials
-- [Tutorial 2.1: GPA with Semilandmarks] 
-- [Tutorial 2.2: Visualizing Shape Differences and PCA] 
+- [Tutorial 2.1: GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Labs/02.1-GPA-Semilandmarks.html) 
+- [Tutorial 2.2: PCA and Visualizing Shape Differences](https://geomorphR.github.io/GMcourse/Labs/02.2-PCA-VisShapeDiff.html) 
 - [Tutorial 2.3: Shape Covariation] 
-    - [Day 2 R-script] 
+    - [Day 2 R-script](https://geomorphR.github.io/GMcourse/Labs/Day02-RCode.R) 
 
 ### Day 3 Tutorials
 - [Tutorial 3.1: Allometry] 

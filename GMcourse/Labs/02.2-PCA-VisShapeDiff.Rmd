@@ -1,7 +1,6 @@
 ---
-title: "02.2: Visualizing Shape Differences and Principal Components Analysis"
-author: "Dean Adams, Michael Collyer & Antigoni Kaliontzopoulou"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: "02.2: Principal Components Analysis (PCA) and Visualizing Shape Differences"
+author: ""
 output: html_document
 ---
 
@@ -13,7 +12,7 @@ opts_chunk$set(echo = TRUE)
 
 ## **Content Description**
 
-In this tutorial, we demonstrate some of the graphical capabilities of `geomorph` that may be used to visualize patterns of shape variation, and interpret particular shape differences between specimens. These types of plots, shape difference plots and principal components plots, are found in nearly every empirical publication using geometric morphometric shape data, and are thus of primary importance.  `Geomorph` now has considerable flexibility in plot options for these visualizations, and we encourage you to explore these options and consult the help pages of the various functions. 
+Here we demonstrate some of the graphical capabilities of `geomorph` for visualizing patterns of shape variation and interpreting particular shape differences.
 
 First, let´s load some example data and plot the specimens (before and after GPA alignment):
 ```{r eval=TRUE, out.width="80%"}
@@ -26,61 +25,75 @@ plotAllSpecimens(plethodon$land, links=plethodon$links)  # Raw data
 mtext("Raw Data")
 plotAllSpecimens(Y.gpa$coords, links=plethodon$links)    # GPA-aligned data
 mtext("GPA-Aligned Specimens")
-
-```
-
-```{r eval=FALSE, out.width="80%"}
 par(mfrow=c(1,1)) 
 ```
 
-## **1: Visualize Shape Differences Between Specimens**
+## **1: Principal Components Analysis**
 
-Visualizing shape deformations is **ALWAYS** relative to some reference. That is, we provide graphical depictions of shape *differences*  $\small{Reference\rightarrow{Target}}$.  Typically, we use the overall average as a reference, and deform it into some target using the function `plotRefToTarget`. There are quite a few plotting options available: a few of them are illustrated here (but see the help files for more details!). 
+The function `gm.prcomp` provides visualization of patterns of data in shape space via PCA (and as we'll see later, via other data alignment procedures). Here is a simple example of use of the function:
 
-**Here we demonstrate several shape deformation plots as found in `geomorph`
+```{r eval=TRUE}
+PCA <- gm.prcomp(Y.gpa$coords)
+summary(PCA)
+plot(PCA)
+```
+
+Here we have summarized variation along each PC axis, and provided a plot. Here is a more advanced version:
+
+```{r eval=TRUE}
+gps <- as.factor(paste(plethodon$species, plethodon$site))  #define some groups for plotting
+plot(PCA, pch=22, cex = 1.5, bg = gps) 
+legend("topleft", pch=22, pt.bg = unique(gps), legend = levels(gps))
+```
+
+
+## **2: Visualize Shape Differences Between Specimens**
+
+Taking the previous example, we may now with to generate graphical depictions of shape *differences* for certain specimens. Generating graphical depictions of shapes is accomlished using `plotRefToTarget`. Here are a few examples of its use: 
 
 ### Deformations Specimen to Specimen
 
 ```{r eval=TRUE}
-ref <- mshape(Y.gpa$coords)
+M <- mshape(Y.gpa$coords)
 
-plotRefToTarget(ref,Y.gpa$coords[,,39], links=plethodon$links)
+par(mfrow=c(1,2))
+plotRefToTarget(M,Y.gpa$coords[,,39], links=plethodon$links)
 mtext("TPS")
-plotRefToTarget(ref,Y.gpa$coords[,,39], mag=2.5, links=plethodon$links)
+plotRefToTarget(M,Y.gpa$coords[,,39], mag=2.5, links=plethodon$links)
 mtext("TPS: 2.5X magnification")
 par(mfrow=c(1,1))
 
-plotRefToTarget(ref,Y.gpa$coords[,,39], links=plethodon$links, method="vector", mag=3)
+par(mfrow=c(1,2))
+plotRefToTarget(M,Y.gpa$coords[,,39], links=plethodon$links, method="vector", mag=3)
 mtext("Vector Displacements")
-plotRefToTarget(ref,Y.gpa$coords[,,39], links=plethodon$links,gridPars=gridPar(pt.bg="red", link.col="green", pt.size = 1), method="vector", mag=3)
+plotRefToTarget(M,Y.gpa$coords[,,39], links=plethodon$links,gridPars=gridPar(pt.bg="red", link.col="green", pt.size = 1), method="vector", mag=3)
 mtext("Vector Displacements: Other Options")
+par(mfrow=c(1,1))
 
-plotRefToTarget(ref,Y.gpa$coords[,,39], mag=2, outline=plethodon$outline)  
+par(mfrow=c(1,2))
+plotRefToTarget(M,Y.gpa$coords[,,39], mag=2, outline=plethodon$outline)  
 mtext("Outline Deformation")
-plotRefToTarget(ref,Y.gpa$coords[,,39], method="points", outline=plethodon$outline)
+plotRefToTarget(M,Y.gpa$coords[,,39], method="points", outline=plethodon$outline)
 mtext("Outline Deformations Ref (gray) & and Tar (black)")
-
+par(mfrow=c(1,1))
 ```
 
-## **2: Advanced Shape Plotting: Shape Prediction**
+## **3: Advanced Shape Plotting: Shape Prediction**
 
-Many times, we wish to visualize shape deformations based on a particular statistical model. For instance, we may wish to visualize group differences from ANOVA, or visualize how shape changes along some axis, like a regression line or a PC-axis.  All of these require *Predicting* shapes based on some mathematical model, and then visualizing shape deformations using those predicted shapes. 
-
-While the mathematics of this can become rather involved, it is straightforward. Fortunately, `geomorph` has a wonderful and general function to accomplish this task: `shape.predictor`.  Here we demonstrate a few of its capabilities (**NOTE: in future lectures we will discuss the mathematics of these statistical methods. Here the visualization tools only are demonstrated): 
+NOw let's visualize how shape changes along PC1 of the previous ordination. For this we must ***PREDICT*** shapes along PC1, and then plot them. This is accomplished using a combination of the functions `shape.predictor` (to identify shapes along PC1), and `plotRefToTarget` (to visualize them): 
 
 ### PCA Shape Predictions
 
 ```{r eval=TRUE}
-M <- mshape(Y.gpa$coords)
-PCA <- plotTangentSpace(Y.gpa$coords)
-PC <- PCA$pc.scores[,1]
+PC <- PCA$x[,1]
 preds <- shape.predictor(Y.gpa$coords, x= PC, Intercept = FALSE, 
                          pred1 = min(PC), pred2 = max(PC)) # PC 1 extremes, more technically
+par(mfrow=c(1,2))
 plotRefToTarget(M, preds$pred1, links = plethodon$links)
 mtext("PC1 - Min.")
 plotRefToTarget(M, preds$pred2, links = plethodon$links)
 mtext("PC1 - Max.")
-
+par(mfrow=c(1,1))
 ```
 
 ### Shape Predictions Along a Regression
@@ -98,8 +111,12 @@ allom.plot <- plot(plethAllometry,
 preds <- shape.predictor(plethAllometry$GM$fitted, x= allom.plot$RegScore, Intercept = FALSE, 
                          predmin = min(allom.plot$RegScore), 
                          predmax = max(allom.plot$RegScore)) 
+par(mfrow=c(1,2))
 plotRefToTarget(M, preds$predmin, mag=3, links = plethodon$links)
+mtext("Regression Min")
 plotRefToTarget(M, preds$predmax, mag=3, links = plethodon$links)
+mtext("Regression Max")
+par(mfrow=c(1,1))
 ```
 
 ### Shape Predictions of Group Differences
@@ -116,35 +133,12 @@ symJord <- c(0,1,0) # design for P. Jordani in sympatry
 alloJord <- c(0,0,0) # design for P. Jordani in allopatry
 preds <- shape.predictor(arrayspecs(pleth.anova$fitted, 12, 2), x = X, Intercept = TRUE, 
                          symJord=symJord, alloJord=alloJord)
+par(mfrow=c(1,2))
 plotRefToTarget(M, preds$symJord, links = plethodon$links, mag=2)
+mtext("Sympatric P. Jordani")
 plotRefToTarget(M, preds$alloJord, links = plethodon$links, mag=2)
-
-```
-
-
-## **3: PCA Plot (Tangent Space)**
-
-In `geomorph`, there are two ways to obtain a principal components plot of shape variation (i.e, a visualization of Tangent Space). Here is the first option, using `plotTangentSpace`:
-
-```{r eval=TRUE}
-plotTangentSpace(Y.gpa$coords, groups = interaction(plethodon$species, plethodon$site))
-```
-
-Alternatively, one could use the function `gm.prcomp`. This has additional flexibility as compared to the previous function, some of which we show here (later we will show phylogenetic PCA plots):
-
-```{r eval=TRUE}
-pleth.raw <- gm.prcomp(Y.gpa$coords)
-
-gps <- as.factor(paste(plethodon$species, plethodon$site))
-plot(pleth.raw)
-par(mar=c(2, 2, 2, 2))
-plot(pleth.raw, pch=22, cex = 1.5, bg = gps) 
-#  Add things as desired using standard R plotting
-text(par()$usr[1], 0.1*par()$usr[3], labels = "PC1 - 36.74%", pos = 4, font = 2)
-text(0, 0.95*par()$usr[4], labels = "PC2 - 31.02%", pos = 4, font = 2)
-legend("topleft", pch=22, pt.bg = unique(gps), legend = levels(gps))
- 
-
+mtext("Allopatric P. Jordani")
+par(mfrow=c(1,1))
 ```
 
 ## **4: Selecting Shapes to Visualize in Real Time**
@@ -175,6 +169,14 @@ This real-time visualization is especially useful for viewing regions of morphos
 #ref <- mshape(scallops)
 #refmesh <- warpRefMesh(read.ply("Data/glyp02L.ply"), 
 #                       scallops[,,1], ref, color=NULL, centered=T)
-#plotTangentSpace(scallops, axis1 = 1, axis2 = 2, warpgrids=T, mesh= refmesh)
+#PCA.scallop <- gm.prcomp(scallops)
+#PC.sc <- PCA.scallop$x[,1]
+#sc.preds <- shape.predictor(scallops, x= PC.sc, Intercept = FALSE, 
+#                         pred1 = min(PC.sc), pred2 = max(PC.sc)) # PC 1 extremes, more technically
+#plotRefToTarget(ref, sc.preds$pred1)
+#plotRefToTarget(ref, sc.preds$pred2)
+
+#plotRefToTarget(ref, sc.preds$pred1, mesh = refmesh, method = "surface", mag = 1)
+#plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = "surface", mag = 1)
 ```
 
