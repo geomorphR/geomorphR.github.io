@@ -156,3 +156,7 @@ plotRefToTarget(ref, sc.preds$pred2)
 
 plotRefToTarget(ref, sc.preds$pred1, mesh = refmesh, method = "surface", mag = 1)
 plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = "surface", mag = 1)
+
+###################################################
+
+##### 3: Shape Covaration
