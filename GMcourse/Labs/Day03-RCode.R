@@ -193,132 +193,102 @@ mtext("Unique Slopes")
 par(mfcol = c(1,1))
 
 
-
-## 2A: Simple (single-group) allometry
-
-
-#######################################
 ##### 3: Shape Statistics II
 
-#######################################
+data(pupfish) # GPA already performed
 
-##### 4: Phylogenetic Comparative Methods
+# Many different linear models
 
-### Read and prune/match data
-plethtree <- read.tree('Data/plethtree.tre')
+fit0 <- procD.lm(coords ~ 1, data = pupfish, iter = 999)
+fit1 <- procD.lm(coords ~ log(CS), data = pupfish, iter = 999)
+fit2 <- procD.lm(coords ~ Sex, data = pupfish, iter = 999)
+fit3 <- procD.lm(coords ~ Pop, data = pupfish, iter = 999)
+fit4 <- procD.lm(coords ~ log(CS) + Sex, data = pupfish, iter = 999)
+fit5 <- procD.lm(coords ~ log(CS) + Pop, data = pupfish, iter = 999)
+fit6 <- procD.lm(coords ~ log(CS) * Sex, data = pupfish, iter = 999)
+fit7 <- procD.lm(coords ~ log(CS) * Pop, data = pupfish, iter = 999)
+fit8 <- procD.lm(coords ~ Sex * Pop, data = pupfish, iter = 999)
+fit9 <- procD.lm(coords ~ log(CS) + Sex*Pop, data = pupfish, iter = 999)
+fit10 <- procD.lm(coords ~ log(CS) * Sex*Pop, data = pupfish, iter = 999)
 
-plethtree <- read.tree('Data/plethtree.tre')
-plethland <- readland.tps('Data/PlethodonLand.tps',specID = "ID",
-                          warnmsg = FALSE)
-gps <- read.csv('Data/PlethGps.csv', header=TRUE, row.names=1)
-Y.gpa <- gpagen(plethland, print.progress = FALSE)
-M <- mshape(Y.gpa$coords)
-svl <- Y.gpa$Csize
+# Model with just a mean
 
-shape <- Y.gpa$coords
-shape.test <- treedata(phy = plethtree, data = two.d.array(shape), warnings = TRUE)
-#no warnings. Everthing matches in this case
+model.matrix(fit0)
+coef(fit0)
 
-data.matched <- treedata(phy = plethtree, data = gps, warnings=FALSE)
-elev <- as.factor(data.matched$data); names(elev) <- row.names(data.matched$data)
+# Linear regression model
 
-gdf <- geomorph.data.frame(shape=shape, svl=svl,elev = elev, plethtree=plethtree)
+model.matrix(fit1)
+coef(fit1)
 
-links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
-                ncol=2,byrow=FALSE)
-plot(ladderize(plethtree),edge.width=3)
-axisPhylo(1)
+# Simple single-factor models
 
-### 4A: Phylogenetic Regression
-pgls.reg <- procD.pgls(f1 = shape~svl, phy=plethtree, data=gdf, print.progress = FALSE)
-summary(pgls.reg)
+model.matrix(fit2)
+coef(fit2)
+model.matrix(fit3)
+coef(fit3)
 
-#Plots
-allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$svl,
-                   reg.type ="RegScore", pch=19, cex=1.5, xlab = "SVL") # make sure to have a predictor 
-fit.line <- lm(allom.plot$RegScore~gdf$svl)
-abline(fit.line,col = "red")
+# How to find fitted values
 
+unique(model.matrix(fit2)) %*% coef(fit2)[,1:4]
+model.matrix(fit2) %*% coef(fit2)[,1:4]
+fitted(fit2)[, 1:4]
 
-preds <- shape.predictor(pgls.reg$GM$pgls.fitted, x= allom.plot$RegScore, Intercept = FALSE, 
-                         predmin = min(allom.plot$RegScore), 
-                         predmax = max(allom.plot$RegScore)) 
-M <- mshape(shape)
-par(mfrow = c(1,2))
-plotRefToTarget(M, preds$predmin, mag=3, links = links)
-mtext("Min")
-plotRefToTarget(M, preds$predmax, mag=3, links = links)
-mtext("Max")
-par(mfrow = c(1,1))
+# ANOVA
 
-### 4B: Phylogenetic ANOVA
-pgls.aov <- procD.pgls(f1 = shape~elev, phy=plethtree, data=gdf, print.progress = FALSE)
-summary(pgls.aov)
+anova(fit8, effect.type = "Rsq")
+anova(fit8, effect.type = "F")
 
-# Plots
-plot.res <- gm.prcomp(shape,phy=plethtree)
-plot(plot.res,phylo = FALSE, pch=21, bg=gdf$elev, cex=2)
-legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+# MANOVA
 
-Low <- c(1) # design for low elevation
-High <- c(0) # design for high elevation
-preds <- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11, 2), x = pgls.aov$X[,-1],
-                         Intercept = TRUE, Low = Low, High = High)   
-par(mfrow=c(1,2)) 
-plotRefToTarget(M, preds$Low, mag=2, links=links)
-mtext("Low Elevation")
-plotRefToTarget(M, preds$High, mag=2, links=links)
-mtext("High Elevation")
-par(mfrow=c(1,1)) 
+fitm <- manova.update(fit8)
+summary(fitm)
+summary(fitm, test = "Pillai")
 
-### 4C: Phylogenetic PLS
-land.gps<-c("A","A","A","A","A","B","B","B","B","B","B")
-PLS.Y <- phylo.integration(A = gdf$shape, partition.gp = land.gps, phy= plethtree, print.progress = FALSE)
-summary(PLS.Y)
-plot(PLS.Y)
+# Pairwise comparisons, group means
 
-### 2: Phylogenetic Signal
-PS.shape <- physignal(A=shape,phy=plethtree,iter=999, print.progress = FALSE)
-summary(PS.shape)
-plot(PS.shape)
+group <- interaction(pupfish$Pop, pupfish$Sex)
+PW <- pairwise(fit8, groups = group)
+summary(PW)
+summary(PW, stat.table = FALSE)
 
-### 3: Phylogenetic Ordination
+# You should explore the options with summary.pairwise
 
-#### Phylomorphospace
-plot.pca <- gm.prcomp(shape,phy=plethtree)
-plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
-legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+# Pairwise comparisons, group slopes
 
-#### Phylogenetic PCA (pPCA)
-plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
-plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
-legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+group <- interaction(pupfish$Pop, pupfish$Sex)
+PW <- pairwise(fit10, groups = group, 
+               covariate = log(pupfish$CS))
+summary(PW)
+summary(PW, test.type = "VC")
+summary(PW, test.type = "VC", angle.type = "deg")
 
-#### Phylogenetically-Aligned Components Analysis (PACA)
-plot.paca <- gm.prcomp(shape,phy=plethtree, align.to.phy = TRUE)
-plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
-legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+# Trajectory analysis
 
-#### Side by Side
-par(mfrow=c(1,3))
-plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "Phylomorphospace" )
-legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+TA <- trajectory.analysis(fit8, group = pupfish$Pop,
+                          traj.pts = pupfish$Sex)
+summary(TA)
+summary(TA, attribute = "TC")
 
-plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "pPCA" )
-legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+TP <- plot(TA, pch = as.numeric(Pupfish$Pop) + 20, bg = as.numeric(Pupfish$Sex),
+           cex = 0.7, col = "gray")
+add.trajectories(TP, traj.pch = c(21, 22), start.bg = 1, end.bg = 2)
+legend("topright", levels(Pupfish$Pop), pch =  c(21, 22), pt.bg = 1)
 
-plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "PACA" )
-legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
-par(mfrow=c(1,1))
+# Pairwise variance (disparity) analysis
 
-### 5: Comparing Evolutionary Rates
+PW <- pairwise(fit8, groups = group)
+summary(PW, test.type = "var")
 
-#### 5A: Comparing Rates Among Clades
-ER<-compare.evol.rates(A=gdf$shape, phy=plethtree,gp=gdf$elev,iter=999, method = 'permutation',print.progress = FALSE)
-summary(ER)
-plot(ER)
+# Non-statistical model comparison
 
-#### 5B: Comparing Rates Among Traits
-EMR <- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=c(rep(1,5),rep(2,6)), print.progress = FALSE)
-summary(EMR)
-plot(EMR)
+modComp1 <- model.comparison(fit1, fit2, fit3, fit4, fit5, 
+                             fit6, fit7, fit8, fit9, fit10, type = "cov.trace")
+modComp2 <- model.comparison(fit1, fit2, fit3, fit4, fit5, 
+                             fit6, fit7, fit8, fit9, fit10, type = "logLik", tol = 0.01)
+
+summary(modComp1)
+summary(modComp2)
+
+plot(modComp1)
+plot(modComp2)
