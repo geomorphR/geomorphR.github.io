@@ -22,7 +22,7 @@
 
 [10-Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Lectures/10-Asymmetry.html)
 
-[11-Disparity]
+[11-RRPP Extensions (Trajectory Analysis & Morphlogical Disparity)](https://geomorphR.github.io/GMcourse/Lectures/11-RRPPExtensions.html)
 
 [12-Integration and Modularity](https://geomorphR.github.io/GMcourse/Lectures/12-IntegrationModularity.html)
 
