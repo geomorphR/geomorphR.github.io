@@ -1,5 +1,5 @@
 ---
-title: "02.2: Principal Components Analysis (PCA) and Visualizing Shape Differences"
+title: "Day-02: Principal Components Analysis (PCA) and Visualizing Shape Differences"
 author: ""
 output: html_document
 ---

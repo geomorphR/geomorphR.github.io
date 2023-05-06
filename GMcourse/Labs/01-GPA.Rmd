@@ -1,5 +1,5 @@
 ---
-title: "01.4: GPA: Generalized Procrustes Analysis"
+title: "Day-01: GPA: Generalized Procrustes Analysis"
 author: ""
 output: html_document
 ---

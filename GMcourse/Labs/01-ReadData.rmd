@@ -1,5 +1,5 @@
 ---
-title: "01.2: Reading Data"
+title: "Day-01: Reading Data"
 author: ""
 output: html_document
 ---
@@ -17,7 +17,7 @@ In the previous lab, we learned how to digitize using `StereoMorph`. Here we tak
 ```{r eval=TRUE}
 library(geomorph)
 library(StereoMorph)
-myShapes <- readShapes("Data/Fish-Shapes")
+myShapes <- readShapes("Data/Fish-Shapes-ex")
 mydata <- readland.shapes(myShapes)
 
 mydata$landmarks$Fish1

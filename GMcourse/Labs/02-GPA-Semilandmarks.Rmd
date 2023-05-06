@@ -1,5 +1,5 @@
 ---
-title: "02.1: GPA with Semilandmarks"
+title: "Day-02: GPA with Semilandmarks"
 author: ""
 output: html_document
 ---
