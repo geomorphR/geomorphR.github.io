@@ -29,4 +29,4 @@
     - [Day 4 R-script] 
 
 ### Example data for Workshop (can be cloned, pulled, or files downloaded)
-[Link to Data Repository](https://geomorphR.github.io/GMcourse/Labs/Data/)
+[Link to Data Repository](https://github.com/geomorphR/geomorphR.github.io/tree/main/GMcourse/Labs/Data)
