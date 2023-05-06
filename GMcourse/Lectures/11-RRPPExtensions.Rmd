@@ -50,15 +50,15 @@ style_mono_light()
 ---
 
 + RRPP is useful for providing $P$-values and $Z$-scores for **.blue[primary statistics]**, like $F$, $R^2$, $\lambda_{Roy}$, etc.
-  + These may be typical test statistics or descriptive test statistics (like $R^2$) that can be used as test stistics.
+  + These may be typical test statistics or descriptive test statistics (like $R^2$) that can be used as test statistics.
   + They are calculated directly from $\mathbf{S}$ or $\hat{\boldsymbol{\Sigma}}$ matrices.
   
-+ RRPP is rather essential for statistical evaluation of **.green[secondary statistics]**, which are statistics canulated from other statistics.  These involve contrasting variances, or contrasting differences between estimated values, or finding the angular differences between vectors that describe the differences between estimated values, plus other.
++ RRPP is rather essential for statistical evaluation of **.green[secondary statistics]**, which are statistics calculated from other statistics.  These involve contrasting variances, or contrasting differences between estimated values, or finding the angular differences between vectors that describe the differences between estimated values, plus other.
 
 + Think of the `pupfish` example.  
     + Sexual dimorphism is a vector that describes the difference between male and female means, within consideration of fish sampled from one population.
     + This vector could be tested in term of its length, $d$, to determine if males and females have different shapes.
-    + But what if we wish to entertain whether the difference in one population is the same as the difference in the other population.  We need to be able to contrast the differences (one statistic) in a secondar statistic.  ***Secondary statistics make use of primary statistics for better hypotheses.***
+    + But what if we wish to entertain whether the difference in one population is the same as the difference in the other population.  We need to be able to contrast the differences (one statistic) in a secondary statistic.  ***Secondary statistics make use of primary statistics for better hypotheses.***
     
 + Because we have many (thousands) of $\mathbf{S}$ and $\hat{\boldsymbol{\Sigma}}$ matrices after RRPP, we have commensurate opportunity to test many hypotheses.
 
@@ -67,7 +67,7 @@ style_mono_light()
 
 # Part II. Trajectory analysis
 
-## Using RRPP to comapre attributes of shape change
+## Using RRPP to compare attributes of shape change
 
 ]
 ---

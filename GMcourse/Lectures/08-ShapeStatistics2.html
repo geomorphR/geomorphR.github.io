@@ -211,7 +211,7 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 |---|-----|---|--|--|-------|
 | Roy's maximum `\(\lambda\)` | `\(\lambda_{Roy} = \max(\lambda_i)\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
 | Wilks' `\(\lambda\)` | `\(\lambda_{Wilks} = \prod(\frac{1}{1+ \lambda_i}) = \frac{\lvert\mathbf{S}_{effect}\rvert}{\lvert\mathbf{S}_{effect} + \mathbf{S}_{residuals}\rvert}\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
-| Pillai's trace | `\(trace_{Pillais} = \sum(\frac{1}{1+ \lambda_i})\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
+| Pillai's trace | `\(trace_{Pillai} = \sum(\frac{1}{1+ \lambda_i})\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
 | Hotelling-Lawley trace| `\(trace_{HT} = \sum(\lambda_i)\)` | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of `\(\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}\)`|
 
 *Note that `\(p \leq n-1\)` is required because of matrix inversion, and in some cases, unless `\(p &lt;&lt; n\)`, results could be spurious.*
@@ -322,7 +322,7 @@ system.time(fit &lt;- procD.lm(coords ~ log(CS), data = pupfish,
 
 ```
 ##    user  system elapsed 
-##   0.808   0.053   0.885
+##   0.796   0.052   0.860
 ```
 
 Yup, that is 10,000 RRPP permutations in less than 1 second.  We will understand what happened soon.
@@ -340,8 +340,8 @@ Yup, that is 10,000 RRPP permutations in less than 1 second.  We will understand
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ab75c17293bf90fdf6dc" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-ab75c17293bf90fdf6dc">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.15471205016809,4.18984918983712,4.17818521858998,4.22892909022818,4.23191407704071,4.28811978884011,4.29923710822059,4.2671559342153,4.25594349748359,4.25411692594672,4.2687441772169,4.30408862380278,4.34419937613886,4.30396695837895,4.27880492438232,4.34953408532385,4.29125757429802,4.18556287109768,4.41793207389008,4.40886186736836,4.44026014717523,4.42440827511505,4.49454237076523,4.52438987016918,4.5044654333212,4.50766200877124,4.50006377937509,4.53888987793006,4.55157864890887,3.84847264459506,4.00518876885285,4.05425644121798,4.09438519912349,4.10670144719369,4.15586878411191,4.13202327948573,4.26725431555302,4.21707382034098,4.30058586427634,4.29163583770382,4.30218729466989,4.05899814913958,4.20119212180867,4.23633929304128,4.14505659849253,4.19139151939246,4.15615822521441,4.27911544874055,4.35277078926652,4.30548924769962,4.42256987887174,4.45612637411853,4.40728588329518,4.36595837890348]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-41701215b98e8079e649" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-41701215b98e8079e649">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.15471205016809,4.18984918983712,4.17818521858998,4.22892909022818,4.23191407704071,4.28811978884011,4.29923710822059,4.2671559342153,4.25594349748359,4.25411692594672,4.2687441772169,4.30408862380278,4.34419937613886,4.30396695837895,4.27880492438232,4.34953408532385,4.29125757429802,4.18556287109768,4.41793207389008,4.40886186736836,4.44026014717523,4.42440827511505,4.49454237076523,4.52438987016918,4.5044654333212,4.50766200877124,4.50006377937509,4.53888987793006,4.55157864890887,3.84847264459506,4.00518876885285,4.05425644121798,4.09438519912349,4.10670144719369,4.15586878411191,4.13202327948573,4.26725431555302,4.21707382034098,4.30058586427634,4.29163583770382,4.30218729466989,4.05899814913958,4.20119212180867,4.23633929304128,4.14505659849253,4.19139151939246,4.15615822521441,4.27911544874055,4.35277078926652,4.30548924769962,4.42256987887174,4.45612637411853,4.40728588329518,4.36595837890348]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 ### Linear regression example
@@ -936,7 +936,7 @@ system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
 
 ```
 ##    user  system elapsed 
-##   0.820   0.042   0.863
+##   0.846   0.134   1.034
 ```
 ]
 
@@ -951,8 +951,8 @@ system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-95636ab5ddbeb2ffad4b" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-95636ab5ddbeb2ffad4b">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0ab44cb9ca25a0580529" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0ab44cb9ca25a0580529">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 

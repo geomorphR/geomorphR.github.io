@@ -188,7 +188,7 @@ $$\mathbf{b} = \begin{bmatrix}
 
 $$\mathbf{a}^T \mathbf{b} = \left(5\times -5 \right) + \left(3 \times 0 \right) + \left(-2 \times 1 \right) = -27$$
 
-###### *Helpful mnemonic: "Run Amok Computational Demon!" for row-accross and column-down pattern (will be helpful for matrices)*
+###### *Helpful mnemonic: "Run Amok Computational Demon!" for row-across and column-down pattern (will be helpful for matrices)*
 ---
 ### Vector Multiplication (cont.): Vector Outer Products
 
@@ -421,7 +421,7 @@ This is not something we can do.  We can invert some matrices, but we will come 
 
 # Part II. Special Matrices 
 
-## And some propeties that make them special
+## And some properties that make them special
 
 ]
 ---
@@ -453,7 +453,7 @@ This is not something we can do.  We can invert some matrices, but we will come 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
 |**Projection matrix:** Any matrix that can be multiplied with data that map the data to new vectors (transformation), taking the form, $\mathbf{PY}$ or $\mathbf{YP}$.| $\small{\mathbf{P} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix}}$ | Although projection (transformation) matrices can have many forms, typical ones are: "hat" matrices, $\mathbf{H}$, which if idempotent perform orthogonal projections, but if merely symmetric perform shears (more on this soon); and eigenvectors ( $\mathbf{V}$ ).
-|**Positive-definite matrix:** If $\mathbf{X}$ is symmetric, $\mathbf{a}^T \mathbf{Xa}$ is a positive scalar if $\mathbf{a}$ has non-zero values.  Thus, $\mathbf{X}$ is postive-definite.| $\small{\mathbf{X} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 2 \end{bmatrix}}$ | This also means all eigenvalues of $\mathbf{X}$ are non-negative (more later).  ***Covariance matrices for shape data are often not positive definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
+|**Positive-definite matrix:** If $\mathbf{X}$ is symmetric, $\mathbf{a}^T \mathbf{Xa}$ is a positive scalar if $\mathbf{a}$ has non-zero values.  Thus, $\mathbf{X}$ is positive-definite.| $\small{\mathbf{X} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 2 \end{bmatrix}}$ | This also means all eigenvalues of $\mathbf{X}$ are non-negative (more later).  ***Covariance matrices for shape data are often not positive definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
 
 It should be clear that matrices can have several properties.  For example, a *projection matrix* can be symmetric and idempotent.
 ---

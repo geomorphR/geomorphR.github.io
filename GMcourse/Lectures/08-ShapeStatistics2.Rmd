@@ -203,7 +203,7 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 |---|-----|---|--|--|-------|
 | Roy's maximum $\lambda$ | $\lambda_{Roy} = \max(\lambda_i)$ | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of $\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}$|
 | Wilks' $\lambda$ | $\lambda_{Wilks} = \prod(\frac{1}{1+ \lambda_i}) = \frac{\lvert\mathbf{S}_{effect}\rvert}{\lvert\mathbf{S}_{effect} + \mathbf{S}_{residuals}\rvert}$ | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of $\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}$|
-| Pillai's trace | $trace_{Pillais} = \sum(\frac{1}{1+ \lambda_i})$ | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of $\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}$|
+| Pillai's trace | $trace_{Pillai} = \sum(\frac{1}{1+ \lambda_i})$ | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of $\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}$|
 | Hotelling-Lawley trace| $trace_{HT} = \sum(\lambda_i)$ | MANOVA | Yes | Yes | Eigenvalues are obtained from eigenanalysis of $\mathbf{S}_{residuals}^{-1} \mathbf{S}_{effect}$|
 
 *Note that $p \leq n-1$ is required because of matrix inversion, and in some cases, unless $p << n$, results could be spurious.*
