@@ -222,8 +222,8 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Coefficient $d$ | $d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}$ | RRPP first order| Yes | Yes | Let $\mathbf{b}^T$ be a vector of $\hat{\boldsymbol{\beta}}$  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
-| Pairwise $d$ | $d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}$ | RRPP first order| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
+| Coefficient $d$ | $d_{\mathbf{b}} =(\mathbf{b}^T\mathbf{b})^{1/2}$ | RRPP primary| Yes | Yes | Let $\mathbf{b}^T$ be a vector of $\hat{\boldsymbol{\beta}}$  Via RRPP, it is possible to test the null hypothesis that coefficients equal 0.|
+| Pairwise $d$ | $d_{12} = \left[(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})^T (\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})\right]^{1/2}$ | RRPP primary| Yes | Yes | Determines if two estimates (like group means) among several are meaningfully different (in shape).|
 
 ---
 
@@ -231,9 +231,9 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Vector MD | $\small MD = \lvert d_{12_A} - d_{12_B}\rvert$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
-| Vector Correlation or Angle | $\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}$ $\small \theta = \cos^{-1}VC$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, find the vector correlation or angular difference between vectors that consistently estimate changes from state 1 to state 2, or slopes associated with a covariate.  **This can only be done with RRPP.**  Note that $\mathbf{v}$ means $(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})$ and $\lvert\lvert \mathbf{v}\rvert\rvert$ is the length of $\mathbf{v}$.|
-|Trajectory MD| $\small MD = \lvert \sum d_A - \sum d_B \rvert$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, find the difference in *path distances* connecting estimates from state 1 to state 2 to state 3 to ... **This can only be done with RRPP.**  This is a component of **trajectory analysis.**
+| Vector MD | $\small MD = \lvert d_{12_A} - d_{12_B}\rvert$ | RRPP secondary| Yes | Yes | For two groups, $A$ and $B$, contrast the difference between consistent estimates for states 1 and 2.  **This can only be done with RRPP.**|
+| Vector Correlation or Angle | $\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}$ $\small \theta = \cos^{-1}VC$ | RRPP secondary| Yes | Yes | For two groups, $A$ and $B$, find the vector correlation or angular difference between vectors that consistently estimate changes from state 1 to state 2, or slopes associated with a covariate.  **This can only be done with RRPP.**  Note that $\mathbf{v}$ means $(\mathbf{x}_1^T\hat{\boldsymbol{\beta}} - \mathbf{x}_2^T\hat{\boldsymbol{\beta}})$ and $\lvert\lvert \mathbf{v}\rvert\rvert$ is the length of $\mathbf{v}$.|
+|Trajectory MD| $\small MD = \lvert \sum d_A - \sum d_B \rvert$ | RRPP secondary| Yes | Yes | For two groups, $A$ and $B$, find the difference in *path distances* connecting estimates from state 1 to state 2 to state 3 to ... **This can only be done with RRPP.**  This is a component of **trajectory analysis.**
 
 ---
 
@@ -241,8 +241,8 @@ Focus more so on RRPP, what the null model is, how residuals are randomized, and
 
 |Statistic|Calculation|Type|OLS OK|GLS OK| Comment|
 |---|-----|---|--|--|-------|
-| Trajectory Correlation or Angle | $\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}$ $\small \theta = \cos^{-1}VC$ | RRPP second order| Yes | Yes | For two groups, $A$ and $B$, find the vector correlation or angular difference between first PC vectors found separately for each group.  **This can only be done with RRPP.**  
-| Trajectory Shape (Procrustes distance)| $PD = \left[(\mathbf{z}_A-\mathbf{z}_B)^T(\mathbf{z}_A-\mathbf{z}_B)\right]^{1/2}$ |RRPP second order| Yes | Yes | For two groups, $A$ and $B$, find the Procrustes distance between two vectors of estimates, $\mathbf{z}_A$ and $\mathbf{z}_B$, which were obtained from GPA on trajectory points.  **This can only be done with RRPP.**  
+| Trajectory Correlation or Angle | $\small VC = \frac{\mathbf{v}_A^T\mathbf{v}_B}{\lvert\lvert \mathbf{v}_A\rvert\rvert \lvert\lvert \mathbf{v}_B\rvert\rvert}$ $\small \theta = \cos^{-1}VC$ | RRPP secondary| Yes | Yes | For two groups, $A$ and $B$, find the vector correlation or angular difference between first PC vectors found separately for each group.  **This can only be done with RRPP.**  
+| Trajectory Shape (Procrustes distance)| $PD = \left[(\mathbf{z}_A-\mathbf{z}_B)^T(\mathbf{z}_A-\mathbf{z}_B)\right]^{1/2}$ |RRPP secondary| Yes | Yes | For two groups, $A$ and $B$, find the Procrustes distance between two vectors of estimates, $\mathbf{z}_A$ and $\mathbf{z}_B$, which were obtained from GPA on trajectory points.  **This can only be done with RRPP.**  
 | Any logical statistic | You define |RRPP| Maybe | Maybe| RRPP is most appropriate for exploring new frontiers.
 
 ---
@@ -1276,7 +1276,7 @@ summary(PW, test.type = "var")
 .pull-right[
 The statistic used is $\lvert \hat{\sigma}^2_{1} - \hat{\sigma}^2_{2} \rvert$.
 
-**RRPP allows calculation of second-order statistics like these in every random permutation.**
+**RRPP allows calculation of secondary statistics like these in every random permutation.**
 
 The residuals are residuals of the group means, not the overall mean.
 ]
@@ -1320,7 +1320,7 @@ summary(TA, attribute = "TC", angle.type = "deg")
 
 + Sexual dimorphism can be thought of as a trajectory in the data space for two or more groups.  It is a trajectory with two points, in this case.  Other trajectories (e.g., developmental stages) can have more than two points.
 + When there are more than two points, the attribute, shape, is also viable and can be tested for differences among groups.
-+ **RRPP allows calculation of second-order statistics like these in every random permutation.**
++ **RRPP allows calculation of secondary statistics like these in every random permutation.**
 + The residuals are residuals of a model with main effect (Pop and Sex) but lacking interactions.  Trajectory analysis focuses only on the interactions.
 
 Trajectory analysis and analysis of disparity will be discussed in more detail in **Lecture 14: RRPP Extensions**. 
