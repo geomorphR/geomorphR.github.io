@@ -4,9 +4,143 @@
 library(geomorph)
 library(geiger)
 
-##### 1: Allometry
+##### 1: Shape Statistics 1
 
-## 1A: Simple (single-group) allometry
+## 1A: PCA, PACA, and phylo-PCA
+
+data(plethspecies)
+Y.gpa <- gpagen(plethspecies$land)
+
+## PCA
+
+PCA <- gm.prcomp(Y.gpa$coords, phy = plethspecies$phy,
+                 align.to.phy = FALSE,
+                 GLS = FALSE)
+summary(PCA)
+PCA$rot # loadings
+PCAplot <- plot(PCA, pch = 16, phylo = TRUE)
+
+# Explore shape change in the plot
+picknplot.shape(PCAplot)
+picknplot.shape(PCAplot, mag = 3)
+
+# In case one wishes to use results for other reasons:
+attributes(PCA)
+
+# note that $d is the same as eigenvalues:
+
+PCA$d
+
+eigen(var(PCA$x), only.values = TRUE)$values
+
+## PACA
+
+PACA <- gm.prcomp(Y.gpa$coords, phy = plethspecies$phy,
+                 align.to.phy = TRUE,
+                 GLS = FALSE)
+summary(PACA)
+PACA$rot # loadings
+PACAplot <- plot(PACA, pch = 16, phylo = TRUE)
+
+# Explore shape change in the plot
+picknplot.shape(PACAplot)
+picknplot.shape(PACAplot, mag = 3)
+
+## Phylo-PCA (discussed more with PCMs)
+
+
+pPCA <- gm.prcomp(Y.gpa$coords, phy = plethspecies$phy,
+                  align.to.phy = FALSE,
+                  GLS = TRUE)
+summary(pPCA)
+PACA$rot # loadings
+PACAplot <- plot(pPCA, pch = 16, phylo = TRUE)
+
+# Explore shape change in the plot
+picknplot.shape(PACAplot)
+picknplot.shape(PACAplot, mag = 3)
+
+## 1B: PLS
+
+data("plethShapeFood")
+Y.gpa <- gpagen(plethShapeFood$land)
+food <- plethShapeFood$food
+rownames(food) <- names(Y.gpa$Csize)
+
+PLSfood <- two.b.pls(food, Y.gpa$coords, 
+                     iter = 9999)
+PLSallometry <- two.b.pls(Y.gpa$Csize, Y.gpa$coords,
+                          iter = 9999)
+PLSintegration <- two.b.pls(Y.gpa$coords[1:5,, ], 
+                            Y.gpa$coords[8:13,,], 
+                            iter = 9999)
+
+summary(PLSfood)
+
+# What results are provided?
+
+attributes(PLSfood)
+
+foodPlot <- plot(PLSfood, pch = 16)
+picknplot.shape(foodPlot)
+
+# If you want to get creative
+
+hist(PLSfood$random.r, breaks = 50, 
+     col = "olivedrab1", 
+     main = "Sampling distribution of r")
+abline(v = PLSfood$r.pls, lwd = 2, col = "skyblue4")
+
+summary(PLSallometry)
+allomPlot <- plot(PLSallometry, pch = 16)
+picknplot.shape(allomPlot)
+
+summary(PLSintegration)
+integPlot <- plot(PLSintegration, pch = 16)
+picknplot.shape(integPlot)
+
+## PLS-comparison
+
+compare.pls(PLSfood,
+            PLSallometry,
+            PLSintegration)
+
+## 1C: GLM
+
+fit.null <- procD.lm(coords ~ 1, data = Y.gpa,
+                     iter = 9999)
+fit.alt <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999)
+
+model.matrix(fit.null)
+coef(fit.null)
+fitted(fit.null)
+resid(fit.null)
+
+model.matrix(fit.alt)
+coef(fit.alt)
+fitted(fit.alt)
+resid(fit.alt)
+
+## Hypothesis tests
+coef(fit.alt, test = TRUE)
+
+# uh-oh, we can fix this!
+# The default is turbo = TRUE, which suppresses
+# RRPP coefficients
+
+fit.alt <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    turbo = FALSE,
+                    iter = 9999,
+                    Parallel = TRUE)
+
+coef(fit.alt, test = TRUE)
+anova(fit.null, fit.alt)
+anova(fit.alt)
+
+##### 2: Allometry
+
+## 2A: Simple (single-group) allometry
 
 data(pupfish)
 plotAllSpecimens(pupfish$coords)  #NOTE: already GPA-aligned
@@ -33,7 +167,7 @@ plotRefToTarget(M, preds$predmax, mag=1)
 mtext("Regression Max")
 par(mfrow=c(1,1))
 
-## 1B: Group allometry
+## 2B: Group allometry
 fit.common <- procD.lm(coords ~ logSize + Group, 
                        data = pupfish, print.progress = FALSE) 
 fit.unique <- procD.lm(coords ~ logSize * Group, 
@@ -60,15 +194,15 @@ par(mfcol = c(1,1))
 
 
 
-## 1A: Simple (single-group) allometry
+## 2A: Simple (single-group) allometry
 
 
 #######################################
-##### 2: Shape Statistics II
+##### 3: Shape Statistics II
 
 #######################################
 
-##### 3: Phylogenetic Comparative Methods
+##### 4: Phylogenetic Comparative Methods
 
 ### Read and prune/match data
 plethtree <- read.tree('Data/plethtree.tre')
@@ -95,7 +229,7 @@ links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
 plot(ladderize(plethtree),edge.width=3)
 axisPhylo(1)
 
-### 1A: Phylogenetic Regression
+### 4A: Phylogenetic Regression
 pgls.reg <- procD.pgls(f1 = shape~svl, phy=plethtree, data=gdf, print.progress = FALSE)
 summary(pgls.reg)
 
@@ -117,7 +251,7 @@ plotRefToTarget(M, preds$predmax, mag=3, links = links)
 mtext("Max")
 par(mfrow = c(1,1))
 
-### 1B: Phylogenetic ANOVA
+### 4B: Phylogenetic ANOVA
 pgls.aov <- procD.pgls(f1 = shape~elev, phy=plethtree, data=gdf, print.progress = FALSE)
 summary(pgls.aov)
 
@@ -137,7 +271,7 @@ plotRefToTarget(M, preds$High, mag=2, links=links)
 mtext("High Elevation")
 par(mfrow=c(1,1)) 
 
-### 1C: Phylogenetic PLS
+### 4C: Phylogenetic PLS
 land.gps<-c("A","A","A","A","A","B","B","B","B","B","B")
 PLS.Y <- phylo.integration(A = gdf$shape, partition.gp = land.gps, phy= plethtree, print.progress = FALSE)
 summary(PLS.Y)
@@ -177,14 +311,14 @@ plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.la
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 par(mfrow=c(1,1))
 
-### 4: Comparing Evolutionary Rates
+### 5: Comparing Evolutionary Rates
 
-#### 4A: Comparing Rates Among Clades
+#### 5A: Comparing Rates Among Clades
 ER<-compare.evol.rates(A=gdf$shape, phy=plethtree,gp=gdf$elev,iter=999, method = 'permutation',print.progress = FALSE)
 summary(ER)
 plot(ER)
 
-#### 4B: Comparing Rates Among Traits
+#### 5B: Comparing Rates Among Traits
 EMR <- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=c(rep(1,5),rep(2,6)), print.progress = FALSE)
 summary(EMR)
 plot(EMR)

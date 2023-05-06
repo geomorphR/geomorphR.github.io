@@ -200,7 +200,7 @@ where
 
 + $\hat{\mathbf{\Sigma}}$ is a residual covariance matrix (more on this soon)
 + $\mathbf{V}$ is a rectangular matrix of eigenvectors
-+ $\mathbf{\Lambda}$ is a diagonal matrix with eigenvalues ($\lambda$) along the diagonal.
++ $\mathbf{\Lambda}$ is a diagonal matrix with eigenvalues $(\lambda)$ along the diagonal.
 
 This presentation requires understanding how to calculate a covariance matrix (which is not a bad thing).  The following presentation might be a little easier.
 
@@ -1102,7 +1102,7 @@ $$\huge \mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$
 
 | Component | Dimension | Description
 |------- | :----------- | :-----------------------------
-| $\mathbf{Z}$ | $n \times p$ | Transformation of a data matrix ($\mathbf{Y}$) with $n$ observations for $p$ variables.  The transformation ***could be*** matrix centering or standardization, but it is also feasible that $\mathbf{Z} = \mathbf{Y}$.  **.red[Procrustes coordinates are inherently transformed.]**
+| $\mathbf{Z}$ | $n \times p$ | Transformation of a data matrix $(\mathbf{Y})$ with $n$ observations for $p$ variables.  The transformation ***could be*** matrix centering or standardization, but it is also feasible that $\mathbf{Z} = \mathbf{Y}$.  **.red[Procrustes coordinates are inherently transformed.]**
 | $\mathbf{X}$ | $n \times k$ | Linear model design matrix with $n$ observations for $k$ parameters
 | $\boldsymbol{\beta}$ | $k \times p$ | Matrix of coefficients expressing change in values for the $k$ model parameters for each of $p$ variables
 | $\mathbf{E}$ | $n \times p$ | Matrix of residuals (error) for $n$ observations for $p$ variables

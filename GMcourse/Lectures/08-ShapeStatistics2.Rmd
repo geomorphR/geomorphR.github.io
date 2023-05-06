@@ -1095,7 +1095,7 @@ For example
 
 fit.pop <- procD.lm(coords ~ Pop, data = pupfish)
 fit.all <- procD.lm(coords ~ Pop * Sex, data = pupfish)
-anova(fit.pop, fitl.all)
+anova(fit.pop, fit.all)
 
 ```
 ]]
@@ -1109,7 +1109,7 @@ anova(fit.pop, fitl.all)
 + Type III SSCPs might not seem to make a lot of sense on inspection but can be very helpful with linear mixed models (combination of fixed and random effects) $^1$.
 ]
 
-.footnote[Mixed effects in a linear model are beyond the scope of this workshop, but we could probably help someone with such needs in lab time.]
+.footnote[1. Mixed effects in a linear model are beyond the scope of this workshop, but we could probably help someone with such needs in lab time.]
 ---
 ### Multi-model comparisons, not involving hypothesis tests
 
@@ -1219,7 +1219,7 @@ The analyses we have mostly done are analyses that are typical, facilitated by R
 
 There are cases where RRPP offers the ability to find new statistical paradigms.  
 
-With the pupfish data, we will briefly explore three such cases before leaving these for a more formal treatment in **Lecture 14 RRPP Extensions**.
+With the pupfish data, we will briefly explore three such cases before leaving these for a more formal treatment in **Lecture 11 RRPP Extensions**.
 
 ---
 
@@ -1323,7 +1323,7 @@ summary(TA, attribute = "TC", angle.type = "deg")
 + **RRPP allows calculation of secondary statistics like these in every random permutation.**
 + The residuals are residuals of a model with main effect (Pop and Sex) but lacking interactions.  Trajectory analysis focuses only on the interactions.
 
-Trajectory analysis and analysis of disparity will be discussed in more detail in **Lecture 14: RRPP Extensions**. 
+Trajectory analysis and analysis of disparity will be discussed in more detail in **Lecture 11: RRPP Extensions**. 
 
 ---
 

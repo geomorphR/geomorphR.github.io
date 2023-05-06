@@ -8,15 +8,21 @@
 
 [03-Superimposition: Generalized Procrustes Analysis (GPA)](https://geomorphR.github.io/GMcourse/Lectures/03-Superimposition.html)
 
+----
+
 [04-Shape Spaces, Shape Variables, & PCA](https://geomorphR.github.io/GMcourse/Lectures/04-ShapeVariablesSpaces.html)
 
 [05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/05-Semilandmarks.html)
+
+----
 
 [06-Shape Statistics I](https://geomorphR.github.io/GMcourse/Lectures/06-ShapeStatistics1.html)
 
 [07-Allometry](https://geomorphR.github.io/GMcourse/Lectures/07-Allometry.html)
 
 [08-Shape Statistics II](https://geomorphR.github.io/GMcourse/Lectures/08-ShapeStatistics2.html) 
+
+----
 
 [09-Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Lectures/09-PhyCompMethods.html) 
 
@@ -26,9 +32,12 @@
 
 [12-Integration and Modularity](https://geomorphR.github.io/GMcourse/Lectures/12-IntegrationModularity.html)
 
+----
+
 [13-Missing Data](https://geomorphR.github.io/GMcourse/Lectures/13-MissingData.html)
 
 [14-Future Directions and Prospectus](https://geomorphR.github.io/GMcourse/Lectures/14-Prospectus.html)
 
 ----
+
 [Appendix (for shape statistics)](https://geomorphR.github.io/GMcourse/Lectures/Appendix.html)
