@@ -1,5 +1,5 @@
 ---
-title: "14. RRPP Extensions"
+title: "11. RRPP Extensions"
 author: ""
 subtitle: "Comparison of vectors, trajectories, and morphological disparity"
 output:
@@ -78,7 +78,7 @@ We have seen that factorial models enable us to attribute variation to differing
 ]
 .pull-right[
 ```{r, echo = FALSE}
-include_graphics("LectureData/14.RRPPExtensions/IntroPCPlot.png")  
+include_graphics("LectureData/11.RRPPExtensions/IntroPCPlot.png")  
 ```
 ]
 
@@ -102,7 +102,7 @@ We have seen that factorial models enable us to attribute variation to differing
 ]
 .pull-right[
 ```{r, echo = FALSE}
-include_graphics("LectureData/14.RRPPExtensions/IntroPCPlot2.png")  
+include_graphics("LectureData/11.RRPPExtensions/IntroPCPlot2.png")  
 ```
 ]
 .pull-left[
@@ -117,7 +117,7 @@ Trajectory analysis is a means of quantifying and comparing attributes of these 
 
 .pull.right[
 ```{r, echo = FALSE, out.width="50%"}
-include_graphics("LectureData/14.RRPPExtensions/IntroPCPlot2.png")  
+include_graphics("LectureData/11.RRPPExtensions/IntroPCPlot2.png")  
 ```
 ]
 .footnote[
@@ -146,7 +146,7 @@ The interaction term `A:B` measures the joint effect of main effects `A` & `B`. 
 Interactions are Are *VERY* common in biology. For instance, the example below shows 2 species in 2 environments (Factors `A` & `B`). Species 1 has a higher growth rate in the moist environment, while species 2 has a higher growth rate in the dry environment.  Statistically, such patterns would be identified by a significant `species:environment` interaction.
 
 ```{r, echo = FALSE, out.width="50%"}
-include_graphics("LectureData/14.RRPPExtensions/TradeOff.png")  
+include_graphics("LectureData/11.RRPPExtensions/TradeOff.png")  
 ```
 
 ##### Note: the study of trade-offs and reaction norms in evolutionary ecology is essentially the study of interactions!
@@ -157,13 +157,13 @@ include_graphics("LectureData/14.RRPPExtensions/TradeOff.png")
 Significant interactions identify a joint response of factors (response to Factor `B` depends on level in Factor `A`)
 
 ```{r, echo = FALSE, out.width="50%"}
-include_graphics("LectureData/14.RRPPExtensions/TradeOff.png")  
+include_graphics("LectureData/11.RRPPExtensions/TradeOff.png")  
 ```
 
 Interpreting interactions for univariate data is straightforward: simply plot them!
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/Interaction-UnivData.png")  
+include_graphics("LectureData/11.RRPPExtensions/Interaction-UnivData.png")  
 ```
 
 ---
@@ -172,7 +172,7 @@ include_graphics("LectureData/14.RRPPExtensions/Interaction-UnivData.png")
 For two traits, more complicated variants are possible, but a 2D plot still suffices for visual inspection. 
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/Interaction-BivarData.png")  
+include_graphics("LectureData/11.RRPPExtensions/Interaction-BivarData.png")  
 ```
 
 ---
@@ -182,7 +182,7 @@ In the previous plots, we have 'linked' levels of one factor across another. For
 
 .pull-left[
 ```{r, echo = FALSE}
-include_graphics("LectureData/14.RRPPExtensions/pta3d.png")   
+include_graphics("LectureData/11.RRPPExtensions/pta3d.png")   
 ```
 ]
 
@@ -317,7 +317,7 @@ Here, the magnitude of vectors was not different but the direction was. The inte
 
 .pull-right[
 ```{r, echo = FALSE}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide02.png")   
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide02.png")   
 ```
 ]
 
@@ -329,7 +329,7 @@ include_graphics("LectureData/14.RRPPExtensions/pta/Slide02.png")
 .pull-left[
 Earlier examples of trajectory analysis assumed no covariate, visually: 
 ```{r, echo = FALSE, fig.height=2}
-include_graphics("LectureData/14.RRPPExtensions/TrajNoCov.png")   
+include_graphics("LectureData/11.RRPPExtensions/TrajNoCov.png")   
 ```
 
 However, for many hypotheses, one must account for variation due to a covariate while simultaneously assessing patterns of multivariate change. 
@@ -340,7 +340,7 @@ Adams and Collyer *Evolution* (2007) demonstrated that simply incorporating the 
 
 
 ```{r, echo = FALSE, fig.height=2}
-include_graphics("LectureData/14.RRPPExtensions/TrajWithCov.png")   
+include_graphics("LectureData/11.RRPPExtensions/TrajWithCov.png")   
 ```
 
 This is the linear model: `Z ~ cov + A + B + A:B`.
@@ -354,7 +354,7 @@ The method works exactly as expected!
 
 .pull-left[
 ```{r, echo = FALSE, out.width="90%"}
-include_graphics("LectureData/14.RRPPExtensions/pta.wcov.png")   
+include_graphics("LectureData/11.RRPPExtensions/pta.wcov.png")   
 ```
 ]
 .pull-right[
@@ -372,7 +372,7 @@ include_graphics("LectureData/14.RRPPExtensions/pta.wcov.png")
 Now we have to consider that a trajectory might contain more than two points.  Two-point trajectories are great because they have two attributes - length and direction - with which we have learned how to handle for statistical tests.  A three point trajectory is a sequence of two vectors; a four-point trajectory is a sequence of three vectors; etc.  We could go crazy trying to analyze every pairwise vector of every pairwise difference in a pairwise fashion, or further consider the attributes of trajectories.
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide04.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide04.png")  
 ```
 
 ---
@@ -385,7 +385,7 @@ Trajectories have as attributes
 
 .center[
 ```{r, echo = FALSE, out.width="60%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide04.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide04.png")  
 ```
 ]
 ---
@@ -393,7 +393,7 @@ include_graphics("LectureData/14.RRPPExtensions/pta/Slide04.png")
 
 .center[
 ```{r, echo = FALSE, out.width="30%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide04.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide04.png")  
 ```
 ]
 
@@ -409,14 +409,14 @@ Shape | *NA* | $D_P = \left(\left( \mathbf{\gamma}_1 -  \mathbf{\gamma}_2 \right
 ### Generalized Procrustes Analysis
 .center[
 ```{r, echo = FALSE, out.width="50%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide05.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide05.png")  
 ```
 ]
 ---
 ### Generalized Procrustes Analysis (Cont.)
 .center[
 ```{r, echo = FALSE, out.width="50%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide06.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide06.png")  
 ```
 ]
 ---
@@ -424,7 +424,7 @@ include_graphics("LectureData/14.RRPPExtensions/pta/Slide06.png")
 ### Generalized Procrustes Analysis (Cont.)
 .center[
 ```{r, echo = FALSE, out.width="50%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide07.Png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide07.Png")  
 ### Trajectory Analysis (Cont.)
 ```
 ]
@@ -433,7 +433,7 @@ include_graphics("LectureData/14.RRPPExtensions/pta/Slide07.Png")
 ### Generalized Procrustes Analysis (Cont.)
 .center[
 ```{r, echo = FALSE, out.width="30%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide04.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide04.png")  
 ```
 ]
 Trajectory Statistics
@@ -453,42 +453,42 @@ Each of these statistics could be considered test statistics in a hypothesis tes
 ### Trajectory Analysis (Cont.)
 
 ```{r, echo = FALSE, out.width="70%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide08.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide08.png")  
 ```
 
 ---
 ### Trajectory Analysis (Cont.)
 
 ```{r, echo = FALSE, out.width="70%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide09.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide09.png")  
 ```
 
 ---
 ### Trajectory Analysis (Cont.)
 
 ```{r, echo = FALSE, out.width="70%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide10.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide10.png")  
 ```
 
 ---
 ### Trajectory Analysis (Cont.)
 
 ```{r, echo = FALSE, out.width="70%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide11.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide11.png")  
 ```
 
 ---
 ### Trajectory Analysis (Cont.)
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide12.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide12.png")  
 ```
 
 ---
 ### Trajectory Analysis (Cont.)
 
 ```{r, echo = FALSE, out.width="70%"}
-include_graphics("LectureData/14.RRPPExtensions/pta/Slide13.png")  
+include_graphics("LectureData/11.RRPPExtensions/pta/Slide13.png")  
 ```
 
 ---
@@ -504,28 +504,28 @@ include_graphics("LectureData/14.RRPPExtensions/pta/Slide13.png")
 ### Trajectory Analysis: Illustrative Example
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/snake.pta/Slide1.png")  
+include_graphics("LectureData/11.RRPPExtensions/snake.pta/Slide1.png")  
 ```
 
 ---
 ### Trajectory Analysis: Illustrative Example
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/snake.pta/Slide2.png")  
+include_graphics("LectureData/11.RRPPExtensions/snake.pta/Slide2.png")  
 ```
 
 ---
 ### Trajectory Analysis: Illustrative Example
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/snake.pta/Slide3.png")  
+include_graphics("LectureData/11.RRPPExtensions/snake.pta/Slide3.png")  
 ```
 
 ---
 ### Trajectory Analysis: Illustrative Example
 
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/14.RRPPExtensions/snake.pta/Slide4.png")  
+include_graphics("LectureData/11.RRPPExtensions/snake.pta/Slide4.png")  
 ```
 
 ---
@@ -533,7 +533,7 @@ include_graphics("LectureData/14.RRPPExtensions/snake.pta/Slide4.png")
 
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide1.png")  
+include_graphics("LectureData/11.RRPPExtensions/ta.examples/Slide1.png")  
 ```
 
 ---
@@ -541,7 +541,7 @@ include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide1.png")
 
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide2.png")  
+include_graphics("LectureData/11.RRPPExtensions/ta.examples/Slide2.png")  
 ```
 
 ---
@@ -549,7 +549,7 @@ include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide2.png")
 
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide3.png")  
+include_graphics("LectureData/11.RRPPExtensions/ta.examples/Slide3.png")  
 ```
 
 ---
@@ -557,7 +557,7 @@ include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide3.png")
 
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide4.png")  
+include_graphics("LectureData/11.RRPPExtensions/ta.examples/Slide4.png")  
 ```
 
 ---
@@ -565,7 +565,7 @@ include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide4.png")
 
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide5.png")  
+include_graphics("LectureData/11.RRPPExtensions/ta.examples/Slide5.png")  
 ```
 
 ---
@@ -573,7 +573,7 @@ include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide5.png")
 
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide6.png")  
+include_graphics("LectureData/11.RRPPExtensions/ta.examples/Slide6.png")  
 ```
 
 ---
@@ -581,7 +581,7 @@ include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide6.png")
 
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide7.png")  
+include_graphics("LectureData/11.RRPPExtensions/ta.examples/Slide7.png")  
 ```
 
 ---
@@ -590,7 +590,7 @@ include_graphics("LectureData/14.RRPPExtensions/ta.examples/Slide7.png")
 A review in *Ann. Rev. Ecol. Evol. Syst.* (2018) highly recommends use of trajectory analysis for evaluating patterns of parallel and non-parallel evolution.
 
 ```{r, echo = FALSE, out.width="100%"}
-include_graphics("LectureData/14.RRPPExtensions/Bolnick.png")  
+include_graphics("LectureData/11.RRPPExtensions/Bolnick.png")  
 ```
 
 ---
@@ -826,7 +826,7 @@ Additionally, these statistics are likely rather sample size-dependent.  None of
     + Measured as $1 -\frac{\lambda_2}{\lambda_1}$ after performing a singular value decomposition (or eigen analysis) on $var = n^{-1}\sum_{i=1}^n \mathbf{E}_i^T\mathbf{E}_i$.
     
 ```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData//14.RRPPExtensions/eccentricity.png")  
+include_graphics("LectureData//11.RRPPExtensions/eccentricity.png")  
 ``` 
 ---
 ### Disparity: Other descriptive statistics (Cont.)

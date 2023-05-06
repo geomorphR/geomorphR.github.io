@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>14. RRPP Extensions</title>
+    <title>11. RRPP Extensions</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="14-RRPPExtensions_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="11-RRPPExtensions_files/header-attrs-2.21/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -13,7 +13,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# 14. RRPP Extensions
+# 11. RRPP Extensions
 ]
 .subtitle[
 ## Comparison of vectors, trajectories, and morphological disparity
@@ -75,7 +75,7 @@ class: center, middle, inverse, title-slide
 We have seen that factorial models enable us to attribute variation to differing factors, and in the case of categorical factors, determine whether levels (groups) differ in some way. For instance, the plot below shows 4 groups which appear distinct in their trait attributes. However, as biologists, we have additional information about these groups; for instance, they may be males and females from each of two populations. Thus, levels of one factor `sex` are really *linked* via the other factor `population`. 
 ]
 .pull-right[
-![](LectureData/14.RRPPExtensions/IntroPCPlot.png)&lt;!-- --&gt;
+![](LectureData/11.RRPPExtensions/IntroPCPlot.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -97,7 +97,7 @@ We have seen that factorial models enable us to attribute variation to differing
 We have seen that factorial models enable us to attribute variation to differing factors, and in the case of categorical factors, determine whether levels (groups) differ in some way. For instance, the plot below shows 4 groups which appear distinct in their trait attributes. However, as biologists, we have additional information about these groups; for instance, they may be males and females from each of two populations. Thus, levels of one factor `sex` are really *linked* via the other factor `population`. 
 ]
 .pull-right[
-![](LectureData/14.RRPPExtensions/IntroPCPlot2.png)&lt;!-- --&gt;
+![](LectureData/11.RRPPExtensions/IntroPCPlot2.png)&lt;!-- --&gt;
 ]
 .pull-left[
 Might there be additional information we could glean statistically from viewing these as linked data (trajectories)?
@@ -110,7 +110,7 @@ Trajectory analysis is a means of quantifying and comparing attributes of these 
 ]
 
 .pull.right[
-&lt;img src="LectureData/14.RRPPExtensions/IntroPCPlot2.png" width="50%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/IntroPCPlot2.png" width="50%" /&gt;
 ]
 .footnote[
 Vector and Trajectory Methods Discussed Today were Originally Described in: 
@@ -137,7 +137,7 @@ The interaction term `A:B` measures the joint effect of main effects `A` &amp; `
 
 Interactions are Are *VERY* common in biology. For instance, the example below shows 2 species in 2 environments (Factors `A` &amp; `B`). Species 1 has a higher growth rate in the moist environment, while species 2 has a higher growth rate in the dry environment.  Statistically, such patterns would be identified by a significant `species:environment` interaction.
 
-&lt;img src="LectureData/14.RRPPExtensions/TradeOff.png" width="50%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/TradeOff.png" width="50%" /&gt;
 
 ##### Note: the study of trade-offs and reaction norms in evolutionary ecology is essentially the study of interactions!
 
@@ -146,18 +146,18 @@ Interactions are Are *VERY* common in biology. For instance, the example below s
 
 Significant interactions identify a joint response of factors (response to Factor `B` depends on level in Factor `A`)
 
-&lt;img src="LectureData/14.RRPPExtensions/TradeOff.png" width="50%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/TradeOff.png" width="50%" /&gt;
 
 Interpreting interactions for univariate data is straightforward: simply plot them!
 
-&lt;img src="LectureData/14.RRPPExtensions/Interaction-UnivData.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/Interaction-UnivData.png" width="80%" /&gt;
 
 ---
 ### Understanding Interactions (Cont.)
 
 For two traits, more complicated variants are possible, but a 2D plot still suffices for visual inspection. 
 
-&lt;img src="LectureData/14.RRPPExtensions/Interaction-BivarData.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/Interaction-BivarData.png" width="80%" /&gt;
 
 ---
 ### Interactions to Trajectories
@@ -165,7 +165,7 @@ For two traits, more complicated variants are possible, but a 2D plot still suff
 In the previous plots, we have 'linked' levels of one factor across another. For two levels, that produces vectors, whose patterns we compared visually. More formally, we should use quantitative summaries. Consider the following: 
 
 .pull-left[
-![](LectureData/14.RRPPExtensions/pta3d.png)&lt;!-- --&gt;
+![](LectureData/11.RRPPExtensions/pta3d.png)&lt;!-- --&gt;
 ]
 
 .pull-right[
@@ -315,7 +315,7 @@ The trajectory analysis and plot demonstrate that sexual dimorphism differs betw
 ]]
 
 .pull-right[.med[
-![](14-RRPPExtensions_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+![](11-RRPPExtensions_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
 ]]
 
 
@@ -331,7 +331,7 @@ Here, the magnitude of vectors was not different but the direction was. The inte
 
 
 .pull-right[
-![](LectureData/14.RRPPExtensions/pta/Slide02.png)&lt;!-- --&gt;
+![](LectureData/11.RRPPExtensions/pta/Slide02.png)&lt;!-- --&gt;
 ]
 
 
@@ -341,7 +341,7 @@ Here, the magnitude of vectors was not different but the direction was. The inte
 
 .pull-left[
 Earlier examples of trajectory analysis assumed no covariate, visually: 
-![](LectureData/14.RRPPExtensions/TrajNoCov.png)&lt;!-- --&gt;
+![](LectureData/11.RRPPExtensions/TrajNoCov.png)&lt;!-- --&gt;
 
 However, for many hypotheses, one must account for variation due to a covariate while simultaneously assessing patterns of multivariate change. 
 
@@ -350,7 +350,7 @@ However, for many hypotheses, one must account for variation due to a covariate 
 Adams and Collyer *Evolution* (2007) demonstrated that simply incorporating the covariate into the model permitted accomplishes this analytical goal. 
 
 
-![](LectureData/14.RRPPExtensions/TrajWithCov.png)&lt;!-- --&gt;
+![](LectureData/11.RRPPExtensions/TrajWithCov.png)&lt;!-- --&gt;
 
 This is the linear model: `Z ~ cov + A + B + A:B`.
 ]
@@ -362,7 +362,7 @@ This is the linear model: `Z ~ cov + A + B + A:B`.
 The method works exactly as expected!
 
 .pull-left[
-&lt;img src="LectureData/14.RRPPExtensions/pta.wcov.png" width="90%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta.wcov.png" width="90%" /&gt;
 ]
 .pull-right[
 + Character change along a gradient, 3 scenarios:
@@ -378,7 +378,7 @@ The method works exactly as expected!
 
 Now we have to consider that a trajectory might contain more than two points.  Two-point trajectories are great because they have two attributes - length and direction - with which we have learned how to handle for statistical tests.  A three point trajectory is a sequence of two vectors; a four-point trajectory is a sequence of three vectors; etc.  We could go crazy trying to analyze every pairwise vector of every pairwise difference in a pairwise fashion, or further consider the attributes of trajectories.
 
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide04.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide04.png" width="80%" /&gt;
 
 ---
 ### Trajectory Analysis: Generalizations
@@ -389,13 +389,13 @@ Trajectories have as attributes
 3. **Shape** (if three or more points, the cumulative angular and length changes of consecutive vectors)
 
 .center[
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide04.png" width="60%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide04.png" width="60%" /&gt;
 ]
 ---
 ### Trajectory Analysis (Cont.)
 
 .center[
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide04.png" width="30%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide04.png" width="30%" /&gt;
 ]
 
 Trajectory Statistics
@@ -409,24 +409,24 @@ Shape | *NA* | `\(D_P = \left(\left( \mathbf{\gamma}_1 -  \mathbf{\gamma}_2 \rig
 ---
 ### Generalized Procrustes Analysis
 .center[
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide05.png" width="50%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide05.png" width="50%" /&gt;
 ]
 ---
 ### Generalized Procrustes Analysis (Cont.)
 .center[
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide06.png" width="50%" /&gt;
-]
----
-
-### Generalized Procrustes Analysis (Cont.)
-.center[
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide07.Png" width="50%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide06.png" width="50%" /&gt;
 ]
 ---
 
 ### Generalized Procrustes Analysis (Cont.)
 .center[
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide04.png" width="30%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide07.Png" width="50%" /&gt;
+]
+---
+
+### Generalized Procrustes Analysis (Cont.)
+.center[
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide04.png" width="30%" /&gt;
 ]
 Trajectory Statistics
 
@@ -444,32 +444,32 @@ Each of these statistics could be considered test statistics in a hypothesis tes
 ---
 ### Trajectory Analysis (Cont.)
 
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide08.png" width="70%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide08.png" width="70%" /&gt;
 
 ---
 ### Trajectory Analysis (Cont.)
 
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide09.png" width="70%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide09.png" width="70%" /&gt;
 
 ---
 ### Trajectory Analysis (Cont.)
 
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide10.png" width="70%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide10.png" width="70%" /&gt;
 
 ---
 ### Trajectory Analysis (Cont.)
 
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide11.png" width="70%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide11.png" width="70%" /&gt;
 
 ---
 ### Trajectory Analysis (Cont.)
 
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide12.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide12.png" width="80%" /&gt;
 
 ---
 ### Trajectory Analysis (Cont.)
 
-&lt;img src="LectureData/14.RRPPExtensions/pta/Slide13.png" width="70%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide13.png" width="70%" /&gt;
 
 ---
 ### Trajectory Analysis (Cont.)
@@ -483,71 +483,71 @@ Each of these statistics could be considered test statistics in a hypothesis tes
 ---
 ### Trajectory Analysis: Illustrative Example
 
-&lt;img src="LectureData/14.RRPPExtensions/snake.pta/Slide1.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/snake.pta/Slide1.png" width="80%" /&gt;
 
 ---
 ### Trajectory Analysis: Illustrative Example
 
-&lt;img src="LectureData/14.RRPPExtensions/snake.pta/Slide2.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/snake.pta/Slide2.png" width="80%" /&gt;
 
 ---
 ### Trajectory Analysis: Illustrative Example
 
-&lt;img src="LectureData/14.RRPPExtensions/snake.pta/Slide3.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/snake.pta/Slide3.png" width="80%" /&gt;
 
 ---
 ### Trajectory Analysis: Illustrative Example
 
-&lt;img src="LectureData/14.RRPPExtensions/snake.pta/Slide4.png" width="80%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/snake.pta/Slide4.png" width="80%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 
-&lt;img src="LectureData/14.RRPPExtensions/ta.examples/Slide1.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/ta.examples/Slide1.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 
-&lt;img src="LectureData/14.RRPPExtensions/ta.examples/Slide2.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/ta.examples/Slide2.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 
-&lt;img src="LectureData/14.RRPPExtensions/ta.examples/Slide3.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/ta.examples/Slide3.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 
-&lt;img src="LectureData/14.RRPPExtensions/ta.examples/Slide4.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/ta.examples/Slide4.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 
-&lt;img src="LectureData/14.RRPPExtensions/ta.examples/Slide5.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/ta.examples/Slide5.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 
-&lt;img src="LectureData/14.RRPPExtensions/ta.examples/Slide6.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/ta.examples/Slide6.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 
-&lt;img src="LectureData/14.RRPPExtensions/ta.examples/Slide7.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/ta.examples/Slide7.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Examples of Its Use in The Scientific Literature
 
 A review in *Ann. Rev. Ecol. Evol. Syst.* (2018) highly recommends use of trajectory analysis for evaluating patterns of parallel and non-parallel evolution.
 
-&lt;img src="LectureData/14.RRPPExtensions/Bolnick.png" width="100%" /&gt;
+&lt;img src="LectureData/11.RRPPExtensions/Bolnick.png" width="100%" /&gt;
 
 ---
 ### Trajectory Analysis: Summary and Other Comments
@@ -645,7 +645,7 @@ shapeHulls(P, pupfish$Group, group.cols = c(1,3,2,4))
 
 ]]
 .pull-right[.med[
-![](14-RRPPExtensions_files/figure-html/unnamed-chunk-47-1.png)&lt;!-- --&gt;
+![](11-RRPPExtensions_files/figure-html/unnamed-chunk-47-1.png)&lt;!-- --&gt;
 ]]
 ---
 ### Disparity: Example (cont.)
@@ -737,7 +737,7 @@ summary(MD)
 .pull.right[
 Sinkhole males had significantly greater shape disparity than the Marsh fish, but not sinkhole females.
 
-&lt;img src="14-RRPPExtensions_files/figure-html/unnamed-chunk-51-1.png" width="30%" /&gt;
+&lt;img src="11-RRPPExtensions_files/figure-html/unnamed-chunk-51-1.png" width="30%" /&gt;
 ]
 
 ---
@@ -781,7 +781,7 @@ where `\(N = \sum{n_i}\)`
 
 #### Fractional parts of the whole
 
-![](14-RRPPExtensions_files/figure-html/unnamed-chunk-53-1.png)&lt;!-- --&gt;
+![](11-RRPPExtensions_files/figure-html/unnamed-chunk-53-1.png)&lt;!-- --&gt;
 ---
 ### Foote's Partial Disparity (cont.)
 
@@ -860,7 +860,7 @@ Additionally, these statistics are likely rather sample size-dependent.  None of
   - Eccentricity (a measure of departure from spherical scatter)
     + Measured as `\(1 -\frac{\lambda_2}{\lambda_1}\)` after performing a singular value decomposition (or eigen analysis) on `\(var = n^{-1}\sum_{i=1}^n \mathbf{E}_i^T\mathbf{E}_i\)`.
     
-&lt;img src="LectureData//14.RRPPExtensions/eccentricity.png" width="80%" /&gt;
+&lt;img src="LectureData//11.RRPPExtensions/eccentricity.png" width="80%" /&gt;
 ---
 ### Disparity: Other descriptive statistics (Cont.)
 
