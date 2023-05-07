@@ -3,7 +3,128 @@
 
 library(geomorph)
 
-## 1: Asymmetry
+##### 1: Phylogenetic Comparative Methods
+
+### Read and prune/match data
+plethtree <- read.tree('Data/plethtree.tre')
+
+plethtree <- read.tree('Data/plethtree.tre')
+plethland <- readland.tps('Data/PlethodonLand.tps',specID = "ID",
+                          warnmsg = FALSE)
+gps <- read.csv('Data/PlethGps.csv', header=TRUE, row.names=1)
+Y.gpa <- gpagen(plethland, print.progress = FALSE)
+M <- mshape(Y.gpa$coords)
+svl <- Y.gpa$Csize
+
+shape <- Y.gpa$coords
+shape.test <- treedata(phy = plethtree, data = two.d.array(shape), warnings = TRUE)
+#no warnings. Everthing matches in this case
+
+data.matched <- treedata(phy = plethtree, data = gps, warnings=FALSE)
+elev <- as.factor(data.matched$data); names(elev) <- row.names(data.matched$data)
+
+gdf <- geomorph.data.frame(shape=shape, svl=svl,elev = elev, plethtree=plethtree)
+
+links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
+                ncol=2,byrow=FALSE)
+plot(ladderize(plethtree),edge.width=3)
+axisPhylo(1)
+
+### 1A: Phylogenetic Regression
+pgls.reg <- procD.pgls(f1 = shape~svl, phy=plethtree, data=gdf, print.progress = FALSE)
+summary(pgls.reg)
+
+#Plots
+allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$svl,
+                   reg.type ="RegScore", pch=19, cex=1.5, xlab = "SVL") # make sure to have a predictor 
+fit.line <- lm(allom.plot$RegScore~gdf$svl)
+abline(fit.line,col = "red")
+
+
+preds <- shape.predictor(pgls.reg$GM$pgls.fitted, x= allom.plot$RegScore, Intercept = FALSE, 
+                         predmin = min(allom.plot$RegScore), 
+                         predmax = max(allom.plot$RegScore)) 
+M <- mshape(shape)
+par(mfrow = c(1,2))
+plotRefToTarget(M, preds$predmin, mag=3, links = links)
+mtext("Min")
+plotRefToTarget(M, preds$predmax, mag=3, links = links)
+mtext("Max")
+par(mfrow = c(1,1))
+
+### 1B: Phylogenetic ANOVA
+pgls.aov <- procD.pgls(f1 = shape~elev, phy=plethtree, data=gdf, print.progress = FALSE)
+summary(pgls.aov)
+
+# Plots
+plot.res <- gm.prcomp(shape,phy=plethtree)
+plot(plot.res,phylo = FALSE, pch=21, bg=gdf$elev, cex=2)
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+Low <- c(1) # design for low elevation
+High <- c(0) # design for high elevation
+preds <- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11, 2), x = pgls.aov$X[,-1],
+                         Intercept = TRUE, Low = Low, High = High)   
+par(mfrow=c(1,2)) 
+plotRefToTarget(M, preds$Low, mag=2, links=links)
+mtext("Low Elevation")
+plotRefToTarget(M, preds$High, mag=2, links=links)
+mtext("High Elevation")
+par(mfrow=c(1,1)) 
+
+### 2: Phylogenetic PLS
+land.gps<-c("A","A","A","A","A","B","B","B","B","B","B")
+PLS.Y <- phylo.integration(A = gdf$shape, partition.gp = land.gps, phy= plethtree, print.progress = FALSE)
+summary(PLS.Y)
+plot(PLS.Y)
+
+### 3: Phylogenetic Signal
+PS.shape <- physignal(A=shape,phy=plethtree,iter=999, print.progress = FALSE)
+summary(PS.shape)
+plot(PS.shape)
+
+### 4: Phylogenetic Ordination
+
+#### Phylomorphospace
+plot.pca <- gm.prcomp(shape,phy=plethtree)
+plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+#### Phylogenetic PCA (pPCA)
+plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = FALSE)
+plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+#### Phylogenetically-Aligned Components Analysis (PACA)
+plot.paca <- gm.prcomp(shape,phy=plethtree, align.to.phy = TRUE)
+plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+#### Side by Side
+par(mfrow=c(1,3))
+plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "Phylomorphospace" )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "pPCA" )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE), main = "PACA" )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+par(mfrow=c(1,1))
+
+### 5: Comparing Evolutionary Rates
+
+#### 5A: Comparing Rates Among Clades
+ER<-compare.evol.rates(A=gdf$shape, phy=plethtree,gp=gdf$elev,iter=999, method = 'permutation',print.progress = FALSE)
+summary(ER)
+plot(ER)
+
+#### 5B: Comparing Rates Among Traits
+EMR <- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=c(rep(1,5),rep(2,6)), print.progress = FALSE)
+summary(EMR)
+plot(EMR)
+
+## 6: Asymmetry
 
 ## matching symmetry
 data(mosquito)
@@ -27,7 +148,7 @@ plot(lizard.sym, warpgrids = TRUE)
 plotAllSpecimens(Y.gpa$coords)
 plotAllSpecimens(lizard.sym$symm.shape)
 
-## 2: Integration and Modularity
+## 7: Integration and Modularity
 ## Overall Integration
 data("plethodon")
 Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
@@ -92,7 +213,39 @@ model.Z <- compare.CR(m3.test,m4.test, CR.null = TRUE)
 model.Z 
 #########################################################
 
-## 3: Morphological Disparity
+## 8: Trajectory analysis
+
+# Factorial model approach
+
+data(pupfish) # GPA already performed
+
+TA <- trajectory.analysis(fit8, group = pupfish$Pop,
+                          traj.pts = pupfish$Sex)
+summary(TA)
+summary(TA, attribute = "TC")
+
+TP <- plot(TA, pch = as.numeric(Pupfish$Pop) + 20, bg = as.numeric(Pupfish$Sex),
+           cex = 0.7, col = "gray")
+add.trajectories(TP, traj.pch = c(21, 22), start.bg = 1, end.bg = 2)
+legend("topright", levels(Pupfish$Pop), pch =  c(21, 22), pt.bg = 1)
+
+# Trajectories as data (like motion paths)
+
+data(motionpaths)
+fit <- procD.lm(trajectories ~ groups, data = motionpaths, iter = 999, print.progress = FALSE)
+anova(fit)
+TA <- trajectory.analysis(fit, groups = motionpaths$groups, traj.pts = 5)
+summary(TA, attribute = "MD") # Magnitude difference (absolute difference between path distances)
+summary(TA, attribute = "TC", angle.type = "deg") # Correlations (angles) between trajectories
+summary(TA, attribute = "SD") # Shape differences between trajectories 
+
+TP <- plot(TA, pch = 21, bg = as.numeric(motionpaths$groups),
+           cex = 0.7, col = "gray")
+add.trajectories(TP, traj.pch = 21, traj.bg = 1:4)
+
+
+## 9: Morphological Disparity
+
 data(plethodon)
 Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)    
 gdf <- geomorph.data.frame(Y.gpa, species = plethodon$species, site = plethodon$site)
