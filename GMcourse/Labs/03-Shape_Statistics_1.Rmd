@@ -14,7 +14,7 @@ In `geomorph`, several functions allow analysis of shape covariation with other 
 |---|-------|---------|
 |`gm.prcomp`|Identity matrix or phylogenetic covariance matrix| This function is a wrapper for the `RRPP::ordinate` function, which allows alignment to any kind of matrix.  `gm.prcomp` only aligns data to an identity matrix (PCA) or phylogenetic covariance matrix (PACA), but has options for transforming data or choosing between GLS or OLS estimation.|
 |`two.b.pls`|Any alternative matrix|  This is a basic function that allows any two data matrices (or vectors) to be input, but a covariance matrix or matrix of model parameters could also be used.|
-|`integration.test`|A portion of shape data| This is basically the same as `two.b.pls` used for comparison of two subsets of shape data.  It will perform the parititioning of data. **This function is deferred to the module on integration and modularity.**|
+|`integration.test`|A portion of shape data| This is basically the same as `two.b.pls` used for comparison of two subsets of shape data.  It will perform the partitioning of data. **This function is deferred to the module on integration and modularity.**|
 |`phylo.integration`|A portion of shape data| This is basically the same as `integration.test` but transforms data based on phylogenetic covariances. **This function is deferred to the module on integration and modularity.**|
 
 ### Set up
@@ -123,7 +123,7 @@ pPCA$rot # loadings
 pPCAplot <- plot(pPCA, pch = 16, phylo = TRUE)
 ```
 
-Notice the difference in dispersion of ancestro points in the summary above, compared to PACA.  Interactive plotting can be done as follows:
+Notice the difference in dispersion of ancestral points in the summary above, compared to PACA.  Interactive plotting can be done as follows:
 
 ```{r, eval=FALSE}
 # Explore shape change in the plot
@@ -135,7 +135,7 @@ picknplot.shape(pPCAplot, mag = 3)
 
 # Partial least-squares (PLS)
 
-PLS aligns shape data or a portion of it to alternative data sets, or alterative portions of the data.  We will consider three examples, with the `plethShapeFood` example data.
+PLS aligns shape data or a portion of it to alternative data sets, or alternative portions of the data.  We will consider three examples, with the `plethShapeFood` example data.
 
 ```{r}
 data("plethShapeFood")
@@ -206,7 +206,7 @@ compare.pls(PLSfood,
 
 # Generalized Linear Model (GLM)
 
-GLM is discussed in more detail in **Shape Statistics II**.  In this module we become a little aquainted with it.  The `procD.lm` function wraps the `RRPP::lm.rrpp` function, making sure to format 3D arrays of coordinates in the process.
+GLM is discussed in more detail in **Shape Statistics II**.  In this module we become a little acquainted with it.  The `procD.lm` function wraps the `RRPP::lm.rrpp` function, making sure to format 3D arrays of coordinates in the process.
 
 We will fit two simple models with the same data use in the PLS analyses.
 
@@ -246,7 +246,7 @@ fitted(fit.alt)
 resid(fit.alt)
 ```
 
-The coefficients in the laternative model could be tested with the following code.
+The coefficients in the alternative model could be tested with the following code.
 
 ```{r}
 coef(fit.alt, test = TRUE)
