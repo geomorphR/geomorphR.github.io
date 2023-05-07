@@ -392,12 +392,14 @@ DT::datatable(
 
 #### Matrix multiplication example (using R script)
 
+.med[
 ```{r, include = TRUE, echo = TRUE}
 
 t(X) %*% Y
 
 crossprod(X, Y)
 ```
+]
 
 + Notice that the row names are the column names of $\mathbf{X}$ and the column names are the column names of $\mathbf{Y}$.  
 + Also notice the `crossprod` function is short for *matrix of cross-products*, which we will refer to simply as the **matrix cross-product**.  This is a bit unfortunate nomenclature, as the meaning is different than *vector cross-product*, a vector produced by multiplication in a certain way of two vectors, different from the *dot-product*, which is basically the same as the inner-product.  (Try not to let the terminology get to you!)
@@ -587,14 +589,20 @@ d & -b\\ -c & a \end{bmatrix} = 0.5 \begin{bmatrix} 6 & -4\\ -4 & 3
 #### Example
 Confirm (using R script)
 
+.pull-left[
 .med[
 ```{r, include = TRUE, echo = TRUE}
 A = matrix(c(3, 4, 4, 6), nrow = 2, ncol = 2)
 A
 solve(A) # solve function finds inverse
+```
+]]
+.pull-right[.med[
+```{r, include = TRUE, echo = TRUE}
+
 A %*% solve(A)
 ```
-]
+]]
 ---
 ### Matrix Inversion (Cont.)
 
@@ -694,12 +702,21 @@ $$\mathbf{X}_0 = \begin{bmatrix}
 
 #### An Example (recalling an earlier example) using R scripts
 
+.pull-left[.med[
 And now in R, let's find the cross-product of this, and its inverse
 ```{r, include = TRUE, echo = TRUE}
 X0 <- X[,1] # just the first column
 crossprod(X0)
+```
+]]
+
+.pull-right[.med[
+
+```{r, include = TRUE, echo = TRUE}
 solve(crossprod(X0))
 ```
+]]
+
 Thus, $\mathbf{X}_0^T\mathbf{X}_0 = n$ and $\left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1} = n^{-1}$
 ---
 
@@ -708,16 +725,24 @@ Thus, $\mathbf{X}_0^T\mathbf{X}_0 = n$ and $\left( \mathbf{X}_0^T\mathbf{X}_0 \r
 #### An Example (recalling an earlier example) using R scripts
 
 Now for fun, let's find the cross-product between $\mathbf{X}_0$ and $\mathbf{Y}$
+
+.pull-left[.med[
 ```{r, include = TRUE, echo = TRUE}
 crossprod(X0, Y)
 
 ```
+
+]]
+
+.pull-right[.med[
 If we examine $\mathbf{Y}$ again, you might notice something
 
 ```{r, include = TRUE}
 Y
 
 ```
+]]
+
 $\mathbf{X}_0^T\mathbf{Y}$ produces vector sums, $\sum y_i$ for each variable.
 ---
 
@@ -802,15 +827,15 @@ Like any area of statistics, the coefficients for a linear model (which has para
 ---
 
 ### The General Linear Model (Cont.)
-$$\mathbf{Z}=\mathbf{X}\mathbf{\beta } $$
-$$\mathbf{X}^T\mathbf{Z} = \mathbf{X}^T\mathbf{X}\mathbf{\beta } $$
+$$\small \mathbf{Z}=\mathbf{X}\mathbf{\beta } $$
+$$\small \mathbf{X}^T\mathbf{Z} = \mathbf{X}^T\mathbf{X}\mathbf{\beta } $$
 
-$$\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
+$$\small \left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
 \left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{X}\mathbf{\beta } $$
-$$\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
+$$\small \left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
 \mathbf{I}\mathbf{\beta } $$
 
-$$\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )$$
+$$\small \hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )$$
 The $\hat{ }$ reminds us that this is a matrix of estimate values.
 
 Notice that this resembles what we did before, 
