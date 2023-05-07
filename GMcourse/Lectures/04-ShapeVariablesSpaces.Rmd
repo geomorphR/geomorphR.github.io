@@ -1,6 +1,7 @@
 ---
 title: "4: Shape Variables and Shape Spaces"
 author: ""
+subtitle: "Procrustes Shape Coordinats and the Thin-Plate Spline"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
@@ -10,6 +11,7 @@ output:
       countIncrementalSlides: false
       ratio: '16:9'
       self_contained: false
+      chakra: libs/remark-latest.min.js
 ---
 
 ```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
@@ -19,6 +21,7 @@ opts_chunk$set(echo = TRUE)
 
 library(xaringanthemer)
 style_mono_light()
+xaringan::summon_remark()
 ```
 
 ### From GPA to Shape Data

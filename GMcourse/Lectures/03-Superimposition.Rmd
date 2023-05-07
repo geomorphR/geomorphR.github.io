@@ -1,6 +1,7 @@
 ---
 title: "3: Superimposition"
 author: ""
+subtitle: "Generalized Procrustes Analysis"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]

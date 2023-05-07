@@ -18,7 +18,6 @@ library(geomorph)
 opts_chunk$set(echo = TRUE)
 library(xaringanthemer)
 style_mono_light()
-
 ```
 
 ### Generalized Procrustes Analysis

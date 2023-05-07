@@ -890,7 +890,7 @@ $$\mathbf{T^T_\Omega}\mathbf{Z} =\mathbf{UDV}^T$$
 
 .scrollable[
 ```{r echo = TRUE, fig.align = "center", eval=TRUE,out.width="80%"}
-plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
+plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = FALSE)
 plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 ```
