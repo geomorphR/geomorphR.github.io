@@ -1097,19 +1097,19 @@ data sets.</p>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = FALSE, Parallel = FALSE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.968   0.035   1.005</code></pre>
+##   0.946   0.031   0.977</code></pre>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = TRUE, Parallel = FALSE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.606   0.027   0.634</code></pre>
+##   0.594   0.032   0.626</code></pre>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = FALSE, Parallel = TRUE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   1.478   1.113   0.751</code></pre>
+##   1.477   1.062   0.694</code></pre>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = FALSE, Parallel = TRUE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   1.524   0.740   0.501</code></pre>
+##   1.486   0.767   0.513</code></pre>
 <p>We will need coefficients in every RRPP permutation
 (<code>turbo=FALSE</code>), so the previous results will suffice.</p>
 <p>Let’s look at some of the linear model parts</p>
