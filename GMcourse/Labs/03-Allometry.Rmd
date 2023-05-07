@@ -31,7 +31,7 @@ plot(fit, type = "regression", reg.type = "RegScore", predictor = pupfish$logSiz
 plotAllometry(fit, size = pupfish$logSize, logsz = FALSE, method = "CAC", pch = 19)
 ```
 
-# Now we plot predicted shapes (see day 2 script)
+# Now we plot predicted shapes (see day 3 script)
 
 ```{r eval = T}
 M <- mshape(pupfish$coords)

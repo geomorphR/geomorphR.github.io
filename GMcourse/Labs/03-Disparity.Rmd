@@ -1,0 +1,70 @@
+---
+title: "05b. Disparity Analysis"
+author: ""
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: html_document
+---
+
+## **Content Description**
+
+In `geomorph`, the analysis of disparity is accomplished using Procrustes variance, which is one means of estimating multivariate variation in a dataset. PV is obtained for each group and compared using permutation. Let´s see some examples:
+
+```{r eval=TRUE}
+library(geomorph)
+```
+
+## **1: Salamanders**
+
+```{r eval=TRUE}
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)    
+gdf <- geomorph.data.frame(Y.gpa, species = plethodon$species, site = plethodon$site)
+
+MD <- morphol.disparity(coords ~ species*site, groups = ~species*site, 
+                  data = gdf, iter = 999, print.progress = FALSE)
+summary(MD)
+gp <- as.factor(paste(plethodon$species, plethodon$site))
+plotTangentSpace(Y.gpa$coords, groups=gp)
+```
+
+One can look at variances of different groups than those modeled:
+
+```{r eval=TRUE}
+MD2 <- morphol.disparity(coords ~ species*site, groups = ~species, 
+                         data = gdf, iter = 999, print.progress = FALSE)
+summary(MD2)
+```
+
+One can also use Foote's definition of morphological disaprity (common mean)
+
+```{r eval=TRUE}
+MD3 <- morphol.disparity(coords ~ 1, groups = ~species, partial = TRUE,
+                         data = gdf, iter = 999, print.progress = FALSE)
+summary(MD3)
+```
+
+## **2: Pupfish**
+
+```{r eval=TRUE}
+data(pupfish) # data already aligned
+gdf <- geomorph.data.frame(coords = pupfish$coords, 
+                           CS = pupfish$CS,
+                           Pop = pupfish$Pop,
+                           Sex = pupfish$Sex)
+MD <- morphol.disparity(coords ~ Pop*Sex, groups = ~ Pop*Sex, 
+                        data = gdf, iter = 999, print.progress = FALSE)
+summary(MD)
+gp <- as.factor(paste(pupfish$Pop, pupfish$Sex))
+plotTangentSpace(pupfish$coords, groups=gp)
+```
+
+The same approach, but considering variance associated with allometry.
+
+```{r eval=TRUE}
+pupfish.allometry <- procD.lm(coords ~ log(CS), ~Pop*Sex, data = gdf, iter = 999, print.progress = FALSE)
+summary(pupfish.allometry)
+MD2 <- morphol.disparity(pupfish.allometry, groups = gp, print.progress = FALSE)
+summary(MD2)
+```
+
+An important point is that `morphol.disparity` can be used on a `procD.lm` fit.  Additionally, the `pairwise` function in `RRPP` can be used with a test type of "var" to compare variances.  Results are the same with either function.

@@ -53,12 +53,12 @@ pPCA <- gm.prcomp(Y.gpa$coords, phy = plethspecies$phy,
                   align.to.phy = FALSE,
                   GLS = TRUE)
 summary(pPCA)
-PACA$rot # loadings
-PACAplot <- plot(pPCA, pch = 16, phylo = TRUE)
+pPCA$rot # loadings
+pPCAplot <- plot(pPCA, pch = 16, phylo = TRUE)
 
 # Explore shape change in the plot
-picknplot.shape(PACAplot)
-picknplot.shape(PACAplot, mag = 3)
+picknplot.shape(pPCAplot)
+picknplot.shape(pPCAplot, mag = 3)
 
 ## 1B: PLS
 
@@ -263,7 +263,7 @@ summary(PW)
 summary(PW, test.type = "VC")
 summary(PW, test.type = "VC", angle.type = "deg")
 
-# Trajectory analysis
+# Trajectory analysis (explored deeper in Day 4)
 
 TA <- trajectory.analysis(fit8, group = pupfish$Pop,
                           traj.pts = pupfish$Sex)
@@ -275,7 +275,7 @@ TP <- plot(TA, pch = as.numeric(Pupfish$Pop) + 20, bg = as.numeric(Pupfish$Sex),
 add.trajectories(TP, traj.pch = c(21, 22), start.bg = 1, end.bg = 2)
 legend("topright", levels(Pupfish$Pop), pch =  c(21, 22), pt.bg = 1)
 
-# Pairwise variance (disparity) analysis
+# Pairwise variance (disparity) analysis (explored deeper in Day 4)
 
 PW <- pairwise(fit8, groups = group)
 summary(PW, test.type = "var")

@@ -12,21 +12,19 @@
 ### Day 2 Tutorials
 - [Tutorial 2.1: GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Labs/02-GPA-Semilandmarks.html) 
 - [Tutorial 2.2: PCA and Visualizing Shape Differences](https://geomorphR.github.io/GMcourse/Labs/02-PCA-VisShapeDiff.html) 
-- [Tutorial 2.3: Shape Covariation] 
-    - [Day 2 R-script](https://geomorphR.github.io/GMcourse/Labs/Day02-RCode.R) 
 
 ### Day 3 Tutorials
-- [Tutorial 3.1: Allometry](https://geomorphR.github.io/GMcourse/Labs/03-Allometry.html) 
-- [Tutorial 3.2: ANOVA and Pairwise Comparisons] 
-- [Tutorial 3.3: Trajectory Analysis] 
-- [Tutorial 3.4: Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Labs/03-PhyCompMethods.html)  
+- [Tutorial 3.1: Shape Statistics I (PCA, PLS, PACA)](https://geomorphR.github.io/GMcourse/Labs/03-Shape_Statistics_1.html) 
+- [Tutorial 3.2: Allometry](https://geomorphR.github.io/GMcourse/Labs/03-Allometry.html) 
+- [Tutorial 3.3: Shape Statistics II (GLM, ANOVA, MANOVA, Model Comparisons)](https://geomorphR.github.io/GMcourse/Labs/03-Shape_Statistics_2.html) 
+- [Tutorial 3.3: Trajectory Analysis](https://geomorphR.github.io/GMcourse/Labs/03-TrajectoryAnalysis.html) 
+- [Tutorial 3.3: Morphological Disparity](https://geomorphR.github.io/GMcourse/Labs/03-Disparity.html)
     - [Day 3 R-script](https://geomorphR.github.io/GMcourse/Labs/Day03-RCode.R)  
 
 ### Day 4 Tutorials
-- [Tutorial 4.1: Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Labs/04-Asymmetry.html) 
-- [Tutorial 4.2: Integration and Modularity](https://geomorphR.github.io/GMcourse/Labs/04-IntegrationModularity.html) 
-- [Tutorial 4.3: Morphological Disparity] 
-    - [Day 4 R-script](https://geomorphR.github.io/GMcourse/Labs/Day03-RCode.R) 
+- [Tutorial 4.1: Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Labs/03-PhyCompMethods.html)  
+- [Tutorial 4.2: Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Labs/04-Asymmetry.html) 
+- [Tutorial 4.3: Integration and Modularity](https://geomorphR.github.io/GMcourse/Labs/04-IntegrationModularity.html) 
 
 ### Example data for Workshop (can be cloned, pulled, or files downloaded)
 [Link to Data Repository](https://github.com/geomorphR/geomorphR.github.io/tree/main/GMcourse/Labs/Data)
