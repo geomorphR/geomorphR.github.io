@@ -2,7 +2,6 @@
 title: "Shape Statistics II"
 subtitle: "GLM, ANOVA, MANOVA, Model Comparisons"
 author: ""
-date: '`r format(Sys.time(), "%d %B, %Y")`'
 output: html_document
 ---
 

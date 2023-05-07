@@ -2,7 +2,6 @@
 title: "Shape Statistics I"
 subtitle: "PCA, PLS, PACA"
 author: ""
-date: '`r format(Sys.time(), "%d %B, %Y")`'
 output: html_document
 ---
 

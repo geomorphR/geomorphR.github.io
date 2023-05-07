@@ -352,7 +352,6 @@ display: none;
 <h1 class="title toc-ignore">Shape Statistics I</h1>
 <h3 class="subtitle">PCA, PLS, PACA</h3>
 <h4 class="author"></h4>
-<h4 class="date">07 May, 2023</h4>
 
 </div>
 
@@ -1097,19 +1096,19 @@ data sets.</p>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = FALSE, Parallel = FALSE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.954   0.035   0.989</code></pre>
+##   0.971   0.032   1.007</code></pre>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = TRUE, Parallel = FALSE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.596   0.027   0.625</code></pre>
+##   0.603   0.035   0.641</code></pre>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = FALSE, Parallel = TRUE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   1.507   1.113   0.723</code></pre>
+##   1.535   1.101   0.728</code></pre>
 <pre class="r"><code>system.time(fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     iter = 9999, turbo = FALSE, Parallel = TRUE))</code></pre>
 <pre><code>##    user  system elapsed 
-##   1.482   0.695   0.471</code></pre>
+##   1.540   0.740   0.532</code></pre>
 <p>We will need coefficients in every RRPP permutation
 (<code>turbo=FALSE</code>), so the previous results will suffice.</p>
 <p>Let’s look at some of the linear model parts</p>
