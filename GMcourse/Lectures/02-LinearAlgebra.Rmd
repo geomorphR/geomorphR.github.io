@@ -408,13 +408,13 @@ crossprod(X, Y)
 This is not something we can do.  We can invert some matrices, but we will come back to this in a moment.
 
 ### Important Matrix and Vector Multiplication Properties
->- Any matrix or vector multiplied by a scalar multiplies every element by the scalar.  The name, "scalar," means that every element is scaled.
->- Like vectors that have inner-products (dot products) or outer-products, sometimes matrices can be similar.  The tendency though is to call these cross-product matrices.  
->- A vector inner-product of the form, $\mathbf{x}^T\mathbf{x}$ is a generalized method of squaring.  It is precisely the sum of squared values, rather than just a squared value.
->- A matrix cross-product of the form, $\mathbf{X}^T\mathbf{X}$ is a generalized method of squaring.  This matrix has summed squared values of column vectors of $\mathbf{X}$ on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
->- A matrix is **square** when it has equal rows and columns, e.g., $n \times n$.
->- If $\mathbf{XY}$ is possible and $\mathbf{YX}$ is possible, they will not have the same product unless both matrices are square and $\mathbf{X} = \mathbf{Y}$.  The dimensions of matrix products are also likely different.
->- The next slide will describe some special matrices.
+- Any matrix or vector multiplied by a scalar multiplies every element by the scalar.  The name, "scalar," means that every element is scaled.
+- Like vectors that have inner-products (dot products) or outer-products, sometimes matrices can be similar.  The tendency though is to call these cross-product matrices.  
+- A vector inner-product of the form, $\mathbf{x}^T\mathbf{x}$ is a generalized method of squaring.  It is precisely the sum of squared values, rather than just a squared value.
+- A matrix cross-product of the form, $\mathbf{X}^T\mathbf{X}$ is a generalized method of squaring.  This matrix has summed squared values of column vectors of $\mathbf{X}$ on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+- A matrix is **square** when it has equal rows and columns, e.g., $n \times n$.
+- If $\mathbf{XY}$ is possible and $\mathbf{YX}$ is possible, they will not have the same product unless both matrices are square and $\mathbf{X} = \mathbf{Y}$.  The dimensions of matrix products are also likely different.
+- The next slide will describe some special matrices.
 ---
 
 .center[
