@@ -1,5 +1,5 @@
 ---
-title: "Shape Statistics II"
+title: "Day-03. Shape Statistics II"
 subtitle: "GLM, ANOVA, MANOVA, Model Comparisons"
 author: ""
 output: html_document

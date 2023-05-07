@@ -1,5 +1,5 @@
 ---
-title: "Shape Statistics I"
+title: "Day-03.  Shape Statistics I"
 subtitle: "PCA, PLS, PACA"
 author: ""
 output: html_document

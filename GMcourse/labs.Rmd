@@ -22,7 +22,7 @@
     - [Day 3 R-script](https://geomorphR.github.io/GMcourse/Labs/Day03-RCode.R)  
 
 ### Day 4 Tutorials
-- [Tutorial 4.1: Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Labs/03-PhyCompMethods.html)  
+- [Tutorial 4.1: Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Labs/04-PhyCompMethods.html)  
 - [Tutorial 4.2: Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Labs/04-Asymmetry.html) 
 - [Tutorial 4.3: Integration and Modularity](https://geomorphR.github.io/GMcourse/Labs/04-IntegrationModularity.html) 
 
