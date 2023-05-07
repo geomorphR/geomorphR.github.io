@@ -246,50 +246,46 @@ add.trajectories(TP, traj.pch = 21, traj.bg = 1:4)
 
 ## 9: Morphological Disparity
 
-data(plethodon)
-Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)    
-gdf <- geomorph.data.frame(Y.gpa, species = plethodon$species, site = plethodon$site)
+# Pupfish shape disparity
 
-# Typical group comparisons
-MD <- morphol.disparity(coords ~ species*site, groups = ~species*site, 
-                        data = gdf, iter = 999, print.progress = FALSE)
+# Disparity around group means
+
+data("pupfish")
+Group <- pupfish$Group <- interaction(pupfish$Pop, pupfish$Sex)
+fit <- procD.lm(coords ~ Group, data = pupfish)
+
+# Via pairwise
+PW <- pairwise(fit, groups = Group)
+summary(PW, test.type = "var")
+
+# Via morphol.disparity
+MD <- morphol.disparity(fit, print.progress = FALSE)
 summary(MD)
-gp <- interaction(plethodon$species, plethodon$site)
-plotTangentSpace(Y.gpa$coords, groups=gp)
 
-# Comparing species, despite species * site means estimation
-MD2 <- morphol.disparity(coords ~ species*site, groups = ~species, 
-                         data = gdf, iter = 999, print.progress = FALSE)
+MD <- morphol.disparity(coords ~ Group, group = Group,
+                        data = pupfish,
+                        print.progress = FALSE)
+
+P <- plot(fit, type = "PC", pch = 21, bg = pupfish$Group)
+shapeHulls(P, Group, group.cols = c(1,3,2,4))
+
+
+# Feel free to also explore the shape space.
+
+picknplot.shape(P)
+
+
+# Foote's (partial) Disparity
+
+fit0 <- procD.lm(coords ~ 1, data = pupfish)
+MD2 <- morphol.disparity(fit0, groups = Group,
+                         partial = TRUE,
+                         print.progress = FALSE)
 summary(MD2)
 
-# Comparing group disparities from overall mean
-MD3 <- morphol.disparity(coords ~ 1, groups = ~species, 
-                         data = gdf, iter = 999, print.progress = FALSE)
-summary(MD3)
-
-# Comparing Foote's (1993) partial disparities
-MD4 <- morphol.disparity(coords ~ 1, groups = ~species, partial = TRUE,
-                         data = gdf, iter = 999, print.progress = FALSE)
-summary(MD4)
-
-### ----------------------------------------------------------------------------------
-# Evaluating disparity in an allometric model
-
-data(pupfish) # data already aligned
-gdf <- geomorph.data.frame(coords = pupfish$coords, 
-                           CS = pupfish$CS,
-                           Pop = pupfish$Pop,
-                           Sex = pupfish$Sex)
-MD <- morphol.disparity(coords ~ Pop*Sex, groups = ~ Pop*Sex, 
-                        data = gdf, iter = 999, print.progress = FALSE)
-summary(MD)
-gp <- interaction(pupfish$Pop, pupfish$Sex)
-plotTangentSpace(pupfish$coords, groups=gp)
-
-pupfish.allometry <- procD.lm(coords ~ log(CS) + Pop * Sex, data = gdf, 
-                              iter = 999, print.progress = FALSE)
-summary(pupfish.allometry)
-MD2 <- morphol.disparity(pupfish.allometry, groups = gp, print.progress = FALSE)
-summary(MD2)
-
+P <- plot(fit, type = "PC")
+PC <- P$PC.points[, 1:2]
+for(i in 1 : nrow(PC)) 
+  arrows(0, 0, PC[i,1], PC[i,2], 
+         col = pupfish$Group[i], length = 0.1)
 
