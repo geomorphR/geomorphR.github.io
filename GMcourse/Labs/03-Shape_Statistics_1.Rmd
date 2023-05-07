@@ -1,6 +1,6 @@
 ---
 title: "Shape Statistics I"
-subtitle: "PCA, PLS, PACA, and GLM"
+subtitle: "PCA, PLS, PACA"
 author: ""
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output: html_document
@@ -202,5 +202,66 @@ Finally, we can compare statistically the three PLS effect sizes.
 compare.pls(PLSfood,
             PLSallometry,
             PLSintegration)
+```
+
+# Generalized Linear Model (GLM)
+
+GLM is discussed in more detail in **Shape Statistics II**.  In this module we become a little aquainted with it.  The `procD.lm` function wraps the `RRPP::lm.rrpp` function, making sure to format 3D arrays of coordinates in the process.
+
+We will fit two simple models with the same data use in the PLS analyses.
+
+```{r}
+fit.null <- procD.lm(coords ~ 1, data = Y.gpa,
+                     iter = 9999)
+fit.alt <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    turbo = FALSE, iter = 9999)
+```
+
+Note that there are some options for speeding up analysis with large data sets.
+
+```{r}
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = FALSE, Parallel = FALSE))
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = TRUE, Parallel = FALSE))
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = FALSE, Parallel = TRUE))
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = FALSE, Parallel = TRUE))
+```
+
+We will need coefficients in every RRPP permutation (`turbo=FALSE`), so the previous results will suffice.
+
+Let's look at some of the linear model parts
+
+```{r}
+model.matrix(fit.null)
+coef(fit.null)
+fitted(fit.null)
+resid(fit.null)
+
+model.matrix(fit.alt)
+coef(fit.alt)
+fitted(fit.alt)
+resid(fit.alt)
+```
+
+The coefficients in the laternative model could be tested with the following code.
+
+```{r}
+coef(fit.alt, test = TRUE)
+```
+
+We can also perform ANOVA, e.g., 
+
+```{r}
+anova(fit.null, fit.alt, print.progress = FALSE)
+anova(fit.alt)
+```
+
+
+Looking at the attributes below, what might also be work exploring?
+```{r}
+attributes(fit.alt)
 ```
 

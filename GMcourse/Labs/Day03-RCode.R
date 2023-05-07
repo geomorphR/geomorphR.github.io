@@ -138,6 +138,10 @@ coef(fit.alt, test = TRUE)
 anova(fit.null, fit.alt)
 anova(fit.alt)
 
+# Anything else worth exploring?
+
+attributes(fit.alt)
+
 ##### 2: Allometry
 
 ## 2A: Simple (single-group) allometry
