@@ -242,6 +242,7 @@ fitted(fit2)[, 1:4]
 
 anova(fit8, effect.type = "Rsq")
 anova(fit8, effect.type = "F")
+reveal.model.designs(fit8)
 
 # MANOVA
 
@@ -260,6 +261,14 @@ summary(PW, stat.table = FALSE)
 
 # Pairwise comparisons, group slopes
 
+# See if this help make sense of group slope vectors
+
+coef(fit10)[, 1:2]
+
+# Maybe try an x^T vector that is 
+# [1 log(mean(CS)) 1 0 log(mean(CS)) 0 0 0]
+
+# Analyses
 group <- interaction(pupfish$Pop, pupfish$Sex)
 PW <- pairwise(fit10, groups = group, 
                covariate = log(pupfish$CS))

@@ -360,7 +360,7 @@ display: none;
 <div id="content-description" class="section level2">
 <h2><strong>Content Description</strong></h2>
 <p>In <code>geomorph</code>, the main function for linear models. is
-<code>procD.lm</code>. Thsi module focuses less on most of the results
+<code>procD.lm</code>. This module focuses less on most of the results
 <code>procD.lm</code> produces, but focuses more on model comparisons
 made available by <code>anova</code>, <code>maonova.update</code>, and
 <code>comprae.models</code>.</p>
@@ -399,6 +399,8 @@ fit10 &lt;- procD.lm(coords ~ log(CS) * Sex*Pop,
 </div>
 <div id="review-model-parts" class="section level2">
 <h2>Review model parts</h2>
+<p>Model that estimates a mean. <span class="math inline">\(\mathbf{X}\)</span> is a vector of 1s and <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> is a vector of
+mean values for each variable.</p>
 <pre class="r"><code># Model with just a mean
 
 model.matrix(fit0)</code></pre>
@@ -500,6 +502,10 @@ model.matrix(fit0)</code></pre>
 ## (Intercept) 0.003145581 -0.1164532 -0.0119135 -0.1328963 -0.0194042 -0.1476051
 ##                  [,108]     [,109]       [,110]     [,111]     [,112]
 ## (Intercept) -0.01407205 -0.1516787 0.0005246936 -0.1440986 0.01308347</code></pre>
+<p>Model that estimates an intercept and a slope. <span class="math inline">\(\mathbf{X}\)</span> comprises a vector of 1s and a
+vector of <span class="math inline">\(\log CS\)</span>. The coefficients
+comprise a (row) vector of intercept values and a (row) vector of
+slopes.</p>
 <pre class="r"><code># Linear regression model
 
 model.matrix(fit1)</code></pre>
@@ -628,6 +634,11 @@ model.matrix(fit1)</code></pre>
 ##                   [,111]       [,112]
 ## (Intercept) -0.170461818  0.049746485
 ## log(CS)      0.006153741 -0.008557924</code></pre>
+<p>Models that estimates group means. <span class="math inline">\(\mathbf{X}\)</span> comprises a vector of 1s and a
+vector of a dummy variable. The coefficients comprise a (row) vector of
+intercept values and a (row) vector of slopes. However, the intercept is
+one group mean and the slopes are the changes from mean to another, by
+variable.</p>
 <pre class="r"><code># Simple single-factor models
 
 model.matrix(fit2)</code></pre>
@@ -882,6 +893,426 @@ model.matrix(fit2)</code></pre>
 ##                   [,110]       [,111]      [,112]
 ## (Intercept) 0.0003168294 -0.143344303 0.012096522
 ## PopSinkhole 0.0004489866 -0.001629217 0.002131814</code></pre>
+</div>
+<div id="how-fitted-values-are-obtained." class="section level2">
+<h2>How fitted values are obtained.</h2>
+<p>Let’s look at this in with just the first 4 variables, so it is easy
+to visualize</p>
+<p>What the unique value of a model matrix look like:</p>
+<pre class="r"><code>unique(model.matrix(fit2))</code></pre>
+<pre><code>##    (Intercept) SexM
+## 1            1    0
+## 17           1    1</code></pre>
+<p>Multiply just these unique states by the coefficients.</p>
+<pre class="r"><code>unique(model.matrix(fit2)) %*% coef(fit2)[,1:4]</code></pre>
+<pre><code>##           [,1]        [,2]        [,3]        [,4]
+## 1  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 17 -0.04243610 -0.07412549 -0.04322316 -0.04004382</code></pre>
+<p>Now see how that is replicated for every of <span class="math inline">\(n\)</span> observations</p>
+<pre class="r"><code>model.matrix(fit2) %*% coef(fit2)[,1:4]</code></pre>
+<pre><code>##           [,1]        [,2]        [,3]        [,4]
+## 1  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 2  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 3  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 4  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 5  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 6  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 7  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 8  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 9  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 10 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 11 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 12 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 13 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 14 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 15 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 16 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 17 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 18 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 19 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 20 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 21 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 22 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 23 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 24 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 25 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 26 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 27 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 28 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 29 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 30 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 31 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 32 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 33 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 34 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 35 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 36 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 37 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 38 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 39 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 40 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 41 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 42 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 43 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 44 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 45 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 46 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 47 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 48 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 49 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 50 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 51 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 52 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 53 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 54 -0.04243610 -0.07412549 -0.04322316 -0.04004382</code></pre>
+<p>Should be the same as what <code>R</code> gives us if we just
+ask.</p>
+<pre class="r"><code>fitted(fit2)[, 1:4]</code></pre>
+<pre><code>##           [,1]        [,2]        [,3]        [,4]
+## 1  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 2  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 3  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 4  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 5  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 6  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 7  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 8  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 9  -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 10 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 11 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 12 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 13 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 14 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 15 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 16 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 17 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 18 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 19 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 20 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 21 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 22 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 23 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 24 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 25 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 26 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 27 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 28 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 29 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 30 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 31 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 32 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 33 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 34 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 35 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 36 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 37 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 38 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 39 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 40 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 41 -0.03673374 -0.06730238 -0.03983162 -0.03441474
+## 42 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 43 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 44 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 45 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 46 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 47 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 48 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 49 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 50 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 51 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 52 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 53 -0.04243610 -0.07412549 -0.04322316 -0.04004382
+## 54 -0.04243610 -0.07412549 -0.04322316 -0.04004382</code></pre>
+</div>
+<div id="anova" class="section level1">
+<h1>ANOVA</h1>
+<p>The following is a reminder of how ANOVA can do multiple model
+comparisons, using <span class="math inline">\(R^2\)</span> and <span class="math inline">\(F\)</span> as statistics for RRPP.</p>
+<pre class="r"><code>anova(fit8, effect.type = &quot;Rsq&quot;)</code></pre>
+<pre><code>## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on R-squared distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;R-squared)   
+## Sex        1 0.015780 0.0157802 0.28012 28.209 4.1985          0.001 **
+## Pop        1 0.009129 0.0091294 0.16206 16.320 4.4344          0.001 **
+## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7268          0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                                
+## Total     53 0.056333                                                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Call: procD.lm(f1 = coords ~ Sex * Pop, iter = 999, data = pupfish)</code></pre>
+<pre class="r"><code>anova(fit8, effect.type = &quot;F&quot;)</code></pre>
+<pre><code>## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)   
+## Sex        1 0.015780 0.0157802 0.28012 28.209 4.7773  0.001 **
+## Pop        1 0.009129 0.0091294 0.16206 16.320 4.7097  0.001 **
+## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 **
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Call: procD.lm(f1 = coords ~ Sex * Pop, iter = 999, data = pupfish)</code></pre>
+<p>In case there is some confusion on the model comparisons
+performed.</p>
+<pre class="r"><code>reveal.model.designs(fit8)</code></pre>
+<pre><code>##            Reduced                 Full                                  
+## Sex              1                  Sex                                  
+## Pop            Sex            Sex + Pop                                  
+## Sex:Pop  Sex + Pop  Sex + Pop + Sex:Pop &lt;- Null/Full inherent in pairwise</code></pre>
+</div>
+<div id="manova" class="section level1">
+<h1>MANOVA</h1>
+<p>The following is how MANOVA stats can be calculated, by updating the
+previous model.</p>
+<pre class="r"><code>fitm &lt;- manova.update(fit8, print.progress = FALSE)</code></pre>
+<p>Note that MANOVA statistics were simply appended to previous
+results.</p>
+<pre class="r"><code>attributes(fit8)</code></pre>
+<pre><code>## $names
+##  [1] &quot;aov.table&quot;    &quot;call&quot;         &quot;coefficients&quot; &quot;Y&quot;            &quot;X&quot;           
+##  [6] &quot;QR&quot;           &quot;fitted&quot;       &quot;residuals&quot;    &quot;Terms&quot;        &quot;term.labels&quot; 
+## [11] &quot;data&quot;         &quot;call&quot;         &quot;LM&quot;           &quot;ANOVA&quot;        &quot;PermInfo&quot;    
+## [16] &quot;turbo&quot;        &quot;Models&quot;       &quot;fitted&quot;       &quot;residuals&quot;    &quot;coefficients&quot;
+## [21] &quot;GM&quot;          
+## 
+## $class
+## [1] &quot;procD.lm&quot; &quot;lm.rrpp&quot;</code></pre>
+<pre class="r"><code>attributes(fitm)</code></pre>
+<pre><code>## $names
+##  [1] &quot;aov.table&quot;    &quot;call&quot;         &quot;coefficients&quot; &quot;Y&quot;            &quot;X&quot;           
+##  [6] &quot;QR&quot;           &quot;fitted&quot;       &quot;residuals&quot;    &quot;Terms&quot;        &quot;term.labels&quot; 
+## [11] &quot;data&quot;         &quot;call&quot;         &quot;LM&quot;           &quot;ANOVA&quot;        &quot;PermInfo&quot;    
+## [16] &quot;turbo&quot;        &quot;Models&quot;       &quot;fitted&quot;       &quot;residuals&quot;    &quot;coefficients&quot;
+## [21] &quot;GM&quot;           &quot;MANOVA&quot;      
+## 
+## $class
+## [1] &quot;manova.lm.rrpp&quot; &quot;procD.lm&quot;       &quot;lm.rrpp&quot;</code></pre>
+<p>MANOVA summaries are provided with the <code>summary</code>
+function.</p>
+<pre class="r"><code>summary(fitm)</code></pre>
+<pre><code>## 
+## Linear Model fit with lm.rrpp
+## 
+## Number of observations: 54
+## Number of dependent variables: 112
+## Data space dimensions: 53
+## Residual covariance matrix rank: 50
+## Sums of Squares and Cross-products: Type I
+## Number of permutations: 1000 
+## 
+##            Df Rand      Roy      Z          Pr(&gt;Roy)
+## Sex         1 Residuals 17.73326  6.8151620 0.001   
+## Pop         1 Residuals 50.34889  1.5093978 0.070   
+## Sex:Pop     1 Residuals 12.71263 -0.5293145 0.706   
+## Full.Model  3 Residuals 54.35676  8.0972310 0.001   
+## Residuals  50</code></pre>
+<pre class="r"><code>summary(fitm, test = &quot;Pillai&quot;)</code></pre>
+<pre><code>## 
+## Linear Model fit with lm.rrpp
+## 
+## Number of observations: 54
+## Number of dependent variables: 112
+## Data space dimensions: 53
+## Residual covariance matrix rank: 50
+## Sums of Squares and Cross-products: Type I
+## Number of permutations: 1000 
+## 
+##            Df Rand      Pillai    Z          Pr(&gt;Pillai)
+## Sex         1 Residuals 0.9466190  4.9765825 0.001      
+## Pop         1 Residuals 0.9805254  1.3801816 0.070      
+## Sex:Pop     1 Residuals 0.9270745 -0.3379822 0.706      
+## Full.Model  3 Residuals 2.8339784  9.6895441 0.001      
+## Residuals  50</code></pre>
+</div>
+<div id="pairwise-comparisons-group-means" class="section level1">
+<h1>Pairwise comparisons, group means</h1>
+<p>Knowing means are different from ANOVA and MANOVA, it might be
+advisable to entertain which are different.</p>
+<pre class="r"><code>group &lt;- interaction(pupfish$Pop, pupfish$Sex)
+PW &lt;- pairwise(fit8, groups = group)</code></pre>
+<p>Two ways to view the same results:</p>
+<pre class="r"><code>summary(PW)</code></pre>
+<pre><code>## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise distances between means, plus statistics
+##                                d  UCL (95%)          Z Pr &gt; d
+## Marsh.F:Sinkhole.F    0.03302552 0.03312516  1.6124629  0.055
+## Marsh.F:Marsh.M       0.04611590 0.04297378  2.3159417  0.007
+## Marsh.F:Sinkhole.M    0.03881514 0.04633821 -0.5421145  0.699
+## Sinkhole.F:Marsh.M    0.04605211 0.05506197 -0.2523753  0.597
+## Sinkhole.F:Sinkhole.M 0.02568508 0.04364031 -2.2111968  0.993
+## Marsh.M:Sinkhole.M    0.02802087 0.03343901  0.1854026  0.420</code></pre>
+<pre class="r"><code>summary(PW, stat.table = FALSE)</code></pre>
+<pre><code>## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise distances between means
+##               Marsh.F Sinkhole.F    Marsh.M Sinkhole.M
+## Marsh.F    0.00000000 0.03302552 0.04611590 0.03881514
+## Sinkhole.F 0.03302552 0.00000000 0.04605211 0.02568508
+## Marsh.M    0.04611590 0.04605211 0.00000000 0.02802087
+## Sinkhole.M 0.03881514 0.02568508 0.02802087 0.00000000
+## 
+## Pairwise 95% Upper confidence limits between means
+##               Marsh.F Sinkhole.F    Marsh.M Sinkhole.M
+## Marsh.F    0.00000000 0.03312516 0.04297378 0.04633821
+## Sinkhole.F 0.03312516 0.00000000 0.05506197 0.04364031
+## Marsh.M    0.04297378 0.05506197 0.00000000 0.03343901
+## Sinkhole.M 0.04633821 0.04364031 0.03343901 0.00000000
+## 
+## Pairwise effect sizes (Z) between means
+##               Marsh.F Sinkhole.F    Marsh.M Sinkhole.M
+## Marsh.F     0.0000000  1.6124629  2.3159417 -0.5421145
+## Sinkhole.F  1.6124629  0.0000000 -0.2523753 -2.2111968
+## Marsh.M     2.3159417 -0.2523753  0.0000000  0.1854026
+## Sinkhole.M -0.5421145 -2.2111968  0.1854026  0.0000000
+## 
+## Pairwise P-values between means
+##            Marsh.F Sinkhole.F Marsh.M Sinkhole.M
+## Marsh.F      1.000      0.055   0.007      0.699
+## Sinkhole.F   0.055      1.000   0.597      0.993
+## Marsh.M      0.007      0.597   1.000      0.420
+## Sinkhole.M   0.699      0.993   0.420      1.000</code></pre>
+<p>It is difficult to recommend how to use <code>summary.pairwise</code>
+until you get into the weeds with your own data. <code>?pairwise</code>
+and <code>?summary.pairwise</code> will be helpful for finding ways to
+get into trouble, but getting out of trouble is elucidative for how to
+handle your data.</p>
+<p>The next example shows how to compare slope vectors, which is more
+involved.</p>
+</div>
+<div id="pairwise-comparisons-group-slopes" class="section level1">
+<h1>Pairwise comparisons, group slopes</h1>
+<p>This example uses a model that allows for unique slopes among groups.
+See if it makes sense how to estimate group-specific shape change For
+example, which group would this vector, predict? <span class="math inline">\(\mathbf{x}^T = \begin{bmatrix} 1 &amp; \log
+\bar{CS} &amp;1 &amp;0 &amp; \log \bar{CS} &amp; 0 &amp; 0 &amp; 0\\
+\end{bmatrix}\)</span></p>
+<pre class="r"><code>coef(fit10)[, 1:2]</code></pre>
+<pre><code>##                                  [,1]          [,2]
+## (Intercept)              -0.057721089 -0.0746659422
+## log(CS)                   0.005027011  0.0015769700
+## SexM                      0.110753040  0.0163484503
+## PopSinkhole               0.055027507  0.0047875515
+## log(CS):SexM             -0.026910552 -0.0052742844
+## log(CS):PopSinkhole      -0.013374747 -0.0007495814
+## SexM:PopSinkhole         -0.107939865  0.1293217548
+## log(CS):SexM:PopSinkhole  0.025728309 -0.0304724204</code></pre>
+<p>Notice below how we set up the pairwise object differently.</p>
+<pre class="r"><code>group &lt;- interaction(pupfish$Pop, pupfish$Sex)
+PW &lt;- pairwise(fit10, groups = group, 
+               covariate = log(pupfish$CS))</code></pre>
+<p>We have to be very careful with the summary. This summary probably
+does not make much sense:</p>
+<pre class="r"><code>summary(PW)</code></pre>
+<pre><code>## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise distances between means, plus statistics
+##                                d  UCL (95%)          Z Pr &gt; d
+## Marsh.F:Sinkhole.F    0.03302552 0.03312516  1.6124629  0.055
+## Marsh.F:Marsh.M       0.04611590 0.04297378  2.3159417  0.007
+## Marsh.F:Sinkhole.M    0.03881514 0.04633821 -0.5421145  0.699
+## Sinkhole.F:Marsh.M    0.04605211 0.05506197 -0.2523753  0.597
+## Sinkhole.F:Sinkhole.M 0.02568508 0.04364031 -2.2111968  0.993
+## Marsh.M:Sinkhole.M    0.02802087 0.03343901  0.1854026  0.420</code></pre>
+<p>These find the angle difference between the slopes of the groups.</p>
+<pre class="r"><code>summary(PW, test.type = &quot;VC&quot;)</code></pre>
+<pre><code>## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise statistics based on mean vector correlations
+##                               r      angle  UCL (95%)          Z Pr &gt; angle
+## Marsh.F:Sinkhole.F    0.9994549 0.03301822 0.03311640  1.6127992      0.055
+## Marsh.F:Marsh.M       0.9989374 0.04610426 0.04296275  2.3160257      0.007
+## Marsh.F:Sinkhole.M    0.9992470 0.03880898 0.04632979 -0.5424108      0.699
+## Sinkhole.F:Marsh.M    0.9989403 0.04604175 0.05504729 -0.2527617      0.597
+## Sinkhole.F:Sinkhole.M 0.9996703 0.02568092 0.04362918 -2.2111963      0.993
+## Marsh.M:Sinkhole.M    0.9996076 0.02801348 0.03343140  0.1851788      0.420</code></pre>
+<pre class="r"><code>summary(PW, test.type = &quot;VC&quot;, angle.type = &quot;deg&quot;)</code></pre>
+<pre><code>## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise statistics based on mean vector correlations
+##                               r    angle UCL (95%)          Z Pr &gt; angle
+## Marsh.F:Sinkhole.F    0.9994549 1.891805  1.897430  1.6127992      0.055
+## Marsh.F:Marsh.M       0.9989374 2.641580  2.461584  2.3160257      0.007
+## Marsh.F:Sinkhole.M    0.9992470 2.223591  2.654501 -0.5424108      0.699
+## Sinkhole.F:Marsh.M    0.9989403 2.637998  3.153978 -0.2527617      0.597
+## Sinkhole.F:Sinkhole.M 0.9996703 1.471408  2.499768 -2.2111963      0.993
+## Marsh.M:Sinkhole.M    0.9996076 1.605054  1.915478  0.1851788      0.420</code></pre>
+<p>These find the difference between the length of the slope vectors
+(difference in the amount of shape change).</p>
+<pre class="r"><code>summary(PW, test.type = &quot;DL&quot;)</code></pre>
+<pre><code>## 
+## Pairwise comparisons
+## 
+## Groups: Marsh.F Sinkhole.F Marsh.M Sinkhole.M 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise absolute difference (d) between vector lengths, 
+##             plus statistics
+##                                  d    UCL (95%)            Z Pr &gt; d
+## Marsh.F:Sinkhole.F    6.223616e-05 0.0002511821 -0.507313693  0.696
+## Marsh.F:Marsh.M       8.666110e-05 0.0002139602  0.008202522  0.501
+## Marsh.F:Sinkhole.M    1.674764e-04 0.0001338737  2.029367621  0.012
+## Sinkhole.F:Marsh.M    1.488973e-04 0.0001596997  1.431869663  0.077
+## Sinkhole.F:Sinkhole.M 1.052402e-04 0.0001910013  0.629786836  0.279
+## Marsh.M:Sinkhole.M    2.541375e-04 0.0001980749  2.040722609  0.011</code></pre>
 </div>
 
 
