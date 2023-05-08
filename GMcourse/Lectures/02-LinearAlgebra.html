@@ -103,10 +103,18 @@ The superscript, `\(^T\)`, means vector transpose.  Note, `\(\left(\mathbf{a}^T 
 
 Vector addition/subtraction (consistent orientation is important)
 
+.pull-left[
+`$$\mathbf{a} = \begin{bmatrix}
+ 5 \\ 
+ 3 \\ 
+ -2 
+\end{bmatrix}$$`
+
 `$$\mathbf{b}^T = \begin{bmatrix}
  -5 &amp; 0 &amp; 1
 \end{bmatrix}$$`
-
+]
+.pull.right[
 `$$\mathbf{a}^T + \mathbf{b}^T= \begin{bmatrix}
  0 &amp; 3 &amp; -1
 \end{bmatrix}$$`
@@ -114,7 +122,7 @@ Vector addition/subtraction (consistent orientation is important)
 `$$\mathbf{a} - \mathbf{b} = \begin{bmatrix}
  10 \\ 3 \\ -3
 \end{bmatrix}$$`
-
+]
 ---
 ### Vector Multiplication
 
@@ -243,7 +251,7 @@ a_nb_1 &amp; a_nb_2 &amp; a_nb_3 &amp; \cdots &amp; a_nb_n\\
 
 
 ### Matrices
-A matrix is more than a vector outer-product (more precisely, a vector outer-product is merely one type of matrix).  A matrix is a collection of vectors, arranged in a specific way, such that linear algebra operations can be carried, systematically.  For example, the arrangement of vectors in a matrix indicates how to find a series of inner-products and display their results.
+A matrix is more than a vector outer-product (more precisely, a vector outer-product is merely one type of matrix).  A matrix is a collection of vectors, arranged in a specific way, such that linear algebra operations can be carried out, systematically.  For example, the arrangement of vectors in a matrix indicates how to find a series of inner-products and display their results.
 
 The most basic matrices for statistics are **data frames**.  In data frames, column vectors are variables and row vectors are observations.  We can demonstrate this easily in `R` with the `data.frame` and `matrix` functions.
 
@@ -311,15 +319,18 @@ Y
 
 ### Matrix Addition, Subtraction, Multiplication
 
+.pull-left[
 #### Matrix addition and subtraction
 Matrix addition and subtraction is no different than vector addition and subtraction.  Matrices have to have *commensurate* dimensions (same `\(n \times p\)`).
 
 #### Matrix multiplication
 Matrix multiplication is nothing more than systematic calculation of vector inner-products and arrangement of these into precise corresponding elements of a new matrix.  Like vectors, inner dimensions must match and the product is defined by the outer dimensions.  The simplest way to define this is as follows
 
+]
+.pull-right[
 Let `\(\mathbf{X}\)` be an `\(n \times k\)` matrix and let `\(\mathbf{Y}\)` by an `\(n \times p\)` matrix, such that
 
-`$$\mathbf{X} = \begin{bmatrix}
+`$$\small \mathbf{X} = \begin{bmatrix}
 \mathbf{x}_1 &amp;
 \mathbf{x}_2 &amp;
 \cdots &amp;
@@ -328,7 +339,7 @@ Let `\(\mathbf{X}\)` be an `\(n \times k\)` matrix and let `\(\mathbf{Y}\)` by a
 
 and
 
-`$$\mathbf{Y} = \begin{bmatrix}
+`$$\small \mathbf{Y} = \begin{bmatrix}
 \mathbf{y}_1 &amp;
 \mathbf{y}_2 &amp;
 \cdots &amp; 
@@ -336,6 +347,7 @@ and
 \end{bmatrix}$$`
 
 Note that each `\(\mathbf{x}_i\)` column vector is `\(n \times 1\)` in dimension for `\(k\)` vectors and each `\(\mathbf{y}_i\)` is `\(n \times 1\)` in dimension for `\(p\)` vectors.  Thus,
+]
 ---
 ### Matrix Addition, Subtraction, Multiplication (Cont.)
 
@@ -493,7 +505,7 @@ This is not something we can do.  We can invert some matrices, but we will come 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
 |**Projection matrix:** Any matrix that can be multiplied with data that map the data to new vectors (transformation), taking the form, `\(\mathbf{PY}\)` or `\(\mathbf{YP}\)`.| `\(\small{\mathbf{P} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix}}\)` | Although projection (transformation) matrices can have many forms, typical ones are: "hat" matrices, `\(\mathbf{H}\)`, which if idempotent perform orthogonal projections, but if merely symmetric perform shears (more on this soon); and eigenvectors ( `\(\mathbf{V}\)` ).
-|**Positive-definite matrix:** If `\(\mathbf{X}\)` is symmetric, `\(\mathbf{a}^T \mathbf{Xa}\)` is a positive scalar if `\(\mathbf{a}\)` has non-zero values.  Thus, `\(\mathbf{X}\)` is positive-definite.| `\(\small{\mathbf{X} = \begin{bmatrix} 1 &amp; 0.5 \\ 0.5 &amp; 2 \end{bmatrix}}\)` | This also means all eigenvalues of `\(\mathbf{X}\)` are non-negative (more later).  ***Covariance matrices for shape data are often not positive definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
+|**Positive-definite matrix:** If `\(\mathbf{X}\)` is symmetric, `\(\mathbf{a}^T \mathbf{Xa}\)` is a positive scalar if `\(\mathbf{a}\)` has non-zero values.  Thus, `\(\mathbf{X}\)` is positive-definite.| `\(\small{\mathbf{X} = \begin{bmatrix} 1 &amp; 0.5 \\ 0.5 &amp; 2 \end{bmatrix}}\)` | This also means all eigenvalues of `\(\mathbf{X}\)` are non-negative (more later).  ***Covariance matrices for shape data are often not positive-definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
 
 It should be clear that matrices can have several properties.  For example, a *projection matrix* can be symmetric and idempotent.
 ---
@@ -762,7 +774,7 @@ solve(crossprod(X))
 While we are on the topic…
 Imagine that the second column is a variable, `\(X\)`, taking on the value either 0 or 1
 
-The first column is a “dummy” variable
+The columns are “dummy” variables
 
 
 ```r
