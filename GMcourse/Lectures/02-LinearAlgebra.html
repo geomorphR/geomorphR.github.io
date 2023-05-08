@@ -494,7 +494,7 @@ This is not something we can do.  We can invert some matrices, but we will come 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
 |**Orthogonal matrix:** A symmetric matrix that has the property that `\(\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}\)`.| `\(\small{\mathbf{A} = \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix}}\)` | `\(\small{\mathbf{AA}^T} = \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix} \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix} = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix}\)` |
-|**Orthonormal matrix:** An orthogonal matrix with unit vectors (length of 1) `\(\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}\)`.| `\(\small{\mathbf{A} = \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix}}\)` | `\(\small{\lvert\lvert\mathbf{a}_1 \rvert\rvert  =(\mathbf{a}_1^T\mathbf{a}_1)^{1/2} = (0.7071^2 +0.7071^2)^{1/2} =1}\)` ;  `\(\small{\lvert\lvert\mathbf{a}_2\rvert\rvert=(\mathbf{a}_2^T\mathbf{a}_2)^{1/2} = (0.7071^2 + (-0.7071)^2)^{1/2} =1}\)`|
+|**Orthonormal matrix:** An orthogonal matrix with unit vectors (length of 1) `\(\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}\)`.| `\(\small{\mathbf{A} = \begin{bmatrix} 0.7071 &amp; 0.7071 \\ 0.7071 &amp; -0.7071 \end{bmatrix}}\)` | `\(\small{\lvert\lvert\mathbf{a}_1 \rvert\rvert  =(\mathbf{a}_1^T\mathbf{a}_1)^{1/2} = (0.7071^2 +0.7071^2)^{1/2} =1}\)`  `\(\small{\lvert\lvert\mathbf{a}_2\rvert\rvert=(\mathbf{a}_2^T\mathbf{a}_2)^{1/2} = (0.7071^2 + (-0.7071)^2)^{1/2} =1}\)`|
 |**Idempotent matrix:** A symmetric matrix with the property `\(\mathbf{HH} = \mathbf{H}\)` | `\(\small{\mathbf{H} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix}}\)` | `\(\begin{align*} \small{\mathbf{HH}} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix} \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix} \\ = \small{\begin{bmatrix} 0.5^2 + 0.5^2 &amp; 0.5^2 + 0.5^2 \\ 0.5^2 + 0.5^2 &amp; 0.5^2 + 0.5^2 \end{bmatrix} = \begin{bmatrix} 0.5 &amp; 0.5 \\ 0.5 &amp; 0.5 \end{bmatrix}} \end{align*}\)`  
 
 ***Idempotency is a property that is important for orthogonal projection, covered next***
@@ -1121,7 +1121,7 @@ Computers can solve characteristic polynomials easily via numerical approximatio
 
 `$$\mathbf{S}_{p \times p} =\mathbf{T}_{p \times p}  \mathbf{T}_{p \times p}^T$$`
 
-where `\(\mathbf{U}\)` is a triangular matrix.
+where `\(\mathbf{T}\)` is a triangular matrix.
 
 No need for a lot of detail here but just realize that Cholesky decompositions are sometimes used as solutions to find the *square-root of a symmetric matrix*.
 
