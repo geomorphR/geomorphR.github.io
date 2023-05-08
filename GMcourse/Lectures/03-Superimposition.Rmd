@@ -101,8 +101,8 @@ where $p$ is the number of landmarks and $k$ is the number of coordinate dimensi
 Generalized Procrustes Analysis (GPA) removes non-shape information from landmark coordinates
 
   + Translate all specimens to the origin
-  + Scalesall specimens to unit centroid size
-  + Rotates ll specimens to minimize differences
+  + Scales all specimens to unit centroid size
+  + Rotates all specimens to minimize differences
   
 ```{r, echo = FALSE, fig.align = "center", out.width="70%"}
 include_graphics("LectureData/03.superimposition/GPAEquationNote.png")  
@@ -148,10 +148,10 @@ $$\mathbf{H}=\begin{bmatrix}
 \end{bmatrix}$$
 
 + $\mathbf{H}$ is found from a regression (i.e., fit) of $\mathbf{Y}_2$ on $\mathbf{Y}_1$
-  + Perform `SVD` of: $\mathbf{Y}_1^T\mathbf{Y}_2=\mathbf{U\Sigma{V}}^T$
+  + Perform `SVD` of: $\mathbf{Y}_1^T\mathbf{Y}_2=\mathbf{UDV}^T$
   + Then $\mathbf{H}=\mathbf{VSU}^T$
 
-+ Here $\mathbf{S}$ has diagonals of $1$ and of the same sign
++ Here $\mathbf{S}$ has diagonals of $1$ and of the same sign as $\mathbf{D}$
   + Diagonals of $1$ so rigid rotation 
   + Of same sign to eliminate reflections
 ---

@@ -233,7 +233,7 @@ $$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$
 
   + 5: Perform GPA and obtain new reference
 
-  + 6: Iterate 2 - 5 to improve fit
+  + 6: Iterate 2 - 5 (or 10, or 20??) to improve fit (With BE, don't expect convergence...)
 ---
    
 ### Semilandmarks: Differing Approaches
@@ -250,7 +250,7 @@ include_graphics("LectureData/05.semilandmarks/SlidingCorpusEx.png")
 ### Procrustes Relaxation: Refinements
 
 + Semilandmarks slide along tangent directions
-+ But if slid to far they 'leave' the actual curve 
++ But if slid too far they 'leave' the actual curve 
 + Solution is to project back to curve during GPA + sliding
 
 ```{r, echo = FALSE, fig.align = "center", out.width="70%"}
