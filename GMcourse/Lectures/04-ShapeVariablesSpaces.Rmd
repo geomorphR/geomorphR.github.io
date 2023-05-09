@@ -11,7 +11,6 @@ output:
       countIncrementalSlides: false
       ratio: '16:9'
       self_contained: false
-      chakra: libs/remark-latest.min.js
 ---
 
 ```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
@@ -440,9 +439,8 @@ include_graphics("LectureData/04.shape.vars/LizardHead.png")
 ```
 ]
 .pull-right[
-```{r echo=FALSE, fig.align = "center", out.width="80%" }
+```{r echo=TRUE, fig.align = "center", out.width="70%" }
 par(mfcol = c(1, 2))
-#include_graphics("LectureData/04.shape.vars/LizardHead.png")  
 plotAllSpecimens(Y.gpa$coords, links=links)
 PCA <- gm.prcomp(Y.gpa$coords)
 plot(PCA,pch = 21, bg=col.gp,cex = 2)

@@ -388,7 +388,19 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 &lt;img src="LectureData/04.shape.vars/LizardHead.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+```r
+par(mfcol = c(1, 2))
+plotAllSpecimens(Y.gpa$coords, links=links)
+PCA &lt;- gm.prcomp(Y.gpa$coords)
+plot(PCA,pch = 21, bg=col.gp,cex = 2)
+```
+
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+```r
+par(mfcol=c(1,1))
+```
 ]
 ---
 
@@ -498,8 +510,7 @@ plotRefToTarget(female,male, mag = 5, links = links)
 "highlightLines": true,
 "countIncrementalSlides": false,
 "ratio": "16:9",
-"self_contained": false,
-"chakra": "libs/remark-latest.min.js"
+"self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
