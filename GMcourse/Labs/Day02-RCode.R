@@ -1,4 +1,4 @@
-# This R script contains the concatenatid code from the day 2 tutorials.
+# This R script contains the concatenated code from the day 2 tutorials.
 # This is what you should work through during lab, using your own data.
 
 
