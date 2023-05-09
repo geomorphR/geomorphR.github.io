@@ -221,7 +221,7 @@ class: center, middle, inverse, title-slide
 
   + 5: Perform GPA and obtain new reference
 
-  + 6: Iterate 2 - 5 to improve fit
+  + 6: Iterate 2 - 5 (or 10, or 20??) to improve fit (With BE, don't expect convergence...)
 ---
    
 ### Semilandmarks: Differing Approaches
@@ -236,7 +236,7 @@ class: center, middle, inverse, title-slide
 ### Procrustes Relaxation: Refinements
 
 + Semilandmarks slide along tangent directions
-+ But if slid to far they 'leave' the actual curve 
++ But if slid too far they 'leave' the actual curve 
 + Solution is to project back to curve during GPA + sliding
 
 &lt;img src="LectureData/05.semilandmarks/ProjToCurve.png" width="70%" style="display: block; margin: auto;" /&gt;
@@ -422,7 +422,25 @@ class: center, middle, inverse, title-slide
 
 &lt;img src="LectureData/05.semilandmarks/ProcParadigm.png" width="55%" style="display: block; margin: auto;" /&gt;
 
+---
+  
+### Caveats, comments, and Best practices
 
++ Projection of slid points back onto surfaces might not be a feasible step if there is no straightforward way to do this.  (Requires having points on a surface to find nearest neighbor.)
+
++ GPA convergence might be expected with minimized Procrustes distance but should not be expected with BE.  The criterion for measuring convergence is to measure total sums of squares among configurations, but the generalized least squares solutions can inflate variance.
+  + One should consider alternative results from different sets of iterations.
++ Too many iterations can cause points to slide past each other, producing erroneous results.
++ Large data sets with many landmarks and semilandmarks can be computationally burdensome, especially using BE.
+  + One possible solution is to use approximated BE.  This approach uses a subsample of fixed points.
+  + Approximated BE might have better convergence than full BE. `\(^1\)`
++ This is an area of theoretical research much in need of revisiting.  The current state of development is rather unchanged for almost 20 years.
+  + Other spatial processes?
+  + Rotation based on fixed landmarks alone?
+  + Different convergence criterion?
+  + Best practices for auto-landmark placement?  
+
+.footnote[1. Baken et al. (2021). *MEE*]
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
