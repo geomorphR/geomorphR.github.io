@@ -26,7 +26,7 @@ plot(Y.gpa)
 
 digitizeImages(image.file='Data/Fish-Images', shapes.file='Data/Fish-Shapes',
                landmarks.ref=paste("LM", c(1:5), sep=""),
-               curves.ref = "example.curves.txt")
+               curves.ref = "Data/example.curves.txt")
 
 # Read Data
 
