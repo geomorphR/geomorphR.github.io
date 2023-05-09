@@ -134,7 +134,7 @@ include_graphics("LectureData/05.semilandmarks/BarTPS.png")
 
   + 4: Perform GPA to obtain new consensus
 
-  + 5: Iterate steps 2-5 to improve fit
+  + 5: Iterate steps 2-5 to improve fit 
 
 --
 
@@ -159,14 +159,16 @@ include_graphics("LectureData/05.semilandmarks/DirToSlide.png")
 
 $$\tiny\mathbf{U}=\begin{bmatrix} 0 & 0 & 0 \\ u_{2x} & 0 & 0\\ 0 & u_{3x} & 0 \\ 0 & 0 & u_{4x} \\ 0 & 0 & 0 \\ \hline 0 & 0 & 0 \\ u_{2y} & 0 & 0\\ 0 & u_{3y} & 0 \\ 0 & 0 & u_{4y} \\ 0 & 0 & 0 \\ \end{bmatrix}$$
 
-+ Landmark positions after sliding found as: $\small\mathbf{Y}^*=\mathbf{Y^0-UT}$
++ Landmark positions after sliding found as: $\small\mathbf{y}^*=\mathbf{y^0-Ut}$
+
+Note $\mathbf{y} = vec(\mathbf{Y})$
 ---
 
 ### How Far to Slide?
 
 + Most conservative approach: slide to minimize shape differences
 
-+ Sliding defined by $\small\mathbf{T}$:	$\small\mathbf{Y}^*=\mathbf{Y^0-UT}$
++ Sliding defined by $\small\mathbf{t}$:	$\small\mathbf{y}^*=\mathbf{y^0-Ut}$
 
 ###### ( $\tiny\mathbf{Y^0}$ and $\tiny\mathbf{Y_{ref}}$  are assembled by $\small{x}$ then $\small{y}$ coordinates) 
 
@@ -177,15 +179,15 @@ $$\tiny\mathbf{U}=\begin{bmatrix} 0 & 0 & 0 \\ u_{2x} & 0 & 0\\ 0 & u_{3x} & 0 \
 
 + Most conservative approach: slide to minimize shape differences
 
-+ Sliding defined by $\small\mathbf{T}$:	$\small\mathbf{Y}^*=\mathbf{Y^0-UT}$
++ Sliding defined by $\small\mathbf{t}$:	$\small\mathbf{y}^*=\mathbf{y^0-Ut}$
 
 ###### ( $\tiny\mathbf{Y^0}$ and $\tiny\mathbf{Y_{ref}}$  are assembled by $\small{x}$ then $\small{y}$ coordinates) 
 
-+ Two criteria: bending energy ( $\small{BE}$) & Procrustes distance ( $\small{D}_{Proc}$) 
++ Two criteria: bending energy $(\small{BE})$ & Procrustes distance ( $\small{D}_{Proc}$) 
 
 + 1: Slide landmarks to minimize $\small{BE}$ via **GLS**:   
 
-$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$ 
+$$\small\mathbf{t}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{y^0-y_{ref}})$$ 
 
   + where $\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} \mathbf{L}_p^{-1} & 0 \\ 0 & \mathbf{L}_p^{-1} \end{bmatrix}$
 ---
@@ -194,20 +196,20 @@ $$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{
 
 + Most conservative approach: slide to minimize shape differences
 
-+ Sliding defined by $\small\mathbf{T}$:	$\small\mathbf{Y}^*=\mathbf{Y^0-UT}$
++ Sliding defined by $\small\mathbf{t}$:	$\small\mathbf{y}^*=\mathbf{y^0-Ut}$
 
 ###### ( $\tiny\mathbf{Y^0}$ and $\tiny\mathbf{Y_{ref}}$  are assembled by $\small{x}$ then $\small{y}$ coordinates) 
  
-+ Two criteria: bending energy ( $\small{BE}$) & Procrustes distance ( $\small{D}_{Proc}$) 
++ Two criteria: bending energy $(\small{BE})$ & Procrustes distance ( $\small{D}_{Proc}$) 
 
 + 1: Slide landmarks to minimize $\small{BE}$ via **GLS**:   
 
-$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$ 
+$$\small\mathbf{t}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{y^0-y_{ref}})$$ 
 
   + where $\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} \mathbf{L}_p^{-1} & 0 \\ 0 & \mathbf{L}_p^{-1} \end{bmatrix}$
 
 + 2: Slide landmarks to minimize $\small{D}_{Proc}$:
-$$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$ 
+$$\small\mathbf{t}=\mathbf{U^T}(\mathbf{y^0-y_{ref}})$$ 
 
 ###### Sliding by $\tiny{D}_{Proc}$ assumes independence of semilandmarks, as $\tiny(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathcal{L}_p^{-1}=\mathbf{I}$ (this is not realistic).
 ---
@@ -226,14 +228,14 @@ $$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$
 --
 
   + 4: Slide landmarks along tangents using $\small{BE}$ or $\small{D}_{Proc}$
-   $$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$
-   $$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$ 
+   $$\small\mathbf{t}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{y^0-y_{ref}})$$
+   $$\small\mathbf{t}=\mathbf{U^T}(\mathbf{y^0-y_{ref}})$$ 
 
 --
 
-  + 5: Perform GPA and obtain new reference
+  + 5: Perform GPA and obtain new reference.  (Note reconfigure each $\mathbf{Y^*}$ from $\mathbf{y^*}$.)
 
-  + 6: Iterate 2 - 5 (or 10, or 20??) to improve fit (With BE, don't expect convergence...)
+  + 6: Iterate 2 - 5 to improve fit (With BE, don't expect convergence...)
 ---
    
 ### Semilandmarks: Differing Approaches
@@ -318,11 +320,11 @@ $$\tiny\mathbf{U}=\begin{bmatrix} 0 & 0 & 0 \\ u_{2x} & 0 & 0\\ 0 & u_{3x} & 0 \
 .pull-right[
 + Slide as before: 
 
-$$\small\mathbf{T}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{Y^0-Y_{ref}})$$
+$$\small\mathbf{t}=(\mathbf{U^T\mathcal{L}_p^{-1}U})^{-1}\mathbf{\mathcal{L}_p^{-1}U^T}(\mathbf{y^0-y_{ref}})$$
 $$\small\mathbf{\mathcal{L}_p^{-1}}=\begin{bmatrix} \mathbf{L}_p^{-1} & 0 & 0 \\ 0 & \mathbf{L}_p^{-1} & 0 \\
 0 & 0 & \mathbf{L}_p^{-1} \end{bmatrix}$$
   
-$$\small\mathbf{T}=\mathbf{U^T}(\mathbf{Y^0-Y_{ref}})$$ 
+$$\small\mathbf{t}=\mathbf{U^T}(\mathbf{y^0-y_{ref}})$$ 
 
 ]
 
