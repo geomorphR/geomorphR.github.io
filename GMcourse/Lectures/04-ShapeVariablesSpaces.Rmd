@@ -1,7 +1,7 @@
 ---
 title: "4: Shape Variables and Shape Spaces"
 author: ""
-subtitle: "Procrustes Shape Coordinats and the Thin-Plate Spline"
+subtitle: "Procrustes Shape Coordinates and the Thin-Plate Spline"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
@@ -395,7 +395,7 @@ $$\small{\mathbf{Z}}=\mathbf{U} \mathbf{D} \mathbf{V}^T$$
 
 + PC scores are found as: 
 
-$$\small\mathbf{P} = \mathbf{UD}$$
+$$\small\mathbf{P} = \mathbf{ZV}$$
 + For multivariate continuous data, this yields identical results to the previous computations
 
 .footnote[
