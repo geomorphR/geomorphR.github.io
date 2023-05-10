@@ -437,12 +437,12 @@ Before getting into a statistical test, let's look at the steps of the **.blue[G
 + These data contain head shape data from 13 landmarks for plethodontid salamanders, plus gut content data (square-root transformed frequencies of 16 taxonomic groups).
 
 .pull-left[
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width="80%"}
 include_graphics("LectureData/06.shapestatistics1/plethExampleGPA.png")
 ```
 ]
 .pull-right[
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width="80%"}
 include_graphics("LectureData/06.shapestatistics1/plethExampleFood.png")
 ```
 ]
