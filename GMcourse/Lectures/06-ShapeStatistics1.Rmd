@@ -1041,12 +1041,12 @@ Too much output for one slide but we will see more results in lab.
 round(PACA$RV, 3) 
 ```
 
-**Portion variation (of tips) in each PAC**
+**Portion variation (.blue[of tips]) in each PAC**
 ```{r, echo=FALSE, eval=TRUE}
 round(apply(PACA$x, 2, var) / sum(apply(PACA$x, 2, var)), 3) 
 ```
 
-**Portion variation (of tips) in each PC**
+**Portion variation (.blue[of tips]) in each PC**
 ```{r, echo=FALSE, eval=TRUE}
 round(PCA$d / sum(PCA$d), 3)
 ```
@@ -1082,12 +1082,12 @@ Too much output for one slide but we will see more results in lab.
 round(PACA$RV, 3) 
 ```
 
-**Portion variation (of ancestor values) in each PAC**
+**Portion variation (of .red[ancestor values]) in each PAC**
 ```{r, echo=FALSE, eval=TRUE}
 round(apply(PACA$anc.x, 2, var) / sum(apply(PACA$anc.x, 2, var)), 3) 
 ```
 
-**Portion variation (of ancestor values) in each PC**
+**Portion variation (of .red[ancestor values]) in each PC**
 ```{r, echo=FALSE, eval=TRUE}
 round(apply(PCA$anc.x, 2, var) / sum(apply(PCA$anc.x, 2, var)), 3)
 ```
@@ -1230,7 +1230,7 @@ All statistical steps take the form, $\mathbf{A}^T\mathbf{Z}$, but what $\mathbf
 | Step | $\mathbf{A}$ | $\mathbf{A}^T$ | Purpose |
 |:--|---|---|-----|
 |1.| $\tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$| $(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | Obtain coefficients that estimate expected change in $\mathbf{Z}$ associated with the parameters of $\mathbf{X}$, also accounting for the non-independence of observations.|
-|2.| $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain fitted values.  We can also obtain **.blue[GLS-centered] residuals** as $\mathbf{E} = \mathbf{Z} -\mathbf{HZ} = (\mathbf{I} - \mathbf{H})\mathbf{Z}$.|
+|2.| $\mathbf{H} = \mathbf{\tilde{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\mathbf{X}^T$ | $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain fitted values.  We can also obtain **.blue[GLS-centered] residuals** as $\mathbf{E} = \mathbf{Z} -\mathbf{HZ} = (\mathbf{I} - \mathbf{H})\mathbf{Z}$.|
 |3.| $\tilde{\mathbf{H}} = \mathbf{\mathbf{\tilde{X}}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\tilde{\mathbf{H}} = \tilde{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain **.blue[GLS-transformed] residuals** as $\tilde{\mathbf{E}} = \mathbf{\tilde{Z}} -\mathbf{\tilde{H}\tilde{Z}} = (\mathbf{ I} - \mathbf{\tilde{H}})\mathbf{\tilde{Z}}$. .red[The importance of this step is to simply make sure that residuals are transformed for calculating covariance matrices.  This is a bit esoteric, but it will hopefully make some algebraic sense in a moment.] $^1$.  
 
 .footnote[1. A more extensive explanation of the calculation of GLS-estimated covariance matrices is provided in the Appendix.]
