@@ -1,0 +1,15 @@
+Meshlab: decimate to make smaller file
+
+#Decimate to smaller size
+Filter
+  -> Remeshing,Simplification,Reconstruction
+    -> Simplification: Quadratic Edge Collapse Decimation
+      -> Reduce target number of faces
+
+### CAN ALSO 
+Filter
+  -> Cleaning and Repairing
+    -> Remove Duplicate Faces
+    -> Remove Duplicate Vertices
+
+Save as Text-based PLY file (not binary)
