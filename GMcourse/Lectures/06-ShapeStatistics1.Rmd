@@ -436,6 +436,27 @@ Before getting into a statistical test, let's look at the steps of the **.blue[G
 
 + These data contain head shape data from 13 landmarks for plethodontid salamanders, plus gut content data (square-root transformed frequencies of 16 taxonomic groups).
 
+.pull-left[
+```{r, echo = FALSE}
+include_graphics("LectureData/06.shapestatistics1/plethExampleGPA.png")
+```
+]
+.pull-right[
+```{r, echo = FALSE}
+include_graphics("LectureData/06.shapestatistics1/plethExampleFood.png")
+```
+]
+---
+
+### Partial Least Squares, Example
+
+Before getting into a statistical test, let's look at the steps of the **.blue[GM PLS paradigm]** with an example
+
++ Example from Adams, D. C., and F. J. Rohlf. 2000. Ecological character displacement in Plethodon: biomechanical differences found from a geometric morphometric study. Proceedings of the National Academy of Sciences, U.S.A. 97:4106-4111
+
++ These data contain head shape data from 13 landmarks for plethodontid salamanders, plus gut content data (square-root transformed frequencies of 16 taxonomic groups).
+
+
 **First, data analysis set up.**
 
 ```{r, echo = TRUE, eval = TRUE}
@@ -1182,8 +1203,8 @@ $$\hat{\mathbf{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right 
 
 **Regarding coefficients**
 
-1. The coefficients, $\hat{\boldsymbol{\beta}}$, explain the expected change in transformed data, $\mathbf{\tilde{Z}}$, associated with the *standardized matrix of parameters*.  (This is different than standardizing each of the parameters, which could also be done.)
-2. Note that the linear model design has $k$ parameters (columns).  $\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}$ is a $k \times k$ matrix.  $\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$ is an $n \times k$ matrix, just like $\tilde{\mathbf{X}}$  Thus, $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in each of $p$ variables in $\mathbf{\tilde{Z}}$ associated with each of $k$ parameters in $\tilde{\mathbf{X}}$.
+1. The coefficients, $\hat{\boldsymbol{\beta}}$, explain the expected change in data, $\mathbf{Z}$, associated with the *standardized matrix of parameters*.  (This is different than standardizing each of the parameters, which could also be done.)
+2. Note that the linear model design has $k$ parameters (columns).  $\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}$ is a $k \times k$ matrix.  $\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$ is an $n \times k$ matrix, just like $\tilde{\mathbf{X}}$  Thus, $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in each of $p$ variables in $\mathbf{Z}$ associated with each of $k$ parameters in $\tilde{\mathbf{X}}$.
 3. **This is beautiful just by itself!**
 
 --
@@ -1210,7 +1231,7 @@ All statistical steps take the form, $\mathbf{A}^T\mathbf{Z}$, but what $\mathbf
 |:--|---|---|-----|
 |1.| $\tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$| $(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | Obtain coefficients that estimate expected change in $\mathbf{Z}$ associated with the parameters of $\mathbf{X}$, also accounting for the non-independence of observations.|
 |2.| $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain fitted values.  We can also obtain **.blue[GLS-centered] residuals** as $\mathbf{E} = \mathbf{Z} -\mathbf{HZ} = (\mathbf{I} - \mathbf{H})\mathbf{Z}$.|
-|3.| $\tilde{\mathbf{H}} = \mathbf{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\tilde{\mathbf{H}} = \tilde{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain **.blue[GLS-transformed] residuals** as $\tilde{\mathbf{E}} = \mathbf{\tilde{Z}} -\mathbf{\tilde{H}\tilde{Z}} = (\mathbf{ I} - \mathbf{\tilde{H}})\mathbf{\tilde{Z}}$. .red[The importance of this step is to simply make sure that residuals are transformed for calculating covariance matrices.  This is a bit esoteric, but it will hopefully make some algebraic sense in a moment.] $^1$.  
+|3.| $\tilde{\mathbf{H}} = \mathbf{\mathbf{\tilde{X}}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\tilde{\mathbf{H}} = \tilde{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain **.blue[GLS-transformed] residuals** as $\tilde{\mathbf{E}} = \mathbf{\tilde{Z}} -\mathbf{\tilde{H}\tilde{Z}} = (\mathbf{ I} - \mathbf{\tilde{H}})\mathbf{\tilde{Z}}$. .red[The importance of this step is to simply make sure that residuals are transformed for calculating covariance matrices.  This is a bit esoteric, but it will hopefully make some algebraic sense in a moment.] $^1$.  
 
 .footnote[1. A more extensive explanation of the calculation of GLS-estimated covariance matrices is provided in the Appendix.]
 
@@ -1320,7 +1341,7 @@ Why go through all this algebra?  **Because a difference in model projections is
 If the preceding algebraic demonstration is daunting, please realize that $\Delta\mathbf{\tilde{H}\tilde{Z}}$ can be loosely translated as an effect due to differences by model predictions.  In this way, when we talk about more complex models, $\Delta\mathbf{\tilde{H}\tilde{Z}}$ is a prevailing concept.
 ]]
 
-** $\Delta\mathbf{\tilde{H}\tilde{Z}}$ .red[is the difference in model predictions and] $\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}}$ .red[is the covariance matrix for the different predictions, the effect of adding parameters to the null model design.]**
+** $\Delta\mathbf{HZ}$ .red[is the difference in model predictions and] $\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}}$ .red[is the covariance matrix for the different predictions, the effect of adding parameters to the null model design.]**
 
 ---
 
@@ -1458,16 +1479,17 @@ sum(diag(Sigma.effect))
 ### Finally, a linear model example.
 
 **Notice something familiar?**
-.small[
+.pull-left[.small[.pre[
 ```{r, echo = TRUE}
 anova(fit.alt)
 ```
-]
-.small[
+]]]
+
+.pull-left[.med[.pre[
 ```{r, echo = TRUE}
 summary(PLSallometry)
 ```
-]
+]]]
 
 ---
 ### General linear model summary
