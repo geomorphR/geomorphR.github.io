@@ -169,10 +169,11 @@ This is a hypothesis of *Allometry* (shape~size covariation)
 .pull-right[
 
 ```r
-data(Pupfish)
-Pupfish$logSize &lt;- log(Pupfish$CS)
-fit &lt;- procD.lm(coords ~ logSize, 
-            data = Pupfish, print.progress = FALSE) 
+data(pupfish)
+pupfish$logSize &lt;- log(pupfish$CS)
+pupfish$Group &lt;- interaction(pupfish$Pop, pupfish$Sex)
+
+fit &lt;- procD.lm(coords ~ logSize, data = pupfish, print.progress = FALSE) 
 round(anova(fit)$table, 4)
 ```
 
@@ -212,7 +213,40 @@ Great, but how does one visualize this multivariate allometry??
 ]
 ---
 
-### Visualization: Example
+### Visualizing Multivariate Allometry (Cont.)
+
++ And now some shape predictions
+
+.pull-left[
+
+```r
+M &lt;- mshape(pupfish$coords)
+preds &lt;- shape.predictor(fit$GM$fitted, x= pupfish$logSize, Intercept = TRUE, 
+                         predmin = min(pupfish$logSize), 
+                         predmax = max(pupfish$logSize)) 
+```
+
+]
+.pull-right[
+
+```r
+par(mfrow=c(1,2))
+plotRefToTarget(M, preds$predmin, mag=1)
+mtext("Regression Min")
+plotRefToTarget(M, preds$predmax, mag=1)
+mtext("Regression Max")
+```
+
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+```r
+par(mfrow=c(1,1))
+```
+]
+
+---
+
+### Allometry Example: *Podarcis*
 
 + Effects of human-mediated disturbance (urbanization) on *Podarcis* lizards
   + 5 urban and 5 rural populations
@@ -228,7 +262,7 @@ Great, but how does one visualize this multivariate allometry??
 ### Allometry Example: *Podarcis*
 
 .pull-left[
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -252,11 +286,38 @@ anova(fit)$table
 
 ### Allometry Example: *Podarcis* (Cont.)
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
-### Visualization 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+### *Podarcis* Allometry: Visualization 
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+
+### *Podarcis* Allometry: Visualization (Cont.)
+
+.pull-left[
+
+```r
+X &lt;- fit$X
+X &lt;- X[,-1]
+CS.min.max &lt;- by(gdf$CS,gdf$type,range)
+R.min &lt;- c(CS.min.max$R[1], 0, 0)
+R.max &lt;- c(CS.min.max$R[2], 0, 0)
+U.min &lt;- c(CS.min.max$U[1], 0, CS.min.max$U[1])
+U.max &lt;- c(CS.min.max$U[2], 0, CS.min.max$U[2])
+
+preds &lt;- shape.predictor(fit$GM$fitted, x= X, Intercept = TRUE, 
+                         predmin.r = R.min, 
+                         predmax.r = R.max,
+                         predmin.u = U.min, 
+                         predmax.u = U.max) 
+M &lt;- mshape(Y.gpa$coords)
+```
+
+]
+.pull-right[
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
 ---
 
 ### Post-Hoc Tests
@@ -389,7 +450,7 @@ data(pupfish)
 plotAllSpecimens(pupfish$coords)
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-20-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-24-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
@@ -441,7 +502,7 @@ anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 + Allometric plots
   + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-24-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-28-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)

@@ -1,5 +1,7 @@
 For workshop
 
+Day 3 and Day 4 lab R-scripts have a mix of things across days. 
+
 add arguments to add examples "A=xxx', not just 'xxx'
 
 Prospectus: model comparison: get logLik distribution via RRPP in there (from physig paper)
