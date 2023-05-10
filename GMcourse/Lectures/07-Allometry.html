@@ -206,7 +206,7 @@ Great, but how does one visualize this multivariate allometry??
 + Regression scores (Drake and Klingenberg 2008): projection of shape data on the allometric line
 `$$\small\mathbf{s}=\mathbf{Z\beta^T(\beta^T\beta)^{-1/2}}$$`
 
-+ PC1 of predicted values (Adams and nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
++ PC1 of predicted values (Adams and Nistri 2010): PC rotation of Ŷ to summarize variation across the shape-size relationship
 
 `$$\small\mathbf{P_1}=svd(\mathbf{\hat{Z}})=svd(\mathbf{X(\tilde{X}^T\tilde{X})^{-1}(\tilde{X}^T\tilde{Z})})$$`
 ]
@@ -342,7 +342,7 @@ anova(fit)$table
 
 + A simple approach: test angular difference between trajectories
 
-.footnote[1: Adams and nistri. (2010) *BMC. Evol. Biol.*]
+.footnote[1: Adams and Nistri. (2010) *BMC. Evol. Biol.*]
 --
 
   + 1: Obtain allometric vectors `\((\small\mathbf{\hat{Z}}_{start} - \small\mathbf{\hat{Z}}_{end})\)`  for groups
@@ -585,11 +585,11 @@ summary(PW.c, test = "dist")
 + Many biological hypotheses related directly to allometric variation
 + **Visualization**: 
   + RegScore (**s**) vs. Csize (Drake and Klingenberg 2008)
-  + PredLine `\(\small{P_1}\)` vs. Csize (Adams and nistri 2010)
+  + PredLine `\(\small{P_1}\)` vs. Csize (Adams and Nistri 2010)
   + CAC, RSC, Csize (Mitteroecker et al. 2004)
 
-+ **Comparison of ontogenies**: - MAnCOVA
-  + Convergence &amp; divergence (Adams and nistri 2010)
++ **Comparison of ontogenies**: - MANCOVA
+  + Convergence &amp; divergence (Adams and Nistri 2010)
   + Orientation (Piras et al. 2010)
 
 + Heterochrony and related topics also of interest

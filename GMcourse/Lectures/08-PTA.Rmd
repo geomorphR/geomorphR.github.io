@@ -134,8 +134,8 @@ Model Residuals | $\small\hat{\mathbf{E}}_R=\mathbf{Y}-\hat{\mathbf{Y}}_R$ | $\s
 
 For $\mathbf{X}_F$, $\small{MD}$ and $\small\theta$ are obtained from $\small\hat{\mathbf{Y}}_F$. Then:
 
-- 1) RRPP is performed by permuting $\small\hat{\mathbf{E}}_R$ 
-- 2) pseudo values are obtained as $\small\mathbf{\mathcal{Y}} = \mathbf{\hat{Y}}_{R} + \mathbf{E}_{R}$
+- 1) RRPP is performed by permuting $\small\hat{\mathbf{\tilde{E}}}_R$ 
+- 2) pseudo values are obtained as $\small\mathbf{\mathcal{Y}} = \mathbf{\hat{Y}}_{R} + \mathbf{\tilde{E}}_{R}$
 - 3) these are used in $\mathbf{X}_F$ to obtain fitted values
 - 4) Finally, $\small{MD}_{Rand}$ and $\small\theta_{Rand}$ are obtained for significance testing
 

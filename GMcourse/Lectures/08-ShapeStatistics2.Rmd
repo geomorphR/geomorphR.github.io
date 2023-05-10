@@ -134,7 +134,7 @@ Henceforth, only RRPP statistical solutions will be presented.
 
 1: Fit a *null* linear model, and calculate both transformed fitted values and transformed residuals.  (Recall that is OLS estimation is used, the fitted values and residuals are not transformed.)
 
-2: Permute, $\small\mathbf{\tilde{E}}_{0}$: obtain pseudo-values as: $\small\mathbf{\mathcal{Z}} = \mathbf{\tilde{H}_{0}{\tilde{Z}}}_{0} + \mathbf{E}_{0}^*$
+2: Permute, $\small\mathbf{\tilde{E}}_{0}$: obtain pseudo-values as: $\small\mathbf{\mathcal{Z}} = \mathbf{\tilde{H}_{0}{\tilde{Z}}}_{0} + \mathbf{\tilde{E}}_{0}^*$
 
 3: Fit $\small\mathbf{X}_{alt}$ using $\small\mathbf{\mathcal{Z}}$: obtain coefficients, fitted values, residuals, residual covariance matrix, and the covariance matrix for adding parameters to $\small\mathbf{X}_{0}$ to get $\small\mathbf{X}_{alt}$.  We can call this later covariance matrix, $\hat{\boldsymbol{\Sigma}}_{effect}^*$, where the $^*$ superscript indicates this is a random value from a large set of random values.
 
@@ -859,7 +859,7 @@ The **.red[intercept]** establishes the location of the first group mean.  The t
 
 The statistic, $S$, can be one of $SS$, $R^2$, $MS$, $F$, $\lambda_{Roy}$, $\lambda_{Wilks}$, etc.  Note, however, that with ANOVA statistics, $=$ or $\neq$ considers .red[difference between locations in multivariate data space].  With MANOVA statistics, $=$ or $\neq$ considers .blue[differences between the covariance structures of residual covariance matrices].
 
-We will just do one ANOVA, using $F$ statistics and one MANOVA, using $\lambda{Roy}$ statistics.  ***Note that there are internal methods for dealing with the fact that $p > n$.  The function finds the appropriate number of PCs to use in lieu of Procrustes coordinates.**
+We will just do one ANOVA, using $F$ statistics and one MANOVA, using $\lambda_{Roy}$ statistics.  ***Note that there are internal methods for dealing with the fact that $p > n$.  The function finds the appropriate number of PCs to use in lieu of Procrustes coordinates.**
 
 ---
 
@@ -1208,7 +1208,7 @@ plot(modComp2)
 
 **Comments:**
 
-Be weary of AIC scores or the likelihoods that generate them when calculated at the limit of possible data dimensions, because $p > n$.
+Be wary of AIC scores or the likelihoods that generate them when calculated at the limit of possible data dimensions, because $p > n$.
 
 The trace of a residual covariance matrix will be smaller if the model explains more variation.  Plotting it against the same parameter penalty used in AIC can be helpful for finding a .blue[parsimonious model].
 ---
