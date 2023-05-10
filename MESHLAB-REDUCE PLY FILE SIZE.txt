@@ -1,5 +1,7 @@
 Meshlab: decimate to make smaller file
 
+https://help.sketchfab.com/hc/en-us/articles/205852789-MeshLab-Decimating-a-model
+
 #Decimate to smaller size
 Filter
   -> Remeshing,Simplification,Reconstruction
