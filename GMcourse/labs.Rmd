@@ -25,6 +25,7 @@
 - [Tutorial 4.1: Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Labs/04-PhyCompMethods.html)  
 - [Tutorial 4.2: Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Labs/04-Asymmetry.html) 
 - [Tutorial 4.3: Integration and Modularity](https://geomorphR.github.io/GMcourse/Labs/04-IntegrationModularity.html) 
+    - [Day 4 R-script](https://geomorphR.github.io/GMcourse/Labs/Day04-RCode.R)  
 
 ### Example data for Workshop (can be cloned, pulled, or files downloaded)
 [Link to Data Repository](https://github.com/geomorphR/geomorphR.github.io/tree/main/GMcourse/Labs/Data)

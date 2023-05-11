@@ -83,14 +83,6 @@ include_graphics("LectureData/11.RRPPExtensions/IntroPCPlot.png")
 ]
 
 ---
-.center[
-
-# Part I. RRPP secondary statistics
-
-## Making statistics from statistics
-
-]
----
 
 ### RRPP secondary statistics
 
