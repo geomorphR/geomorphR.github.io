@@ -76,7 +76,7 @@ pre {
 
 ### The Problem with Symmetrical Objects (Cont.)
 
-+ The data in reality have less dimensions, so use less data. How?
++ The data in reality have fewer dimensions, so use less data. How?
   + Digitize only half structure
   + Reflect structure and take the average: make a symmetrical structure
 + Using only `\(\frac{1}{2}\)` structure has challenges:
@@ -113,32 +113,32 @@ pre {
 ## Standard deviation     0.00354 0.003408 0.003317 0.003162 0.003013 0.002664
 ## Proportion of Variance 0.00733 0.006800 0.006440 0.005850 0.005310 0.004150
 ## Cumulative Proportion  0.96652 0.973310 0.979750 0.985600 0.990910 0.995070
-##                           PC25     PC26      PC27      PC28     PC29      PC30
-## Standard deviation     0.00242 0.001605 3.613e-15 3.489e-15 3.46e-15 3.285e-15
-## Proportion of Variance 0.00343 0.001510 0.000e+00 0.000e+00 0.00e+00 0.000e+00
-## Cumulative Proportion  0.99849 1.000000 1.000e+00 1.000e+00 1.00e+00 1.000e+00
-##                             PC31      PC32      PC33      PC34      PC35
-## Standard deviation     3.235e-15 3.172e-15 3.103e-15 3.041e-15 3.018e-15
-## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
-## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
-##                             PC36      PC37      PC38      PC39      PC40
-## Standard deviation     2.983e-15 2.915e-15 2.868e-15 2.799e-15 2.747e-15
-## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
-## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
-##                            PC41      PC42      PC43      PC44      PC45
-## Standard deviation     2.72e-15 2.696e-15 2.639e-15 2.612e-15 2.565e-15
-## Proportion of Variance 0.00e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
-## Cumulative Proportion  1.00e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
-##                             PC46      PC47      PC48      PC49     PC50
-## Standard deviation     2.546e-15 2.492e-15 2.414e-15 2.385e-15 2.28e-15
+##                           PC25     PC26      PC27      PC28      PC29      PC30
+## Standard deviation     0.00242 0.001605 3.621e-15 3.489e-15 3.463e-15 3.294e-15
+## Proportion of Variance 0.00343 0.001510 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  0.99849 1.000000 1.000e+00 1.000e+00 1.000e+00 1.000e+00
+##                             PC31      PC32      PC33      PC34     PC35
+## Standard deviation     3.232e-15 3.173e-15 3.109e-15 3.042e-15 3.02e-15
 ## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.00e+00
 ## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.00e+00
+##                             PC36      PC37      PC38      PC39      PC40
+## Standard deviation     2.989e-15 2.919e-15 2.872e-15 2.796e-15 2.748e-15
+## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
+##                             PC41      PC42     PC43      PC44      PC45
+## Standard deviation     2.723e-15 2.697e-15 2.64e-15 2.616e-15 2.565e-15
+## Proportion of Variance 0.000e+00 0.000e+00 0.00e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  1.000e+00 1.000e+00 1.00e+00 1.000e+00 1.000e+00
+##                            PC46      PC47      PC48      PC49      PC50
+## Standard deviation     2.55e-15 2.493e-15 2.418e-15 2.387e-15 2.282e-15
+## Proportion of Variance 0.00e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  1.00e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
 ##                             PC51      PC52      PC53      PC54      PC55
-## Standard deviation     2.195e-15 2.144e-15 4.521e-16 4.253e-16 2.846e-17
+## Standard deviation     2.205e-15 2.163e-15 1.437e-15 1.364e-15 1.936e-16
 ## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
 ## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
 ##                             PC56
-## Standard deviation     1.574e-17
+## Standard deviation     1.743e-17
 ## Proportion of Variance 0.000e+00
 ## Cumulative Proportion  1.000e+00
 ```
@@ -211,7 +211,7 @@ pre {
 
 + One can approach the problem more theoretically (rather than 'procedurally')
   + ANOVA effects represent Sums of Squares, which correspond to various asymmetry components
-  + Therefore, decomposing SST (total shape variation) obtained via `\(\small{D}_Proc\)` provides variance components for both DA and FA
+  + Therefore, decomposing SST (total shape variation) obtained via `\(\small{D}_{Proc}\)` provides variance components for both DA and FA
 
 `$$\small{SST}=\sum^n_1{D}^2_{(X_i,Y_i)}=nD^2_{(\overline{X},\overline{Y})}+\sum^n_1{D}^2_{(X_i-\overline{X},Y_i-\overline{Y})}$$`
 
@@ -276,8 +276,8 @@ summary(mosquito.sym)
 ## 
 ## Centroid Size ANOVA
 ##          Df         SS         MS     Rsq      F        Z Pr(&gt;F)
-## ind       9 4.1497e-09 4.6107e-10 0.18555 0.7484 -0.42683  0.665
-## side      1 3.4740e-10 3.4738e-10 0.01553 0.5638  0.15783  0.471
+## ind       9 4.1497e-09 4.6107e-10 0.18555 0.7484 -0.42684  0.665
+## side      1 3.4740e-10 3.4738e-10 0.01553 0.5638  0.15779  0.471
 ## ind:side 29 1.7867e-08 6.1609e-10 0.79891                       
 ## Total    39 2.2364e-08
 ```
@@ -384,17 +384,21 @@ plot(lizard.sym, warpgrids = TRUE)
 
 ### Symmetry: Extended Protocol
 
+.pull-left[
 + For bilateral asymmetry: transformation = reflection
 + For other types, decompose asymmetry to the components defining the symmetry type based on the appropriate symmetry groups
 
-&lt;img src="LectureData/10.asymmetry/RadialSymm.png" width="20%" style="display: block; margin: auto;" /&gt;
-
-+ Example: Radial Symmetry
++ Example: Rotational Symmetry
   + Digitize all p components 
   + GPA + projection
   + Decompose shape variation into symmetry components, quantify and evaluate
-    
+]
+
+.pull-right[
+&lt;img src="LectureData/10.asymmetry/RadialSymm.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
 ###### Savriama and Klingenberg. (2011). *BMC Evol. Biol.*
+
 ---
 
 ### Complex Symmetry: Example

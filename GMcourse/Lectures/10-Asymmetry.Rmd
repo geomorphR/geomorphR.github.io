@@ -78,7 +78,7 @@ include_graphics("LectureData/10.asymmetry/SymmLizard.png")
 
 ### The Problem with Symmetrical Objects (Cont.)
 
-+ The data in reality have less dimensions, so use less data. How?
++ The data in reality have fewer dimensions, so use less data. How?
   + Digitize only half structure
   + Reflect structure and take the average: make a symmetrical structure
 + Using only $\frac{1}{2}$ structure has challenges:
@@ -184,7 +184,7 @@ include_graphics("LectureData/10.asymmetry/ReflectObjects.png")
 
 + One can approach the problem more theoretically (rather than 'procedurally')
   + ANOVA effects represent Sums of Squares, which correspond to various asymmetry components
-  + Therefore, decomposing SST (total shape variation) obtained via $\small{D}_Proc$ provides variance components for both DA and FA
+  + Therefore, decomposing SST (total shape variation) obtained via $\small{D}_{Proc}$ provides variance components for both DA and FA
 
 $$\small{SST}=\sum^n_1{D}^2_{(X_i,Y_i)}=nD^2_{(\overline{X},\overline{Y})}+\sum^n_1{D}^2_{(X_i-\overline{X},Y_i-\overline{Y})}$$
 
@@ -296,19 +296,23 @@ include_graphics("LectureData/10.asymmetry/SymmGroups.png")
 
 ### Symmetry: Extended Protocol
 
+.pull-left[
 + For bilateral asymmetry: transformation = reflection
 + For other types, decompose asymmetry to the components defining the symmetry type based on the appropriate symmetry groups
 
-```{r, echo = FALSE, fig.align = "center", out.width="20%"}
-include_graphics("LectureData/10.asymmetry/RadialSymm.png")  
-``` 
-
-+ Example: Radial Symmetry
++ Example: Rotational Symmetry
   + Digitize all p components 
   + GPA + projection
   + Decompose shape variation into symmetry components, quantify and evaluate
-    
+]
+
+.pull-right[
+```{r, echo = FALSE, fig.align = "center", out.width="50%"}
+include_graphics("LectureData/10.asymmetry/RadialSymm.png")  
+``` 
+]
 ###### Savriama and Klingenberg. (2011). *BMC Evol. Biol.*
+
 ---
 
 ### Complex Symmetry: Example
