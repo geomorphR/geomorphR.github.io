@@ -425,7 +425,7 @@ include_graphics("LectureData/11.RRPPExtensions/pta/Slide06.png")
 .center[
 ```{r, echo = FALSE, out.width="50%"}
 include_graphics("LectureData/11.RRPPExtensions/pta/Slide07.Png")  
-### Trajectory Analysis (Cont.)
+
 ```
 ]
 ---
@@ -436,7 +436,7 @@ include_graphics("LectureData/11.RRPPExtensions/pta/Slide07.Png")
 include_graphics("LectureData/11.RRPPExtensions/pta/Slide04.png")  
 ```
 ]
-Trajectory Statistics
+Trajectory Statistics 
 
 Attribute Compared | 2-point Statistic | >2-point Statistic
 :-------- | :----------- | :------------------------------------
