@@ -305,19 +305,17 @@ par(mfrow=c(1,1))
 
 .pull-left[
 ```{r, echo = TRUE, fig.align = "center",out.width="80%"}
-X <- fit$X
-X <- X[,-1]
-CS.min.max <- by(gdf$CS,gdf$type,range)
-R.min <- c(CS.min.max$R[1], 0, 0)
-R.max <- c(CS.min.max$R[2], 0, 0)
-U.min <- c(CS.min.max$U[1], 0, CS.min.max$U[1])
-U.max <- c(CS.min.max$U[2], 0, CS.min.max$U[2])
+shape.gps <- coords.subset(fit$GM$fitted,type)
+CS.R <- gdf$CS[which(type=="R")]
+CS.U <-   gdf$CS[which(type=="U")]
+mn <- Map(function(x) mshape(x),shape.gps)
 
-preds <- shape.predictor(fit$GM$fitted, x= X, Intercept = TRUE, 
-                         predmin.r = R.min, 
-                         predmax.r = R.max,
-                         predmin.u = U.min, 
-                         predmax.u = U.max) 
+predsR <- shape.predictor(shape.gps$R,x = CS.R, Intercept = TRUE,
+                          predmin = min(CS.R),
+                          predmax = max(CS.R))
+predsU <- shape.predictor(shape.gps$U,x = CS.U, Intercept = TRUE,
+                          predmin = min(CS.U),
+                          predmax = max(CS.U))
 M <- mshape(Y.gpa$coords)
 ```
 
@@ -325,14 +323,14 @@ M <- mshape(Y.gpa$coords)
 .pull-right[
 ```{r, echo = FALSE, fig.align = "center",out.width="80%"}
 par(mfrow=c(2,2))
-plotRefToTarget(M, preds$predmin.r, mag = 1)
-mtext("Rural Min")
-plotRefToTarget(M, preds$predmax.r, mag = 1)
-mtext("Rural Max")
-plotRefToTarget(M, preds$predmin.u, mag = 1)
-mtext("Urban Min")
-plotRefToTarget(M, preds$predmax.u, mag = 1)
-mtext("Urban Max")
+plotRefToTarget(M,predsR$predmin, mag = 2)
+mtext("Rural Min: X2")
+plotRefToTarget(M,predsR$predmax, mag = 2)
+mtext("Rural Max: X2")
+plotRefToTarget(M,predsU$predmin, mag = 2)
+mtext("Urban Min: X2")
+plotRefToTarget(M,predsU$predmax, mag = 2)
+mtext("Urban Max: X2")
 par(mfrow=c(1,1))
 ```
 ]

@@ -298,19 +298,17 @@ anova(fit)$table
 .pull-left[
 
 ```r
-X &lt;- fit$X
-X &lt;- X[,-1]
-CS.min.max &lt;- by(gdf$CS,gdf$type,range)
-R.min &lt;- c(CS.min.max$R[1], 0, 0)
-R.max &lt;- c(CS.min.max$R[2], 0, 0)
-U.min &lt;- c(CS.min.max$U[1], 0, CS.min.max$U[1])
-U.max &lt;- c(CS.min.max$U[2], 0, CS.min.max$U[2])
+shape.gps &lt;- coords.subset(fit$GM$fitted,type)
+CS.R &lt;- gdf$CS[which(type=="R")]
+CS.U &lt;-   gdf$CS[which(type=="U")]
+mn &lt;- Map(function(x) mshape(x),shape.gps)
 
-preds &lt;- shape.predictor(fit$GM$fitted, x= X, Intercept = TRUE, 
-                         predmin.r = R.min, 
-                         predmax.r = R.max,
-                         predmin.u = U.min, 
-                         predmax.u = U.max) 
+predsR &lt;- shape.predictor(shape.gps$R,x = CS.R, Intercept = TRUE,
+                          predmin = min(CS.R),
+                          predmax = max(CS.R))
+predsU &lt;- shape.predictor(shape.gps$U,x = CS.U, Intercept = TRUE,
+                          predmin = min(CS.U),
+                          predmax = max(CS.U))
 M &lt;- mshape(Y.gpa$coords)
 ```
 
