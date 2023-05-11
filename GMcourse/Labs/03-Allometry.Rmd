@@ -86,11 +86,11 @@ This shows visually that the common slopes model is preferred.
 par(mfcol = c(1,2))
 plot(fit.common, type = "regression", predictor = pupfish$logSize, 
      reg.type = "PredLine", pch=19, col = pupfish$Group)
-legend("topleft", levels(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
 mtext("Common Slopes")
 plot(fit.unique, type = "regression", predictor = pupfish$logSize, 
      reg.type = "PredLine", pch=19, col = pupfish$Group)
-legend("topleft", levels(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
 mtext("Unique Slopes")
 par(mfcol = c(1,1))
 ```
@@ -100,7 +100,7 @@ par(mfcol = c(1,1))
 One can also generate a plot of size-shape space (sensu Mitteroecker et al. 2004):
 
 ```{r eval=TRUE}
-pc.plot <- plotAllometry(fit.unique, size = pupfish$logSize, logsz = FALSE, method = "size.shape", 
-pch = 19, col = pupfish$Group)
+pc.plot <- plotAllometry(fit.unique, size = pupfish$logSize, logsz = FALSE, method = "size.shape", pch = 19, col = pupfish$Group)
+legend("bottomleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
 summary(pc.plot$size.shape.PCA)
 ```

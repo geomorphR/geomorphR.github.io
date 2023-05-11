@@ -188,11 +188,11 @@ summary(slope.pw, test.type = "dist", angle.type = "deg") # amount of shape chan
 par(mfcol = c(1,2))
 plot(fit.common, type = "regression", predictor = pupfish$logSize, 
      reg.type = "PredLine", pch=19, col = pupfish$Group)
-legend("topleft", levels(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
 mtext("Common Slopes")
 plot(fit.unique, type = "regression", predictor = pupfish$logSize, 
      reg.type = "PredLine", pch=19, col = pupfish$Group)
-legend("topleft", levels(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
 mtext("Unique Slopes")
 par(mfcol = c(1,1))
 
