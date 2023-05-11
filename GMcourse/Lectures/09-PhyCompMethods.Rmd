@@ -1159,6 +1159,8 @@ include_graphics("lectureData/09.pcm/MultiOUProblems.png")
   + Phylogenetic regression
 
   + Phylogenetic covariation (PLS)
+  
+  + Phylogenetic ordination (PCA, pPCA, PACA)
 
   + Phylogenetic signal (development regarding $\lambda_{mult}$  ongoing)
 
