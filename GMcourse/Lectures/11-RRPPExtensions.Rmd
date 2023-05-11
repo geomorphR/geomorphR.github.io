@@ -229,7 +229,7 @@ Model Transformed Residuals | $\small\hat{\mathbf{\tilde{E}}}_R=\mathbf{\tilde{Z
 For $\mathbf{X}_F$, $\small{MD}$ and $\small\theta$ are obtained from $\small\hat{\mathbf{Z}}_F$. Then:
 
 - 1) RRPP is performed by permuting in every random permutation $\small\hat{\mathbf{\tilde{E}}}_R$ 
-- 2) pseudo values are obtained as $\small\mathbf{\mathcal{Z}} = \mathbf{\hat{Y}}_{R} + \mathbf{\tilde{E}}_{R}^*$
+- 2) pseudo values are obtained as $\small\mathbf{\mathcal{Z}} = \mathbf{\hat{Z}}_{R} + \mathbf{\tilde{E}}_{R}^*$
 - 3) Full model coefficients and fitted values estimated for $\small\mathbf{\mathcal{Z}}$
 - 4) $\small{MD}_{Rand}$ and $\small\theta_{Rand}$ are calculated for least-squares means
 
@@ -241,7 +241,7 @@ Testing $\small{MD}$ and $\small\theta$ evaluates *context dependent* trait chan
 
 This is based on vector attributes, which embody aspects of interaction terms. 
 
-In fact, RRPP used in this manner is explicitly a test of **interaction term** attributes (think of the RRPP procedure we utilized: `Y~A+B+A:B` versus `Y~A+B`).
+In fact, RRPP used in this manner is explicitly a test of **interaction term** attributes (think of the RRPP procedure we utilized: `Z ~ A + B + A:B` versus `Z ~ A + B`).
 
 In fact, if the interaction term from the manova is not significant, this implies that there is no context-dependent pattern in the data: understanding the main effects in the model is sufficient.
 

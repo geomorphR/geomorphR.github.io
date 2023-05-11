@@ -75,7 +75,7 @@ class: center, middle, inverse, title-slide
 We have seen that factorial models enable us to attribute variation to differing factors, and in the case of categorical factors, determine whether levels (groups) differ in some way. For instance, the plot below shows 4 groups which appear distinct in their trait attributes. However, as biologists, we have additional information about these groups; for instance, they may be males and females from each of two populations. Thus, levels of one factor `sex` are really *linked* via the other factor `population`. 
 ]
 .pull-right[
-![](LectureData/11.RRPPExtensions/IntroPCPlot.png)&lt;!-- --&gt;
+&lt;img src="LectureData/11.RRPPExtensions/IntroPCPlot.png" width="1252" /&gt;
 ]
 
 ---
@@ -97,7 +97,7 @@ We have seen that factorial models enable us to attribute variation to differing
 We have seen that factorial models enable us to attribute variation to differing factors, and in the case of categorical factors, determine whether levels (groups) differ in some way. For instance, the plot below shows 4 groups which appear distinct in their trait attributes. However, as biologists, we have additional information about these groups; for instance, they may be males and females from each of two populations. Thus, levels of one factor `sex` are really *linked* via the other factor `population`. 
 ]
 .pull-right[
-![](LectureData/11.RRPPExtensions/IntroPCPlot2.png)&lt;!-- --&gt;
+&lt;img src="LectureData/11.RRPPExtensions/IntroPCPlot2.png" width="1252" /&gt;
 ]
 .pull-left[
 Might there be additional information we could glean statistically from viewing these as linked data (trajectories)?
@@ -165,7 +165,7 @@ For two traits, more complicated variants are possible, but a 2D plot still suff
 In the previous plots, we have 'linked' levels of one factor across another. For two levels, that produces vectors, whose patterns we compared visually. More formally, we should use quantitative summaries. Consider the following: 
 
 .pull-left[
-![](LectureData/11.RRPPExtensions/pta3d.png)&lt;!-- --&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta3d.png" width="3161" /&gt;
 ]
 
 .pull-right[
@@ -211,7 +211,7 @@ Model Transformed Residuals | `\(\small\hat{\mathbf{\tilde{E}}}_R=\mathbf{\tilde
 For `\(\mathbf{X}_F\)`, `\(\small{MD}\)` and `\(\small\theta\)` are obtained from `\(\small\hat{\mathbf{Z}}_F\)`. Then:
 
 - 1) RRPP is performed by permuting in every random permutation `\(\small\hat{\mathbf{\tilde{E}}}_R\)` 
-- 2) pseudo values are obtained as `\(\small\mathbf{\mathcal{Z}} = \mathbf{\hat{Y}}_{R} + \mathbf{\tilde{E}}_{R}^*\)`
+- 2) pseudo values are obtained as `\(\small\mathbf{\mathcal{Z}} = \mathbf{\hat{Z}}_{R} + \mathbf{\tilde{E}}_{R}^*\)`
 - 3) Full model coefficients and fitted values estimated for `\(\small\mathbf{\mathcal{Z}}\)`
 - 4) `\(\small{MD}_{Rand}\)` and `\(\small\theta_{Rand}\)` are calculated for least-squares means
 
@@ -223,7 +223,7 @@ Testing `\(\small{MD}\)` and `\(\small\theta\)` evaluates *context dependent* tr
 
 This is based on vector attributes, which embody aspects of interaction terms. 
 
-In fact, RRPP used in this manner is explicitly a test of **interaction term** attributes (think of the RRPP procedure we utilized: `Y~A+B+A:B` versus `Y~A+B`).
+In fact, RRPP used in this manner is explicitly a test of **interaction term** attributes (think of the RRPP procedure we utilized: `Z ~ A + B + A:B` versus `Z ~ A + B`).
 
 In fact, if the interaction term from the manova is not significant, this implies that there is no context-dependent pattern in the data: understanding the main effects in the model is sufficient.
 
@@ -331,7 +331,7 @@ Here, the magnitude of vectors was not different but the direction was. The inte
 
 
 .pull-right[
-![](LectureData/11.RRPPExtensions/pta/Slide02.png)&lt;!-- --&gt;
+&lt;img src="LectureData/11.RRPPExtensions/pta/Slide02.png" width="1920" /&gt;
 ]
 
 
@@ -341,7 +341,7 @@ Here, the magnitude of vectors was not different but the direction was. The inte
 
 .pull-left[
 Earlier examples of trajectory analysis assumed no covariate, visually: 
-![](LectureData/11.RRPPExtensions/TrajNoCov.png)&lt;!-- --&gt;
+&lt;img src="LectureData/11.RRPPExtensions/TrajNoCov.png" width="936" /&gt;
 
 However, for many hypotheses, one must account for variation due to a covariate while simultaneously assessing patterns of multivariate change. 
 
@@ -350,7 +350,7 @@ However, for many hypotheses, one must account for variation due to a covariate 
 Adams and Collyer *Evolution* (2007) demonstrated that simply incorporating the covariate into the model permitted accomplishes this analytical goal. 
 
 
-![](LectureData/11.RRPPExtensions/TrajWithCov.png)&lt;!-- --&gt;
+&lt;img src="LectureData/11.RRPPExtensions/TrajWithCov.png" width="871" /&gt;
 
 This is the linear model: `Z ~ cov + A + B + A:B`.
 ]
@@ -580,7 +580,7 @@ The simplest way to measure morphological disparity for data landmark data (or a
 .pull-right[
 
 .center[
-![](LectureData/07.groupdifferences/dispersion.png)&lt;!-- --&gt;
+&lt;img src="LectureData/07.groupdifferences/dispersion.png" width="1920" /&gt;
 ]
 However, if we want compare disparity among groups, it makes more sense to average it, if groups have different sizes.
 
