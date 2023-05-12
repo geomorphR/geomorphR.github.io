@@ -425,7 +425,7 @@ include_graphics("LectureData/14.prospectus/ModelComp.png")
 
 + Here are two examples: one univariate the other multivariate (both the pupfish data): 
 
-```{r, echo = FALSE, fig.align = "center", out.width="35%"}
+```{r, echo = FALSE, fig.align = "center", fig.height = 5, fig.width=10}
 compare.Z <- function(...){
   dots <- list(...)
   if(length(dots) == 1) n <- length(dots[[1]]) else n <- length(dots)
