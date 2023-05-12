@@ -181,13 +181,16 @@ What we learned this week: Procrustes + RRPP with effect sizes ( `\(Z\)`-scores)
 
 ### 1: Towards A Weighted Procrustes Algorithm
 
+.pull-left[
 + Some approximations have been proposed (e.g., Theobald and Wuttke 2006)
 
-&lt;img src="LectureData/14.prospectus/WGPATheobald.png" width="35%" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="LectureData/14.prospectus/WGPATheobald.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
 + Here (with simplifying assumptions), one can align protein structures allowing for different variation among landmarks, but with equal variation within (i.e., using a partitioned `\(\hat{\mathbf\Sigma}=\mathbf\Sigma_p\otimes\Sigma_k\)`)
 
 + We are currently developing a general algorithm for weighted GPA that relaxes all of these assumptions, and where the 'standard' GPA approach would be a special case algorithm
+]
 ---
 
 ### 2: Integration and Modularity: A Spatial Perspective
@@ -230,6 +233,50 @@ What we learned this week: Procrustes + RRPP with effect sizes ( `\(Z\)`-scores)
 
 + We are presently developing integration and modularity methods that evaluate patterns relative to this anatomical proximity
 ]
+---
+
+
+### 2: Spatial Integration and Modularity
+
+.pull-left[
++ There are additional challenges with integration and modularity
+    + **Visualizing modularity**
+
+.center[
+&lt;img src="LectureData/14.prospectus/modulemap.png" width="30%" /&gt;
+
+**Module Maps**
+]
+]
+
+.pull.right[
+.center[
+&lt;img src="LectureData/14.prospectus/mod_covs.png" width="30%" /&gt;&lt;img src="LectureData/14.prospectus/Burns_etal_eigen.png" width="30%" /&gt;
+
+**Module Eigenanalysis**
+]]
+
+###### Burns et al. (2023) *Evolution*.
+---
+
+### 2: Spatial Integration and Modularity
+
+.pull-left[
++ There are additional challenges with integration and modularity
+    + Visualizing modularity
+    + **Alternative modular hypotheses**
+  
+.remark-code[It is possible to simulate many partitionings of the same covariance matrix into *K* modules.  Performing **module eigenanalysis** allows a distribution of modular strength to be made.  One can evaluate the strength of modularity in this distribution.  
+]]
+
+.pull-right[
+.center[
+&lt;img src="LectureData/14.prospectus/mod_techniques.png" width="90%" /&gt;
+
+**K-module analysis**
+]]
+
+
 ---
 
 ### 3: Multivariate Model Comparison
@@ -341,7 +388,7 @@ anova(fit.Full)
 
 + Here are two examples: one univariate the other multivariate (both the pupfish data): 
 
-&lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-12-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-15-1.png" width="35%" style="display: block; margin: auto;" /&gt;
 
 + Both plots show model spaces, and each includes the null model (H~0~) against which the models are compared. Models further from H~0~ provide a better fit to the data.  **How that is to be formally evaluated has yet to be determined!!**
 ---

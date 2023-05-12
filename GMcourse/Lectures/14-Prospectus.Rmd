@@ -207,15 +207,18 @@ par(mfrow=c(1,1))
 
 ### 1: Towards A Weighted Procrustes Algorithm
 
+.pull-left[
 + Some approximations have been proposed (e.g., Theobald and Wuttke 2006)
 
-```{r, echo = FALSE, fig.align = "center", out.width="35%"}
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
 include_graphics("LectureData/14.prospectus/WGPATheobald.png")  
 ```
-
+]
+.pull-right[
 + Here (with simplifying assumptions), one can align protein structures allowing for different variation among landmarks, but with equal variation within (i.e., using a partitioned $\hat{\mathbf\Sigma}=\mathbf\Sigma_p\otimes\Sigma_k$)
 
 + We are currently developing a general algorithm for weighted GPA that relaxes all of these assumptions, and where the 'standard' GPA approach would be a special case algorithm
+]
 ---
 
 ### 2: Integration and Modularity: A Spatial Perspective
@@ -262,6 +265,59 @@ include_graphics("LectureData/14.prospectus/Mouse.png")
 
 + We are presently developing integration and modularity methods that evaluate patterns relative to this anatomical proximity
 ]
+---
+
+
+### 2: Spatial Integration and Modularity
+
+.pull-left[
++ There are additional challenges with integration and modularity
+    + **Visualizing modularity**
+
+.center[
+```{r, echo=FALSE, out.width="30%"}
+include_graphics("LectureData/14.prospectus/modulemap.png") 
+```
+
+**Module Maps**
+]
+]
+
+.pull.right[
+.center[
+```{r, echo=FALSE, out.width="30%"}
+include_graphics("LectureData/14.prospectus/mod_covs.png") 
+include_graphics("LectureData/14.prospectus/Burns_etal_eigen.png") 
+
+```
+
+**Module Eigenanalysis**
+]]
+
+###### Burns et al. (2023) *Evolution*.
+---
+
+### 2: Spatial Integration and Modularity
+
+.pull-left[
++ There are additional challenges with integration and modularity
+    + Visualizing modularity
+    + **Alternative modular hypotheses**
+  
+.remark-code[It is possible to simulate many partitionings of the same covariance matrix into *K* modules.  Performing **module eigenanalysis** allows a distribution of modular strength to be made.  One can evaluate the strength of modularity in this distribution.  
+]]
+
+.pull-right[
+.center[
+```{r, echo=FALSE, out.width="90%"}
+include_graphics("LectureData/14.prospectus/mod_techniques.png") 
+
+```
+
+**K-module analysis**
+]]
+
+
 ---
 
 ### 3: Multivariate Model Comparison
