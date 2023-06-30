@@ -1,0 +1,99 @@
+---
+title: "**Obtaining Symmetric Shapes**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/SymmetricShapeGeneration.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, include=FALSE}
+
+```
+
+
+### **Introduction**
+
+Many biological objects display some sort of symmetry. Morphometric analyses often investigate symmetry in some manner: either by evaluating components of variation attributed to different symmetry effects (e.g., directional, fluctuating, etc.), or by accounting for symmetry prior to the analysis (e.g., obtain 'symmetrized' shapes for subsequent investigation). This tutorial will focus on the latter, and give an overview of the preliminary steps necessary for generation of symmetric shapes. Analyses of asymmetry are covered in a [separate tutorial](). 
+  
+This tutorial will utilize the function `bilat.symmetry`. The function will be described in much greater detail in the [asymmetry tutorial], as well as the [advanced options]() page, but all relevant arguments and outputs for the removal of asymmetric shape components will be described here.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `bilat.symmetry() (Expand for more details)` </font> </summary>
+
+* $A$: A [3D array](Tutorials/1.1-ReadingData.html) of either raw, or Procrustes-aligned landmark coordinates OR a [`gpagen`](Tutorials/2.1-GeneralizedProcrustesAnalysis.html) object, that is, the output from the `gpagen` function.
+
+* $ind$: A vector containing labels for each individual:
+
+<div class = "code">
+```{r,labels}
+
+```
+</div>
+
+Here, the levels indicate different individuals, whose landmarks on sided elements have been repeated.  
+<br></br>
+  
+* $replicate$: A vector that identifies which objects belong to which group of replicates:
+
+<div class = "code">
+```{r,replicates}
+
+```
+</div>
+<br></br>
+
+* $object.sym$: Since these data are an example of object symmetry, this argument is set to TRUE. 
+
+* $land.pairs$: In the case of object symmetry, this argument contains a matrix indicating numbers for matched pairs of landmarks across the line of symmetry:
+
+<div class = "code">
+```{r,pairs}
+
+```
+</div>
+</details>
+</div>
+<br></br>
+
+### **Input**
+
+Let's start with the `lizards` dataset embedded in `geomorph`; data that are an example of object symmetry:
+
+<div class = "code">
+```{r,lizardbilat}
+
+``` 
+</div>
+<br></br>
+
+### **Output**
+
+The output of `bilat.symmetry` is a large list, most of the components of which are discussed [elsewhere]. For the moment we are interested in extracting the symmetric shape components from our data. In the first place, these components can be illustrated simply by plotting our `bilat.symmetry` object: 
+
+<div class = "code">
+```{r, eval=FALSE}
+plot(lizard.sym)
+```
+</div>
+<br></br>
+
+```{r, plotbilat, echo=FALSE}
+
+```  
+  
+The symmetric shape component of our data can be accessed with the following code:
+
+<div class = "code">
+```{r, symmshape, eval=FALSE}
+
+```
+</div>
+<br></br>
+
+The `symm.shape` subset of our results is a [3D array](Tutorials/1.1-ReadingData.html) of coordinates representing the symmetric component of shape variation that can then be used for further analyses.
+<br></br> 
+  

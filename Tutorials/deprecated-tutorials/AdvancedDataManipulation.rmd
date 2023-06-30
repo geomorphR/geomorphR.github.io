@@ -1,0 +1,16 @@
+---
+title: "Advanced Data Manipulation"
+output: 
+  html_document:
+    theme: flatly
+    css: ./style/tutorial_theme.css
+---
+
+- [All About Arrays](2.1-AllAboutArrays.html)
+- [Adding/Changing Specimen Names](2.2-SpecimenNames.html)
+- [Extracting Classifiers from Specimen Names](2.3-ExtractingClassifiers.html)
+- [Combining Arrays Using abind](2.4-CombiningArrays.html)
+- [Reflecting Landmarks](2.5-ReflectingLandmarks.html)
+- [Swapping Landmarks](2.6-SwappingLandmarks.html)
+- [Deleting Specimens and Landmarks](2.7-DeletingSpecLmk.html)
+- [Matching Data to a Phylogeny](2.8-MatchSpectoPhy.html)

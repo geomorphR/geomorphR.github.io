@@ -1,0 +1,103 @@
+---
+title: "**Pairwise Comparisons**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/Pairwise.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r setup, warning=FALSE, include=FALSE}
+library(geomorph)
+data("plethodon")
+lmks <- gpagen(plethodon$land, print.progress = F)$coords
+spec <- plethodon$species
+site <- plethodon$site
+data <- geomorph.data.frame(lmks, spec = spec, site = site)
+```
+
+## **Introduction** 
+
+Whereas a [Procrustes ANOVA]() will tell the user the extent to which a variable X can be predicted by one or more variables Y-n, pairwise comparisons allow the user to quantify the statistical difference among different groupings of variables. To do this, we can use the RRPP function `pairwise`. This function allows the user to perform pairwise comparisons of group means of a linear model fit generated from a Procrustes ANOVA. 
+
+Note that RRPP is a companion package which houses the underlying statistical permutational analytics for geomorph’s statistical procedures. It is installed and loaded simultaneously with geomorph.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `pairwise()` </font> </summary>
+ 
+* $fit$: A linear model fit. In our case, it is the object we created using `procD.lm`
+* $groups$: A factor or vector that can be coerced into a factor that describes the groups for which we want to perform our pairwise comparisons with
+* $print.progress$: A logical value (TRUE/FALSE) to indicate whether a progress bar should be printed on screen.
+  
+</details>
+</div>
+<br></br> 
+
+## **Example Analysis**
+
+For the purposes of this example, generating a model fit using the `procD.lm` function will be taken as-read. If you are not familiar with the `procD.lm` function please see the [ANOVA/Regression]() tutorial before proceeding here.
+
+In addition to generating the fit, we will be adding material to our original [geomorph data frame](). Using the base R function `interaction`, we can create a factor with levels representing each pairwise permutation of our independent variables. In this case of this example, these are the "species," (Jord, Teyah) and "site," (Allo, Symp) variables.
+
+<div class = "code">
+```{r, fit}
+
+```
+</div>
+<br></br>
+
+After this preparation, we are ready to run the pairwise analysis:
+
+<div class = "code">
+```{r, pairs}
+
+```
+</div>
+<br></br>
+
+Like the `procD.lm` function, results of the `pairwise` function can be summarized like this:
+
+<div class = "code">
+```{r, sum}
+
+```
+</div>
+<br></br>
+
+Finally, the function generates an object of class "pairwise," which is a list containing the following:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `pairwise` Output </font> </summary>
+
+* $LS.means$: Least-squares (LS) means for groups, across permutations.
+* $slopes$: Slopes for groups, across permutations.
+* $means.dist$: Pairwise distances between means, across permutations.
+* $means.vec.cor$: Pairwise vector correlations between means, across permutations.
+* $means.lengths$: LS means vector lengths, by group, across permutations.
+* $slopes.dist$: Pairwise distances between slopes (end-points), across permutations.
+* $slopes.vec.cor$: Pairwise vector correlations between slope vectors, across permutations.
+* $slopes.lengths$: Slope vector lengths, by group, across permutations.
+* $slopes.diff.length$: Pairwise absolute differences between slope vector lengths, across permutations.
+* $n$: Sample size.
+* $p$: Number of variables
+* $PermInfo$: List containing information for random permutations. This includes number of permutations (perms), the method used for permutation (perm.method), results of each permutation (perm.schedule), and the seed used for randomization (perm.seed).
+
+</div>
+<br></br>
+
+<div class = "note">
+**Important Note!** To see usage of this function incorporated with a full workflow, please see the [Group Comparisons](5.1-Group-Comparisons.html) tutorial.
+</div>
+<br></br>
+
+<details>
+  <summary> <font size="+2"> Advanced Options </font> </summary>
+
+* $fit.null$: 
+* $covariate$:
+
+</details>
+<br></br>

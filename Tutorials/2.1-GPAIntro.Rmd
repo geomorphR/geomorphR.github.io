@@ -1,0 +1,68 @@
+---
+title: "GPA Introduction"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/GPAIntro.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, include=FALSE}
+
+```
+
+## **Introduction** 
+
+Many morphometric analyses require that the researcher perform a Generalized Procrustes Analysis (GPA) in order to extract shape variables (that is, variables that do not include information on scale, translation, or rotation) from their landmark data. A GPA can be performed in `geomorph` using the function `gpagen`. This can be done with datasets composed of anatomical (fixed) landmarks as well as those with sliding semilandmarks.
+
+<div class = "code">
+```{r, eval=FALSE}
+plotAllSpecimens(plethodon$land)
+```
+</div>
+<br></br>
+
+```{r, plotallspec, echo=FALSE}
+
+```
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `gpagen() (Expand for more details)` </font> </summary>
+
+* $A$: The input data to be aligned. Must be in [Array](2.1-AllAboutArrays.html) format.
+* $curves$: An optional matrix defining which landmarks should be treated as curve semilandmarks. See below for more details.
+* $surfaces$: An optional input defining which landmarks should be treated as surface semilandmarks.
+* $print.progress$: Logical value indicating whether a progress bar should be printed to the screen.
+
+This is a very large function with several other potential arguments which we describe in the [Advanced Options]() tutorial. See below for a full breakdown of the, also large, output of this function.
+
+</details>
+</div>
+<br></br>
+
+## **Output** 
+
+The output of this function is a large list, or `gpagen` object with several subsets:
+
+* $coords$: An array of Procrustes shape variables. In other words, the aligned landmark coordinates.
+* $Csize$: A vector of centroid sizes for each specimen.
+* $consensus$: The mean (consensus) configuration, or shape of the input data.
+* $ProcD$: A Procrustes distance matrix for all specimens.
+* $p$: The number of landmarks.
+* $k$: The number of dimensions.
+* $nsliders$: The number of curve semilandmarks.
+* $nsurf$: The number of surface semilandmarks.
+* $call$: The user-input code.
+
+The following gpagen outputs are associated with arguments that are discussed elsewhere, in the [Advanced Options]() tutorial:
+
+* $iter$: The number of GPA iterations until convergence was found.
+* $points.VCV$: A variance-covariance matrix among Procrustes shape variables.
+* $points.var$: Variances of landmark points.
+* $data$: Data frame with a matrix of Procrustes shape variables and centroid size.
+* $Q$: Final convergence criterion value.
+* $slide.method$: Method used to slide semilandmarks.
+
+Each of these subsets can be accessed separately using the '$' operator, like so:
+

@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mark A. Conaway" />
+
+
+<title>Generalized Procrustes Analysis (GPA)</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/rglWebGL-binding-0.109.2/rglWebGL.js"></script>
+<link href="site_libs/rglwidgetClass-0.109.2/rgl.css" rel="stylesheet" />
+<script src="site_libs/rglwidgetClass-0.109.2/rglClass.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/utils.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/buffer.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/subscenes.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/shaders.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/textures.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/projection.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/mouse.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/init.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/pieces.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/draw.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/controls.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/selection.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/rglTimer.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/pretty.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/axes.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.109.2/animation.src.js"></script>
+<script type = "text/plain" id = "rgl-vertex-shader">
+#line 2 1
+// File 1 is the vertex shader
+#ifdef GL_ES
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+#endif
+
+attribute vec3 aPos;
+attribute vec4 aCol;
+uniform mat4 mvMatrix;
+uniform mat4 prMatrix;
+varying vec4 vCol;
+varying vec4 vPosition;
+
+#ifdef NEEDS_VNORMAL
+attribute vec3 aNorm;
+uniform mat4 normMatrix;
+varying vec4 vNormal;
+#endif
+
+#if defined(HAS_TEXTURE) || defined (IS_TEXT)
+attribute vec2 aTexcoord;
+varying vec2 vTexcoord;
+#endif
+
+#ifdef FIXED_SIZE
+uniform vec3 textScale;
+#endif
+
+#ifdef FIXED_QUADS
+attribute vec3 aOfs;
+#endif
+
+#ifdef IS_TWOSIDED
+#ifdef HAS_NORMALS
+varying float normz;
+uniform mat4 invPrMatrix;
+#else
+attribute vec3 aPos1;
+attribute vec3 aPos2;
+varying float normz;
+#endif
+#endif // IS_TWOSIDED
+
+#ifdef FAT_LINES
+attribute vec3 aNext;
+attribute vec2 aPoint;
+varying vec2 vPoint;
+varying float vLength;
+uniform float uAspect;
+uniform float uLwd;
+#endif
+
+
+void main(void) {
+  
+#ifndef IS_BRUSH
+#if defined(NCLIPPLANES) || !defined(FIXED_QUADS) || defined(HAS_FOG)
+  vPosition = mvMatrix * vec4(aPos, 1.);
+#endif
+  
+#ifndef FIXED_QUADS
+  gl_Position = prMatrix * vPosition;
+#endif
+#endif // !IS_BRUSH
+  
+#ifdef IS_POINTS
+  gl_PointSize = POINTSIZE;
+#endif
+  
+  vCol = aCol;
+  
+#ifdef NEEDS_VNORMAL
+  vNormal = normMatrix * vec4(-aNorm, dot(aNorm, aPos));
+#endif
+  
+#ifdef IS_TWOSIDED
+#ifdef HAS_NORMALS
+  /* normz should be calculated *after* projection */
+  normz = (invPrMatrix*vNormal).z;
+#else
+  vec4 pos1 = prMatrix*(mvMatrix*vec4(aPos1, 1.));
+  pos1 = pos1/pos1.w - gl_Position/gl_Position.w;
+  vec4 pos2 = prMatrix*(mvMatrix*vec4(aPos2, 1.));
+  pos2 = pos2/pos2.w - gl_Position/gl_Position.w;
+  normz = pos1.x*pos2.y - pos1.y*pos2.x;
+#endif
+#endif // IS_TWOSIDED
+  
+#ifdef NEEDS_VNORMAL
+  vNormal = vec4(normalize(vNormal.xyz/vNormal.w), 1);
+#endif
+  
+#if defined(HAS_TEXTURE) || defined(IS_TEXT)
+  vTexcoord = aTexcoord;
+#endif
+  
+#if defined(FIXED_SIZE) && !defined(ROTATING)
+  vec4 pos = prMatrix * mvMatrix * vec4(aPos, 1.);
+  pos = pos/pos.w;
+  gl_Position = pos + vec4(aOfs*textScale, 0.);
+#endif
+  
+#if defined(IS_SPRITES) && !defined(FIXED_SIZE)
+  vec4 pos = mvMatrix * vec4(aPos, 1.);
+  pos = pos/pos.w + vec4(aOfs,  0.);
+  gl_Position = prMatrix*pos;
+#endif
+  
+#ifdef FAT_LINES
+  /* This code was inspired by Matt Deslauriers' code in 
+   https://mattdesl.svbtle.com/drawing-lines-is-hard */
+  vec2 aspectVec = vec2(uAspect, 1.0);
+  mat4 projViewModel = prMatrix * mvMatrix;
+  vec4 currentProjected = projViewModel * vec4(aPos, 1.0);
+  currentProjected = currentProjected/currentProjected.w;
+  vec4 nextProjected = projViewModel * vec4(aNext, 1.0);
+  vec2 currentScreen = currentProjected.xy * aspectVec;
+  vec2 nextScreen = (nextProjected.xy / nextProjected.w) * aspectVec;
+  float len = uLwd;
+  vec2 dir = vec2(1.0, 0.0);
+  vPoint = aPoint;
+  vLength = length(nextScreen - currentScreen)/2.0;
+  vLength = vLength/(vLength + len);
+  if (vLength > 0.0) {
+    dir = normalize(nextScreen - currentScreen);
+  }
+  vec2 normal = vec2(-dir.y, dir.x);
+  dir.x /= uAspect;
+  normal.x /= uAspect;
+  vec4 offset = vec4(len*(normal*aPoint.x*aPoint.y - dir), 0.0, 0.0);
+  gl_Position = currentProjected + offset;
+#endif
+  
+#ifdef IS_BRUSH
+  gl_Position = vec4(aPos, 1.);
+#endif
+}
+</script>
+<script type = "text/plain" id = "rgl-fragment-shader">
+#line 2 2
+// File 2 is the fragment shader
+#ifdef GL_ES
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+#endif
+varying vec4 vCol; // carries alpha
+varying vec4 vPosition;
+#if defined(HAS_TEXTURE) || defined (IS_TEXT)
+varying vec2 vTexcoord;
+uniform sampler2D uSampler;
+#endif
+
+#ifdef HAS_FOG
+uniform int uFogMode;
+uniform vec3 uFogColor;
+uniform vec4 uFogParms;
+#endif
+
+#if defined(IS_LIT) && !defined(FIXED_QUADS)
+varying vec4 vNormal;
+#endif
+
+#if NCLIPPLANES > 0
+uniform vec4 vClipplane[NCLIPPLANES];
+#endif
+
+#if NLIGHTS > 0
+uniform mat4 mvMatrix;
+#endif
+
+#ifdef IS_LIT
+uniform vec3 emission;
+uniform float shininess;
+#if NLIGHTS > 0
+uniform vec3 ambient[NLIGHTS];
+uniform vec3 specular[NLIGHTS]; // light*material
+uniform vec3 diffuse[NLIGHTS];
+uniform vec3 lightDir[NLIGHTS];
+uniform bool viewpoint[NLIGHTS];
+uniform bool finite[NLIGHTS];
+#endif
+#endif // IS_LIT
+
+#ifdef IS_TWOSIDED
+uniform bool front;
+varying float normz;
+#endif
+
+#ifdef FAT_LINES
+varying vec2 vPoint;
+varying float vLength;
+#endif
+
+void main(void) {
+  vec4 fragColor;
+#ifdef FAT_LINES
+  vec2 point = vPoint;
+  bool neg = point.y < 0.0;
+  point.y = neg ? (point.y + vLength)/(1.0 - vLength) :
+                 -(point.y - vLength)/(1.0 - vLength);
+#if defined(IS_TRANSPARENT) && defined(IS_LINESTRIP)
+  if (neg && length(point) <= 1.0) discard;
+#endif
+  point.y = min(point.y, 0.0);
+  if (length(point) > 1.0) discard;
+#endif // FAT_LINES
+  
+#ifdef ROUND_POINTS
+  vec2 coord = gl_PointCoord - vec2(0.5);
+  if (length(coord) > 0.5) discard;
+#endif
+  
+#if NCLIPPLANES > 0
+  for (int i = 0; i < NCLIPPLANES; i++)
+    if (dot(vPosition, vClipplane[i]) < 0.0) discard;
+#endif
+    
+#ifdef FIXED_QUADS
+    vec3 n = vec3(0., 0., 1.);
+#elif defined(IS_LIT)
+    vec3 n = normalize(vNormal.xyz);
+#endif
+    
+#ifdef IS_TWOSIDED
+    if ((normz <= 0.) != front) discard;
+#endif
+    
+#ifdef IS_LIT
+    vec3 eye = normalize(-vPosition.xyz/vPosition.w);
+    vec3 lightdir;
+    vec4 colDiff;
+    vec3 halfVec;
+    vec4 lighteffect = vec4(emission, 0.);
+    vec3 col;
+    float nDotL;
+#ifdef FIXED_QUADS
+    n = -faceforward(n, n, eye);
+#endif
+    
+#if NLIGHTS > 0
+    for (int i=0;i<NLIGHTS;i++) {
+      colDiff = vec4(vCol.rgb * diffuse[i], vCol.a);
+      lightdir = lightDir[i];
+      if (!viewpoint[i])
+        lightdir = (mvMatrix * vec4(lightdir, 1.)).xyz;
+      if (!finite[i]) {
+        halfVec = normalize(lightdir + eye);
+      } else {
+        lightdir = normalize(lightdir - vPosition.xyz/vPosition.w);
+        halfVec = normalize(lightdir + eye);
+      }
+      col = ambient[i];
+      nDotL = dot(n, lightdir);
+      col = col + max(nDotL, 0.) * colDiff.rgb;
+      col = col + pow(max(dot(halfVec, n), 0.), shininess) * specular[i];
+      lighteffect = lighteffect + vec4(col, colDiff.a);
+    }
+#endif
+    
+#else // not IS_LIT
+    vec4 colDiff = vCol;
+    vec4 lighteffect = colDiff;
+#endif
+    
+#ifdef IS_TEXT
+    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
+#endif
+    
+#ifdef HAS_TEXTURE
+#ifdef TEXTURE_rgb
+    vec4 textureColor = lighteffect*vec4(texture2D(uSampler, vTexcoord).rgb, 1.);
+#endif
+    
+#ifdef TEXTURE_rgba
+    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
+#endif
+    
+#ifdef TEXTURE_alpha
+    vec4 textureColor = texture2D(uSampler, vTexcoord);
+    float luminance = dot(vec3(1.,1.,1.), textureColor.rgb)/3.;
+    textureColor =  vec4(lighteffect.rgb, lighteffect.a*luminance);
+#endif
+    
+#ifdef TEXTURE_luminance
+    vec4 textureColor = vec4(lighteffect.rgb*dot(texture2D(uSampler, vTexcoord).rgb, vec3(1.,1.,1.))/3., lighteffect.a);
+#endif
+    
+#ifdef TEXTURE_luminance_alpha
+    vec4 textureColor = texture2D(uSampler, vTexcoord);
+    float luminance = dot(vec3(1.,1.,1.),textureColor.rgb)/3.;
+    textureColor = vec4(lighteffect.rgb*luminance, lighteffect.a*textureColor.a);
+#endif
+    
+    fragColor = textureColor;
+
+#elif defined(IS_TEXT)
+    if (textureColor.a < 0.1)
+      discard;
+    else
+      fragColor = textureColor;
+#else
+    fragColor = lighteffect;
+#endif // HAS_TEXTURE
+    
+#ifdef HAS_FOG
+    // uFogParms elements: x = near, y = far, z = fogscale, w = (1-sin(FOV/2))/(1+sin(FOV/2))
+    // In Exp and Exp2: use density = density/far
+    // fogF will be the proportion of fog
+    // Initialize it to the linear value
+    float fogF;
+    if (uFogMode > 0) {
+      fogF = (uFogParms.y - vPosition.z/vPosition.w)/(uFogParms.y - uFogParms.x);
+      if (uFogMode > 1)
+        fogF = mix(uFogParms.w, 1.0, fogF);
+      fogF = fogF*uFogParms.z;
+      if (uFogMode == 2)
+        fogF = 1.0 - exp(-fogF);
+      // Docs are wrong: use (density*c)^2, not density*c^2
+      // https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/mesa/swrast/s_fog.c#L58
+      else if (uFogMode == 3)
+        fogF = 1.0 - exp(-fogF*fogF);
+      fogF = clamp(fogF, 0.0, 1.0);
+      gl_FragColor = vec4(mix(fragColor.rgb, uFogColor, fogF), fragColor.a);
+    } else gl_FragColor = fragColor;
+#else
+    gl_FragColor = fragColor;
+#endif // HAS_FOG
+    
+}
+</script>
+<script src="site_libs/CanvasMatrix4-0.109.2/CanvasMatrix.src.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style/tutorial_theme.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo"style="height: 25px;" src="geomorph.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GM Preliminaries
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Geomorph Data Types</li>
+    <li>
+      <a href="1.1-ReadingData.html">Reading Data</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data Manipulation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GeomorphDataFrame.html">Geomorph Data Frame</a>
+        </li>
+        <li>
+          <a href="CombineLmkConfig.html">Combine Landmark Configurations (combine.subsets)</a>
+        </li>
+        <li>
+          <a href="Interlmkdist.html">Interlandmark Distances (interlmkdist)</a>
+        </li>
+        <li>
+          <a href="Flip-RotateLmks.html">Rotate or Flip Landmark Configurations (rotate.coords)</a>
+        </li>
+        <li>
+          <a href="2.1-AllAboutArrays.html">Create 3D Array (arrayspecs)</a>
+        </li>
+        <li>
+          <a href="Two.d.array.html">Convert Array to Matrix (two.d.array)</a>
+        </li>
+        <li>
+          <a href="1.2-EstMissing.html">Estimating Missing Landmarks</a>
+        </li>
+        <li>
+          <a href="1.3-IdentifyOutliers.html">Outlier Identification</a>
+        </li>
+        <li>
+          <a href="1.4-StandardizeArticulations.html">Standardizing Articulations</a>
+        </li>
+        <li>
+          <a href="1.5-SymmetricShapeGeneration.html">Symmetric Shape Generation</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">R Data Basics</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="2.2-SpecimenNames.html">Adding &amp; Changing Specimen Names</a>
+        </li>
+        <li>
+          <a href="2.3-ExtractingClassifiers.html">Extracting Classifiers</a>
+        </li>
+        <li>
+          <a href="2.5-ReflectingLandmarks.html">Reflecting Landmarks</a>
+        </li>
+        <li>
+          <a href="2.6-SwappingLandmarks.html">Swapping Landmarks</a>
+        </li>
+        <li>
+          <a href="2.7-DeletingSpecLmk.html">Delete Specs. and Landmarks</a>
+        </li>
+        <li>
+          <a href="2.8-MatchSpectoPhy.html">Matching Data to a Phylogeny</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="3.1-GeneralizedProcrustesAnalysis.html">Procrustes Analysis</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Linear Models</a>
+      <ul class="dropdown-menu" role="menu">
+        <li class="dropdown-header">ANOVA/Regression (ProcD.lm)</li>
+        <li class="dropdown-header">Phylogenetic ANOVA/Regression (ProcD.pgls)</li>
+        <li class="dropdown-header">Phenotypic Trajectory Analysis</li>
+        <li class="dropdown-header">Pairwise Comparisons (pairwise)</li>
+        <li class="dropdown-header">Two-block Partial Least Squares (two.b.pls)</li>
+        <li class="dropdown-header">Analysis of Bilateral Symmetry (bilat.symmetry)</li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shape Patterns</a>
+      <ul class="dropdown-menu" role="menu">
+        <li class="dropdown-header">Two-block Partial Least Squares (two.b.pls)</li>
+        <li class="dropdown-header">Integration Test</li>
+        <li class="dropdown-header">Modularity Test</li>
+        <li class="dropdown-header">Phylogenetic Integration (phylo.int)</li>
+        <li class="dropdown-header">Phylogenetic Modularity (phylo.mod)</li>
+        <li class="dropdown-header">Global Integration</li>
+        <li class="dropdown-header">Comparison of Modularity (compare.CR)</li>
+        <li class="dropdown-header">Comparison of Integration (compare.pls)</li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Phylogenetic Comparative Methods</a>
+      <ul class="dropdown-menu" role="menu">
+        <li class="dropdown-header">Phylogenetic ANOVA/Regression (ProcD.pgls)</li>
+        <li class="dropdown-header">Compare Evolutionary Rates</li>
+        <li class="dropdown-header">Compare Multiple Evolutionary Rates</li>
+        <li class="dropdown-header">Phylogenetic Morphological Integration (phylo.int)</li>
+        <li class="dropdown-header">Phylogenetic Modularity (phylo.mod)</li>
+        <li class="dropdown-header">Assessing Phylogenetic Signal (physignal)</li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualizations
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Plot Full Landmark Dataset (plotAllSpecimens)</li>
+    <li class="dropdown-header">Plot Shape Differences (plotRefToTarget)</li>
+    <li class="dropdown-header">Shape Prediction from Numeric Predictors (shape.predictor)</li>
+    <li class="dropdown-header">Ordination: PCA, pPCA, and PaCA Analyses (gm.prcomp)</li>
+    <li class="dropdown-header">Plot Allometry</li>
+    <li class="dropdown-header">Plot 3D Specimen (plotspec)</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Common Workflows
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="4.1-Group-Comparisons.html">Group Comparisons</a>
+    </li>
+    <li>
+      <a href="4.2-VisShapeDiff.Rmd">Visualizing Shape Differences</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><strong>Generalized Procrustes Analysis
+(GPA)</strong></h1>
+<h4 class="author">Mark A. Conaway</h4>
+
+</div>
+
+
+<p><br></br></p>
+<div id="introduction" class="section level2">
+<h2><strong>Introduction</strong></h2>
+<p>Many morphometric analyses require that the researcher perform a
+Generalized Procrustes Analysis (GPA) in order to extract shape
+variables (that is, variables that do not include information on scale,
+translation, or rotation) from their landmark data. A GPA can be
+performed in <code>geomorph</code> using the function
+<code>gpagen</code>. This can be done with datasets composed of
+anatomical (fixed) landmarks as well as those with sliding
+semilandmarks.</p>
+<div class="code">
+<pre class="r custom-inline"><code>plotAllSpecimens(plethodon$land)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="2.1-GeneralizedProcrustesAnalysis_files/figure-html/plotallspec-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>gpagen() (Expand for more details)</code> </font>
+</summary>
+<ul>
+<li><span class="math inline">\(A\)</span>: The input data to be
+aligned. Must be in <a href="2.1-AllAboutArrays.html">Array</a>
+format.</li>
+<li><span class="math inline">\(curves\)</span>: An optional matrix
+defining which landmarks should be treated as curve semilandmarks. See
+below for more details.</li>
+<li><span class="math inline">\(surfaces\)</span>: An optional input
+defining which landmarks should be treated as surface
+semilandmarks.</li>
+<li><span class="math inline">\(print.progress\)</span>: Logical value
+indicating whether a progress bar should be printed to the screen.</li>
+</ul>
+<p>This is a very large function with several other potential arguments
+which we describe in the <a href="">Advanced Options</a> tutorial. See
+below for a full breakdown of the, also large, output of this
+function.</p>
+</details>
+</div>
+<p><br></br></p>
+</div>
+<div id="performing-a-gpa-with-fixed-landmarks" class="section level2">
+<h2><strong>Performing a GPA with fixed landmarks</strong></h2>
+<p>Input data for the <code>gpagen</code> function must be in 3D array
+format (see the <a href="1.1-ReadingData.html">Reading/Importing
+Data</a> tutorial for more information) or an object of class
+<code>geomorphShapes</code>.</p>
+<p>Once you have your data in the proper format you are ready to perform
+the GPA:</p>
+<div class="code">
+<pre class="r custom-inline"><code>GPA &lt;- gpagen(plethodon$land, print.progress = FALSE)
+
+plotAllSpecimens(GPA$coords)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="2.1-GeneralizedProcrustesAnalysis_files/figure-html/GPA1-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="performing-a-gpa-with-sliding-semilandmarks-on-curves"
+class="section level2">
+<h2><strong>Performing a GPA with sliding semilandmarks on
+curves</strong></h2>
+<p>Data are input in a similar fashion when performing a GPA with
+sliding semilandmarks, with one exception. In order for semilandmark
+sliding to occur, the <code>gpagen</code> function requires a ‘sliders
+matrix’ identifying which landmarks are to be treated as (sliding)
+semilandmarks.</p>
+<div class="code">
+<pre class="r custom-inline"><code>data(hummingbirds)
+hummingbirds$curvepts</code></pre>
+<pre class="custom-inline"><code>##       before slide after
+##  [1,]      1    11    12
+##  [2,]     11    12    13
+##  [3,]     13    14    15
+##  [4,]      7    15    14
+##  [5,]     12    13    14
+##  [6,]      1    16    17
+##  [7,]     16    17    18
+##  [8,]     17    18    19
+##  [9,]     18    19    20
+## [10,]     10    20    19
+## [11,]      2    21    22
+## [12,]     21    22    23
+## [13,]     22    23    24
+## [14,]     23    24    25
+## [15,]      8    25    24</code></pre>
+</div>
+<p><br></br></p>
+<p>In the above matrix, the middle column ‘slide’ lists the landmark
+numbers for those landmarks that will slide. The ‘before’ and ‘after’
+columns indicate the anchor points for each slider. For example, the
+above matrix indicates that landmark 11 should slide between landmarks 1
+and 12.</p>
+<p>This matrix is specified under the <code>curves</code> argument as
+shown here:</p>
+<div class="code">
+<pre class="r custom-inline"><code>GPA &lt;- gpagen(hummingbirds$land, curves = hummingbirds$curvepts, 
+              approxBE = TRUE, print.progress = FALSE)
+plotAllSpecimens(GPA$coords)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="2.1-GeneralizedProcrustesAnalysis_files/figure-html/GPA2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The example slider matrix above is included as part of the
+<code>hummingbirds</code> dataset embedded in <code>geomorph</code>.
+However you can also create a sliders matrix in R using the function
+<code>define.sliders</code>:</p>
+<div class="code">
+<pre class="r custom-inline"><code>Sliders &lt;- define.sliders(1:10)
+Sliders</code></pre>
+<pre class="custom-inline"><code>##      before slide after
+## [1,]      1     2     3
+## [2,]      2     3     4
+## [3,]      3     4     5
+## [4,]      4     5     6
+## [5,]      5     6     7
+## [6,]      6     7     8
+## [7,]      7     8     9
+## [8,]      8     9    10</code></pre>
+</div>
+<p><br></br></p>
+<p>The result of the above code will be a curve of 10 landmarks, where
+landmarks 2-9 slide relative to each other and to the anchor points of
+landmarks 1 and 10.</p>
+<p>This code can be adjusted to identify multiple curves as well:</p>
+<div class="code">
+<pre class="r custom-inline"><code>Sliders &lt;- rbind(define.sliders(1:5), define.sliders(6:10))
+Sliders</code></pre>
+<pre class="custom-inline"><code>##      before slide after
+## [1,]      1     2     3
+## [2,]      2     3     4
+## [3,]      3     4     5
+## [4,]      6     7     8
+## [5,]      7     8     9
+## [6,]      8     9    10</code></pre>
+</div>
+<p><br></br></p>
+<p>The above code identifies two separate curves, each of 5 landmarks.
+Here, landmarks 2, 3, and 4 slide between landmarks 1 and 5; and
+landmarks 7, 8, and 9, slide between landmarks 6 and 10.</p>
+</div>
+<div id="performing-a-gpa-with-sliding-semilandmarks-on-surfaces"
+class="section level2">
+<h2><strong>Performing a GPA with sliding semilandmarks on
+surfaces</strong></h2>
+<p>As with curve semilandmarks, the <code>gpagen</code> function
+requires that the user identify which landmarks are to be treated as
+surface semilandmarks:</p>
+<div class="code">
+<pre class="r custom-inline"><code>data(&quot;scallops&quot;)
+scallops$surfslide</code></pre>
+<pre class="custom-inline"><code>##       [,1]
+##  [1,]   17
+##  [2,]   18
+##  [3,]   19
+##  [4,]   20
+##  [5,]   21
+##  [6,]   22
+##  [7,]   23
+##  [8,]   24
+##  [9,]   25
+## [10,]   26
+## [11,]   27
+## [12,]   28
+## [13,]   29
+## [14,]   30
+## [15,]   31
+## [16,]   32
+## [17,]   33
+## [18,]   34
+## [19,]   35
+## [20,]   36
+## [21,]   37
+## [22,]   38
+## [23,]   39
+## [24,]   40
+## [25,]   41
+## [26,]   42
+## [27,]   43
+## [28,]   44
+## [29,]   45
+## [30,]   46</code></pre>
+</div>
+<p><br></br></p>
+<p>This takes the form of a simple vector (above) that lists the surface
+semilandmarks. This matrix is specified under the <code>surfaces</code>
+argument as shown here:</p>
+<div class="code">
+<pre class="r custom-inline"><code>GPA &lt;- gpagen(scallops$coorddata,curves = scallops$curvslide, surfaces = scallops$surfslide, print.progress = FALSE)
+
+plotAllSpecimens(GPA$coords)
+rglwidget()</code></pre>
+</div>
+<p><br></br></p>
+<pre class="r custom-inline"><code>GPA &lt;- gpagen(scallops$coorddata,curves = scallops$curvslide, surfaces = scallops$surfslide, print.progress = FALSE)
+
+plotAllSpecimens(GPA$coords)
+rglwidget()</code></pre>
+<div id="rgl81546" style="width:672px;height:480px;" class="rglWebGL html-widget"></div>
+<script type="application/json" data-for="rgl81546">{"x":{"material":{"color":"#000000","alpha":1,"lit":true,"ambient":"#000000","specular":"#FFFFFF","emission":"#000000","shininess":50,"smooth":true,"front":"filled","back":"filled","size":3,"lwd":1,"fog":true,"point_antialias":false,"line_antialias":false,"texture":null,"textype":"rgb","texmipmap":false,"texminfilter":"linear","texmagfilter":"linear","texenvmap":false,"depth_mask":true,"depth_test":"less","isTransparent":false,"polygon_offset":[0,0],"margin":"","floating":false,"tag":""},"rootSubscene":7,"objects":{"14":{"id":14,"type":"spheres","material":{},"vertices":"0","colors":"1","radii":[[0.00789020303636789]],"centers":"2","ignoreExtent":false,"fastTransparency":true,"flags":32771},"16":{"id":16,"type":"text","material":{"lit":false,"margin":0,"floating":true,"edge":[0,1,1]},"vertices":"3","colors":"4","texts":[["x"]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"5","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"17":{"id":17,"type":"text","material":{"lit":false,"margin":1,"floating":true,"edge":[1,1,1]},"vertices":"6","colors":"7","texts":[["y"]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"8","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"18":{"id":18,"type":"text","material":{"lit":false,"margin":2,"floating":true,"edge":[1,1,1]},"vertices":"9","colors":"10","texts":[["z"]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"11","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"19":{"id":19,"type":"points","material":{"lit":false,"size":4},"vertices":"12","colors":"13","centers":"14","ignoreExtent":false,"flags":34816},"11":{"id":11,"type":"light","vertices":[[0,0,1]],"colors":[[1,1,1,1],[1,1,1,1],[1,1,1,1]],"viewpoint":true,"finite":false},"12":{"id":12,"type":"background","material":{"lit":false,"back":"lines"},"colors":"15","centers":"16","sphere":false,"fogtype":"none","fogscale":1,"flags":32768},"15":{"id":15,"type":"bboxdeco","material":{"front":"lines","back":"lines"},"vertices":"17","colors":"18","axes":{"mode":["pretty","pretty","pretty"],"step":[0.100000001490116,0.100000001490116,0.0199999995529652],"nticks":[5,5,5],"marklen":[15,15,15],"expand":[1.02999997138977,1.02999997138977,1.02999997138977]},"draw_front":true,"flags":32769},"7":{"id":7,"type":"subscene","par3d":{"antialias":8,"FOV":30,"ignoreExtent":false,"listeners":7,"mouseMode":{"none":"none","left":"trackball","right":"zoom","middle":"fov","wheel":"pull"},"observer":[0,0,1.39826905727386],"modelMatrix":[[1,0,0,0.00768854469060898],[0,0.342020153999329,0.939692616462708,-0.00817439053207636],[0,-0.939692616462708,0.342020153999329,-1.40752720832825],[0,0,0,1]],"projMatrix":[[3.73205089569092,0,0,0],[0,3.73205089569092,0,0],[0,0,-3.86370325088501,-5.04059839248657],[0,0,-1,0]],"skipRedraw":false,"userMatrix":[[1,0,0,0],[0,0.342020143325668,0.939692620785909,0],[0,-0.939692620785909,0.342020143325668,0],[0,0,0,1]],"userProjection":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],"scale":[1,1,1],"viewport":{"x":0,"y":0,"width":1,"height":1},"zoom":1,"bbox":[-0.200032100081444,0.184654995799065,-0.210158914327621,0.198350995779037,-0.0431314781308174,0.0648272186517715],"windowRect":[0,0,256,256],"family":"sans","font":1,"cex":1,"useFreeType":false,"fontname":"NULL","maxClipPlanes":2147483647,"glVersion":"NA","activeSubscene":0},"embeddings":{"viewport":"replace","projection":"replace","model":"replace","mouse":"replace"},"objects":[12,15,14,16,17,18,19,11],"subscenes":[],"flags":36115}},"crosstalk":{"key":[],"group":[],"id":[],"options":[]},"width":672,"height":480,"buffer":{"accessors":[{"bufferView":0,"componentType":5126,"count":230,"type":"VEC3"},{"bufferView":1,"componentType":5126,"count":1,"type":"VEC4"},{"bufferView":2,"componentType":5126,"count":230,"type":"VEC3"},{"bufferView":3,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":4,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":5,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":6,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":7,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":8,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":9,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":10,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":11,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":12,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":13,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":14,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":15,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":16,"componentType":5121,"count":1,"type":"VEC3"},{"bufferView":17,"componentType":5126,"count":14,"type":"VEC3"},{"bufferView":18,"componentType":5121,"count":1,"type":"VEC4"}],"bufferViews":[{"buffer":0,"byteLength":2760,"byteOffset":0},{"buffer":0,"byteLength":16,"byteOffset":2760},{"buffer":0,"byteLength":2760,"byteOffset":2776},{"buffer":0,"byteLength":12,"byteOffset":5536},{"buffer":0,"byteLength":4,"byteOffset":5548},{"buffer":0,"byteLength":12,"byteOffset":5552},{"buffer":0,"byteLength":12,"byteOffset":5564},{"buffer":0,"byteLength":4,"byteOffset":5576},{"buffer":0,"byteLength":12,"byteOffset":5580},{"buffer":0,"byteLength":12,"byteOffset":5592},{"buffer":0,"byteLength":4,"byteOffset":5604},{"buffer":0,"byteLength":12,"byteOffset":5608},{"buffer":0,"byteLength":552,"byteOffset":5620},{"buffer":0,"byteLength":4,"byteOffset":6172},{"buffer":0,"byteLength":552,"byteOffset":6176},{"buffer":0,"byteLength":4,"byteOffset":6728},{"buffer":0,"byteLength":3,"byteOffset":6732},{"buffer":0,"byteLength":168,"byteOffset":6736},{"buffer":0,"byteLength":4,"byteOffset":6904}],"buffers":[{"byteLength":6908,"bytes":"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"}]},"context":{"shiny":false,"rmarkdown":null},"vertexShader":"#line 2 1\n// File 1 is the vertex shader\n#ifdef GL_ES\n#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n#endif\n\nattribute vec3 aPos;\nattribute vec4 aCol;\nuniform mat4 mvMatrix;\nuniform mat4 prMatrix;\nvarying vec4 vCol;\nvarying vec4 vPosition;\n\n#ifdef NEEDS_VNORMAL\nattribute vec3 aNorm;\nuniform mat4 normMatrix;\nvarying vec4 vNormal;\n#endif\n\n#if defined(HAS_TEXTURE) || defined (IS_TEXT)\nattribute vec2 aTexcoord;\nvarying vec2 vTexcoord;\n#endif\n\n#ifdef FIXED_SIZE\nuniform vec3 textScale;\n#endif\n\n#ifdef FIXED_QUADS\nattribute vec3 aOfs;\n#endif\n\n#ifdef IS_TWOSIDED\n#ifdef HAS_NORMALS\nvarying float normz;\nuniform mat4 invPrMatrix;\n#else\nattribute vec3 aPos1;\nattribute vec3 aPos2;\nvarying float normz;\n#endif\n#endif // IS_TWOSIDED\n\n#ifdef FAT_LINES\nattribute vec3 aNext;\nattribute vec2 aPoint;\nvarying vec2 vPoint;\nvarying float vLength;\nuniform float uAspect;\nuniform float uLwd;\n#endif\n\n\nvoid main(void) {\n  \n#ifndef IS_BRUSH\n#if defined(NCLIPPLANES) || !defined(FIXED_QUADS) || defined(HAS_FOG)\n  vPosition = mvMatrix * vec4(aPos, 1.);\n#endif\n  \n#ifndef FIXED_QUADS\n  gl_Position = prMatrix * vPosition;\n#endif\n#endif // !IS_BRUSH\n  \n#ifdef IS_POINTS\n  gl_PointSize = POINTSIZE;\n#endif\n  \n  vCol = aCol;\n  \n#ifdef NEEDS_VNORMAL\n  vNormal = normMatrix * vec4(-aNorm, dot(aNorm, aPos));\n#endif\n  \n#ifdef IS_TWOSIDED\n#ifdef HAS_NORMALS\n  /* normz should be calculated *after* projection */\n  normz = (invPrMatrix*vNormal).z;\n#else\n  vec4 pos1 = prMatrix*(mvMatrix*vec4(aPos1, 1.));\n  pos1 = pos1/pos1.w - gl_Position/gl_Position.w;\n  vec4 pos2 = prMatrix*(mvMatrix*vec4(aPos2, 1.));\n  pos2 = pos2/pos2.w - gl_Position/gl_Position.w;\n  normz = pos1.x*pos2.y - pos1.y*pos2.x;\n#endif\n#endif // IS_TWOSIDED\n  \n#ifdef NEEDS_VNORMAL\n  vNormal = vec4(normalize(vNormal.xyz/vNormal.w), 1);\n#endif\n  \n#if defined(HAS_TEXTURE) || defined(IS_TEXT)\n  vTexcoord = aTexcoord;\n#endif\n  \n#if defined(FIXED_SIZE) && !defined(ROTATING)\n  vec4 pos = prMatrix * mvMatrix * vec4(aPos, 1.);\n  pos = pos/pos.w;\n  gl_Position = pos + vec4(aOfs*textScale, 0.);\n#endif\n  \n#if defined(IS_SPRITES) && !defined(FIXED_SIZE)\n  vec4 pos = mvMatrix * vec4(aPos, 1.);\n  pos = pos/pos.w + vec4(aOfs,  0.);\n  gl_Position = prMatrix*pos;\n#endif\n  \n#ifdef FAT_LINES\n  /* This code was inspired by Matt Deslauriers' code in \n   https://mattdesl.svbtle.com/drawing-lines-is-hard */\n  vec2 aspectVec = vec2(uAspect, 1.0);\n  mat4 projViewModel = prMatrix * mvMatrix;\n  vec4 currentProjected = projViewModel * vec4(aPos, 1.0);\n  currentProjected = currentProjected/currentProjected.w;\n  vec4 nextProjected = projViewModel * vec4(aNext, 1.0);\n  vec2 currentScreen = currentProjected.xy * aspectVec;\n  vec2 nextScreen = (nextProjected.xy / nextProjected.w) * aspectVec;\n  float len = uLwd;\n  vec2 dir = vec2(1.0, 0.0);\n  vPoint = aPoint;\n  vLength = length(nextScreen - currentScreen)/2.0;\n  vLength = vLength/(vLength + len);\n  if (vLength > 0.0) {\n    dir = normalize(nextScreen - currentScreen);\n  }\n  vec2 normal = vec2(-dir.y, dir.x);\n  dir.x /= uAspect;\n  normal.x /= uAspect;\n  vec4 offset = vec4(len*(normal*aPoint.x*aPoint.y - dir), 0.0, 0.0);\n  gl_Position = currentProjected + offset;\n#endif\n  \n#ifdef IS_BRUSH\n  gl_Position = vec4(aPos, 1.);\n#endif\n}","fragmentShader":"#line 2 2\n// File 2 is the fragment shader\n#ifdef GL_ES\n#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n#endif\nvarying vec4 vCol; // carries alpha\nvarying vec4 vPosition;\n#if defined(HAS_TEXTURE) || defined (IS_TEXT)\nvarying vec2 vTexcoord;\nuniform sampler2D uSampler;\n#endif\n\n#ifdef HAS_FOG\nuniform int uFogMode;\nuniform vec3 uFogColor;\nuniform vec4 uFogParms;\n#endif\n\n#if defined(IS_LIT) && !defined(FIXED_QUADS)\nvarying vec4 vNormal;\n#endif\n\n#if NCLIPPLANES > 0\nuniform vec4 vClipplane[NCLIPPLANES];\n#endif\n\n#if NLIGHTS > 0\nuniform mat4 mvMatrix;\n#endif\n\n#ifdef IS_LIT\nuniform vec3 emission;\nuniform float shininess;\n#if NLIGHTS > 0\nuniform vec3 ambient[NLIGHTS];\nuniform vec3 specular[NLIGHTS]; // light*material\nuniform vec3 diffuse[NLIGHTS];\nuniform vec3 lightDir[NLIGHTS];\nuniform bool viewpoint[NLIGHTS];\nuniform bool finite[NLIGHTS];\n#endif\n#endif // IS_LIT\n\n#ifdef IS_TWOSIDED\nuniform bool front;\nvarying float normz;\n#endif\n\n#ifdef FAT_LINES\nvarying vec2 vPoint;\nvarying float vLength;\n#endif\n\nvoid main(void) {\n  vec4 fragColor;\n#ifdef FAT_LINES\n  vec2 point = vPoint;\n  bool neg = point.y < 0.0;\n  point.y = neg ? (point.y + vLength)/(1.0 - vLength) :\n                 -(point.y - vLength)/(1.0 - vLength);\n#if defined(IS_TRANSPARENT) && defined(IS_LINESTRIP)\n  if (neg && length(point) <= 1.0) discard;\n#endif\n  point.y = min(point.y, 0.0);\n  if (length(point) > 1.0) discard;\n#endif // FAT_LINES\n  \n#ifdef ROUND_POINTS\n  vec2 coord = gl_PointCoord - vec2(0.5);\n  if (length(coord) > 0.5) discard;\n#endif\n  \n#if NCLIPPLANES > 0\n  for (int i = 0; i < NCLIPPLANES; i++)\n    if (dot(vPosition, vClipplane[i]) < 0.0) discard;\n#endif\n    \n#ifdef FIXED_QUADS\n    vec3 n = vec3(0., 0., 1.);\n#elif defined(IS_LIT)\n    vec3 n = normalize(vNormal.xyz);\n#endif\n    \n#ifdef IS_TWOSIDED\n    if ((normz <= 0.) != front) discard;\n#endif\n    \n#ifdef IS_LIT\n    vec3 eye = normalize(-vPosition.xyz/vPosition.w);\n    vec3 lightdir;\n    vec4 colDiff;\n    vec3 halfVec;\n    vec4 lighteffect = vec4(emission, 0.);\n    vec3 col;\n    float nDotL;\n#ifdef FIXED_QUADS\n    n = -faceforward(n, n, eye);\n#endif\n    \n#if NLIGHTS > 0\n    for (int i=0;i<NLIGHTS;i++) {\n      colDiff = vec4(vCol.rgb * diffuse[i], vCol.a);\n      lightdir = lightDir[i];\n      if (!viewpoint[i])\n        lightdir = (mvMatrix * vec4(lightdir, 1.)).xyz;\n      if (!finite[i]) {\n        halfVec = normalize(lightdir + eye);\n      } else {\n        lightdir = normalize(lightdir - vPosition.xyz/vPosition.w);\n        halfVec = normalize(lightdir + eye);\n      }\n      col = ambient[i];\n      nDotL = dot(n, lightdir);\n      col = col + max(nDotL, 0.) * colDiff.rgb;\n      col = col + pow(max(dot(halfVec, n), 0.), shininess) * specular[i];\n      lighteffect = lighteffect + vec4(col, colDiff.a);\n    }\n#endif\n    \n#else // not IS_LIT\n    vec4 colDiff = vCol;\n    vec4 lighteffect = colDiff;\n#endif\n    \n#ifdef IS_TEXT\n    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);\n#endif\n    \n#ifdef HAS_TEXTURE\n#ifdef TEXTURE_rgb\n    vec4 textureColor = lighteffect*vec4(texture2D(uSampler, vTexcoord).rgb, 1.);\n#endif\n    \n#ifdef TEXTURE_rgba\n    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);\n#endif\n    \n#ifdef TEXTURE_alpha\n    vec4 textureColor = texture2D(uSampler, vTexcoord);\n    float luminance = dot(vec3(1.,1.,1.), textureColor.rgb)/3.;\n    textureColor =  vec4(lighteffect.rgb, lighteffect.a*luminance);\n#endif\n    \n#ifdef TEXTURE_luminance\n    vec4 textureColor = vec4(lighteffect.rgb*dot(texture2D(uSampler, vTexcoord).rgb, vec3(1.,1.,1.))/3., lighteffect.a);\n#endif\n    \n#ifdef TEXTURE_luminance_alpha\n    vec4 textureColor = texture2D(uSampler, vTexcoord);\n    float luminance = dot(vec3(1.,1.,1.),textureColor.rgb)/3.;\n    textureColor = vec4(lighteffect.rgb*luminance, lighteffect.a*textureColor.a);\n#endif\n    \n    fragColor = textureColor;\n\n#elif defined(IS_TEXT)\n    if (textureColor.a < 0.1)\n      discard;\n    else\n      fragColor = textureColor;\n#else\n    fragColor = lighteffect;\n#endif // HAS_TEXTURE\n    \n#ifdef HAS_FOG\n    // uFogParms elements: x = near, y = far, z = fogscale, w = (1-sin(FOV/2))/(1+sin(FOV/2))\n    // In Exp and Exp2: use density = density/far\n    // fogF will be the proportion of fog\n    // Initialize it to the linear value\n    float fogF;\n    if (uFogMode > 0) {\n      fogF = (uFogParms.y - vPosition.z/vPosition.w)/(uFogParms.y - uFogParms.x);\n      if (uFogMode > 1)\n        fogF = mix(uFogParms.w, 1.0, fogF);\n      fogF = fogF*uFogParms.z;\n      if (uFogMode == 2)\n        fogF = 1.0 - exp(-fogF);\n      // Docs are wrong: use (density*c)^2, not density*c^2\n      // https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/mesa/swrast/s_fog.c#L58\n      else if (uFogMode == 3)\n        fogF = 1.0 - exp(-fogF*fogF);\n      fogF = clamp(fogF, 0.0, 1.0);\n      gl_FragColor = vec4(mix(fragColor.rgb, uFogColor, fogF), fragColor.a);\n    } else gl_FragColor = fragColor;\n#else\n    gl_FragColor = fragColor;\n#endif // HAS_FOG\n    \n}","players":[],"webGLoptions":{"preserveDrawingBuffer":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="output" class="section level2">
+<h2><strong>Output</strong></h2>
+<p>The output of this function is a large list, or <code>gpagen</code>
+object with several subsets:</p>
+<ul>
+<li><span class="math inline">\(coords\)</span>: An array of Procrustes
+shape variables. In other words, the aligned landmark coordinates.</li>
+<li><span class="math inline">\(Csize\)</span>: A vector of centroid
+sizes for each specimen.</li>
+<li><span class="math inline">\(consensus\)</span>: The mean (consensus)
+configuration, or shape of the input data.</li>
+<li><span class="math inline">\(ProcD\)</span>: A Procrustes distance
+matrix for all specimens.</li>
+<li><span class="math inline">\(p\)</span>: The number of
+landmarks.</li>
+<li><span class="math inline">\(k\)</span>: The number of
+dimensions.</li>
+<li><span class="math inline">\(nsliders\)</span>: The number of curve
+semilandmarks.</li>
+<li><span class="math inline">\(nsurf\)</span>: The number of surface
+semilandmarks.</li>
+<li><span class="math inline">\(call\)</span>: The user-input code.</li>
+</ul>
+<p>The following gpagen outputs are associated with arguments that are
+discussed elsewhere, in the <a href="">Advanced Options</a>
+tutorial:</p>
+<ul>
+<li><span class="math inline">\(iter\)</span>: The number of GPA
+iterations until convergence was found.</li>
+<li><span class="math inline">\(points.VCV\)</span>: A
+variance-covariance matrix among Procrustes shape variables.</li>
+<li><span class="math inline">\(points.var\)</span>: Variances of
+landmark points.</li>
+<li><span class="math inline">\(data\)</span>: Data frame with a matrix
+of Procrustes shape variables and centroid size.</li>
+<li><span class="math inline">\(Q\)</span>: Final convergence criterion
+value.</li>
+<li><span class="math inline">\(slide.method\)</span>: Method used to
+slide semilandmarks.</li>
+</ul>
+<p>Each of these subsets can be accessed separately using the ‘$’
+operator, like so:</p>
+<div class="code">
+<pre class="r custom-inline"><code>GPA$consensus</code></pre>
+<pre class="custom-inline"><code>##               X            Y            Z
+## 1  -0.081780117 -0.120649720 -0.013977818
+## 2  -0.039953533 -0.177916095 -0.024234317
+## 3   0.039604000 -0.160440163 -0.022417763
+## 4   0.132919606 -0.133490989 -0.025807230
+## 5   0.127198190 -0.067987876 -0.014134425
+## 6   0.169258695 -0.016217526 -0.013593941
+## 7   0.168368662  0.043219300 -0.013823570
+## 8   0.140157576  0.098977257 -0.015511859
+## 9   0.096017436  0.142176222 -0.015176381
+## 10  0.025136754  0.171655851 -0.017453082
+## 11 -0.064407941  0.167571107 -0.018609625
+## 12 -0.129462084  0.128067060 -0.020231740
+## 13 -0.169757091  0.071191136 -0.018060075
+## 14 -0.187363618  0.007019624 -0.014599501
+## 15 -0.174360560 -0.057347543 -0.010431263
+## 16 -0.131721141 -0.101318708 -0.011123347
+## 17 -0.017066338  0.097038046  0.019050904
+## 18  0.014631984 -0.105369309  0.028294452
+## 19  0.096193027  0.123213676 -0.006467546
+## 20 -0.065218360 -0.113075793  0.002323316
+## 21 -0.151912664  0.058249006 -0.005885301
+## 22  0.054706372  0.086399926  0.017076445
+## 23 -0.053042901 -0.004104540  0.031188472
+## 24 -0.076985953  0.059797766  0.019932924
+## 25 -0.116534701  0.109289479 -0.007326455
+## 26  0.006345201  0.034537566  0.034535349
+## 27  0.145650922  0.069974238 -0.007130645
+## 28  0.123931601 -0.069173833 -0.005679803
+## 29  0.054120100 -0.143484306 -0.005942573
+## 30 -0.169032816 -0.009087492 -0.005884073
+## 31  0.067644310  0.011389561  0.029396400
+## 32 -0.048256352 -0.070434564  0.026056576
+## 33  0.108173627 -0.121082480 -0.020241788
+## 34  0.120421491 -0.015801737  0.010215008
+## 35  0.161204502  0.003381768 -0.007139072
+## 36  0.076978828 -0.102337642  0.011509812
+## 37  0.017805486 -0.036118780  0.040677039
+## 38  0.110866923  0.050077560  0.010180639
+## 39 -0.051963323  0.149216191 -0.005928480
+## 40  0.031432691  0.150662670 -0.004791532
+## 41 -0.104029785 -0.046857281  0.013478368
+## 42 -0.112261648 -0.098358799 -0.002420617
+## 43 -0.150982107 -0.064993539 -0.005060494
+## 44 -0.017128647 -0.147179813 -0.012242780
+## 45 -0.117052539  0.009475282  0.013937921
+## 46  0.077494472 -0.053728947  0.027903885</code></pre>
+</div>
+<p><br></br></p>
+</div>
+<div id="gpagen-advanced-options" class="section level2">
+<h2><strong><code>gpagen</code> Advanced Options</strong></h2>
+<p>There are several other arguments and outputs that may be of use when
+performing a GPA using <code>gpagen</code>. Details for alternatives can
+be found in <a href="">Advanced Options</a></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+---
+title: "GPA with fixed landmarks"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/GPAFixed.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, include=FALSE}
+
+```
+
+## **Performing a GPA with fixed landmarks**
+
+Input data for the `gpagen` function must be in 3D array format (see the [Reading/Importing Data](1.1-ReadingData.html) tutorial for more information) or an object of class `geomorphShapes`. 
+
+Once you have your data in the proper format you are ready to perform the GPA:
+
+<div class = "code">
+```{r, eval=FALSE}
+GPA <- gpagen(plethodon$land, print.progress = FALSE)
+
+plotAllSpecimens(GPA$coords)
+```
+</div>
+<br></br>
+
+```{r, GPA1, echo=FALSE}
+
+```

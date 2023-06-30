@@ -1,0 +1,62 @@
+---
+title: "**Matching Specimens to a Phylogeny**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/MatchSpectoPhy.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r prelims, include=FALSE, warning=FALSE}
+
+```
+
+
+## **Introduction**
+Occasionally when performing phylogenetic analyses, one will acquire phylogenetic data from a third-party source. In this case, the data represented in that phylogeny may or may not include the exact same species for which you have landmark data.
+
+Here we describe a relatively easy way to compare and adjust phylogenetic trees to match input landmark data with taxonomic information, using the function `treedata` found in the R package `geiger`.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `treedata() (Expand for more details)` </font> </summary>
+
+* $phy$: A phylogenetic tree of class 'phylo'
+* $data$: The input data. For landmark data, these must be in a format where all coordinates for a specimen are contained within a single row.
+* $sort$: Logical value indicating whether to sort the data based on names found in `phy`.
+* $warnings$: Logical value indicating whether the user should be notified of mismatched taxa.
+  
+</details>
+</div>
+<br></br> 
+
+The data "plethspecies" embedded in `geomorph` includes both landmark data, and a phylogenetic tree. Crucially, one's landmark data must include species name information (see Array tutorial for more detail).
+
+## **Using treedata**
+
+The `treedata` function requires two components. First, an object of class "phylo," and second, landmark data with species name information. Importantly, for the `treedata` function to work, all landmark coordinates must be arranged by row. In other words, all landmark coordinates for a single specimen will be contained in a single row, with the row name being the species name, like so:
+
+<div class = "code">
+```{r, datbyrow}
+
+```
+
+</div>
+<br></br>
+
+Many functions in `geomorph` require one's data be in 3D array format. Likewise, the read.tps function imports landmark in 3D array format automatically. While this is useful for using geomorph, a 3D array cannot be used with the treedata function, because an array does not have row names in the same way that a simple matrix does.
+
+Therefore, 3D arrays will need to be converted into a format that can be read by `treedata`. Luckily there is a function in geomorph that does this! Below we show the use of the `two.d.array` function to convert a 3D array of landmarks to a format that can be read by treedata:
+
+<div class = "code">
+```{r, twodarray}
+
+```
+</div>
+<br></br>
+
+After treedata has run, one can simply restore the landmark data to its previous format using the arrayspecs function. 
+
+<br></br>

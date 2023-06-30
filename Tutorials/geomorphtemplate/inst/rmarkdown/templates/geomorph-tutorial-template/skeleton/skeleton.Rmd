@@ -1,0 +1,38 @@
+---
+title: "**Title**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+#knitr::read_chunk("scripts/XX.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r setup, warning=FALSE, include=FALSE}
+library(geomorph)
+
+
+```
+
+## **Introduction** 
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `XX()` </font> </summary>
+* $arg$:
+</details>
+</div>
+<br></br>
+
+
+<div class = "code">
+```{r}
+
+```
+</div>
+<br></br>
+
+<div class = "note">
+**Important Note!**
+</div>
+<br></br>

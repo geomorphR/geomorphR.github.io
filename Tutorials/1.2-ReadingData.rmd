@@ -1,0 +1,194 @@
+---
+title: "**Reading/Importing Data**"
+author: "Dean Adams, Michael Collyer, Antigoni Kaliontzopoulou, & Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/ReadingData.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, eval=T,echo=F,results='hide', warning=FALSE, message=FALSE}
+
+```
+
+
+## **Introduction**
+
+Geomorph has several built-in functions to read landmark data files. Additionally, one can use standard IO functions in R to read in a text file. Geomorph also has the ability to digitize 2D or 3D data. For 3D, one can read in a 3D image in the form of a PLY file. 
+<br></br>
+
+#### **Read in Landmark Data from StereoMorph Files**
+
+Data files created using StereoMorph can be read into geomorph using the `readShapes` function in `StereoMorph` combined with the `readland.shapes` function in `geomorph`. The result is an geomorphShapes object which may be used in downstream GM analyses.
+
+<br></br>
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `readland.shapes() (Expand for more details)` </font> </summary> 
+This function allows you to extract landmark coordinates from a "shapes," file in your working environment. The possible arguments, or input values specified by the user,
+are below: 
+
+* $Shapes$: The "shapes" object that you wish to extract landmark coordinates from.
+* $nCurvePts$: A single or multiple values that are used to determine the number of semilandmarks in each curve. So, inputing 'c(20,50,10)' returns three sets of curve points each with 20, 50, and 10 landmarks respectively.
+* $continuous.curve$: One or a set of values used  to indicate which curves (if any are present) are closed and whose same start and end point should be treated as a semilandmark. 
+* $scaled$: 
+
+</details>
+</div>
+<br></br>
+
+<div class = "code">
+```{r, stereomorph, warning=FALSE, warning=FALSE, message=FALSE}
+
+```
+</div>
+<br></br>
+
+<div class = "note">
+#### **Important Note!** 
+Specimens with missing data can still be read using the procedure above. In these cases, the landmark values will be replaced with `NA`, and can be estimated in subsequent data-processing steps using `estimate.missing`.
+</div>
+<br></br>
+
+#### **Read Landmark Data from tps Files**
+
+TPS files have an inherent structure similar to the [3d-array](Tutorials/1.1-ReadingData.html) data structure used in geomorph; whereas nts files correspond to a structure similar to two.d.arrays in `geomorph`. In both cases, data are read-in as a 3d-array. You can open tps files in a text editor to get familiar with their structure. To read a .tps file into `geomorph`, use the corresponding function: `readland.tps`
+<br></br>
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `readland.tps()` </font> </summary>
+
+* $file$: The file path to your tps coordinates. 
+* $specID$: An argument specifying whether specimen names should be extracted from
+the tps file. The default value is "None", but the other options, "ID," or 
+"IMAGE," will extract specimen names from either of those lines included in the tps file. 
+* $negNA$: A logical value (true or false) indicating whether negative landmark
+coordinates should be treated as missing values and replaced with 'NA.' 
+* $readcurves$: Logical value specifying whether CURVE data should be read as semilandmarks. 
+* $warnmsg$: Logical value specifying whether warning messages should be printed. 
+
+</details>
+</div>
+
+<br></br>
+
+<div class = "code">
+```{r,tps, eval=TRUE, warning=FALSE, message=FALSE, results='hide'}
+
+```
+</div>
+<br></br>
+
+<div class = "note">
+
+#### **Important detail!** 
+With .tps files, missing data may be coded by using negative numbers for the landmarks. In these cases, `readland.tps` will prompt the user to determine whether the negative values are actual landmark coordinates, or whether they represent missing data. In the latter case, the landmark values will be replaced with `NA`, and can be estimated in subsequent data-processing steps using [`estimate.missing`]("Tutorials/1.2-EstMissing.html).
+
+</div>
+<br></br>
+
+#### **Read Landmark Data from nts Files**
+
+<div class = "code">
+```{r, nts, eval=TRUE, warning=FALSE, message=FALSE}
+
+```
+</div>
+<br></br> 
+
+#### **Read Landmark Data from Multiple tps or nts files**
+In some cases, landmark data for your specimens may be contained in separate tps or nts files that you want to read simultaneously. The functions `readmulti.tps` and `readmulti.nts` will allow you to do this: 
+
+<div class = "code">
+```{r, mtps, eval=TRUE, warning=FALSE, message=FALSE}
+
+```
+</div>
+<br></br> 
+
+Note that the list of file paths must be in vector format, that is, in the format of "c("file1", "file2", etc)"
+
+The same can be done with nts files as well:
+
+<div class = "code">
+```{r, mnts, eval=TRUE, warning=FALSE, message=FALSE}
+
+```
+</div>
+<br></br>
+
+#### **Read Landmark Data from Morphologika Files**
+
+Another file type that is sometimes encountered is a Morphologika file; developed for the Morphologika package. One can read these files using `geomorph` also, using the function `read.morphologika`: 
+
+<div class = "code">
+```{r, morphologika, eval=TRUE, warning=FALSE, message=FALSE}
+
+```
+</div>
+<br></br>
+
+#### **Read 3D image (PLY file)**
+
+Sometimes, we may wish to digitize directly from 3D images. These come in the form of ply files, and `geomorph` has the ability to read, and then digitize such images. 
+
+<div class = "code">
+```{r, eval=FALSE}
+mandible <- read.ply("../data/Mandible.ply", ShowSpecimen = TRUE)
+rgl.bg(color = c("#ceecf0"))
+rglwidget()
+```
+</div>
+
+```{r, plyfile, echo=FALSE}
+mandible <- read.ply("../data/Mandible.ply", ShowSpecimen = TRUE)
+rgl.bg(color = c("#ceecf0"))
+rglwidget()
+```
+
+
+|                                             (Click and drag to manipulate)
+
+<br></br> 
+
+#### **Read in text file (for landmarks or other variables)**
+
+One may have additional data, covariates, or other specimen information that one wishes to read into R for downstream analyses. As we are working in the R environment, one is free to do so using a variety of `read` functions. Below we provide an example for a data matrix, and a phylogeny: 
+
+<div class = "code">
+```{r, eval=FALSE}
+Salamanders <- read.csv("../data/salamanders.csv", header=FALSE)
+library(ape)
+tree <- read.tree("../data/plethtree.tre")
+plot(tree)
+```
+</div>
+
+```{r, fromtext, echo=FALSE, fig.height=10, fig.width=10}
+
+```
+<br></br>
+
+#### **Converting a matrix of landmark coordinates into a 3D Array** 
+
+Most analytical functions in `geomorph` require one's data be in 3D array (nxpxk) format. The functions discussed above return data in array format automatically as part of the read-in process. However, if your raw data are not in tps, nts, or morphologika format, the `arrayspecs` function can be used to convert them into a 3D array: 
+
+<div class = "code">
+```{r eval=TRUE}
+mydata <- arrayspecs(as.matrix(Salamanders), 12, 2)
+str(mydata)
+```
+</div>
+<br></br>
+
+<div class = "note">
+
+#### **Important Note!** 
+Make certain that the number of landmarks (the p argument) is correct! If the incorrect value is input, but that value is still divisible by the number of dimensions (k), the function will still run. This will result in an array with the incorrect number of specimens, each with the incorrect number of landmarks.
+
+</div>
+<br></br>

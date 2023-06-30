@@ -1,0 +1,117 @@
+---
+title: "**Phylogenetic ANOVA/Regression (ProcD.pgls)**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/PhyANOVA.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r setup, include=FALSE,warning=FALSE, message=FALSE}
+library(geomorph)
+data("plethspecies")
+```
+
+Understanding patterns of phenotypic evolution among sets of taxa must include an accounting for the lack of independence among species due to shared ancestry. When observations are species means, for example, one's data cannot be treated as independent because phylogenetic relation creates an expected covariance (see Adams & Collyer (2018) for further information).
+
+As such, linear models such as the [Procrustes ANOVA]() must be performed in a phylogenetic context in such situations. Similar to `procD.lm`, the `procD.pgls` function allows the user to perform an ANOVA/regression with morphometric variables with the added feature that it accounts for the expected similarity among species as a result of phylogenetic relatedness. This is done via a phylogenetic transformation matrix, estimated under a Brownian motion model, that is used to transform the X and Y variables.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `procD.pgls() (Expand for more details)` </font> </summary>
+
+This function performs a Procrustes ANOVA in a phylogenetic framework. The required input is a data frame, although the more specific geomorph data frame is recommended. Please note that some of the arguments for this function are not addressed here, but can be found in the Advanced Options section below.
+
+* $f1$: Formula for the linear model, similar to a regression formula. So, given a dependent variable $y$ and two independent variables $x1$ and $x2$, a possible formula could be something like y~x1+x2
+* $phy$: A phylogenetic tree of class 'phylo'. These are generated from functions contained within the R package Ape.
+* $iter$: Number of iterations for significance testing (default of 999)
+* $seed$: Optional argument for setting the seed for random permutations of the resampling procedure. If this is left at NULL, results will be the same when analyses are run multiple times on the same data. This argument can also be set at "random" which will result in varying results when run multiple times.
+* $SS.type$: The type of sums of squares (SS) used in computation. Input of "I" corresponds to sequential SS, "II" to hierarchical, and "III" to marginal sums of squares.
+* $effect.type$: Specifies the random distribution from which effect size is estimated. Options are "F", "SS", "cohenf", "MS", or "Rsq".
+* $int.first$: Logical value indicating whether interactions of the first main effects should precede subsequent main effects.
+* $data$: The input [geomorph data frame]()
+* $print.progress$: Logical value indicating whether a progress bar should be printed to the screen.
+
+</details>
+</div>
+<br></br>
+
+With respect to the sums of squares (SS.type) argument, one's choice should be determined in large part by one's data. Each of the three SS types assign variation to variables in different ways. Type I (sequential) SS generally should not be used when one has two or more independent variables (factorial designs) because, as the name suggests, variation will be assigned in the order in which they appear in the formula and do not account for one another. With more than one independent variable, this could incorrectly inflate the importance of the first variable. Type II (hierarchical) sums of squares is best used when there is no interaction term in one's formula. Finally, type III (marginal/partial) SS returns the effect of each variable as if it were entered last in the formula in a standard type I analysis.
+
+# **Example Analysis**
+
+The approach to using this function is essentially the same as for [`procD.lm`](). We begin by aligning our landmark data, and creating a [geomorph data frame]().
+
+<div class = "code">
+```{r, prep}
+
+```
+</div>
+<br></br>
+
+Now we perform the fit:
+
+<div class = "code">
+```{r, fit}
+
+```
+</div>
+<br></br>
+
+To view a summary of the overall results, simply use this code:
+
+<div class = "code">
+```{r, sum}
+
+```
+</div>
+<br></br>
+
+Here, each row corresponds to one of the comparisons specified in our formula, and each column is a result for that comparison.
+
+* $Df$ = Degrees of freedom
+* $SS$ = Sum of squares (total variance)
+* $MS$ = Mean Squares
+* $Rsq$ = R-squared (percentage of variance explained by group difference)
+* $F$ = The F value, or variation between sample means/variation within sample means
+* $Z$ = Z-score
+* $Pr(>F)$ = P value
+
+Further, this function produces an object of class "procD.pgls", which is a list containing the following:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `procD.pgls Output` </font> </summary>
+
+The following is the full output for the `procD.pgls` function. Any of these subsets can be accessed using the `$` operator.
+  
+* $aov.table$:	An analysis of variance table; the same as the summary.
+* $call$:	The input code.
+* $pgls.coefficients$: A vector or matrix of linear model coefficients.
+* $Y$: The response data, in matrix form.
+* $X$	The model matrix (This will be important for our visualizations later).
+* $QR$:	The decompositions of the model matrix into the product of an orthogonal matrix "Q" and an upper triangular matrix "R" generated from the calculation of eigenvalues.
+* $pgls.fitted$:	The fitted values.
+* $pgls.residuals$: The residuals (observed responses - fitted responses).
+* $weights$: The weights used in weighted least-squares fitting. If no weights are used, NULL is returned.
+* $Terms$: The results of the terms function applied to the model matrix
+* $term.labels$: The terms used in the input formula for the linear model
+* $data$: The data frame for the model.
+* $ANOVA$: Summary statistics and information on sums of squares for the ANOVA.
+* $PermInfo$: Information on the number and method of permutation for significance testing.
+* $gls$: This prefix will be used if a covariance matrix is provided to indicate GLS computations.
+
+</details>
+</div>
+<br></br>
+
+<details>
+  <summary> <font size="+2"> Advanced Options </font> </summary>
+
+* $lambda$:
+* $Cov$: An optional covariance matrix that can be input in place of a covariance matrix calculated based on a Brownian motion model of evolution.
+
+</details>
+<br></br>

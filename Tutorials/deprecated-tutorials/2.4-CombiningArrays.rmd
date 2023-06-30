@@ -1,0 +1,63 @@
+---
+title: "**Combining 3D Arrays Using `abind`**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/CombiningArrays.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r prelims, include=FALSE}
+
+```
+
+### **Introduction**
+
+On occasion, users of R in general, and `geomorph` in particular, may find the need to combine two or more 3D arrays, along one of two dimensions, in order to complete their analyses. The easiest way to do this is to use the function `abind` found in the R package of the same name. The function is fairly simple to use, but depends on the structure of the arrays being combined. The examples here are performed with only two arrays, but any number can be combined using these methods.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `abind() (Expand for more details)` </font> </summary>
+This function allows the user to combine multiple 2D or 3D arrays, along multiple dimensions. These are described in detail below.
+
+* $...$: First, the user lists any number of 2D or3D arrays to be combined, separated by commas. 
+* $along$: The dimension along which the combination will occur (1, 2, or 3). 
+
+</details>
+</div>
+
+### **Combining Two Sets of Specimens**
+
+In the case where the researcher has multiple 3D arrays with different specimens, but the same landmarks **in the same order**, the following code can be used to combine them:
+
+<div class = "code">
+```{r, abindalong3}
+
+```
+</div>
+<br></br>
+
+Here `along = 3` refers to the dimension of the arrays. As mentioned in [a previous tutorial](Tutorials/AllAboutArrays.html), the third dimension of an array, sometimes called the 'sheet,' refers to the specimens. The outcome is similar to the base R function `rbind` while still maintaining the distinction of specimens. 
+
+
+### **Combining Two Sets of Landmarks**
+
+Therefore, in the case where the researcher has multiple arrays with the same specimens but *different landmarks*, the following can be done to combine them:
+
+<div class = "code">
+```{r, abindalong1}
+
+```
+</div>
+<br></br>
+
+Running abind `along = 1` simply combines the two arrays into a single specimen with 24 landmarks, as opposed to two specimens with 12 landmarks each.
+
+Arrays can also be combined `along=2` which would bind them by columns, or by coordinate dimension. However, this is unlikely to be useful or necessary in the context of a GM study.
+
+<div class = "note">
+**Important Note!** R does not know what order your specimens or landmarks belong in! It only cares that the correct number of dimensions and data points are there. Therefore it is very important that you make sure when combining arrays that all of your data are in the same order.
+</div>
+<br></br>

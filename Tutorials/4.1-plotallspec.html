@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mark A. Conaway" />
+
+
+<title>Visualizing a Full Landmark Dataset</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="site_libs/rglWebGL-binding-0.111.6/rglWebGL.js"></script>
+<link href="site_libs/rglwidgetClass-0.111.6/rgl.css" rel="stylesheet" />
+<script src="site_libs/rglwidgetClass-0.111.6/rglClass.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/utils.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/buffer.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/subscenes.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/shaders.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/textures.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/projection.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/mouse.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/init.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/pieces.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/draw.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/controls.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/selection.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/rglTimer.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/pretty.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/axes.src.js"></script>
+<script src="site_libs/rglwidgetClass-0.111.6/animation.src.js"></script>
+<!--html_preserve--><script type = "text/plain" id = "rgl-vertex-shader">
+#line 2 1
+// File 1 is the vertex shader
+#ifdef GL_ES
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+#endif
+
+attribute vec3 aPos;
+attribute vec4 aCol;
+uniform mat4 mvMatrix;
+uniform mat4 prMatrix;
+varying vec4 vCol;
+varying vec4 vPosition;
+
+#ifdef NEEDS_VNORMAL
+attribute vec3 aNorm;
+uniform mat4 normMatrix;
+varying vec4 vNormal;
+#endif
+
+#if defined(HAS_TEXTURE) || defined (IS_TEXT)
+attribute vec2 aTexcoord;
+varying vec2 vTexcoord;
+#endif
+
+#ifdef FIXED_SIZE
+uniform vec3 textScale;
+#endif
+
+#ifdef FIXED_QUADS
+attribute vec3 aOfs;
+#endif
+
+#ifdef IS_TWOSIDED
+#ifdef HAS_NORMALS
+varying float normz;
+uniform mat4 invPrMatrix;
+#else
+attribute vec3 aPos1;
+attribute vec3 aPos2;
+varying float normz;
+#endif
+#endif // IS_TWOSIDED
+
+#ifdef FAT_LINES
+attribute vec3 aNext;
+attribute vec2 aPoint;
+varying vec2 vPoint;
+varying float vLength;
+uniform float uAspect;
+uniform float uLwd;
+#endif
+
+
+void main(void) {
+  
+#ifndef IS_BRUSH
+#if defined(NCLIPPLANES) || !defined(FIXED_QUADS) || defined(HAS_FOG)
+  vPosition = mvMatrix * vec4(aPos, 1.);
+#endif
+  
+#ifndef FIXED_QUADS
+  gl_Position = prMatrix * vPosition;
+#endif
+#endif // !IS_BRUSH
+  
+#ifdef IS_POINTS
+  gl_PointSize = POINTSIZE;
+#endif
+  
+  vCol = aCol;
+  
+#ifdef NEEDS_VNORMAL
+  vNormal = normMatrix * vec4(-aNorm, dot(aNorm, aPos));
+#endif
+  
+#ifdef IS_TWOSIDED
+#ifdef HAS_NORMALS
+  /* normz should be calculated *after* projection */
+  normz = (invPrMatrix*vNormal).z;
+#else
+  vec4 pos1 = prMatrix*(mvMatrix*vec4(aPos1, 1.));
+  pos1 = pos1/pos1.w - gl_Position/gl_Position.w;
+  vec4 pos2 = prMatrix*(mvMatrix*vec4(aPos2, 1.));
+  pos2 = pos2/pos2.w - gl_Position/gl_Position.w;
+  normz = pos1.x*pos2.y - pos1.y*pos2.x;
+#endif
+#endif // IS_TWOSIDED
+  
+#ifdef NEEDS_VNORMAL
+  vNormal = vec4(normalize(vNormal.xyz/vNormal.w), 1);
+#endif
+  
+#if defined(HAS_TEXTURE) || defined(IS_TEXT)
+  vTexcoord = aTexcoord;
+#endif
+  
+#if defined(FIXED_SIZE) && !defined(ROTATING)
+  vec4 pos = prMatrix * mvMatrix * vec4(aPos, 1.);
+  pos = pos/pos.w;
+  gl_Position = pos + vec4(aOfs*textScale, 0.);
+#endif
+  
+#if defined(IS_SPRITES) && !defined(FIXED_SIZE)
+  vec4 pos = mvMatrix * vec4(aPos, 1.);
+  pos = pos/pos.w + vec4(aOfs,  0.);
+  gl_Position = prMatrix*pos;
+#endif
+  
+#ifdef FAT_LINES
+  /* This code was inspired by Matt Deslauriers' code in 
+   https://mattdesl.svbtle.com/drawing-lines-is-hard */
+  vec2 aspectVec = vec2(uAspect, 1.0);
+  mat4 projViewModel = prMatrix * mvMatrix;
+  vec4 currentProjected = projViewModel * vec4(aPos, 1.0);
+  currentProjected = currentProjected/currentProjected.w;
+  vec4 nextProjected = projViewModel * vec4(aNext, 1.0);
+  vec2 currentScreen = currentProjected.xy * aspectVec;
+  vec2 nextScreen = (nextProjected.xy / nextProjected.w) * aspectVec;
+  float len = uLwd;
+  vec2 dir = vec2(1.0, 0.0);
+  vPoint = aPoint;
+  vLength = length(nextScreen - currentScreen)/2.0;
+  vLength = vLength/(vLength + len);
+  if (vLength > 0.0) {
+    dir = normalize(nextScreen - currentScreen);
+  }
+  vec2 normal = vec2(-dir.y, dir.x);
+  dir.x /= uAspect;
+  normal.x /= uAspect;
+  vec4 offset = vec4(len*(normal*aPoint.x*aPoint.y - dir), 0.0, 0.0);
+  gl_Position = currentProjected + offset;
+#endif
+  
+#ifdef IS_BRUSH
+  gl_Position = vec4(aPos, 1.);
+#endif
+}
+</script>
+<script type = "text/plain" id = "rgl-fragment-shader">
+#line 2 2
+// File 2 is the fragment shader
+#ifdef GL_ES
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+#endif
+varying vec4 vCol; // carries alpha
+varying vec4 vPosition;
+#if defined(HAS_TEXTURE) || defined (IS_TEXT)
+varying vec2 vTexcoord;
+uniform sampler2D uSampler;
+#endif
+
+#ifdef HAS_FOG
+uniform int uFogMode;
+uniform vec3 uFogColor;
+uniform vec4 uFogParms;
+#endif
+
+#if defined(IS_LIT) && !defined(FIXED_QUADS)
+varying vec4 vNormal;
+#endif
+
+#if NCLIPPLANES > 0
+uniform vec4 vClipplane[NCLIPPLANES];
+#endif
+
+#if NLIGHTS > 0
+uniform mat4 mvMatrix;
+#endif
+
+#ifdef IS_LIT
+uniform vec3 emission;
+uniform float shininess;
+#if NLIGHTS > 0
+uniform vec3 ambient[NLIGHTS];
+uniform vec3 specular[NLIGHTS]; // light*material
+uniform vec3 diffuse[NLIGHTS];
+uniform vec3 lightDir[NLIGHTS];
+uniform bool viewpoint[NLIGHTS];
+uniform bool finite[NLIGHTS];
+#endif
+#endif // IS_LIT
+
+#ifdef IS_TWOSIDED
+uniform bool front;
+varying float normz;
+#endif
+
+#ifdef FAT_LINES
+varying vec2 vPoint;
+varying float vLength;
+#endif
+
+void main(void) {
+  vec4 fragColor;
+#ifdef FAT_LINES
+  vec2 point = vPoint;
+  bool neg = point.y < 0.0;
+  point.y = neg ? (point.y + vLength)/(1.0 - vLength) :
+                 -(point.y - vLength)/(1.0 - vLength);
+#if defined(IS_TRANSPARENT) && defined(IS_LINESTRIP)
+  if (neg && length(point) <= 1.0) discard;
+#endif
+  point.y = min(point.y, 0.0);
+  if (length(point) > 1.0) discard;
+#endif // FAT_LINES
+  
+#ifdef ROUND_POINTS
+  vec2 coord = gl_PointCoord - vec2(0.5);
+  if (length(coord) > 0.5) discard;
+#endif
+  
+#if NCLIPPLANES > 0
+  for (int i = 0; i < NCLIPPLANES; i++)
+    if (dot(vPosition, vClipplane[i]) < 0.0) discard;
+#endif
+    
+#ifdef FIXED_QUADS
+    vec3 n = vec3(0., 0., 1.);
+#elif defined(IS_LIT)
+    vec3 n = normalize(vNormal.xyz);
+#endif
+    
+#ifdef IS_TWOSIDED
+    if ((normz <= 0.) != front) discard;
+#endif
+    
+#ifdef IS_LIT
+    vec3 eye = normalize(-vPosition.xyz/vPosition.w);
+    vec3 lightdir;
+    vec4 colDiff;
+    vec3 halfVec;
+    vec4 lighteffect = vec4(emission, 0.);
+    vec3 col;
+    float nDotL;
+#ifdef FIXED_QUADS
+    n = -faceforward(n, n, eye);
+#endif
+    
+#if NLIGHTS > 0
+    for (int i=0;i<NLIGHTS;i++) {
+      colDiff = vec4(vCol.rgb * diffuse[i], vCol.a);
+      lightdir = lightDir[i];
+      if (!viewpoint[i])
+        lightdir = (mvMatrix * vec4(lightdir, 1.)).xyz;
+      if (!finite[i]) {
+        halfVec = normalize(lightdir + eye);
+      } else {
+        lightdir = normalize(lightdir - vPosition.xyz/vPosition.w);
+        halfVec = normalize(lightdir + eye);
+      }
+      col = ambient[i];
+      nDotL = dot(n, lightdir);
+      col = col + max(nDotL, 0.) * colDiff.rgb;
+      col = col + pow(max(dot(halfVec, n), 0.), shininess) * specular[i];
+      lighteffect = lighteffect + vec4(col, colDiff.a);
+    }
+#endif
+    
+#else // not IS_LIT
+    vec4 colDiff = vCol;
+    vec4 lighteffect = colDiff;
+#endif
+    
+#ifdef IS_TEXT
+    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
+#endif
+    
+#ifdef HAS_TEXTURE
+#ifdef TEXTURE_rgb
+    vec4 textureColor = lighteffect*vec4(texture2D(uSampler, vTexcoord).rgb, 1.);
+#endif
+    
+#ifdef TEXTURE_rgba
+    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
+#endif
+    
+#ifdef TEXTURE_alpha
+    vec4 textureColor = texture2D(uSampler, vTexcoord);
+    float luminance = dot(vec3(1.,1.,1.), textureColor.rgb)/3.;
+    textureColor =  vec4(lighteffect.rgb, lighteffect.a*luminance);
+#endif
+    
+#ifdef TEXTURE_luminance
+    vec4 textureColor = vec4(lighteffect.rgb*dot(texture2D(uSampler, vTexcoord).rgb, vec3(1.,1.,1.))/3., lighteffect.a);
+#endif
+    
+#ifdef TEXTURE_luminance_alpha
+    vec4 textureColor = texture2D(uSampler, vTexcoord);
+    float luminance = dot(vec3(1.,1.,1.),textureColor.rgb)/3.;
+    textureColor = vec4(lighteffect.rgb*luminance, lighteffect.a*textureColor.a);
+#endif
+    
+    fragColor = textureColor;
+
+#elif defined(IS_TEXT)
+    if (textureColor.a < 0.1)
+      discard;
+    else
+      fragColor = textureColor;
+#else
+    fragColor = lighteffect;
+#endif // HAS_TEXTURE
+    
+#ifdef HAS_FOG
+    // uFogParms elements: x = near, y = far, z = fogscale, w = (1-sin(FOV/2))/(1+sin(FOV/2))
+    // In Exp and Exp2: use density = density/far
+    // fogF will be the proportion of fog
+    // Initialize it to the linear value
+    float fogF;
+    if (uFogMode > 0) {
+      fogF = (uFogParms.y - vPosition.z/vPosition.w)/(uFogParms.y - uFogParms.x);
+      if (uFogMode > 1)
+        fogF = mix(uFogParms.w, 1.0, fogF);
+      fogF = fogF*uFogParms.z;
+      if (uFogMode == 2)
+        fogF = 1.0 - exp(-fogF);
+      // Docs are wrong: use (density*c)^2, not density*c^2
+      // https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/mesa/swrast/s_fog.c#L58
+      else if (uFogMode == 3)
+        fogF = 1.0 - exp(-fogF*fogF);
+      fogF = clamp(fogF, 0.0, 1.0);
+      gl_FragColor = vec4(mix(fragColor.rgb, uFogColor, fogF), fragColor.a);
+    } else gl_FragColor = fragColor;
+#else
+    gl_FragColor = fragColor;
+#endif // HAS_FOG
+    
+}
+</script><!--/html_preserve-->
+<script src="site_libs/CanvasMatrix4-0.111.6/CanvasMatrix.src.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style/tutorial_theme.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo"style="height: 25px;" src="geomorph.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GM Preliminaries
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1.1-GeomorphDataTypes.html">Geomorph Data Types</a>
+    </li>
+    <li>
+      <a href="1.2-ReadingData.html">Reading Data</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data Manipulation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.3.1-GeomorphDataFrame.html">Geomorph Data Frame</a>
+        </li>
+        <li>
+          <a href="1.3.2-CombineLmkConfig.html">Combine Landmark Configurations (combine.subsets)</a>
+        </li>
+        <li>
+          <a href="1.3.3-Interlmkdist.html">Interlandmark Distances (interlmkdist)</a>
+        </li>
+        <li>
+          <a href="1.3.4-Flip-RotateLmks.html">Rotate or Flip Landmark Configurations (rotate.coords)</a>
+        </li>
+        <li>
+          <a href="1.3.5-AllAboutArrays.html">Create 3D Array (arrayspecs)</a>
+        </li>
+        <li>
+          <a href="1.3.6-Two.d.array.html">Convert Array to Matrix (two.d.array)</a>
+        </li>
+        <li>
+          <a href="1.3.7-EstMissing.html">Estimating Missing Landmarks</a>
+        </li>
+        <li>
+          <a href="1.3.8-IdentifyOutliers.html">Outlier Identification</a>
+        </li>
+        <li>
+          <a href="1.3.9-StandardizeArticulations.html">Standardizing Articulations</a>
+        </li>
+        <li>
+          <a href="1.3.10-SymmetricShapeGeneration.html">Symmetric Shape Generation</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">R Data Basics</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.4.1-SpecimenNames.html">Adding &amp; Changing Specimen Names</a>
+        </li>
+        <li>
+          <a href="1.4.2-ExtractingClassifiers.html">Extracting Classifiers</a>
+        </li>
+        <li class="dropdown-header">Reflecting Landmarks</li>
+        <li>
+          <a href="1.4.3-SwappingLandmarks.html">Swapping Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.4-DeletingSpecLmk.html">Delete Specs. and Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.5-MatchSpectoPhy.html">Matching Data to a Phylogeny</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Procrustes Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="2.1-GPAIntro.html">GPA Introduction</a>
+    </li>
+    <li>
+      <a href="2.2-GPAfixedlmks.html">GPA with fixed landmarks</a>
+    </li>
+    <li>
+      <a href="2.3-GPAcurves.html">GPA with curve semilandmarks</a>
+    </li>
+    <li>
+      <a href="2.4-GPAsurface.html">GPA with surface semilandmarks</a>
+    </li>
+    <li class="dropdown-header">gpagen Advanced Options</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Linear Models</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">ANOVA/Regression (ProcD.lm)</a>
+        </li>
+        <li>
+          <a href="3.1.2-Phylo-ANOVA-Regression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.1.3-Trajectoryanalysis.html">Phenotypic Trajectory Analysis</a>
+        </li>
+        <li>
+          <a href="3.1.4-Pairwisecomp.html">Pairwise Comparisons (pairwise)</a>
+        </li>
+        <li>
+          <a href="3.1.5-TwoBPLS.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.1.6-Bilatsymmanalysis.html">Analysis of Bilateral Symmetry (bilat.symmetry)</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shape Patterns</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.2.1-twobpls.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.2-integrationtest.html">Integration Test</a>
+        </li>
+        <li>
+          <a href="3.2.3-modularitytest.html">Modularity Test</a>
+        </li>
+        <li>
+          <a href="3.2.4-overallintegration.html">Overall Integration for a Set of Traits</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.2.7-globalintegration.html">Global Integration</a>
+        </li>
+        <li>
+          <a href="3.2.8-compareCR.html">Comparison of Modularity (compare.CR)</a>
+        </li>
+        <li>
+          <a href="3.2.9-comparepls.html">Comparison of Integration (compare.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.10-compareZVrel.html">Comparison of Overall Integration</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Phylogenetic Comparative Methods</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.3.1-compareevolrates.html">Compare Evolutionary Rates (compare.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.3.2-comparemultievol.html">Compare Multiple Evolutionary Rates (compare.multi.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Morphological Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.3.3-physignal.html">Assessing Phylogenetic Signal (physignal)</a>
+        </li>
+        <li>
+          <a href="3.3.4-physignalz.html">Assessing Phylogenetic Signal Effect Size (physignal.z)</a>
+        </li>
+        <li>
+          <a href="3.3.5-comparephysigz.html">Comparing Phylogenetic Signal Effect Sizes (compare.physignal.z)</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualizations
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="4.1-plotallspec.html">Plot Full Landmark Dataset (plotAllSpecimens)</a>
+    </li>
+    <li>
+      <a href="4.2-plotreftarg.html">Plot Shape Differences (plotRefToTarget)</a>
+    </li>
+    <li>
+      <a href="4.3-shapepred.html">Shape Prediction from Numeric Predictors (shape.predictor)</a>
+    </li>
+    <li>
+      <a href="4.4-Ordplot.html">Ordination: PCA, pPCA, and PaCA Analyses (gm.prcomp)</a>
+    </li>
+    <li>
+      <a href="4.5-plotallometry.html">Plot Allometry</a>
+    </li>
+    <li>
+      <a href="4.6-plotspec.html">Plot 3D Specimen (plotspec)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Common Workflows
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="5.1-Group-Comparisons.html">Group Comparisons</a>
+    </li>
+    <li>
+      <a href="4.2-VisShapeDiff.html">Visualizing Shape Differences</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><strong>Visualizing a Full Landmark
+Dataset</strong></h1>
+<h4 class="author">Mark A. Conaway</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2><strong>Introduction</strong></h2>
+<p>A useful step to visualize patterns of shape variation of a set of
+specimens (after <a href="">GPA</a>) is to display all landmark
+coordinates for all specimens in a single plot. This can be done using
+the <code>plotAllSpecimens</code> function in geomorph.</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>plotAllSpecimens()</code> </font>
+</summary>
+<ul>
+<li><span class="math inline">\(A\)</span>: A <a href="">3D array</a> (p
+x k x n) containing Procrustes shape variables for a set of
+specimens.</li>
+<li><span class="math inline">\(mean\)</span>: A logical value (TRUE or
+FALSE) indicating whether the mean shape should be included in the
+plot.</li>
+<li><span class="math inline">\(links\)</span>: An optional matrix
+defining for links between landmarks (only if mean=TRUE).</li>
+<li><span class="math inline">\(label\)</span>: A logical value
+indicating whether landmark numbers will be plotted (only if
+mean=TRUE).</li>
+<li><span class="math inline">\(plot.param\)</span>: A list of plot
+parameters for the points (pt.bg, pt.cex), mean (mean.bg, mean.cex),
+links (link.col, link.lwd, link.lty) and landmark labels (txt.cex,
+txt.adj, txt.pos, txt.col).</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+</div>
+<div id="plotting-two-dimensional-landmark-data" class="section level2">
+<h2><strong>Plotting two-dimensional landmark data</strong></h2>
+<p>With two-dimensional data, <code>plotAllSpecimens</code> returns a
+plot like this:</p>
+<div class="code">
+<pre class="r custom-inline"><code>plotAllSpecimens(gpagen(plethodon$land)$coords)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="4.1-plotallspec_files/figure-html/2dplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="adding-landmark-links" class="section level2">
+<h2><strong>Adding landmark links</strong></h2>
+<p>Additionally, links between landmarks can be specified in order to
+generate a wireframe to more easily visualize shape variation. The input
+for this argument is a matrix of this format:</p>
+<div class="code">
+<pre class="r custom-inline"><code>plethodon$links</code></pre>
+<pre class="custom-inline"><code>##       [,1] [,2]
+##  [1,]    4    5
+##  [2,]    3    5
+##  [3,]    2    4
+##  [4,]    1    2
+##  [5,]    1    3
+##  [6,]    6    7
+##  [7,]    7    8
+##  [8,]    8    9
+##  [9,]    9   10
+## [10,]   10   11
+## [11,]   11   12
+## [12,]   12    1
+## [13,]    1    9
+## [14,]    1   10</code></pre>
+</div>
+<p><br></br></p>
+<div class="code">
+<pre class="r custom-inline"><code>plotAllSpecimens(gpagen(plethodon$land)$coords, links = plethodon$links)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="4.1-plotallspec_files/figure-html/2dplotlink-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plotting-three-dimensional-landmark-data"
+class="section level2">
+<h2><strong>Plotting three-dimensional landmark data</strong></h2>
+<p>Plotting 3D data is done the same way as with two dimensional data,
+but the output is an interactive plot that opens automatically in a new
+window. Links between landmarks can likewise be added to a 3D plot.</p>
+<div class="code">
+<pre class="r custom-inline"><code>plotAllSpecimens(gpagen(scallops$coorddata)$coords)</code></pre>
+</div>
+<p><br></br></p>
+<div id="rgl28604" style="width:672px;height:480px;" class="rglWebGL html-widget "></div>
+<script type="application/json" data-for="rgl28604">{"x":{"material":{"color":"#000000","alpha":1,"lit":true,"ambient":"#000000","specular":"#FFFFFF","emission":"#000000","shininess":50,"smooth":true,"front":"filled","back":"filled","size":3,"lwd":1,"fog":true,"point_antialias":false,"line_antialias":false,"texture":null,"textype":"rgb","texmipmap":false,"texminfilter":"linear","texmagfilter":"linear","texenvmap":false,"depth_mask":true,"depth_test":"less","isTransparent":false,"polygon_offset":[0,0],"margin":"","floating":false,"tag":"","blend":["src_alpha","one_minus_src_alpha"]},"rootSubscene":28,"objects":{"43":{"id":43,"type":"spheres","material":{},"vertices":"0","colors":"1","radii":[[0.00735638523474336]],"centers":"2","ignoreExtent":false,"fastTransparency":true,"flags":32771},"45":{"id":45,"type":"text","material":{"lit":false,"margin":0,"edge":[0,1,1]},"vertices":"3","colors":"4","texts":[["Fluctuating Asymmetry"]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"5","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"46":{"id":46,"type":"text","material":{"lit":false,"margin":0,"floating":true,"edge":[0,1,1]},"vertices":"6","colors":"7","texts":[[""]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"8","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"47":{"id":47,"type":"text","material":{"lit":false,"margin":1,"floating":true,"edge":[1,1,1]},"vertices":"9","colors":"10","texts":[[""]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"11","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"48":{"id":48,"type":"text","material":{"lit":false,"margin":2,"floating":true,"edge":[1,1,1]},"vertices":"12","colors":"13","texts":[[""]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"14","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"49":{"id":49,"type":"spheres","material":{},"vertices":"15","colors":"16","radii":[[0.00514882290735841]],"centers":"17","ignoreExtent":false,"fastTransparency":true,"flags":32771},"56":{"id":56,"type":"spheres","material":{},"vertices":"18","colors":"19","radii":[[0.00808579940348864]],"centers":"20","ignoreExtent":false,"fastTransparency":true,"flags":32771},"58":{"id":58,"type":"text","material":{"lit":false,"margin":0,"floating":true,"edge":[0,1,1]},"vertices":"21","colors":"22","texts":[["x"]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"23","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"59":{"id":59,"type":"text","material":{"lit":false,"margin":1,"floating":true,"edge":[1,1,1]},"vertices":"24","colors":"25","texts":[["y"]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"26","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"60":{"id":60,"type":"text","material":{"lit":false,"margin":2,"floating":true,"edge":[1,1,1]},"vertices":"27","colors":"28","texts":[["z"]],"cex":[[1]],"adj":[[0.5,0.5,0.5]],"centers":"29","family":[["sans"]],"font":[[1]],"ignoreExtent":true,"flags":33808},"61":{"id":61,"type":"points","material":{"lit":false,"size":4},"vertices":"30","colors":"31","centers":"32","ignoreExtent":false,"flags":34816},"32":{"id":32,"type":"light","vertices":[[0,0,1]],"colors":[[1,1,1,1],[1,1,1,1],[1,1,1,1]],"viewpoint":true,"finite":false},"33":{"id":33,"type":"background","material":{"lit":false,"back":"lines"},"colors":"33","centers":"34","sphere":false,"fogtype":"none","fogscale":1,"flags":32768},"44":{"id":44,"type":"bboxdeco","material":{"front":"culled","back":"culled"},"colors":"35","axes":{"mode":["none","none","none"],"step":[-1,-1,-1],"nticks":[0,0,0],"marklen":[15,15,15],"expand":[1.02999997138977,1.02999997138977,1.02999997138977]},"draw_front":false,"flags":32769},"57":{"id":57,"type":"bboxdeco","material":{"front":"lines","back":"lines"},"vertices":"36","colors":"37","axes":{"mode":["pretty","pretty","pretty"],"step":[0.100000001490116,0.100000001490116,0.0199999995529652],"nticks":[5,5,5],"marklen":[15,15,15],"expand":[1.02999997138977,1.02999997138977,1.02999997138977]},"draw_front":true,"flags":32769},"34":{"id":34,"type":"subscene","par3d":{"antialias":8,"FOV":30,"ignoreExtent":false,"listeners":34,"mouseMode":{"none":"none","left":"trackball","right":"zoom","middle":"fov","wheel":"pull"},"observer":[0,0,1.43289983272552],"modelMatrix":[[1,0,0,0.00482117384672165],[0,0.342020153999329,0.939692616462708,-0.00553697161376476],[0,-0.939692616462708,0.342020153999329,-1.44632983207703],[0,0,0,1]],"projMatrix":[[3.73205089569092,0,0,0],[0,1.86602544784546,0,0],[0,0,-3.86370325088501,-5.16543817520142],[0,0,-1,0]],"skipRedraw":false,"userMatrix":[[1,0,0,0],[0,0.342020143325668,0.939692620785909,0],[0,-0.939692620785909,0.342020143325668,0],[0,0,0,1]],"userProjection":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],"scale":[1,1,1],"viewport":{"x":0,"y":0,"width":0.5,"height":1},"zoom":1,"bbox":[-0.198929488658905,0.189287140965462,-0.222828298807144,0.201375707983971,-0.0455037467181683,0.0650964975357056],"windowRect":[0,0,256,256],"family":"sans","font":1,"cex":1,"useFreeType":false,"fontname":"NULL","maxClipPlanes":2147483647,"glVersion":"NA","activeSubscene":0},"embeddings":{"viewport":"replace","projection":"replace","model":"replace","mouse":"inherit"},"objects":[57,56,58,59,60,61,32],"parent":28,"subscenes":[],"flags":36115},"35":{"id":35,"type":"subscene","par3d":{"antialias":8,"FOV":30,"ignoreExtent":false,"listeners":35,"mouseMode":{"none":"none","left":"trackball","right":"zoom","middle":"fov","wheel":"pull"},"observer":[0,0,1.31826639175415],"modelMatrix":[[1,0,0,-0.00556361675262451],[0,0.342020153999329,0.939692616462708,-0.00853950437158346],[0,-0.939692616462708,0.342020153999329,-1.31796491146088],[0,0,0,1]],"projMatrix":[[3.73205089569092,0,0,0],[0,1.86602544784546,0,0],[0,0,-3.86370301246643,-4.752197265625],[0,0,-1,0]],"skipRedraw":false,"userMatrix":[[1,0,0,0],[0,0.342020143325668,0.939692620785909,0],[0,-0.939692620785909,0.342020143325668,0],[0,0,0,1]],"userProjection":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],"scale":[1,1,1],"viewport":{"x":0.5,"y":0,"width":0.5,"height":1},"zoom":1,"bbox":[-0.185692995786667,0.196820229291916,-0.181934550404549,0.188342407345772,-0.0333192087709904,0.0491620413959026],"windowRect":[0,0,256,256],"family":"sans","font":1,"cex":1,"useFreeType":false,"fontname":"NULL","maxClipPlanes":2147483647,"glVersion":"NA","activeSubscene":0},"embeddings":{"viewport":"replace","projection":"replace","model":"replace","mouse":"inherit"},"objects":[44,43,45,46,47,48,49,32],"parent":28,"subscenes":[],"flags":34067},"28":{"id":28,"type":"subscene","par3d":{"antialias":8,"FOV":30,"ignoreExtent":false,"listeners":28,"mouseMode":{"none":"none","left":"trackball","right":"zoom","middle":"fov","wheel":"pull"},"observer":[0,0,823.132080078125],"modelMatrix":[[1,0,0,0],[0,0.342020153999329,0.939692616462708,0],[0,-0.939692616462708,0.342020153999329,-823.132080078125],[0,0,0,1]],"projMatrix":[[3.73205065727234,0,0,0],[0,3.73205065727234,0,0],[0,0,-3.86370372772217,-2967.29638671875],[0,0,-1,0]],"skipRedraw":false,"userMatrix":[[1,0,0,0],[0,0.342020143325668,0.939692620785909,0],[0,-0.939692620785909,0.342020143325668,0],[0,0,0,1]],"userProjection":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],"scale":[1,1,1],"viewport":{"x":0,"y":0,"width":1,"height":1},"zoom":1,"bbox":[123,-123,123,-123,123,-123],"windowRect":[0,0,256,256],"family":"sans","font":1,"cex":1,"useFreeType":false,"fontname":"NULL","maxClipPlanes":2147483647,"glVersion":"NA","activeSubscene":0},"embeddings":{"viewport":"replace","projection":"replace","model":"replace","mouse":"replace"},"objects":[33,32,34,35],"subscenes":[34,35],"flags":36115}},"crosstalk":{"key":[],"group":[],"id":[],"options":[]},"width":672,"height":480,"buffer":{"accessors":[{"bufferView":0,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":1,"componentType":5126,"count":1,"type":"VEC4"},{"bufferView":2,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":3,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":4,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":5,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":6,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":7,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":8,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":9,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":10,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":11,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":12,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":13,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":14,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":15,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":16,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":17,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":18,"componentType":5126,"count":230,"type":"VEC3"},{"bufferView":19,"componentType":5126,"count":1,"type":"VEC4"},{"bufferView":20,"componentType":5126,"count":230,"type":"VEC3"},{"bufferView":21,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":22,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":23,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":24,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":25,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":26,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":27,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":28,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":29,"componentType":5126,"count":1,"type":"VEC3"},{"bufferView":30,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":31,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":32,"componentType":5126,"count":46,"type":"VEC3"},{"bufferView":33,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":34,"componentType":5121,"count":1,"type":"VEC3"},{"bufferView":35,"componentType":5121,"count":1,"type":"VEC4"},{"bufferView":36,"componentType":5126,"count":14,"type":"VEC3"},{"bufferView":37,"componentType":5121,"count":1,"type":"VEC4"}],"bufferViews":[{"buffer":0,"byteLength":552,"byteOffset":0},{"buffer":0,"byteLength":16,"byteOffset":552},{"buffer":0,"byteLength":552,"byteOffset":568},{"buffer":0,"byteLength":12,"byteOffset":1120},{"buffer":0,"byteLength":4,"byteOffset":1132},{"buffer":0,"byteLength":12,"byteOffset":1136},{"buffer":0,"byteLength":12,"byteOffset":1148},{"buffer":0,"byteLength":4,"byteOffset":1160},{"buffer":0,"byteLength":12,"byteOffset":1164},{"buffer":0,"byteLength":12,"byteOffset":1176},{"buffer":0,"byteLength":4,"byteOffset":1188},{"buffer":0,"byteLength":12,"byteOffset":1192},{"buffer":0,"byteLength":12,"byteOffset":1204},{"buffer":0,"byteLength":4,"byteOffset":1216},{"buffer":0,"byteLength":12,"byteOffset":1220},{"buffer":0,"byteLength":552,"byteOffset":1232},{"buffer":0,"byteLength":4,"byteOffset":1784},{"buffer":0,"byteLength":552,"byteOffset":1788},{"buffer":0,"byteLength":2760,"byteOffset":2340},{"buffer":0,"byteLength":16,"byteOffset":5100},{"buffer":0,"byteLength":2760,"byteOffset":5116},{"buffer":0,"byteLength":12,"byteOffset":7876},{"buffer":0,"byteLength":4,"byteOffset":7888},{"buffer":0,"byteLength":12,"byteOffset":7892},{"buffer":0,"byteLength":12,"byteOffset":7904},{"buffer":0,"byteLength":4,"byteOffset":7916},{"buffer":0,"byteLength":12,"byteOffset":7920},{"buffer":0,"byteLength":12,"byteOffset":7932},{"buffer":0,"byteLength":4,"byteOffset":7944},{"buffer":0,"byteLength":12,"byteOffset":7948},{"buffer":0,"byteLength":552,"byteOffset":7960},{"buffer":0,"byteLength":4,"byteOffset":8512},{"buffer":0,"byteLength":552,"byteOffset":8516},{"buffer":0,"byteLength":4,"byteOffset":9068},{"buffer":0,"byteLength":3,"byteOffset":9072},{"buffer":0,"byteLength":4,"byteOffset":9075},{"buffer":0,"byteLength":168,"byteOffset":9080},{"buffer":0,"byteLength":4,"byteOffset":9248}],"buffers":[{"byteLength":9252,"bytes":"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\nBlN/vJMr8j29+A48Zk0rPAMYKT438NY84723u0vMpj0UeJm9pup9PKGbUjyAP328B1IhPd53\n3T3sDIg9cWMtPOY/mL2wJx4+6vRlu7ysvTxz3SY+63hKu8xXvr3tcky93CJmPNM0u70d88q9\nTJh7Ogu1Br6y2LG9db6Yuwld/bsQXQm+Pe9EvO0l8b0eJZG7fclSPJcplT2BdOW8YVrzPJnI\ngr3clf29bMJPvIEA4bzsITG+mNanvHvigz0I6Ay+EBfEvFf8Hz7NWci93W6svL6fDT5NfU69\nsvZIvAdGOD5B/Dc8TxQMvJLlLj7JS4E9+Xeru1GsDT6ceOM9sGbYuyUNuj1Ifho+gQpAvJ0i\ngTw82zQ+SrllvCc3rL09Vik+Eq6evBWwHr5PQto9TkuNvF0kPr6QcA49jYh6vGT8P76bA8S8\nDM8CvETgLb5KCq+9rd3mu8BA/r2N0vC98C4cvFyc/rzSzcs946yNPOylxzxh5La9YVWyPLhw\nuj2TzAc+IpWXu2upTr0mm+W9o+PlO9/cJ764T/o8PaCuuzR+PD1jqMU9pgVWPHe/Wr3qNMK6\nw+TLPHZ1tL2pzlc9NZJsPKH9C75Oubw9tF/Vu7dF4zqG5zI9/kPqPLUBEz4fya49zvw4u7HP\nCT6NYUK9t/X2umE6mD04vPS9MKz6u2i7K766NAu9S1ZKu+IegT1LYd08F+/NPP8vJr3UoIK9\nnVSlPJ/ZAj5T4r69VjRuvNiW+T0foKs7+7U2PCF1KT5GdOU8XO/2ur1euD2G1KG9xLswPGEQ\ngDyDxLy8ysQLPSfk3D1EbIU9k74IPLlXjr3KPxc+G1Dsu/uTrDw29CA+spKIuyrMyb1b4Ve9\no7w4PCL+zr1JK9O9AHVBO/C6E77Oaau9szqxupbUprordAu+QLIovMtW8r1X1Z26wyAYPJue\noj0riQm96zbFPPCdCb0PGRK+59jKvIerRLutjES++swCvX9Ejz2IjSm+FhnvvBziNz4Y5um9\nkEMZvaTuBz6+Yx29FUXpvHbbJj7wllg8L5vlvPYRHz4pwKU9kx75vMyT7j13PgQ+qg30vJwv\nhT13cR8+NzeqvMEEM7xXcis+LW/bvPlvjb2iyh0+spGsvL5H9L3vowA+9zX2vO57L763r4g9\nQvX1vBuuPb5BYE88WvPLvI7RNr4iRlO9yniovKui5r3oxdq9v/6evAeGC72aJrw9s9zoPKCW\n+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\nIz0AAMB/AADAf4/CdT0AAAAB"}]},"context":{"shiny":false,"rmarkdown":null},"vertexShader":"#line 2 1\n// File 1 is the vertex shader\n#ifdef GL_ES\n#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n#endif\n\nattribute vec3 aPos;\nattribute vec4 aCol;\nuniform mat4 mvMatrix;\nuniform mat4 prMatrix;\nvarying vec4 vCol;\nvarying vec4 vPosition;\n\n#ifdef NEEDS_VNORMAL\nattribute vec3 aNorm;\nuniform mat4 normMatrix;\nvarying vec4 vNormal;\n#endif\n\n#if defined(HAS_TEXTURE) || defined (IS_TEXT)\nattribute vec2 aTexcoord;\nvarying vec2 vTexcoord;\n#endif\n\n#ifdef FIXED_SIZE\nuniform vec3 textScale;\n#endif\n\n#ifdef FIXED_QUADS\nattribute vec3 aOfs;\n#endif\n\n#ifdef IS_TWOSIDED\n#ifdef HAS_NORMALS\nvarying float normz;\nuniform mat4 invPrMatrix;\n#else\nattribute vec3 aPos1;\nattribute vec3 aPos2;\nvarying float normz;\n#endif\n#endif // IS_TWOSIDED\n\n#ifdef FAT_LINES\nattribute vec3 aNext;\nattribute vec2 aPoint;\nvarying vec2 vPoint;\nvarying float vLength;\nuniform float uAspect;\nuniform float uLwd;\n#endif\n\n\nvoid main(void) {\n  \n#ifndef IS_BRUSH\n#if defined(NCLIPPLANES) || !defined(FIXED_QUADS) || defined(HAS_FOG)\n  vPosition = mvMatrix * vec4(aPos, 1.);\n#endif\n  \n#ifndef FIXED_QUADS\n  gl_Position = prMatrix * vPosition;\n#endif\n#endif // !IS_BRUSH\n  \n#ifdef IS_POINTS\n  gl_PointSize = POINTSIZE;\n#endif\n  \n  vCol = aCol;\n  \n#ifdef NEEDS_VNORMAL\n  vNormal = normMatrix * vec4(-aNorm, dot(aNorm, aPos));\n#endif\n  \n#ifdef IS_TWOSIDED\n#ifdef HAS_NORMALS\n  /* normz should be calculated *after* projection */\n  normz = (invPrMatrix*vNormal).z;\n#else\n  vec4 pos1 = prMatrix*(mvMatrix*vec4(aPos1, 1.));\n  pos1 = pos1/pos1.w - gl_Position/gl_Position.w;\n  vec4 pos2 = prMatrix*(mvMatrix*vec4(aPos2, 1.));\n  pos2 = pos2/pos2.w - gl_Position/gl_Position.w;\n  normz = pos1.x*pos2.y - pos1.y*pos2.x;\n#endif\n#endif // IS_TWOSIDED\n  \n#ifdef NEEDS_VNORMAL\n  vNormal = vec4(normalize(vNormal.xyz/vNormal.w), 1);\n#endif\n  \n#if defined(HAS_TEXTURE) || defined(IS_TEXT)\n  vTexcoord = aTexcoord;\n#endif\n  \n#if defined(FIXED_SIZE) && !defined(ROTATING)\n  vec4 pos = prMatrix * mvMatrix * vec4(aPos, 1.);\n  pos = pos/pos.w;\n  gl_Position = pos + vec4(aOfs*textScale, 0.);\n#endif\n  \n#if defined(IS_SPRITES) && !defined(FIXED_SIZE)\n  vec4 pos = mvMatrix * vec4(aPos, 1.);\n  pos = pos/pos.w + vec4(aOfs,  0.);\n  gl_Position = prMatrix*pos;\n#endif\n  \n#ifdef FAT_LINES\n  /* This code was inspired by Matt Deslauriers' code in \n   https://mattdesl.svbtle.com/drawing-lines-is-hard */\n  vec2 aspectVec = vec2(uAspect, 1.0);\n  mat4 projViewModel = prMatrix * mvMatrix;\n  vec4 currentProjected = projViewModel * vec4(aPos, 1.0);\n  currentProjected = currentProjected/currentProjected.w;\n  vec4 nextProjected = projViewModel * vec4(aNext, 1.0);\n  vec2 currentScreen = currentProjected.xy * aspectVec;\n  vec2 nextScreen = (nextProjected.xy / nextProjected.w) * aspectVec;\n  float len = uLwd;\n  vec2 dir = vec2(1.0, 0.0);\n  vPoint = aPoint;\n  vLength = length(nextScreen - currentScreen)/2.0;\n  vLength = vLength/(vLength + len);\n  if (vLength > 0.0) {\n    dir = normalize(nextScreen - currentScreen);\n  }\n  vec2 normal = vec2(-dir.y, dir.x);\n  dir.x /= uAspect;\n  normal.x /= uAspect;\n  vec4 offset = vec4(len*(normal*aPoint.x*aPoint.y - dir), 0.0, 0.0);\n  gl_Position = currentProjected + offset;\n#endif\n  \n#ifdef IS_BRUSH\n  gl_Position = vec4(aPos, 1.);\n#endif\n}","fragmentShader":"#line 2 2\n// File 2 is the fragment shader\n#ifdef GL_ES\n#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n#endif\nvarying vec4 vCol; // carries alpha\nvarying vec4 vPosition;\n#if defined(HAS_TEXTURE) || defined (IS_TEXT)\nvarying vec2 vTexcoord;\nuniform sampler2D uSampler;\n#endif\n\n#ifdef HAS_FOG\nuniform int uFogMode;\nuniform vec3 uFogColor;\nuniform vec4 uFogParms;\n#endif\n\n#if defined(IS_LIT) && !defined(FIXED_QUADS)\nvarying vec4 vNormal;\n#endif\n\n#if NCLIPPLANES > 0\nuniform vec4 vClipplane[NCLIPPLANES];\n#endif\n\n#if NLIGHTS > 0\nuniform mat4 mvMatrix;\n#endif\n\n#ifdef IS_LIT\nuniform vec3 emission;\nuniform float shininess;\n#if NLIGHTS > 0\nuniform vec3 ambient[NLIGHTS];\nuniform vec3 specular[NLIGHTS]; // light*material\nuniform vec3 diffuse[NLIGHTS];\nuniform vec3 lightDir[NLIGHTS];\nuniform bool viewpoint[NLIGHTS];\nuniform bool finite[NLIGHTS];\n#endif\n#endif // IS_LIT\n\n#ifdef IS_TWOSIDED\nuniform bool front;\nvarying float normz;\n#endif\n\n#ifdef FAT_LINES\nvarying vec2 vPoint;\nvarying float vLength;\n#endif\n\nvoid main(void) {\n  vec4 fragColor;\n#ifdef FAT_LINES\n  vec2 point = vPoint;\n  bool neg = point.y < 0.0;\n  point.y = neg ? (point.y + vLength)/(1.0 - vLength) :\n                 -(point.y - vLength)/(1.0 - vLength);\n#if defined(IS_TRANSPARENT) && defined(IS_LINESTRIP)\n  if (neg && length(point) <= 1.0) discard;\n#endif\n  point.y = min(point.y, 0.0);\n  if (length(point) > 1.0) discard;\n#endif // FAT_LINES\n  \n#ifdef ROUND_POINTS\n  vec2 coord = gl_PointCoord - vec2(0.5);\n  if (length(coord) > 0.5) discard;\n#endif\n  \n#if NCLIPPLANES > 0\n  for (int i = 0; i < NCLIPPLANES; i++)\n    if (dot(vPosition, vClipplane[i]) < 0.0) discard;\n#endif\n    \n#ifdef FIXED_QUADS\n    vec3 n = vec3(0., 0., 1.);\n#elif defined(IS_LIT)\n    vec3 n = normalize(vNormal.xyz);\n#endif\n    \n#ifdef IS_TWOSIDED\n    if ((normz <= 0.) != front) discard;\n#endif\n    \n#ifdef IS_LIT\n    vec3 eye = normalize(-vPosition.xyz/vPosition.w);\n    vec3 lightdir;\n    vec4 colDiff;\n    vec3 halfVec;\n    vec4 lighteffect = vec4(emission, 0.);\n    vec3 col;\n    float nDotL;\n#ifdef FIXED_QUADS\n    n = -faceforward(n, n, eye);\n#endif\n    \n#if NLIGHTS > 0\n    for (int i=0;i<NLIGHTS;i++) {\n      colDiff = vec4(vCol.rgb * diffuse[i], vCol.a);\n      lightdir = lightDir[i];\n      if (!viewpoint[i])\n        lightdir = (mvMatrix * vec4(lightdir, 1.)).xyz;\n      if (!finite[i]) {\n        halfVec = normalize(lightdir + eye);\n      } else {\n        lightdir = normalize(lightdir - vPosition.xyz/vPosition.w);\n        halfVec = normalize(lightdir + eye);\n      }\n      col = ambient[i];\n      nDotL = dot(n, lightdir);\n      col = col + max(nDotL, 0.) * colDiff.rgb;\n      col = col + pow(max(dot(halfVec, n), 0.), shininess) * specular[i];\n      lighteffect = lighteffect + vec4(col, colDiff.a);\n    }\n#endif\n    \n#else // not IS_LIT\n    vec4 colDiff = vCol;\n    vec4 lighteffect = colDiff;\n#endif\n    \n#ifdef IS_TEXT\n    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);\n#endif\n    \n#ifdef HAS_TEXTURE\n#ifdef TEXTURE_rgb\n    vec4 textureColor = lighteffect*vec4(texture2D(uSampler, vTexcoord).rgb, 1.);\n#endif\n    \n#ifdef TEXTURE_rgba\n    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);\n#endif\n    \n#ifdef TEXTURE_alpha\n    vec4 textureColor = texture2D(uSampler, vTexcoord);\n    float luminance = dot(vec3(1.,1.,1.), textureColor.rgb)/3.;\n    textureColor =  vec4(lighteffect.rgb, lighteffect.a*luminance);\n#endif\n    \n#ifdef TEXTURE_luminance\n    vec4 textureColor = vec4(lighteffect.rgb*dot(texture2D(uSampler, vTexcoord).rgb, vec3(1.,1.,1.))/3., lighteffect.a);\n#endif\n    \n#ifdef TEXTURE_luminance_alpha\n    vec4 textureColor = texture2D(uSampler, vTexcoord);\n    float luminance = dot(vec3(1.,1.,1.),textureColor.rgb)/3.;\n    textureColor = vec4(lighteffect.rgb*luminance, lighteffect.a*textureColor.a);\n#endif\n    \n    fragColor = textureColor;\n\n#elif defined(IS_TEXT)\n    if (textureColor.a < 0.1)\n      discard;\n    else\n      fragColor = textureColor;\n#else\n    fragColor = lighteffect;\n#endif // HAS_TEXTURE\n    \n#ifdef HAS_FOG\n    // uFogParms elements: x = near, y = far, z = fogscale, w = (1-sin(FOV/2))/(1+sin(FOV/2))\n    // In Exp and Exp2: use density = density/far\n    // fogF will be the proportion of fog\n    // Initialize it to the linear value\n    float fogF;\n    if (uFogMode > 0) {\n      fogF = (uFogParms.y - vPosition.z/vPosition.w)/(uFogParms.y - uFogParms.x);\n      if (uFogMode > 1)\n        fogF = mix(uFogParms.w, 1.0, fogF);\n      fogF = fogF*uFogParms.z;\n      if (uFogMode == 2)\n        fogF = 1.0 - exp(-fogF);\n      // Docs are wrong: use (density*c)^2, not density*c^2\n      // https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/mesa/swrast/s_fog.c#L58\n      else if (uFogMode == 3)\n        fogF = 1.0 - exp(-fogF*fogF);\n      fogF = clamp(fogF, 0.0, 1.0);\n      gl_FragColor = vec4(mix(fragColor.rgb, uFogColor, fogF), fragColor.a);\n    } else gl_FragColor = fragColor;\n#else\n    gl_FragColor = fragColor;\n#endif // HAS_FOG\n    \n}","players":[],"webGLoptions":{"preserveDrawingBuffer":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

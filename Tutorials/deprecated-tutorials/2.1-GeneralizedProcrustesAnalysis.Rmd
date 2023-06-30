@@ -1,0 +1,179 @@
+---
+title: "**Generalized Procrustes Analysis (GPA)**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/GeneralizedProcrustesAnalysis.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, include=FALSE}
+
+```
+
+## **Introduction** 
+
+Many morphometric analyses require that the researcher perform a Generalized Procrustes Analysis (GPA) in order to extract shape variables (that is, variables that do not include information on scale, translation, or rotation) from their landmark data. A GPA can be performed in `geomorph` using the function `gpagen`. This can be done with datasets composed of anatomical (fixed) landmarks as well as those with sliding semilandmarks.
+
+<div class = "code">
+```{r, eval=FALSE}
+plotAllSpecimens(plethodon$land)
+```
+</div>
+<br></br>
+
+```{r, plotallspec, echo=FALSE}
+
+```
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `gpagen() (Expand for more details)` </font> </summary>
+
+* $A$: The input data to be aligned. Must be in [Array](2.1-AllAboutArrays.html) format.
+* $curves$: An optional matrix defining which landmarks should be treated as curve semilandmarks. See below for more details.
+* $surfaces$: An optional input defining which landmarks should be treated as surface semilandmarks.
+* $print.progress$: Logical value indicating whether a progress bar should be printed to the screen.
+
+This is a very large function with several other potential arguments which we describe in the [Advanced Options]() tutorial. See below for a full breakdown of the, also large, output of this function.
+
+</details>
+</div>
+<br></br>
+
+## **Performing a GPA with fixed landmarks**
+
+Input data for the `gpagen` function must be in 3D array format (see the [Reading/Importing Data](1.1-ReadingData.html) tutorial for more information) or an object of class `geomorphShapes`. 
+
+Once you have your data in the proper format you are ready to perform the GPA:
+
+<div class = "code">
+```{r, eval=FALSE}
+GPA <- gpagen(plethodon$land, print.progress = FALSE)
+
+plotAllSpecimens(GPA$coords)
+```
+</div>
+<br></br>
+
+```{r, GPA1, echo=FALSE}
+
+```
+
+## **Performing a GPA with sliding semilandmarks on curves**
+
+Data are input in a similar fashion when performing a GPA with sliding semilandmarks, with one exception. In order for semilandmark sliding to occur, the `gpagen` function requires a 'sliders matrix' identifying which landmarks are to be treated as (sliding) semilandmarks.
+
+<div class = "code">
+```{r, curvedata, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+In the above matrix, the middle column 'slide' lists the landmark numbers for those landmarks that will slide. The 'before' and 'after' columns indicate the anchor points for each slider. For example, the above matrix indicates that landmark 11 should slide between landmarks 1 and 12.
+
+This matrix is specified under the `curves` argument as shown here:
+
+<div class = "code">
+```{r, eval=FALSE}
+GPA <- gpagen(hummingbirds$land, curves = hummingbirds$curvepts, 
+              approxBE = TRUE, print.progress = FALSE)
+plotAllSpecimens(GPA$coords)
+```
+</div>
+<br></br>
+
+```{r, GPA2, echo=FALSE}
+
+```
+
+The example slider matrix above is included as part of the `hummingbirds` dataset embedded in `geomorph`. However you can also create a sliders matrix in R using the function `define.sliders`:
+
+<div class = "code">
+```{r, sliders, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+The result of the above code will be a curve of 10 landmarks, where landmarks 2-9 slide relative to each other and to the anchor points of landmarks 1 and 10.
+
+This code can be adjusted to identify multiple curves as well:
+
+<div class = "code">
+```{r, slidersmulti, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+The above code identifies two separate curves, each of 5 landmarks. Here, landmarks 2, 3, and 4 slide between landmarks 1 and 5; and landmarks 7, 8, and 9, slide between landmarks 6 and 10.
+
+
+## **Performing a GPA with sliding semilandmarks on surfaces**
+
+As with curve semilandmarks, the `gpagen` function requires that the user identify which landmarks are to be treated as surface semilandmarks: 
+
+<div class = "code">
+```{r, surfdata, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+This takes the form of a simple vector (above) that lists the surface semilandmarks. This matrix is specified under the `surfaces` argument as shown here:
+
+<div class = "code">
+```{r, eval=FALSE}
+GPA <- gpagen(scallops$coorddata,curves = scallops$curvslide, surfaces = scallops$surfslide, print.progress = FALSE)
+
+plotAllSpecimens(GPA$coords)
+rglwidget()
+```
+</div>
+<br></br>
+
+```{r, GPA3, fig.align='center'}
+
+```
+
+## **Output** 
+
+The output of this function is a large list, or `gpagen` object with several subsets:
+
+* $coords$: An array of Procrustes shape variables. In other words, the aligned landmark coordinates.
+* $Csize$: A vector of centroid sizes for each specimen.
+* $consensus$: The mean (consensus) configuration, or shape of the input data.
+* $ProcD$: A Procrustes distance matrix for all specimens.
+* $p$: The number of landmarks.
+* $k$: The number of dimensions.
+* $nsliders$: The number of curve semilandmarks.
+* $nsurf$: The number of surface semilandmarks.
+* $call$: The user-input code.
+
+The following gpagen outputs are associated with arguments that are discussed elsewhere, in the [Advanced Options]() tutorial:
+
+* $iter$: The number of GPA iterations until convergence was found.
+* $points.VCV$: A variance-covariance matrix among Procrustes shape variables.
+* $points.var$: Variances of landmark points.
+* $data$: Data frame with a matrix of Procrustes shape variables and centroid size.
+* $Q$: Final convergence criterion value.
+* $slide.method$: Method used to slide semilandmarks.
+
+Each of these subsets can be accessed separately using the '$' operator, like so:
+
+<div class = "code">
+```{r, subset}
+
+```
+</div>
+<br></br>
+
+## **`gpagen` Advanced Options**
+
+There are several other arguments and outputs that may be of use when performing a GPA using `gpagen`. Details for alternatives can be found in [Advanced Options]()
+
+

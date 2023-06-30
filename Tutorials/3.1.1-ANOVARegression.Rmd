@@ -1,0 +1,133 @@
+---
+title: "**ANOVA/Regression**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/ANOVARegression.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r setup, warning=FALSE, include=FALSE}
+library(geomorph)
+data("plethodon")
+```
+
+## **Introduction** 
+
+The geomorph function `procD.lm` quantifies the relative amount of shape variation attributable to one or more factors in a linear model and estimates the probability of this variation ("significance") for a null model, via distributions generated from resampling permutations. Data input is specified by a formula (e.g., y~X), where 'y' specifies the response variables (Procrustes shape variables), and 'X' contains one or more independent variables (discrete or continuous). The response matrix 'y' can be either in the form of a two-dimensional data matrix of dimension (n x [p x k]), or a 3D array (p x n x k). It is assumed that -if the data based on landmark coordinates - the landmarks have previously been aligned using Generalized Procrustes Analysis (GPA) [e.g., with gpagen]. The names specified for the independent (x) variables in the formula represent one or more vectors containing continuous data or factors. It is assumed that the order of the specimens in the shape matrix matches the order of values in the independent variables. Linear model fits (using the lm function) can also be input in place of a formula. Arguments for lm can also be passed on via this function.
+
+In the context of geometric morphometrics, a Procrustes ANOVA allows the researcher to determine the amount of shape variation that can be attributed to one or more other variables.For example, in the [Group Comparisons]() workflow tutorial, we use this function to determine whether cranial shape in the `plethodon` dataset found in geomorph varies by species and by locality. As with any ANOVA or regression method, the primary input is a formula that specifies the response variables (y, or the Procrustes coordinates), and the one or more independent variables (X). This method is best used in conjunction with other functions like [pairwise]() and [shape.predictor]() for more robust analyses.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `procD.lm() (Expand for more details)` </font> </summary>
+
+This function performs a Procrustes ANOVA, allowing the user to determine whether coordinate data are correlated with other independent variables. The required input is a data frame, although the more specific geomorph data frame is recommended. Please note that some of the arguments for this function are not addressed here, but can be found in the separate [Advanced Options]() tutorial.
+
+* $f1$: Formula for the linear model, similar to a regression formula. So, given a dependent variable $y$ and two independent variables $x1$ and $x2$, a possible formula could be something like y~x1+x2
+* $iter$: Number of iterations for significance testing (default of 999)
+* $seed$: Optional argument for setting the seed for random permutations of the resampling procedure. If this is left at NULL, results will be the same when analyses are run multiple times on the same data. This argument can also be set at "random" which will result in varying results when run multiple times.
+* $RRPP$: Logical value ("TRUE" or "FALSE") indicating whether residual randomization should be used for significance testing. See Collyer et al. (2015) for more information on this method. 
+* $SS.type$: The type of sums of squares (SS) used in computation. Input of "I" corresponds to sequential SS, "II" to hierarchical, and "III" to marginal sums of squares.
+* $effect.type$: Specifies the random distribution from which effect size is estimated. Options are "F", "SS", "cohenf", "MS", or "Rsq".
+* $int.first$: Logical value indicating whether interactions of the first main effects should precede subsequent main effects.
+* $data$: The input geomorph data frame (see above)
+
+</details>
+</div>
+<br></br>
+
+With respect to the sums of squares (SS.type) argument, one's choice should be determined in large part by one's data. Each of the three SS types assign variation to variables in different ways. Type I (sequential) SS generally should not be used when one has two or more independent variables (factorial designs) because, as the name suggests, variation will be assigned in the order in which they appear in the formula and do not account for one another. With more than one independent variable, this could incorrectly inflate the importance of the first variable. Type II (hierarchical) sums of squares is best used when there is no interaction term in one's formula. Finally, type III (marginal/partial) SS returns the effect of each variable as if it were entered last in the formula in a standard type I analysis.
+
+## **Example Analysis**
+
+The required input for this function is a data frame including Procrustes-aligned coordinates, but it is highly recommended that a [geomorph data frame]() be used.
+
+<div class = "code">
+```{r, prep}
+
+```
+</div>
+<br></br>
+
+Once the data are prepared, we are ready to run the function:
+
+<div class = "code">
+```{r, fit}
+
+```
+</div>
+<br></br>
+
+Summarizing the results produces the following table:
+
+<div class = "code">
+```{r, sum}
+
+```
+</div>
+<br></br>
+
+Here, each row corresponds to one of the comparisons specified in our formula, and each column is a result for that comparison.
+
+* $Df$ = Degrees of freedom
+* $SS$ = Sum of squares (total variance)
+* $MS$ = Mean Squares
+* $Rsq$ = R-squared (percentage of variance explained by group difference)
+* $F$ = The F value, or variation between sample means/variation within sample means
+* $Z$ = Z-score
+* $Pr(>F)$ = P value
+
+This function produces an object of class "procD.lm", which is a list containing the following:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `procD.lm Output` </font> </summary>
+
+The following is the full output for the `procD.lm` function. Any of these subsets can be accessed using the `$` operator.
+  
+* $aov.table$:	An analysis of variance table; the same as the summary.
+* $call$:	The input code.
+* $coefficients$: A vector or matrix of linear model coefficients.
+* $Y$: The response data, in matrix form.
+* $X$	The model matrix (This will be important for our visualizations later).
+* $QR$:	The decompositions of the model matrix into the product of an orthogonal matrix "Q" and an upper triangular matrix "R" generated from the calculation of eigenvalues.
+* $fitted$:	The fitted values.
+* $residuals$: The residuals (observed responses - fitted responses).
+* $weights$: The weights used in weighted least-squares fitting. If no weights are used, NULL is returned.
+* $Terms$: The results of the terms function applied to the model matrix
+* $term.labels$: The terms used in the input formula for the linear model
+* $data$: The data frame for the model.
+* $SS$: The sums of squares for each term, model residuals, and the total.
+* $SS.type$:	The type of sums of squares. One of type I or type III.
+* $df$: The degrees of freedom for each SS.
+* $R2$:	The coefficient of determination for each model term.
+* $F$: The F values for each model term.
+* $permutations$:	The number of random permutations (including observed) used.
+* $random.SS$: A matrix of random SS found via the resampling procedure used.
+* $random.F$:	A matrix or vector of random F values found via the resampling procedure used.
+* $random.cohenf$: A matrix or vector of random Cohen's f-squared values found via the resampling procedure used.
+* $permutations$: The number of random permutations (including observed) used.
+* $effect.type$: The distribution used to estimate effect-size.
+* $perm.method$: A value indicating whether "Raw" values were shuffled or "RRPP" performed.
+* $gls$: This prefix will be used if a covariance matrix is provided to indicate GLS computations.
+
+</details>
+</div>
+<br></br>
+
+<div class = "note">
+**Important Note!** To see usage of this function incorporated with a full workflow, please see the [Group Comparisons](5.1-Group-Comparisons.html) tutorial.
+</div>
+<br></br>
+
+<details>
+  <summary> <font size="+2"> Advanced Options </font> </summary>
+
+* $Cov$: 
+* $turbo$:
+* $parallel$: 
+  
+</details>
+<br></br>

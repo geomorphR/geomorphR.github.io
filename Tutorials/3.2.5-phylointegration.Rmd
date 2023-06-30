@@ -1,0 +1,91 @@
+---
+title: "**Phylogenetic Integration**"
+author: "Mark A. Conaway & Dean C. Adams"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/phylointegration.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+When one is working with multiple distinct, yet closely related, species, it is important that one's analyses take into account any similarities due to that close relationship. The function `phylointegration` estimates the degree of morphological covariation between two or more sets of variables while accounting for phylogeny using partial least squares (Adams and Felice 2014), and under a Brownian motion model of evolution. As with the functions [integration.test]() and [modularity.test](), input for the function can either be multiple objects containing Procrustes coordinates, or a single object with accompanying vector defining partitions (see below).
+
+For this analysis, the phylogenetic relationships among taxa are described by the phylogeny, which in R is an object of class "phylo". Note that there is a slight difference between `geomorph` and `RRPP` in how phylogenetic information is provided by the user. In geomorph, phylogenetic information is generally provided as a phylogeny of class "phylo". This object is then converted to a phylogenetic covariance matrix by the internal analytics of the function. By contrast, in RRPP the user must first calculate the phylogenetic covariance matrix, and then provide this to the analytical functions to incorporate phylogenetic information. Users should be aware of this slight difference, as several `geomorph` functions call underlying `RRPP` functions (e.g., `procD.pgls` in geomorph calls `lm.rrpp` in RRPP).
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `phylo.integration()` </font> </summary>
+  
+* $A$: A 2D array (n x [p1 x k1]) or 3D array (p1 x k1 x n) containing Procrustes shape variables for the first block
+* $A2$: An optional 2D array (n x [p2 x k2]) or 3D array (p2 x k2 x n) containing Procrustes shape variables for the second block
+* $phy$: A [phylogenetic tree]() of class phylo
+* $partition.gp$: A list of which landmarks (or variables) belong in which partition: (e.g. A, A, A, B, B, B, C, C, C). Required when only one dataset is provided.
+* $iter$: Number of iterations for significance testing
+* $seed$: An optional argument for setting the seed for random permutations of the resampling procedure. If left NULL (the default), the exact same P-values will be found for repeated runs of the analysis (with the same number of iterations). If seed = "random", a random seed will be used, and P-values will vary. One can also specify an integer for specific seed values, which might be of interest for advanced users.
+* $print.progress$: A logical (TRUE/FALSE) value to indicate whether a progress bar should be printed to the screen. This is helpful for long-running analyses.
+
+</details>
+</div>
+<br></br>
+
+## **Example of Analysis of Phylogenetic Integration**
+
+For this example, we first create a vector (lmkpart) that defines the partitions of our data. Then we run the analyses, including our phylogeny as an argument of the function. The phylogenetic tree and landmarks included in this example are from the "plethspecies" dataset, available by default with `geomorph`.
+
+<div class = "code">
+```{r, part}
+
+```
+</div>
+<br></br>
+
+Just like with the function `integration.test`, results can be summarized using the base R function `summary`, and visualized using the base R function `plot`
+
+```{r, sum}
+
+```
+
+<div class = "code">
+```{r, eval=FALSE}
+plot(IT)
+```
+</div>
+<br></br>
+
+```{r, plot, echo=FALSE}
+
+```
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `phylointegration` Output </font> </summary>
+
+This function returns an object of class "pls" that contains the following values, each of which can be accessed separately with the $ operator.
+  
+*  $r.pls$:	The correlation coefficient between scores of projected values on the first singular vectors of left (x) and right (y) blocks of landmarks (or other variables). This value can only be negative if single variables are input, as it reduces to the Pearson correlation coefficient.
+* $r.pls.mat$: The pairwise r.pls, if the number of partitions is greater than 2.
+* $P.value$:	The empirically calculated P-value from the resampling procedure.
+* $Effect.Size$: The multivariate effect size associated with sigma.d.ratio.
+* $left.pls.vectors$:	The singular vectors of the left (x) block
+* $right.pls.vectors$:	The singular vectors of the right (y) block
+* $random.r$:	The correlation coefficients found in each random permutation of the resampling procedure.
+* $XScores$:	Values of left (x) block projected onto singular vectors.
+* $YScores$:	Values of right (y) block projected onto singular vectors.
+* $svd$:	The singular value decomposition of the cross-covariances.
+* $A1$:	Input values for the left block (for 2 modules only).
+* $A2$:	Input values for the right block (for 2 modules only).
+* $A1.matrix$:	Left block (matrix) found from A1.
+* $A2.matrix$:Right block (matrix) found from A2.
+* $Pcov$: The phylogenetic transformation matrix, needed for certain other analyses.
+* $permutations$:	The number of random permutations used in the resampling procedure.
+* $call$:	The match call (input code).
+  
+</details>
+</div>
+<br></br>

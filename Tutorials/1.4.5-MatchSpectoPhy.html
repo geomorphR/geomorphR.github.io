@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mark A. Conaway" />
+
+
+<title>Matching Specimens to a Phylogeny</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style/tutorial_theme.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo"style="height: 25px;" src="geomorph.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GM Preliminaries
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1.1-GeomorphDataTypes.html">Geomorph Data Types</a>
+    </li>
+    <li>
+      <a href="1.2-ReadingData.html">Reading Data</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data Manipulation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.3.1-GeomorphDataFrame.html">Geomorph Data Frame</a>
+        </li>
+        <li>
+          <a href="1.3.2-CombineLmkConfig.html">Combine Landmark Configurations (combine.subsets)</a>
+        </li>
+        <li>
+          <a href="1.3.3-Interlmkdist.html">Interlandmark Distances (interlmkdist)</a>
+        </li>
+        <li>
+          <a href="1.3.4-Flip-RotateLmks.html">Rotate or Flip Landmark Configurations (rotate.coords)</a>
+        </li>
+        <li>
+          <a href="1.3.5-AllAboutArrays.html">Create 3D Array (arrayspecs)</a>
+        </li>
+        <li>
+          <a href="1.3.6-Two.d.array.html">Convert Array to Matrix (two.d.array)</a>
+        </li>
+        <li>
+          <a href="1.3.7-EstMissing.html">Estimating Missing Landmarks</a>
+        </li>
+        <li>
+          <a href="1.3.8-IdentifyOutliers.html">Outlier Identification</a>
+        </li>
+        <li>
+          <a href="1.3.9-StandardizeArticulations.html">Standardizing Articulations</a>
+        </li>
+        <li>
+          <a href="1.3.10-SymmetricShapeGeneration.html">Symmetric Shape Generation</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">R Data Basics</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.4.1-SpecimenNames.html">Adding &amp; Changing Specimen Names</a>
+        </li>
+        <li>
+          <a href="1.4.2-ExtractingClassifiers.html">Extracting Classifiers</a>
+        </li>
+        <li class="dropdown-header">Reflecting Landmarks</li>
+        <li>
+          <a href="1.4.3-SwappingLandmarks.html">Swapping Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.4-DeletingSpecLmk.html">Delete Specs. and Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.5-MatchSpectoPhy.html">Matching Data to a Phylogeny</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Procrustes Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="2.1-GPAIntro.html">GPA Introduction</a>
+    </li>
+    <li>
+      <a href="2.2-GPAfixedlmks.html">GPA with fixed landmarks</a>
+    </li>
+    <li>
+      <a href="2.3-GPAcurves.html">GPA with curve semilandmarks</a>
+    </li>
+    <li>
+      <a href="2.4-GPAsurface.html">GPA with surface semilandmarks</a>
+    </li>
+    <li class="dropdown-header">gpagen Advanced Options</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Linear Models</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">ANOVA/Regression (ProcD.lm)</a>
+        </li>
+        <li>
+          <a href="3.1.2-Phylo-ANOVA-Regression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.1.3-Trajectoryanalysis.html">Phenotypic Trajectory Analysis</a>
+        </li>
+        <li>
+          <a href="3.1.4-Pairwisecomp.html">Pairwise Comparisons (pairwise)</a>
+        </li>
+        <li>
+          <a href="3.1.5-TwoBPLS.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.1.6-Bilatsymmanalysis.html">Analysis of Bilateral Symmetry (bilat.symmetry)</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shape Patterns</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.2.1-twobpls.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.2-integrationtest.html">Integration Test</a>
+        </li>
+        <li>
+          <a href="3.2.3-modularitytest.html">Modularity Test</a>
+        </li>
+        <li>
+          <a href="3.2.4-overallintegration.html">Overall Integration for a Set of Traits</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.2.7-globalintegration.html">Global Integration</a>
+        </li>
+        <li>
+          <a href="3.2.8-compareCR.html">Comparison of Modularity (compare.CR)</a>
+        </li>
+        <li>
+          <a href="3.2.9-comparepls.html">Comparison of Integration (compare.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.10-compareZVrel.html">Comparison of Overall Integration</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Phylogenetic Comparative Methods</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.3.1-compareevolrates.html">Compare Evolutionary Rates (compare.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.3.2-comparemultievol.html">Compare Multiple Evolutionary Rates (compare.multi.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Morphological Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.3.3-physignal.html">Assessing Phylogenetic Signal (physignal)</a>
+        </li>
+        <li>
+          <a href="3.3.4-physignalz.html">Assessing Phylogenetic Signal Effect Size (physignal.z)</a>
+        </li>
+        <li>
+          <a href="3.3.5-comparephysigz.html">Comparing Phylogenetic Signal Effect Sizes (compare.physignal.z)</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualizations
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="4.1-plotallspec.html">Plot Full Landmark Dataset (plotAllSpecimens)</a>
+    </li>
+    <li>
+      <a href="4.2-plotreftarg.html">Plot Shape Differences (plotRefToTarget)</a>
+    </li>
+    <li>
+      <a href="4.3-shapepred.html">Shape Prediction from Numeric Predictors (shape.predictor)</a>
+    </li>
+    <li>
+      <a href="4.4-Ordplot.html">Ordination: PCA, pPCA, and PaCA Analyses (gm.prcomp)</a>
+    </li>
+    <li>
+      <a href="4.5-plotallometry.html">Plot Allometry</a>
+    </li>
+    <li>
+      <a href="4.6-plotspec.html">Plot 3D Specimen (plotspec)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Common Workflows
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="5.1-Group-Comparisons.html">Group Comparisons</a>
+    </li>
+    <li>
+      <a href="4.2-VisShapeDiff.html">Visualizing Shape Differences</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><strong>Matching Specimens to a
+Phylogeny</strong></h1>
+<h4 class="author">Mark A. Conaway</h4>
+
+</div>
+
+
+<p><br></br></p>
+<div id="introduction" class="section level2">
+<h2><strong>Introduction</strong></h2>
+<p>Occasionally when performing phylogenetic analyses, one will acquire
+phylogenetic data from a third-party source. In this case, the data
+represented in that phylogeny may or may not include the exact same
+species for which you have landmark data.</p>
+<p>Here we describe a relatively easy way to compare and adjust
+phylogenetic trees to match input landmark data with taxonomic
+information, using the function <code>treedata</code> found in the R
+package <code>geiger</code>.</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>treedata() (Expand for more details)</code>
+</font>
+</summary>
+<ul>
+<li><span class="math inline">\(phy\)</span>: A phylogenetic tree of
+class ‘phylo’</li>
+<li><span class="math inline">\(data\)</span>: The input data. For
+landmark data, these must be in a format where all coordinates for a
+specimen are contained within a single row.</li>
+<li><span class="math inline">\(sort\)</span>: Logical value indicating
+whether to sort the data based on names found in <code>phy</code>.</li>
+<li><span class="math inline">\(warnings\)</span>: Logical value
+indicating whether the user should be notified of mismatched taxa.</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+<p>The data “plethspecies” embedded in <code>geomorph</code> includes
+both landmark data, and a phylogenetic tree. Crucially, one’s landmark
+data must include species name information (see Array tutorial for more
+detail).</p>
+</div>
+<div id="using-treedata" class="section level2">
+<h2><strong>Using treedata</strong></h2>
+<p>The <code>treedata</code> function requires two components. First, an
+object of class “phylo,” and second, landmark data with species name
+information. Importantly, for the <code>treedata</code> function to
+work, all landmark coordinates must be arranged by row. In other words,
+all landmark coordinates for a single specimen will be contained in a
+single row, with the row name being the species name, like so:</p>
+<div class="code">
+<pre class="r custom-inline"><code>ex &lt;- matrix(rep(1, 50), ncol = 10) 
+colnames(ex)&lt;- c(&quot;X1&quot;,&quot;Y1&quot;,&quot;X2&quot;,&quot;Y2&quot;,&quot;X3&quot;,&quot;Y3&quot;,&quot;X4&quot;,&quot;Y4&quot;,&quot;X5&quot;,&quot;Y5&quot;)
+rownames(ex)&lt;- c(&quot;Species A&quot;, &quot;Species A&quot;, &quot;Species B&quot;, &quot;Species C&quot;, &quot;Species D&quot;)
+ex</code></pre>
+<pre class="custom-inline"><code>##           X1 Y1 X2 Y2 X3 Y3 X4 Y4 X5 Y5
+## Species A  1  1  1  1  1  1  1  1  1  1
+## Species A  1  1  1  1  1  1  1  1  1  1
+## Species B  1  1  1  1  1  1  1  1  1  1
+## Species C  1  1  1  1  1  1  1  1  1  1
+## Species D  1  1  1  1  1  1  1  1  1  1</code></pre>
+</div>
+<p><br></br></p>
+<p>Many functions in <code>geomorph</code> require one’s data be in 3D
+array format. Likewise, the read.tps function imports landmark in 3D
+array format automatically. While this is useful for using geomorph, a
+3D array cannot be used with the treedata function, because an array
+does not have row names in the same way that a simple matrix does.</p>
+<p>Therefore, 3D arrays will need to be converted into a format that can
+be read by <code>treedata</code>. Luckily there is a function in
+geomorph that does this! Below we show the use of the
+<code>two.d.array</code> function to convert a 3D array of landmarks to
+a format that can be read by treedata:</p>
+<div class="code">
+<pre class="r custom-inline"><code>treematch &lt;- treedata(pleth$phy, two.d.array(pleth$land), sort = TRUE)
+pleth$phy &lt;- arrayspecs(treematch$data, 11, 2)</code></pre>
+</div>
+<p><br></br></p>
+<p>After treedata has run, one can simply restore the landmark data to
+its previous format using the arrayspecs function.</p>
+<p><br></br></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

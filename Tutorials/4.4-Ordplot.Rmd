@@ -1,0 +1,153 @@
+---
+title: "**Ordination**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/ordplot.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+One of the fundamental tools for visualization in geometric morphometrics is the Principal Components Analysis (PCA). Users of geomorph can perform a PCA using the function `gm.prcomp`. In addition to a standard PCA, this function can be used to perform a visualization of phylomorphospace, as well as a phlogenetically-aligned components analysis (PaCA). 
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `gm.prcomp()` </font> </summary>
+* $A$: A 3D array (p x k x n) containing Procrustes shape variables for a set of aligned specimens. Alternatively, this can be an n x p matrix of any data, but output will not contain information about shapes.
+* $phy$: An optional phylogenetic tree of class phylo
+* $align.to.phy$: A logical (TRUE or FALSE) argument for whether PaCA (if TRUE) should be performed
+* $GLS$: Whether GLS-centering and covariance estimation should be used (rather than OLS). This argument is FALSE by default.
+* $transform$: 	
+A logical value to indicate if transformed residuals should be projected. This is only applicable if GLS = TRUE. If TRUE, an orthogonal projection of transformed data is made; if FALSE an oblique projection of untransformed data is made.
+</details>
+</div>
+<br></br>
+
+
+## **Principal Components Analysis (PCA)** 
+
+Running a simple PCA is done similarly to the base R function `prcomp`. Summary of the results of this function returns the eigenvalues, the proportion of variance each eigenvalue accounts for, as well as the cumulative variance.
+
+<div class = "code">
+```{r, eval=FALSE}
+PCA <- gm.prcomp(gpa$coords)
+summary(PCA)
+```
+</div>
+
+```{r, PCA, echo=FALSE}
+
+```
+
+Likewise, one can simply use the base function `plot` to generate a bare bones visualization of the results:
+
+<div class = "code">
+```{r, eval=FALSE}
+plot(PCA, main = "PCA")
+```
+</div>
+
+```{r, PCAplot, echo=FALSE}
+
+```
+
+## **Phylomorphospace**
+
+If a PCA is run with an input phylogeny, and the "transform" argument is set to FALSE (as it is by default), the result is the same as a normal PCA, but with estimated ancestral states projected onto the plot.
+
+<div class = "code">
+```{r, eval=FALSE}
+PCA <- gm.prcomp(gpa$coords, phy = phy, transform = F)
+plot(PCA, phylo = T)
+```
+</div>
+
+```{r, PCAanst, echo=FALSE}
+
+```
+
+## **3D phylomorphospace**
+
+```{r, eval=FALSE}
+plot(PCA, time.plot = TRUE, bg = "red", 
+     phylo.par = list(tip.labels = TRUE, 
+                      tip.txt.cex = 2, edge.color = "blue", edge.width = 2))
+```
+
+```{r, PCA3d, echo=FALSE, fig.show='hide'}
+
+```
+
+```{r, echo=FALSE}
+rglwidget()
+```
+
+
+## **Phylogenetic Principal Components Analysis (phyloPCA)**
+
+Following the method of Revell (2009), one can also run a phyloPCA that accounts for non-independence due to phylogeny. This should be run using the GLS method:
+
+<div class = "code">
+```{r, eval=FALSE}
+PCA <- gm.prcomp(gpa$coords, phy = phy, GLS = T)
+plot(PCA, phylo = T)
+```
+</div>
+
+```{r, pPCA, echo=FALSE}
+
+```
+
+Additionally, the GLS residuals can be transformed, making them independent of the phylogeny:
+
+<div class = "code">
+```{r, eval=FALSE}
+PCA <- gm.prcomp(gpa$coords, phy = phy, GLS = T, transform = T)
+plot(PCA, phylo = T)
+```
+</div>
+
+```{r, pPCAtran, echo=FALSE}
+
+```
+
+
+## **Phylogenetically-aligned Components Analysis (PaCA)**
+
+As opposed to a standard PCA, which aligns ones data to an axis of greatest dispersion, the PaCA aligns data to the axis of greatest phylogenetic signal. This can be done with either the GLS or OLS approach. Projection of transformed GLS residuals is possible, but not recommended, since phylogenetic signal is removed from transformed data.
+
+<div class = "code">
+```{r, eval=FALSE}
+PCA <- gm.prcomp(gpa$coords, phy = phy, align.to.phy = T)
+plot(PCA, phylo = T)
+```
+</div>
+
+```{r, PaCA, echo=FALSE}
+
+```
+
+<div class = "code">
+```{r, eval=FALSE}
+PCA <- gm.prcomp(gpa$coords, phy = phy, align.to.phy = T, GLS = T)
+plot(PCA, phylo = T)
+```
+</div>
+
+```{r, PaCAgls, echo=FALSE}
+
+```
+<br></br>
+
+
+<div class = "note">
+**Important Note!**
+For more advanced plotting methods, see the [Visualizing Shape Differences]() workflow tutorial.
+</div>
+<br></br>

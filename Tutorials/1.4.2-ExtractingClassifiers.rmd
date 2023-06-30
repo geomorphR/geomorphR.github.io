@@ -1,0 +1,74 @@
+---
+title: "**Extracting Classifiers from Specimen Names**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/ExtractingClassifiers.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r prelims, echo=FALSE, results='hide', warning=FALSE, include=FALSE}
+
+```
+
+
+## **Introduction**
+In general, it is good practice to name one's specimens using an indexing system that includes key information about each individual. This could include the genus and species, along with the unique ID number for the specimen, and perhaps information like sex, locality, or side for bilateral elements.
+
+Oftentimes, the information embedded in one's indexing system may include key variables for GM analyses. Here, I will illustrate how to extract this information from specimen names for use as classifiers, using the base R function `strsplit`.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `strsplit() (Expand for more details)` </font> </summary>
+
+This is a base R function that allows the user to split a vector into substrings according to some input criteria. This is very useful in data management as it allows one to take only immediately relevant elements from a full specimen name.
+
+* $x$: A vector of specimen names whose components are informative and will be split into separate sections (see below).
+* $split$: The character along which the split will be performed.
+
+Because of the way that this function works, it is **very important** to maintain a consistent specimen naming convention, otherwise the function will not work, or it will perform the split incorrectly.
+
+</details>
+</div>
+<br></br>
+
+## **The naming convention**
+
+Here, we will use a simplified naming convention for the purposes of illustration. Your own indexing system can include more information than this:
+
+P_jord_1234
+
+We are using specimens from the plethodon dataset embedded in `geomorph`, and each specimen has been given an index that includes the first letter of the genus (P), the full species name (jord), and a unique four digit identifier (1234). Note, that these components are separated by underscores and **not** spaces. This is highly recommended, as spaces can cause problems with some functions in R. Likewise, spaces can be confusing because they count as characters but are nevertheless invisible!
+
+## **Extracting Classifiers**
+
+In order to use the information in our specimen names as classifiers, we will need to convert them into a data frame so that they can be used in `geomorph` functions. We will do this using the base R function `strsplit`:
+
+<div class = "code">
+```{r, strsplit}
+
+```
+</div>
+<br></br>
+
+This creates a list of 6 (the number of specimens), each with three components (the three components of our naming convention), separated as characters.
+
+Next, we will convert this list into a matrix, where each column contains the three components from our list (genus, species, ID number):
+
+<div class = "code">
+```{r, classifiers}
+
+```
+</div>
+<br></br>
+
+And finally, we add the column names to our matrix to identify the information contained within them, and convert to a data frame so that we can index using $:
+
+<div class = "code">
+```{r, colnames}
+
+```
+</div>
+<br></br>

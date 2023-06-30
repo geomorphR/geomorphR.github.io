@@ -1,0 +1,15 @@
+---
+title: "Preliminaries"
+output: 
+  html_document:
+    theme: flatly
+    css: ./style/tutorial_theme.css
+---
+
+Simple verbiage: links to topics
+
+- [Reading/Importing Data](1.1-ReadingData.html) 
+- [Estimate Missing Landmarks](1.2-EstMissing.html)
+- [Outlier Identification](1.3-IdentifyOutliers.html)
+- [Standardizing Articulations](1.4-StandardizeArticulations.html)
+- [Symmetric Shape Generation](1.5-SymmetricShapeGeneration.html)

@@ -1,0 +1,99 @@
+---
+title: "**Rotating or Flipping Landmark Configurations**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/Flip-RotateLmks.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims,eval=T,echo=F,results='hide',warning=FALSE,message=FALSE}
+
+```
+
+When performing GM analyses with `geomorph` it is necessary that all landmark coordinates be aligned via [Generalized Procrustes Analysis](GPA) using the `gpagen` function. Of important note, however, is that the `gpagen` function does not automatically reflect specimens that are of a different side than the rest of a bilateral dataset (i.e. left vs. right).
+
+Avoiding mismatched sides altogether is often not feasible due to the nature of data collection, however there is a quick way to reflect off-sided landmarks using the `rotate.coords` function, which we will discuss here.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `rotate.coords`() (Expand for more details)` </font> </summary>
+
+* $A$: An array of two-dimensional landmark coordinates, a gpagen object, or a matrix of two-dimensional coordinates for a single specimen.
+* $type$: Type of rotation for flip to be performed. Specimens can be flipped along the x-axis ("flipX"), and the y-axis ("flipY"), or rotated clockwise ("rotateC") and counter-clockwise ("rotateCC").
+* $index$: To be used if only specific specimens within a dataset are to be rotated/flipped. If NULL (the default) all specimens are rotated. To specify specimens, a vector with a binary index (0 = do not rotate, 1 = rotate) the same length as the number of specimens is used.
+  
+</details>
+</div>
+<br></br>
+
+<div class = "note">
+#### **Important Note** 
+This function is meant to be used only for 2D landmark coordinates.
+</div>
+<br></br>
+
+## Manipulating a Whole Dataset
+
+The original landmarks:
+<div class = "code">
+```{r, message=FALSE, eval=FALSE}
+wings <- gpagen(mosquito$wingshape[,,1:5], print.progress = F)
+
+plotAllSpecimens(wings$coords)
+
+```
+</div>
+<br></br>
+
+```{r, origdata, echo=FALSE}
+
+```
+
+
+And the landmarks flipped along the x-axis:
+<div class = "code">
+```{r, eval=FALSE}
+wingsflip <- rotate.coords(wings$coords, type = "flipX")
+plotAllSpecimens(wingsflip)
+```
+</div>
+<br></br>
+
+```{r, flipdata, echo=FALSE}
+
+```
+
+## Manipulating Single Specimens
+
+In this example, the fourth specimen is flipped along the x-axis opposite to the rest. 
+
+```{r, flipone, echo=FALSE}
+
+```
+
+```{r, plot, echo=FALSE}
+
+```
+
+To re-align it to the rest of our data, we need to create a vector of binary inputs, the fourth of which is a 1. This specifies that the fourth specimen is the only one to be flipped. Then we run the function as normal:
+
+<div class = "code">
+```{r, eval=FALSE}
+flip <- c(0,0,0,1,0)
+
+wingsflip <- rotate.coords(wings, type = "flipX", index = flip)
+
+plotAllSpecimens(wingsflip)
+```
+</div>
+<br></br>
+
+```{r, flipback, echo=FALSE}
+
+```
+
+
+

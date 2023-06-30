@@ -1,0 +1,80 @@
+---
+title: "**Deleting Specimens and Landmarks**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/DeletingSpecLmk.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r prelims, include=FALSE}
+
+```
+
+## **Introduction**
+
+On occasion, a researcher may need to remove one or more individuals or landmarks from their study. This could, for example, be because a specimen is damaged or doesn't fit the necessary criteria, or because a particular landmark turns out to be out-of-tolerance in terms of error.
+
+The approach for deleting specimens and landmarks in R is similar to what we do for [Reflecting Landmarks](Link), in that we must access the level of interest in our [3D array](Link), and modify it. Likewise, the approach is slightly different depending on whether or not the specimens or landmarks to be deleted are sequential.
+
+## **Deleting Specimens**
+
+If we decide that a single specimen in our dataset should be removed, say specimen number four, we do the following:
+
+<div class = "code">
+```{r, rmsingle}
+
+```
+</div>
+<br></br>
+
+Alternatively, if multiple specimens *in sequence* need to be removed (say, 4 through 8), we can do this:
+
+<div class = "code">
+```{r, rmmulti}
+
+```
+</div>
+<br></br>
+
+One additional step is required to delete multiple specimens that are out-of-sequence. We must create a vector that lists the specimen numbers to be deleted, and then perform the above step with that vector, like so:
+
+<div class = "code">
+```{r, rmmultioutseq}
+
+```
+</div>
+<br></br>
+
+## **Deleting Landmarks**
+
+The process for removing landmarks is essentially identical to removing specimens. We just need to access a different index of our [3D array](link).
+
+Removing a single landmark:
+
+<div class = "code">
+```{r, rmlmk}
+
+```
+</div>
+<br></br>
+
+Removing multiple landmarks in-sequence:
+
+<div class = "code">
+```{r, rmmultilmk}
+
+```
+</div>
+<br></br>
+
+And multiple landmarks out-of-sequence:
+
+<div class = "code">
+```{r, rmmultilmkoutseq}
+
+```
+</div>
+<br></br>

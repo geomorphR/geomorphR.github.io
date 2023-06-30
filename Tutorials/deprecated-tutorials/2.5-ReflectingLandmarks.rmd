@@ -1,0 +1,81 @@
+---
+title: "**Reflecting Landmarks**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/ReflectingLandmarks.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+  
+```{r prelims, include=FALSE}
+
+```
+
+## **Introduction**
+
+When performing GM analyses with `geomorph` it is necessary that all landmark coordinates be aligned via [Generalized Procrustes Analysis](GPA) using the `gpagen` function. Of important note, however, is that the `gpagen` function does not automatically reflect specimens that are of a different side than the rest of a bilateral dataset (i.e. left vs. right).
+
+Avoiding mismatched sides altogether is often not feasible due to the nature of data collection, however there is a quick way to reflect off-sided landmarks manually, which we will discuss here.
+
+
+Let's start with a full dataset:
+
+<div class = "code">
+```{r, eval=FALSE, message=FALSE}
+wings <- gpagen(mosquito$wingshape)
+
+plotAllSpecimens(wings$coords)
+
+```
+</div>
+<br></br>
+
+```{r, plotdata, echo=FALSE, fig.align='center'}
+
+```
+
+Now here are the reflected specimens
+
+<div class = "code">
+```{r, eval=FALSE}
+plotAllSpecimens(wings$coords*-1)
+```
+</div>
+<br></br>
+
+```{r, reflectspecimens, echo=FALSE}
+
+```
+
+A more likely scenario is that a user will need to reflect only a few specimens within their larger dataset. In order to do this, we must use what we learned in the tutorial on [3D Arrays](Arrays).
+
+Here we have a dataset with one specimen (number four) that has been reflected.
+
+<div class = "code">
+```{r, eval=FALSE}
+wings$coords[,,4] <- wings$coords[,,4]*-1
+plotAllSpecimens(wings$coords)
+```
+</div>
+<br></br>
+
+```{r, onereflect, echo=FALSE}
+
+```
+
+We can reflect the specimen in question like so:
+
+<div class = "code">
+```{r, eval=FALSE}
+wings$coords[,,4] <- wings$coords[,,4]*-1
+plotAllSpecimens(wings$coords)
+```
+</div>
+<br></br>
+
+```{r, onereflect2, echo=FALSE}
+
+```
+<br></br>

@@ -1,0 +1,32 @@
+---
+title: "**Convert a 3D Array to a Matrix**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/Two.d.array.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims,eval=T,echo=F,results='hide',warning=FALSE,message=FALSE}
+
+```
+
+In this format, rows represent specimens, and columns represent variables.
+
+We begin with our 3D array of landmarks:
+<div class = "code">
+```{r, array}
+
+```
+</div>
+<br></br>
+
+And convert it to a 2D matrix:
+<div class = "code">
+```{r, matrix}
+
+```
+</div>
+<br></br>

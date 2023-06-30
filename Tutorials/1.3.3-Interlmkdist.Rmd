@@ -1,0 +1,76 @@
+---
+title: "**Calculating Interlandmark Distances**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/Interlmkdist.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims,eval=T,echo=F,results='hide',warning=FALSE,message=FALSE}
+
+```
+
+
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `interlmkdist() (Expand for more details)` </font> </summary>
+ 
+* $A$: A 3D [array]() containing landmark coordinates for a set of specimens.
+* $lmks$: A matrix or dataframe of landmark numbers for the start and end points of each linear measurements. See below for specific formatting.
+
+</details>
+</div>
+<br></br>
+
+### Defining distances
+
+The start and end points of the distance measure required need to be defined manually. This is done with a two-column matrix or dataframe with the column names "start" and "end." For the sake of this example, we are interested in the distances between landmarks 1:2 and 3:4 respectively:
+
+<div class = "code">
+```{r, defdists}
+
+```
+</div>
+<br></br>
+
+<div class = "code">
+```{r, calcdists}
+
+```
+</div>
+
+Each column contains one distance measure for each specimen. In this case, the first column is the distance between landmarks 1 and 2 for each of the 10 specimens in our dataset.
+<br></br>
+
+### Defining All Pairwise Distances
+
+Calculating interlandmark distances for all possible combinations of landmarks requires a bit more code, but is nonetheless fairly simple:
+
+First, we need to generate a vector of landmark numbers equal to the total number of landmarks in our dataset:
+
+<div class = "code">
+```{r, lmkvector}
+
+```
+</div>
+<br></br>
+
+Next, using the `combn` function we can generate a matrix of all possible combinations of those landmarks:
+
+<div class = "code">
+```{r, defalldists}
+
+```
+</div>
+<br></br>
+
+Then run the function as normal:
+<div class = "code">
+```{r, calcalldists}
+
+```
+</div>

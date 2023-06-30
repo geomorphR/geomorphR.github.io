@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mark A. Conaway" />
+
+
+<title>Creating a 3D Array</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style/tutorial_theme.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo"style="height: 25px;" src="geomorph.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GM Preliminaries
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1.1-GeomorphDataTypes.html">Geomorph Data Types</a>
+    </li>
+    <li>
+      <a href="1.2-ReadingData.html">Reading Data</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data Manipulation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.3.1-GeomorphDataFrame.html">Geomorph Data Frame</a>
+        </li>
+        <li>
+          <a href="1.3.2-CombineLmkConfig.html">Combine Landmark Configurations (combine.subsets)</a>
+        </li>
+        <li>
+          <a href="1.3.3-Interlmkdist.html">Interlandmark Distances (interlmkdist)</a>
+        </li>
+        <li>
+          <a href="1.3.4-Flip-RotateLmks.html">Rotate or Flip Landmark Configurations (rotate.coords)</a>
+        </li>
+        <li>
+          <a href="1.3.5-AllAboutArrays.html">Create 3D Array (arrayspecs)</a>
+        </li>
+        <li>
+          <a href="1.3.6-Two.d.array.html">Convert Array to Matrix (two.d.array)</a>
+        </li>
+        <li>
+          <a href="1.3.7-EstMissing.html">Estimating Missing Landmarks</a>
+        </li>
+        <li>
+          <a href="1.3.8-IdentifyOutliers.html">Outlier Identification</a>
+        </li>
+        <li>
+          <a href="1.3.9-StandardizeArticulations.html">Standardizing Articulations</a>
+        </li>
+        <li>
+          <a href="1.3.10-SymmetricShapeGeneration.html">Symmetric Shape Generation</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">R Data Basics</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.4.1-SpecimenNames.html">Adding &amp; Changing Specimen Names</a>
+        </li>
+        <li>
+          <a href="1.4.2-ExtractingClassifiers.html">Extracting Classifiers</a>
+        </li>
+        <li class="dropdown-header">Reflecting Landmarks</li>
+        <li>
+          <a href="1.4.3-SwappingLandmarks.html">Swapping Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.4-DeletingSpecLmk.html">Delete Specs. and Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.5-MatchSpectoPhy.html">Matching Data to a Phylogeny</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Procrustes Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="2.1-GPAIntro.html">GPA Introduction</a>
+    </li>
+    <li>
+      <a href="2.2-GPAfixedlmks.html">GPA with fixed landmarks</a>
+    </li>
+    <li>
+      <a href="2.3-GPAcurves.html">GPA with curve semilandmarks</a>
+    </li>
+    <li>
+      <a href="2.4-GPAsurface.html">GPA with surface semilandmarks</a>
+    </li>
+    <li class="dropdown-header">gpagen Advanced Options</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Linear Models</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">ANOVA/Regression (ProcD.lm)</a>
+        </li>
+        <li>
+          <a href="3.1.2-Phylo-ANOVA-Regression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.1.3-Trajectoryanalysis.html">Phenotypic Trajectory Analysis</a>
+        </li>
+        <li>
+          <a href="3.1.4-Pairwisecomp.html">Pairwise Comparisons (pairwise)</a>
+        </li>
+        <li>
+          <a href="3.1.5-TwoBPLS.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.1.6-Bilatsymmanalysis.html">Analysis of Bilateral Symmetry (bilat.symmetry)</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shape Patterns</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.2.1-twobpls.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.2-integrationtest.html">Integration Test</a>
+        </li>
+        <li>
+          <a href="3.2.3-modularitytest.html">Modularity Test</a>
+        </li>
+        <li>
+          <a href="3.2.4-overallintegration.html">Overall Integration for a Set of Traits</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.2.7-globalintegration.html">Global Integration</a>
+        </li>
+        <li>
+          <a href="3.2.8-compareCR.html">Comparison of Modularity (compare.CR)</a>
+        </li>
+        <li>
+          <a href="3.2.9-comparepls.html">Comparison of Integration (compare.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.10-compareZVrel.html">Comparison of Overall Integration</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Phylogenetic Comparative Methods</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.3.1-compareevolrates.html">Compare Evolutionary Rates (compare.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.3.2-comparemultievol.html">Compare Multiple Evolutionary Rates (compare.multi.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Morphological Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.3.3-physignal.html">Assessing Phylogenetic Signal (physignal)</a>
+        </li>
+        <li>
+          <a href="3.3.4-physignalz.html">Assessing Phylogenetic Signal Effect Size (physignal.z)</a>
+        </li>
+        <li>
+          <a href="3.3.5-comparephysigz.html">Comparing Phylogenetic Signal Effect Sizes (compare.physignal.z)</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualizations
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="4.1-plotallspec.html">Plot Full Landmark Dataset (plotAllSpecimens)</a>
+    </li>
+    <li>
+      <a href="4.2-plotreftarg.html">Plot Shape Differences (plotRefToTarget)</a>
+    </li>
+    <li>
+      <a href="4.3-shapepred.html">Shape Prediction from Numeric Predictors (shape.predictor)</a>
+    </li>
+    <li>
+      <a href="4.4-Ordplot.html">Ordination: PCA, pPCA, and PaCA Analyses (gm.prcomp)</a>
+    </li>
+    <li>
+      <a href="4.5-plotallometry.html">Plot Allometry</a>
+    </li>
+    <li>
+      <a href="4.6-plotspec.html">Plot 3D Specimen (plotspec)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Common Workflows
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="5.1-Group-Comparisons.html">Group Comparisons</a>
+    </li>
+    <li>
+      <a href="4.2-VisShapeDiff.html">Visualizing Shape Differences</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><strong>Creating a 3D Array</strong></h1>
+<h4 class="author">Mark A. Conaway</h4>
+
+</div>
+
+
+<p><br></br></p>
+<div id="introduction" class="section level3">
+<h3><strong>Introduction</strong></h3>
+<p>Some functions in <code>geomorph</code> require data to be in 3D
+array format. A 3D array is a volumetric matrix of p × k × n dimensions
+(p landmarks, k coordinates, n specimens). In other words, unlike a
+matrix, a 3D array contains information, not just on rows and columns
+(landmark number, and xyz values, in the context of geometric
+morphometrics), but also on specimen numbers. In that case, let’s first
+refresh ourselves on what a 3D array actually looks like:</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>arrayspecs() (Expand for more details)</code>
+</font>
+</summary>
+<ul>
+<li><span class="math inline">\(A\)</span>: A matrix containing landmark
+coordinates for a set of specimens.</li>
+<li><span class="math inline">\(p\)</span>: The number of landmarks</li>
+<li><span class="math inline">\(k\)</span>: The number of dimensions (2
+or 3)</li>
+</ul>
+<p>Note that the input coordinates can be arranged such that that
+landmarks can be contained within sets of two or three columns (for the
+separate coordinates of each landmark), or with all landmark coordinates
+of a single specimen contained within a single row.</p>
+</details>
+</div>
+<p><br></br></p>
+<div class="code">
+<pre class="r custom-inline"><code>Array &lt;- lizards$coords[1:10,,1:5]
+Array[,,1:2]</code></pre>
+<pre class="custom-inline"><code>## , , 57
+## 
+##              X             Y
+## 1   0.35010213 -0.0002647511
+## 2   0.17260728  0.0816019683
+## 3   0.04424979  0.0367109953
+## 4  -0.06467880  0.1321863000
+## 5  -0.25086567  0.1131383707
+## 6  -0.24969395  0.0332161379
+## 7  -0.23737568 -0.0239577907
+## 8  -0.25001471 -0.1068288060
+## 9  -0.07187573 -0.1344779554
+## 10  0.04380526 -0.0395576574
+## 
+## , , 58
+## 
+##              X            Y
+## 1   0.34899033 -0.000274232
+## 2   0.17012827  0.083975084
+## 3   0.04486904  0.038471849
+## 4  -0.06422872  0.132129075
+## 5  -0.24816474  0.113486488
+## 6  -0.24640883  0.031615036
+## 7  -0.26003274 -0.022913979
+## 8  -0.24649800 -0.106480551
+## 9  -0.06508554 -0.132159633
+## 10  0.04493492 -0.041541288</code></pre>
+</div>
+<p><br></br></p>
+</div>
+<div id="accessing-array-dimensions" class="section level3">
+<h3><strong>Accessing Array Dimensions</strong></h3>
+<p>But what if we want to make changes to, or otherwise access, one
+specific aspect of our array?</p>
+<p>The labels of the array; [1,,], [,1,], and [,,1] give us the clue.
+The structure of an array can be represented as [,,,], with each comma
+representing each dimension.</p>
+<p>Similar to a standard matrix, values in the first dimension [X,,]
+represent the rows of our data, or in this case, individual landmarks.
+So if we want to see the second landmark for every specimen in our
+dataset we simply:</p>
+<div class="code">
+<pre class="r custom-inline"><code>Array[2,,]</code></pre>
+<pre class="custom-inline"><code>##           57         58        59         60        61
+## X 0.17260728 0.17012827 0.1740371 0.17338334 0.1695772
+## Y 0.08160197 0.08397508 0.0883011 0.08779632 0.0806348</code></pre>
+</div>
+<p><br></br></p>
+<p>And similarly if we only want to see one of the xyz (1,2, or 3)
+values for all of our specimens:</p>
+<div class="code">
+<pre class="r custom-inline"><code>Array[,1,]</code></pre>
+<pre class="custom-inline"><code>##             57          58          59          60          61
+## 1   0.35010213  0.34899033  0.35456391  0.35358045  0.34945025
+## 2   0.17260728  0.17012827  0.17403709  0.17338334  0.16957719
+## 3   0.04424979  0.04486904  0.02909230  0.02943864  0.03862491
+## 4  -0.06467880 -0.06422872 -0.05918996 -0.05942190 -0.04948392
+## 5  -0.25086567 -0.24816474 -0.25108352 -0.25028234 -0.24342451
+## 6  -0.24969395 -0.24640883 -0.24601284 -0.24701886 -0.24893451
+## 7  -0.23737568 -0.26003274 -0.24571550 -0.24666354 -0.25512243
+## 8  -0.25001471 -0.24649800 -0.24542072 -0.24734206 -0.25199230
+## 9  -0.07187573 -0.06508554 -0.05705240 -0.05619145 -0.05471546
+## 10  0.04380526  0.04493492  0.03013003  0.03099896  0.03727153</code></pre>
+</div>
+<p><br></br></p>
+<p>And finally, a single specimen can be selected like so:</p>
+<div class="code">
+<pre class="r custom-inline"><code>Array[,,1]</code></pre>
+<pre class="custom-inline"><code>##              X             Y
+## 1   0.35010213 -0.0002647511
+## 2   0.17260728  0.0816019683
+## 3   0.04424979  0.0367109953
+## 4  -0.06467880  0.1321863000
+## 5  -0.25086567  0.1131383707
+## 6  -0.24969395  0.0332161379
+## 7  -0.23737568 -0.0239577907
+## 8  -0.25001471 -0.1068288060
+## 9  -0.07187573 -0.1344779554
+## 10  0.04380526 -0.0395576574</code></pre>
+</div>
+<p><br></br></p>
+</div>
+<div id="multiple-selections" class="section level3">
+<h3><strong>Multiple Selections</strong></h3>
+<p>The above methods can be combined in whatever configuration is
+necessary for the researcher. Multiple values for each of these
+categories can also be selected, using a couple of different methods,
+depending on whether the values of interest are consecutive:</p>
+<p>For example, to access multiple, consecutive specimens in our dataset
+(say, specimens one through three), we can do this:</p>
+<div class="code">
+<pre class="r custom-inline"><code>Array[,,1:3]</code></pre>
+<pre class="custom-inline"><code>## , , 57
+## 
+##              X             Y
+## 1   0.35010213 -0.0002647511
+## 2   0.17260728  0.0816019683
+## 3   0.04424979  0.0367109953
+## 4  -0.06467880  0.1321863000
+## 5  -0.25086567  0.1131383707
+## 6  -0.24969395  0.0332161379
+## 7  -0.23737568 -0.0239577907
+## 8  -0.25001471 -0.1068288060
+## 9  -0.07187573 -0.1344779554
+## 10  0.04380526 -0.0395576574
+## 
+## , , 58
+## 
+##              X            Y
+## 1   0.34899033 -0.000274232
+## 2   0.17012827  0.083975084
+## 3   0.04486904  0.038471849
+## 4  -0.06422872  0.132129075
+## 5  -0.24816474  0.113486488
+## 6  -0.24640883  0.031615036
+## 7  -0.26003274 -0.022913979
+## 8  -0.24649800 -0.106480551
+## 9  -0.06508554 -0.132159633
+## 10  0.04493492 -0.041541288
+## 
+## , , 59
+## 
+##              X            Y
+## 1   0.35456391 -0.001641645
+## 2   0.17403709  0.088301095
+## 3   0.02909230  0.043781102
+## 4  -0.05918996  0.139102924
+## 5  -0.25108352  0.114240489
+## 6  -0.24601284  0.038163766
+## 7  -0.24571550 -0.033198379
+## 8  -0.24542072 -0.115717944
+## 9  -0.05705240 -0.138606151
+## 10  0.03013003 -0.046015427</code></pre>
+</div>
+<p><br></br></p>
+<p>Alternatively, if the specimens of interest are non-consecutive (say,
+specimens 1, 3, and 5) we simply input a vector of specimen numbers like
+so:</p>
+<div class="code">
+<pre class="r custom-inline"><code>Array[,,c(1,3,5)]</code></pre>
+<pre class="custom-inline"><code>## , , 57
+## 
+##              X             Y
+## 1   0.35010213 -0.0002647511
+## 2   0.17260728  0.0816019683
+## 3   0.04424979  0.0367109953
+## 4  -0.06467880  0.1321863000
+## 5  -0.25086567  0.1131383707
+## 6  -0.24969395  0.0332161379
+## 7  -0.23737568 -0.0239577907
+## 8  -0.25001471 -0.1068288060
+## 9  -0.07187573 -0.1344779554
+## 10  0.04380526 -0.0395576574
+## 
+## , , 59
+## 
+##              X            Y
+## 1   0.35456391 -0.001641645
+## 2   0.17403709  0.088301095
+## 3   0.02909230  0.043781102
+## 4  -0.05918996  0.139102924
+## 5  -0.25108352  0.114240489
+## 6  -0.24601284  0.038163766
+## 7  -0.24571550 -0.033198379
+## 8  -0.24542072 -0.115717944
+## 9  -0.05705240 -0.138606151
+## 10  0.03013003 -0.046015427
+## 
+## , , 61
+## 
+##              X             Y
+## 1   0.34945025  0.0006472362
+## 2   0.16957719  0.0806347994
+## 3   0.03862491  0.0419970856
+## 4  -0.04948392  0.1318666311
+## 5  -0.24342451  0.1334958957
+## 6  -0.24893451  0.0238288905
+## 7  -0.25512243 -0.0248760429
+## 8  -0.25199230 -0.1292026325
+## 9  -0.05471546 -0.1340296409
+## 10  0.03727153 -0.0407436725</code></pre>
+</div>
+<p><br></br></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+---
+title: "GPA with curve semilandmarks"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/GPACurve.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, include=FALSE}
+
+```
+<br></br>
+
+## **Performing a GPA with sliding semilandmarks on curves**
+
+Data are input in a similar fashion when performing a GPA with sliding semilandmarks, with one exception. In order for semilandmark sliding to occur, the `gpagen` function requires a 'sliders matrix' identifying which landmarks are to be treated as (sliding) semilandmarks. Landmarks listed in this matrix are designated as sliding semilandmarks: those not listed are treated as fixed landmarks. Using this simple system, one can therefore have a combination of both fixed and sliding semilandmarks in an analysis. In the example below, landmarks 11-25 are designated as sliding semilandmarks, meaning that landmarks 1-10 are treated as fixed:
+
+<div class = "code">
+```{r, curvedata, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+In the above matrix, the middle column 'slide' lists the landmark numbers for those landmarks that will slide. The 'before' and 'after' columns indicate the anchor points for each slider. For example, the above matrix indicates that landmark 11 should slide between landmarks 1 and 12.
+
+This matrix is specified under the `curves` argument as shown here:
+
+<div class = "code">
+```{r, eval=FALSE}
+GPA <- gpagen(hummingbirds$land, curves = hummingbirds$curvepts, 
+              approxBE = TRUE, print.progress = FALSE)
+plotAllSpecimens(GPA$coords)
+```
+</div>
+<br></br>
+
+```{r, GPA2, echo=FALSE}
+
+```
+
+The example slider matrix above is included as part of the `hummingbirds` dataset embedded in `geomorph`. However you can also create a sliders matrix in R using the function `define.sliders`:
+
+<div class = "code">
+```{r, sliders, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+The result of the above code will be a curve of 10 landmarks, where landmarks 2-9 slide relative to each other and to the anchor points of landmarks 1 and 10.
+
+This code can be adjusted to identify multiple curves as well:
+
+<div class = "code">
+```{r, slidersmulti, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+The above code identifies two separate curves, each of 5 landmarks. Here, landmarks 2, 3, and 4 slide between landmarks 1 and 5; and landmarks 7, 8, and 9, slide between landmarks 6 and 10.

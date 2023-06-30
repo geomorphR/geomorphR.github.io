@@ -1,0 +1,66 @@
+---
+title: "**Overall Integration (for a set of traits)**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/overallintegration.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+Alongside modularity, the strength of integration of a set of traits can affect the degree to which phenotypic variation is exposed, and responds to selection. This is particularly important when assessing the strength of integration in the same set of traits across several species or sets of data. Differences in the strength of integration of the same traits among different species could, for example, be a reflection of a biomechanical constraint that is present in one, but not the other species. 
+
+Here, we make the distinction between integration among multiple sets of traits, most commonly assessed via [two-block partial least squares]() analysis, and integration within one set of traits. The latter of these is most commonly quantified with statistics that assess the eccentricity of eigenvalues of a covariance or correlation matrix. Based on simulations performed by Conaway and Adams (2022) the `geomorph` function `integration.Vrel` allows the user to assess the strength of integration within a set of traits using the Relative Eigenvalue Variance (Pavlicev, 2009). In addition, the function generates an effect size (Z-score), also based on the procedures in Conaway and Adams (2022). This effect size is also translated to a positive scale to ease interpretation
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `integration.Vrel()` </font> </summary>
+  
+* $A$: A [3D array (p x k x n)]() containing Procrustes shape variables for all specimens, or a matrix (n x variables)
+* $phy$: A phylogenetic tree of class phylo
+
+</details>
+</div>
+<br></br>
+
+## **Example of Analysis**
+
+Below is example code using the "plethodon" dataset, available by default with the `geomorph` package.
+
+<div class = "code">
+```{r, int}
+
+```
+</div>
+<br></br>
+
+If one's observations are related by a [phylogeny](), the phylogeny can also be included in analyses:
+
+<div class = "code">
+```{r, intphy}
+
+```
+</div>
+<br></br>
+
+This function returns an object of class "rel.eig", which is a list containing the following:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `integration.Vrel` output </font> </summary>
+  
+* $re.obs$:	The observed relative eigenvalue index (Vrel).
+* $Z.obs$: The associated Z-score, which represents the effect size of Vrel
+* $ZR$: The effect size translated to a positive scale (so that no integration is ZR = 0).
+* $ZR.var$:	The variance of the effect size.
+
+</details>
+</div>
+<br></br>
+

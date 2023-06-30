@@ -1,0 +1,145 @@
+name: "Geomorph Tutorials"
+
+output: 
+  html_document:
+    theme: flatly
+    css: ./style/tutorial_theme.css
+
+output_dir: "."
+
+navbar:
+  title: "<img id=\"logo\"style=\"height: 25px;\" src=\"geomorph.png\" />"
+  type: default
+  left:    
+  - text: "GM Preliminaries"
+    menu:
+     - text: "Geomorph Data Types"
+       href: 1.1-GeomorphDataTypes.html
+     - text: "Reading Data"
+       href: 1.2-ReadingData.html
+     - text: "Data Manipulation"
+       menu: 
+        - text: "Geomorph Data Frame"
+          href: 1.3.1-GeomorphDataFrame.html
+        - text: "Combine Landmark Configurations (combine.subsets)"
+          href: 1.3.2-CombineLmkConfig.html
+        - text: "Interlandmark Distances (interlmkdist)"
+          href: 1.3.3-Interlmkdist.html
+        - text: "Rotate or Flip Landmark Configurations (rotate.coords)"
+          href: 1.3.4-Flip-RotateLmks.html
+        - text: "Create 3D Array (arrayspecs)"
+          href: 1.3.5-AllAboutArrays.html
+        - text: "Convert Array to Matrix (two.d.array)"
+          href: 1.3.6-Two.d.array.html     
+        - text: "Estimating Missing Landmarks"
+          href: 1.3.7-EstMissing.html   
+        - text: "Outlier Identification"
+          href: 1.3.8-IdentifyOutliers.html
+        - text: "Standardizing Articulations"
+          href: 1.3.9-StandardizeArticulations.html
+        - text: "Symmetric Shape Generation"
+          href: 1.3.10-SymmetricShapeGeneration.html
+     - text: "R Data Basics"
+       menu: 
+        - text: "Adding & Changing Specimen Names"
+          href: 1.4.1-SpecimenNames.html
+        - text: "Extracting Classifiers"
+          href: 1.4.2-ExtractingClassifiers.html
+        - text: "Reflecting Landmarks"
+          href: 
+        - text: "Swapping Landmarks"
+          href: 1.4.3-SwappingLandmarks.html
+        - text: "Delete Specs. and Landmarks"
+          href: 1.4.4-DeletingSpecLmk.html
+        - text: "Matching Data to a Phylogeny"
+          href: 1.4.5-MatchSpectoPhy.html   
+  - text: "Procrustes Analysis"
+    menu: 
+     - text: "GPA Introduction"
+       href: 2.1-GPAIntro.html
+     - text: "GPA with fixed landmarks"
+       href: 2.2-GPAfixedlmks.html
+     - text: "GPA with curve semilandmarks"
+       href: 2.3-GPAcurves.html
+     - text: "GPA with surface semilandmarks"
+       href: 2.4-GPAsurface.html
+     - text: "gpagen Advanced Options"
+       href:   
+  - text: "Analytics"
+    menu: 
+     - text: "Linear Models"
+       menu:
+        - text: "ANOVA/Regression (ProcD.lm)"
+          href: 3.1.1-ANOVARegression.html
+        - text: "Phylogenetic ANOVA/Regression (ProcD.pgls)"
+          href: 3.1.2-Phylo-ANOVA-Regression.html
+        - text: "Phenotypic Trajectory Analysis"
+          href: 3.1.3-Trajectoryanalysis.html
+        - text: "Pairwise Comparisons (pairwise)"
+          href: 3.1.4-Pairwisecomp.html
+        - text: "Two-block Partial Least Squares (two.b.pls)"
+          href: 3.1.5-TwoBPLS.html
+        - text: "Analysis of Bilateral Symmetry (bilat.symmetry)"
+          href: 3.1.6-Bilatsymmanalysis.html
+     - text: "Shape Patterns"
+       menu:
+        - text: "Two-block Partial Least Squares (two.b.pls)"
+          href: 3.2.1-twobpls.html
+        - text: "Integration Test"
+          href: 3.2.2-integrationtest.html
+        - text: "Modularity Test"
+          href: 3.2.3-modularitytest.html
+        - text: "Overall Integration for a Set of Traits"
+          href: 3.2.4-overallintegration.html
+        - text: "Phylogenetic Integration (phylo.int)"
+          href: 3.2.5-phylointegration.html
+        - text: "Phylogenetic Modularity (phylo.mod)"
+          href: 3.2.6-phylomodularity.html
+        - text: "Global Integration"
+          href: 3.2.7-globalintegration.html
+        - text: "Comparison of Modularity (compare.CR)"
+          href: 3.2.8-compareCR.html
+        - text: "Comparison of Integration (compare.pls)"
+          href: 3.2.9-comparepls.html
+        - text: "Comparison of Overall Integration"
+          href: 3.2.10-compareZVrel.html
+     - text: "Phylogenetic Comparative Methods"
+       menu:
+        - text: "Phylogenetic ANOVA/Regression (ProcD.pgls)"
+          href: 3.1.1-ANOVARegression.html
+        - text: "Compare Evolutionary Rates (compare.evol.rates)"
+          href: 3.3.1-compareevolrates.html
+        - text: "Compare Multiple Evolutionary Rates (compare.multi.evol.rates)"
+          href: 3.3.2-comparemultievol.html
+        - text: "Phylogenetic Morphological Integration (phylo.int)"
+          href: 3.2.5-phylointegration.html
+        - text: "Phylogenetic Modularity (phylo.mod)"
+          href: 3.2.6-phylomodularity.html
+        - text: "Assessing Phylogenetic Signal (physignal)"
+          href: 3.3.3-physignal.html
+        - text: "Assessing Phylogenetic Signal Effect Size (physignal.z)"
+          href: 3.3.4-physignalz.html
+        - text: "Comparing Phylogenetic Signal Effect Sizes (compare.physignal.z)"
+          href: 3.3.5-comparephysigz.html
+ 
+  - text: "Visualizations"
+    menu: 
+     - text: "Plot Full Landmark Dataset (plotAllSpecimens)"
+       href: 4.1-plotallspec.html
+     - text: "Plot Shape Differences (plotRefToTarget)"
+       href: 4.2-plotreftarg.html
+     - text: "Shape Prediction from Numeric Predictors (shape.predictor)"
+       href: 4.3-shapepred.html
+     - text: "Ordination: PCA, pPCA, and PaCA Analyses (gm.prcomp)"
+       href: 4.4-Ordplot.html
+     - text: "Plot Allometry"
+       href: 4.5-plotallometry.html
+     - text: "Plot 3D Specimen (plotspec)"
+       href: 4.6-plotspec.html
+
+  - text: "Common Workflows"
+    menu: 
+     - text: "Group Comparisons"
+       href: 5.1-Group-Comparisons.html
+     - text: "Visualizing Shape Differences"
+       href: 4.2-VisShapeDiff.html

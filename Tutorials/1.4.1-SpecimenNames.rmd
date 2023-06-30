@@ -1,0 +1,84 @@
+---
+title: "**Adding & Changing Specimen Names**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/SpecimenNames.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, include=FALSE}
+
+```
+
+### **Introduction**
+
+Most of the [data reading](Reading/Importing) functions covered in previous sections allow the researcher to import  specimen names along with their landmark data. Or the specimen names can be embedded in the original raw data files such as tps or nts.
+
+However in some cases, you may want to adjust or add specimen names to a [3D array](Reading/Importing) after reading into R.
+
+### **Adding Specimen Names**
+
+For the sake of simplicity, we will work with a subset of two specimens from the `plethodon` salamander dataset embedded in `geomorph`. At the moment this array does not have names for any of its dimensions:
+
+<div class = "code">
+```{r, arraydims}
+
+```
+</div>
+<br></br>
+
+There are several ways that we can embed specimen names data into our 3D array:
+
+<div class = "code">
+```{r, specnames1}
+
+```
+</div>
+<br></br>
+
+Here, the `[[3]]` specifies the third dimension or the specimens of our array. These changes can be made both to landmark and xyz dimension names (`[[1]]` and `[[2]]`, respectively) as well.
+
+Note that the function `dimnames` can be used both to define *and* simply to see the names assigned to an R object.
+
+The above approach works just fine for a small dataset like we have here. If you want to apply a long list of specimen names to a larger dataset, it can be done with the following: 
+
+<div class = "code">
+```{r, specnames2}
+
+```
+</div>
+<br></br>
+
+This can be done with  a simple vector of names as shown above, or with an imported data frame/matrix of names.
+
+### **Changing Specimen Names**
+
+You may notice that we have a typo in one of our specimen names now. We accidentally labeled Specimen 2 as Specimen 3. For such a small dataset, we could simply run the previous code again with the correct name, but for a larger dataset with specimen names already embedded prior to reading into R, there is another way to adjust them:
+
+<div class = "code">
+```{r, changename}
+
+```
+</div>
+<br></br>
+
+Here, we specify the second element (`[[2]]`) of the third dimension of our array
+
+### **Naming All Dimensions**
+
+Finally, we can adjust the names of every dimension of our 3D array simultaneously like this:
+
+<div class = "code">
+```{r, alldims}
+                        
+```
+</div>
+<br></br>
+
+<div class = "note">
+**Note** that the input here must be a list of vectors, in this precise order.
+</div>
+<br></br>

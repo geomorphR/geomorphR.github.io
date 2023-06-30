@@ -1,0 +1,94 @@
+---
+title: "**Creating a 3D Array**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/AllAboutArrays.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+###  **Introduction**
+
+Some functions in `geomorph` require data to be in 3D array format. A 3D array is a volumetric matrix of p × k × n dimensions (p landmarks, k coordinates, n specimens). In other words, unlike a matrix, a 3D array contains information, not just on rows and columns (landmark number, and xyz values, in the context of geometric morphometrics), but also on specimen numbers. In that case, let's first refresh ourselves on what a 3D array actually looks like:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `arrayspecs() (Expand for more details)` </font> </summary>
+
+* $A$: A matrix containing landmark coordinates for a set of specimens.
+* $p$: The number of landmarks
+* $k$: The number of dimensions (2 or 3)
+
+Note that the input coordinates can be arranged such that that landmarks can be contained within sets of two or three columns (for the separate coordinates of each landmark), or with all landmark coordinates of a single specimen contained within a single row.
+
+</details>
+</div>
+<br></br>
+
+<div class = "code">
+```{r, array}
+
+```
+</div>
+<br></br>
+
+### **Accessing Array Dimensions**
+
+But what if we want to make changes to, or otherwise access, one specific aspect of our array?
+
+The labels of the array; [1,,], [,1,], and [,,1] give us the clue. The structure of an array can be represented as [,,,], with each comma representing each dimension.
+
+Similar to a standard matrix, values in the first dimension [X,,] represent the rows of our data, or in this case, individual landmarks. So if we want to see the second landmark for every specimen in our dataset we simply:
+
+<div class = "code">
+```{r, lmks}
+
+```
+</div>
+<br></br>
+
+And similarly if we only want to see one of the xyz (1,2, or 3) values for all of our specimens:
+
+<div class = "code">
+```{r, xyz}
+
+```
+</div>
+<br></br>
+
+And finally, a single specimen can be selected like so:
+
+<div class = "code">
+```{r, specimen}
+
+```
+</div>
+<br></br>
+
+### **Multiple Selections**
+
+The above methods can be combined in whatever configuration is necessary for the researcher. Multiple values for each of these categories can also be selected, using a couple of different methods, depending on whether the values of interest are consecutive:
+
+For example, to access multiple, consecutive specimens in our dataset (say, specimens one through three), we can do this:
+
+<div class = "code">
+```{r, multi1}
+
+```
+</div>
+<br></br>
+
+Alternatively, if the specimens of interest are non-consecutive (say, specimens 1, 3, and 5) we simply input a vector of specimen numbers like so:
+
+<div class = "code">
+```{r, multi2}
+
+```
+</div>
+<br></br>

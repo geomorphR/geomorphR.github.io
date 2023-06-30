@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mark A. Conaway" />
+
+
+<title>Group-Comparison</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style/tutorial_theme.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo"style="height: 25px;" src="geomorph.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GM Preliminaries
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1.1-GeomorphDataTypes.html">Geomorph Data Types</a>
+    </li>
+    <li>
+      <a href="1.2-ReadingData.html">Reading Data</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data Manipulation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.3.1-GeomorphDataFrame.html">Geomorph Data Frame</a>
+        </li>
+        <li>
+          <a href="1.3.2-CombineLmkConfig.html">Combine Landmark Configurations (combine.subsets)</a>
+        </li>
+        <li>
+          <a href="1.3.3-Interlmkdist.html">Interlandmark Distances (interlmkdist)</a>
+        </li>
+        <li>
+          <a href="1.3.4-Flip-RotateLmks.html">Rotate or Flip Landmark Configurations (rotate.coords)</a>
+        </li>
+        <li>
+          <a href="1.3.5-AllAboutArrays.html">Create 3D Array (arrayspecs)</a>
+        </li>
+        <li>
+          <a href="1.3.6-Two.d.array.html">Convert Array to Matrix (two.d.array)</a>
+        </li>
+        <li>
+          <a href="1.3.7-EstMissing.html">Estimating Missing Landmarks</a>
+        </li>
+        <li>
+          <a href="1.3.8-IdentifyOutliers.html">Outlier Identification</a>
+        </li>
+        <li>
+          <a href="1.3.9-StandardizeArticulations.html">Standardizing Articulations</a>
+        </li>
+        <li>
+          <a href="1.3.10-SymmetricShapeGeneration.html">Symmetric Shape Generation</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">R Data Basics</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.4.1-SpecimenNames.html">Adding &amp; Changing Specimen Names</a>
+        </li>
+        <li>
+          <a href="1.4.2-ExtractingClassifiers.html">Extracting Classifiers</a>
+        </li>
+        <li class="dropdown-header">Reflecting Landmarks</li>
+        <li>
+          <a href="1.4.3-SwappingLandmarks.html">Swapping Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.4-DeletingSpecLmk.html">Delete Specs. and Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.5-MatchSpectoPhy.html">Matching Data to a Phylogeny</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Procrustes Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="2.1-GPAIntro.html">GPA Introduction</a>
+    </li>
+    <li>
+      <a href="2.2-GPAfixedlmks.html">GPA with fixed landmarks</a>
+    </li>
+    <li>
+      <a href="2.3-GPAcurves.html">GPA with curve semilandmarks</a>
+    </li>
+    <li>
+      <a href="2.4-GPAsurface.html">GPA with surface semilandmarks</a>
+    </li>
+    <li class="dropdown-header">gpagen Advanced Options</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Linear Models</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">ANOVA/Regression (ProcD.lm)</a>
+        </li>
+        <li>
+          <a href="3.1.2-Phylo-ANOVA-Regression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.1.3-Trajectoryanalysis.html">Phenotypic Trajectory Analysis</a>
+        </li>
+        <li>
+          <a href="3.1.4-Pairwisecomp.html">Pairwise Comparisons (pairwise)</a>
+        </li>
+        <li>
+          <a href="3.1.5-TwoBPLS.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.1.6-Bilatsymmanalysis.html">Analysis of Bilateral Symmetry (bilat.symmetry)</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shape Patterns</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.2.1-twobpls.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.2-integrationtest.html">Integration Test</a>
+        </li>
+        <li>
+          <a href="3.2.3-modularitytest.html">Modularity Test</a>
+        </li>
+        <li>
+          <a href="3.2.4-overallintegration.html">Overall Integration for a Set of Traits</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.2.7-globalintegration.html">Global Integration</a>
+        </li>
+        <li>
+          <a href="3.2.8-compareCR.html">Comparison of Modularity (compare.CR)</a>
+        </li>
+        <li>
+          <a href="3.2.9-comparepls.html">Comparison of Integration (compare.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.10-compareZVrel.html">Comparison of Overall Integration</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Phylogenetic Comparative Methods</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.3.1-compareevolrates.html">Compare Evolutionary Rates (compare.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.3.2-comparemultievol.html">Compare Multiple Evolutionary Rates (compare.multi.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Morphological Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.3.3-physignal.html">Assessing Phylogenetic Signal (physignal)</a>
+        </li>
+        <li>
+          <a href="3.3.4-physignalz.html">Assessing Phylogenetic Signal Effect Size (physignal.z)</a>
+        </li>
+        <li>
+          <a href="3.3.5-comparephysigz.html">Comparing Phylogenetic Signal Effect Sizes (compare.physignal.z)</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualizations
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="4.1-plotallspec.html">Plot Full Landmark Dataset (plotAllSpecimens)</a>
+    </li>
+    <li>
+      <a href="4.2-plotreftarg.html">Plot Shape Differences (plotRefToTarget)</a>
+    </li>
+    <li>
+      <a href="4.3-shapepred.html">Shape Prediction from Numeric Predictors (shape.predictor)</a>
+    </li>
+    <li>
+      <a href="4.4-Ordplot.html">Ordination: PCA, pPCA, and PaCA Analyses (gm.prcomp)</a>
+    </li>
+    <li>
+      <a href="4.5-plotallometry.html">Plot Allometry</a>
+    </li>
+    <li>
+      <a href="4.6-plotspec.html">Plot 3D Specimen (plotspec)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Common Workflows
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="5.1-Group-Comparisons.html">Group Comparisons</a>
+    </li>
+    <li>
+      <a href="4.2-VisShapeDiff.html">Visualizing Shape Differences</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Group-Comparison</h1>
+<h4 class="author">Mark A. Conaway</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>A common need in GM studies is to determine the extent to which two
+or more groups of organisms differ in their shape. There are three
+separate angles from which one can approach this problem.The first is
+simply to ask, “do these groups differ significantly from one another in
+terms of their shape?” The answer to this question is best acquired
+using a Procrustes ANOVA. Secondly, one might want to explore the extent
+to which one’s groups are different from one another. This is
+accomplished by way of a pairwise comparison which can tell the user
+specifically which groups (or which combinations of variables) are
+different from one another.</p>
+<p>Here, we will walk the reader through an entire workflow of a group
+comparison research project using R and geomorph. We will begin with
+preliminaries such as reading in data, Procrustes alignment, etc., and
+end with visualization of shape differences.</p>
+<p>Click on each step below to expand!</p>
+<div id="group-comparisons-using-geomorph"
+class="section level3 tabset tabset-fade tabset-pills">
+<h3 class="tabset tabset-fade tabset-pills"><strong>Group Comparisons
+using geomorph</strong></h3>
+<div id="preliminaries" class="section level4">
+<h4>0: Preliminaries</h4>
+<p>First we will need to read our data into R. There are several ways
+that this can be done with data in several different formats (see the <a
+href="">Reading Data</a> tutorial for detailed explanations of each).
+Here we will be using coordinate data of salamander crania in tps
+format. Additionally, data for our independent variables (site and
+species designation) will be read in from csv files.</p>
+<div class="code">
+<pre class="r custom-inline"><code>#load geomorph
+library(geomorph)
+
+#read in landmark data
+plethdata &lt;- readland.tps(&quot;Data-figures/plethland.tps&quot;, warnmsg = F)
+
+#read in site and species variables
+site &lt;- factor(as.matrix(read.csv(&quot;Data-figures/plethsite.csv&quot;, header = T)))
+species &lt;- factor(as.matrix(read.csv(&quot;Data-figures/plethspec.csv&quot;, header = T)))</code></pre>
+</div>
+<p><br></br></p>
+<div class="note">
+<p><strong>Important Note!</strong> The dataset being used here
+(including site and species data) is included with the geomorph package.
+Simply type <code>data(plethodon)</code> into the console to access it.
+We read these data in manually here for illustrative purposes only.</p>
+</div>
+<p><br></br></p>
+<p>Next, we will perform a Generalized Procrustes Analysis (GPA) on our
+coordinate data to remove the effects of translation, rotation, and
+scaling. Please see the <a href="">Generalize Procrustes Analysis</a>
+tutorial for more detailed information of the <code>gpagen</code>
+function.</p>
+<div class="code">
+<pre class="r custom-inline"><code>gpa &lt;- gpagen(plethdata, print.progress = F)</code></pre>
+</div>
+<p><br></br></p>
+<p>Finally, we will combine all of our data into a geomorph data frame.
+This is not required, but is highly recommended in order to ensure that
+our analyses will run smoothly.</p>
+<div class="code">
+<pre class="r custom-inline"><code>#create geomorph data frame
+gdf &lt;- geomorph.data.frame(gpa, site = site, species = species)
+
+#create a factor that includes all combinations of site and species
+gdf$Group &lt;- interaction(gdf$site, gdf$species)</code></pre>
+</div>
+<p><br></br></p>
+<p>Now we are ready to run our analyses!</p>
+</div>
+<div id="procrustes-anova" class="section level4">
+<h4>1: Procrustes ANOVA</h4>
+<p>For the first phase of our analysis, we will determine if our groups
+are significantly different from one another. A Procrustes analysis of
+variance (ANOVA) is useful for determining the significance of group
+differences. In the context of GM this can be rephrased as a
+determination of the extent to which the mean values of a particular
+group are a better estimate of shape than the mean of the entire
+dataset. For example, a common approach might be to use a Procrustes
+ANOVA to determine if species designation better explains shape than
+locomotor category. In that sense, then, a significant result for the
+former comparison allows the researcher to say that shape differs
+significantly among species in their dataset.</p>
+<p>To perform this analysis in geomorph, we will use the function
+<code>procD.lm</code>.</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>procD.lm() (Expand for more details)</code>
+</font>
+</summary>
+<p>This function performs a Procrustes ANOVA, allowing the user to
+determine whether coordinate data are correlated with other independent
+variables. The required input is a data frame, although the more
+specific geomorph data frame is recommended. Please note that some of
+the arguments for this function are not addressed here, but can be found
+in the separate <a href="">Advanced Options</a> tutorial.</p>
+<ul>
+<li><span class="math inline">\(f1\)</span>: Formula for the linear
+model, similar to a regression formula. So, given a dependent variable
+<span class="math inline">\(y\)</span> and two independent variables
+<span class="math inline">\(x1\)</span> and <span
+class="math inline">\(x2\)</span>, a possible formula could be something
+like y~x1+x2</li>
+<li><span class="math inline">\(iter\)</span>: Number of iterations for
+significance testing (default of 999)</li>
+<li><span class="math inline">\(seed\)</span>: Optional argument for
+setting the seed for random permutations of the resampling procedure. If
+this is left at NULL, results will be the same when analyses are run
+multiple times on the same data. This argument can also be set at
+“random” which will result in varying results when run multiple
+times.</li>
+<li><span class="math inline">\(RRPP\)</span>: Logical value (“TRUE” or
+“FALSE”) indicating whether residual randomization should be used for
+significance testing. See Collyer et al. (2015) for more information on
+this method.</li>
+<li><span class="math inline">\(SS.type\)</span>: The type of sums of
+squares (SS) used in computation. Input of “I” corresponds to sequential
+SS, “II” to hierarchical, and “III” to marginal sums of squares.</li>
+<li><span class="math inline">\(effect.type\)</span>: Specifies the
+random distribution from which effect size is estimated. Options are
+“F”, “SS”, “cohenf”, “MS”, or “Rsq”.</li>
+<li><span class="math inline">\(int.first\)</span>: Logical value
+indicating whether interactions of the first main effects should precede
+subsequent main effects.</li>
+<li><span class="math inline">\(data\)</span>: The input geomorph data
+frame (see above)</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+<p>Using the geomorph data frame that we created above, our input code
+for this function will look something like this:</p>
+<div class="code">
+<pre class="r custom-inline"><code>fit &lt;- procD.lm(coords ~ species * site, 
+                 data = gdf, iter = 999, turbo = TRUE,
+                 RRPP = TRUE, print.progress = FALSE)</code></pre>
+</div>
+<p><br></br></p>
+<p>The formula we are using (coords ~ species.V1 * site.V1) can be
+expressed alternatively as, “do different species of salamander differ
+significantly in their cranial shape, after accounting for the effects
+of habitat on species?”</p>
+<p>To view a summary of the overall results, simply use this code:</p>
+<div class="code">
+<pre class="r custom-inline"><code>summary(fit)</code></pre>
+<pre class="custom-inline"><code>## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##              Df       SS       MS     Rsq      F      Z Pr(&gt;F)   
+## species       1 0.029258 0.029258 0.14856 14.544 4.2241  0.001 **
+## site          1 0.064375 0.064375 0.32688 32.000 5.2101  0.001 **
+## species:site  1 0.030885 0.030885 0.15682 15.352 5.4075  0.001 **
+## Residuals    36 0.072422 0.002012 0.36774                        
+## Total        39 0.196940                                         
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Call: procD.lm(f1 = coords ~ species * site, iter = 999, RRPP = TRUE,  
+##     turbo = TRUE, data = gdf, print.progress = FALSE)</code></pre>
+</div>
+<p><br></br></p>
+<p>Here, each row corresponds to one of the comparisons specified in our
+formula, and each column is a result for that comparison.</p>
+<ul>
+<li><span class="math inline">\(Df\)</span> = Degrees of freedom</li>
+<li><span class="math inline">\(SS\)</span> = Sum of squares (total
+variance)</li>
+<li><span class="math inline">\(MS\)</span> = Mean Squares</li>
+<li><span class="math inline">\(Rsq\)</span> = R-squared (percentage of
+variance explained by group difference)</li>
+<li><span class="math inline">\(F\)</span> = The F value, or variation
+between sample means/variation within sample means</li>
+<li><span class="math inline">\(Z\)</span> = Z-score</li>
+<li><span class="math inline">\(Pr(&gt;F)\)</span> = P value</li>
+</ul>
+<p>Our results indicate that our salamander crania do indeed vary by
+species, and by site!</p>
+<p>Further, this function produces an object of class “procD.lm”, which
+is a list containing the following:</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>procD.lm Output</code> </font>
+</summary>
+<p>The following is the full output for the <code>procD.lm</code>
+function. Any of these subsets can be accessed using the <code>$</code>
+operator.</p>
+<ul>
+<li><span class="math inline">\(aov.table\)</span>: An analysis of
+variance table; the same as the summary.</li>
+<li><span class="math inline">\(call\)</span>: The input code.</li>
+<li><span class="math inline">\(coefficients\)</span>: A vector or
+matrix of linear model coefficients.</li>
+<li><span class="math inline">\(Y\)</span>: The response data, in matrix
+form.</li>
+<li><span class="math inline">\(X\)</span> The model matrix (This will
+be important for our visualizations later).</li>
+<li><span class="math inline">\(QR\)</span>: The decompositions of the
+model matrix into the product of an orthogonal matrix “Q” and an upper
+triangular matrix “R” generated from the calculation of
+eigenvalues.</li>
+<li><span class="math inline">\(fitted\)</span>: The fitted values.</li>
+<li><span class="math inline">\(residuals\)</span>: The residuals
+(observed responses - fitted responses).</li>
+<li><span class="math inline">\(weights\)</span>: The weights used in
+weighted least-squares fitting. If no weights are used, NULL is
+returned.</li>
+<li><span class="math inline">\(Terms\)</span>: The results of the terms
+function applied to the model matrix</li>
+<li><span class="math inline">\(term.labels\)</span>: The terms used in
+the input formula for the linear model</li>
+<li><span class="math inline">\(data\)</span>: The data frame for the
+model.</li>
+<li><span class="math inline">\(SS\)</span>: The sums of squares for
+each term, model residuals, and the total.</li>
+<li><span class="math inline">\(SS.type\)</span>: The type of sums of
+squares. One of type I or type III.</li>
+<li><span class="math inline">\(df\)</span>: The degrees of freedom for
+each SS.</li>
+<li><span class="math inline">\(R2\)</span>: The coefficient of
+determination for each model term.</li>
+<li><span class="math inline">\(F\)</span>: The F values for each model
+term.</li>
+<li><span class="math inline">\(permutations\)</span>: The number of
+random permutations (including observed) used.</li>
+<li><span class="math inline">\(random.SS\)</span>: A matrix of random
+SS found via the resampling procedure used.</li>
+<li><span class="math inline">\(random.F\)</span>: A matrix or vector of
+random F values found via the resampling procedure used.</li>
+<li><span class="math inline">\(random.cohenf\)</span>: A matrix or
+vector of random Cohen’s f-squared values found via the resampling
+procedure used.</li>
+<li><span class="math inline">\(permutations\)</span>: The number of
+random permutations (including observed) used.</li>
+<li><span class="math inline">\(effect.type\)</span>: The distribution
+used to estimate effect-size.</li>
+<li><span class="math inline">\(perm.method\)</span>: A value indicating
+whether “Raw” values were shuffled or “RRPP” performed.</li>
+<li><span class="math inline">\(gls\)</span>: This prefix will be used
+if a covariance matrix is provided to indicate GLS computations.</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+</div>
+<div id="pairwise-comparisons" class="section level4">
+<h4>2: Pairwise Comparisons</h4>
+<p>The Procrustes ANOVA allows us to answer the question, “do our groups
+differ?” And our initial analyses tell us that indeed they do.
+Specifically, we learned that X can be considered a significant
+predictor of Y. However, what this method does not tell us is exactly
+which subsets of our groups are different. In other words, while we know
+that our groups are different given our variables, the extent of that
+difference is still unknown. Given our example dataset, the answer to
+this question may seem rather obvious since we have fairly clear
+groupings in the plot of our fit:</p>
+<div class="code">
+<pre class="r custom-inline"><code>fitplot &lt;- plot(fit, pch = 21, bg = gdf$Group, type = &quot;PC&quot;)
+legend(&quot;topright&quot;, legend = levels(gdf$Group), pch = 21, pt.bg = 1:4)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="5.1-Group-Comparisons_files/figure-html/plotfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>However, we do not know which of these groups are statistically
+significantly different from one another. And of course, one could
+easily imagine a dataset with differences that are far less clear, but
+nonetheless potentially significant. A pairwise comparison will give us
+a more complete picture of this. We will be using the
+<code>pairwise</code> function found in RRPP, a dependent package of
+geomorph, that is automatically loaded when geomorph is loaded.</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>pairwise()</code> </font>
+</summary>
+<p>This function allows the user to perform pairwise comparisons of
+group means of a linear model fit generated from a Procrustes ANOVA.
+Note that there are some arguments that are not addressed here, but
+instead are explained in more detail in the <a href="">Advanced
+Options</a> tutorial.</p>
+<ul>
+<li><span class="math inline">\(fit\)</span>: A linear model fit. In our
+case, it is the object we created using <code>procD.lm</code></li>
+<li><span class="math inline">\(groups\)</span>: A factor or vector that
+can be coerced into a factor that describes the groups for which we want
+to perform our pairwise comparisons with</li>
+<li><span class="math inline">\(print.progress\)</span>:</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+<p>Now, let’s run our analysis:</p>
+<div class="code">
+<pre class="r custom-inline"><code>pairs &lt;- pairwise(fit, groups = gdf$Group)</code></pre>
+</div>
+<p><br></br></p>
+<p>Our input is the object <code>fit</code> we created with
+<code>procD.lm</code>. Comparisons are specified by the
+<code>group</code> argument. The comparisons we are making here are as
+follows:</p>
+<ul>
+<li>Allopatric <span class="math inline">\(P. jordani\)</span>
+vs. Sympatric <span class="math inline">\(P. jordani\)</span>
+(Allo.Jord:Symp.Jord)</li>
+<li>Allopatric <span class="math inline">\(P. jordani\)</span>
+vs. Allopatric <span class="math inline">\(P. teyahalee\)</span>
+(Allo.Jord:Allo.Teyah)</li>
+<li>Allopatric <span class="math inline">\(P. jordani\)</span>
+vs. Sympatric <span class="math inline">\(P. teyahalee\)</span>
+(Allo.Jord:Symp.Teyah)</li>
+<li>Sympatric <span class="math inline">\(P. jordani\)</span>
+vs. Allopatric <span class="math inline">\(P. teyahalee\)</span>
+(Symp.Jord:Allo.Teyah)</li>
+<li>Sympatric <span class="math inline">\(P. jordani\)</span>
+vs. Sympatric <span class="math inline">\(P. teyahalee\)</span>
+(Symp.Jord: Symp.Teyah)</li>
+<li>Allopatric <span class="math inline">\(P. teyahalee\)</span>
+vs. Sympatric <span class="math inline">\(P. teyahalee\)</span>
+(Allo.Teyah:Symp.Teyah)</li>
+</ul>
+<p>Our results for these comparisons can be viewed in the same way as
+for the ANOVA:</p>
+<div class="code">
+<pre class="r custom-inline"><code>summary(pairs)</code></pre>
+<pre class="custom-inline"><code>## 
+## Pairwise comparisons
+## 
+## Groups: Allo.Jord Symp.Jord Allo.Teyah Symp.Teyah 
+## 
+## RRPP: 1000 permutations
+## 
+## LS means:
+## Vectors hidden (use show.vectors = TRUE to view)
+## 
+## Pairwise distances between means, plus statistics
+##                                d  UCL (95%)          Z Pr &gt; d
+## Allo.Jord:Symp.Jord   0.09566672 0.09226464  2.2305051  0.015
+## Allo.Jord:Allo.Teyah  0.02432519 0.07774489 -3.1495859  1.000
+## Allo.Jord:Symp.Teyah  0.10136696 0.11812556 -0.1921641  0.568
+## Symp.Jord:Allo.Teyah  0.09193082 0.10897149 -0.3111746  0.628
+## Symp.Jord:Symp.Teyah  0.10694324 0.07639056  3.9866153  0.001
+## Allo.Teyah:Symp.Teyah 0.09949800 0.09314049  2.6760941  0.003</code></pre>
+</div>
+<p><br></br></p>
+<p>These results show that all but one of these groups are significantly
+different from the others in terms of shape. The one non-significant
+comparison was between the allopatric <span class="math inline">\(P.
+jordani\)</span> and the allopatric <span class="math inline">\(P.
+teyahalee\)</span>. In words, this means that these two species have
+more similar morphology when their habitats do not overlap (allopatry),
+and that close contact between them (sympatry) may have led to a
+divergence of that morphology. Our previous plot of ANOVA results makes
+much more sense now!</p>
+</div>
+<div id="visualizations" class="section level4">
+<h4>3: Visualizations</h4>
+<p>Now that we know that 1) our groups differ and 2) to what extent they
+differ, the final piece of our analytical puzzle is to determine exactly
+<span class="math inline">\(how\)</span> our groups differ. In other
+words, what physical traits specifically contribute to the differences
+we see among groups.</p>
+<p>In order to do this, we will utilize two functions found in geomorph;
+<code>shape.predictor</code> and <code>plotRefToTarget</code>.</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>shape.predictor()</code> </font>
+</summary>
+<p>This function generates sets of predicted landmark coordinates of
+groups in a dataset based on Procrustes-aligned coordinates, and any
+number of input predictors. The resulting shape predictions can be used
+then for visualization of shape differences among groups, using
+<code>plotRefToTarget</code> (see below).</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: A 3D array of
+Procrustes-aligned coordinates.</li>
+<li><span class="math inline">\(x\)</span>: Linear numeric predictors
+such as PC scores, or a factor (designations for a discrete variable).
+In our case, this will be the model (or design) matrix returned by the
+<code>procD.lm</code> function.</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>plotRefToTarget()</code> </font>
+</summary>
+<ul>
+<li><span class="math inline">\(M1\)</span>: Landmark coordinates for
+the reference specimen</li>
+<li><span class="math inline">\(M2\)</span>: Landmark coordinates for
+the target specimen</li>
+<li><span class="math inline">\(links\)</span>: A matrix defining links
+between landmarks, for visualization purposes.</li>
+<li><span class="math inline">\(method\)</span>: One of four potential
+types of plot for displaying the results.</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+<p>To generate our visualizations, first we will need to use
+<code>shape.predictor</code>:</p>
+<div class="code">
+<pre class="r custom-inline"><code>X &lt;- fit$X
+X &lt;- X[,-1]
+symJord &lt;- c(0,1,0) # design for P. Jordani in sympatry
+alloJord &lt;- c(0,0,0) # design for P. Jordani in allopatry
+pred &lt;- shape.predictor(arrayspecs(fit$fitted, 12,2), x = X, symJord=symJord, alloJord=alloJord, 
+                        Intercept = T)</code></pre>
+</div>
+<p><br></br></p>
+<p>As arguments for the function we include the fitted values generated
+from our Procrustes ANOVA (A), as well as the model matrix of the same
+analysis (X). This matrix indicates which individual belongs to which
+subgroup of our data using 1s and 0s. The final two arguments here are
+the specific groups (among our total potential combinations of factors)
+for which we want to generate visual comparisons. The result are two
+sets of landmark coordinates; one for each requested prediction:</p>
+<div class="code">
+<pre class="r custom-inline"><code>pred$symJord</code></pre>
+<pre class="custom-inline"><code>##             1            2
+## 1   0.1818847 -0.009361447
+## 2   0.2051431 -0.075816757
+## 3  -0.0344502  0.001353607
+## 4  -0.2819713 -0.098427956
+## 5  -0.3133573 -0.063571878
+## 6  -0.3269658 -0.041961937
+## 7  -0.3255171  0.038844601
+## 8  -0.1891747  0.099668691
+## 9   0.0228886  0.104148031
+## 10  0.1959484  0.083237658
+## 11  0.3281302  0.066775437
+## 12  0.5374415 -0.104888050
+## attr(,&quot;class&quot;)
+## [1] &quot;mshape&quot; &quot;matrix&quot;</code></pre>
+</div>
+<p><br></br></p>
+<p>Finally, to visualize the difference between these two groups, we
+will use the <code>plotRefToTarget</code> function:</p>
+<div class="code">
+<pre class="r custom-inline"><code>M &lt;- gpa$consensus
+plotRefToTarget(M, pred$symJord, mag=2)
+plotRefToTarget(M, pred$alloJord, mag=2)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="5.1-Group-Comparisons_files/figure-html/plotref-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here, M is the consensus, or mean, shape of our <span
+class="math inline">\(original\)</span> input landmark data. The second
+argument is one of the two sets of landmarks generated by
+<code>shape.predictor</code>. The “links” landmark is a matrix
+indicating which landmarks should have lines drawn between them, further
+aiding visualization. This matrix is structured like so:</p>
+<div class="code">
+<pre class="r custom-inline"><code>plethodon$links</code></pre>
+<pre class="custom-inline"><code>##       [,1] [,2]
+##  [1,]    4    5
+##  [2,]    3    5
+##  [3,]    2    4
+##  [4,]    1    2
+##  [5,]    1    3
+##  [6,]    6    7
+##  [7,]    7    8
+##  [8,]    8    9
+##  [9,]    9   10
+## [10,]   10   11
+## [11,]   11   12
+## [12,]   12    1
+## [13,]    1    9
+## [14,]    1   10</code></pre>
+</div>
+<p><br></br></p>
+<p>The “method” for visualization used above is the default “TPS.” There
+are two other potential ways in which results of this function can be
+plotted (for 2D landmark data) which we illustrate here:</p>
+<div class="code">
+<pre class="r custom-inline"><code>par(mfrow=c(1,3))
+plotRefToTarget(M, pred$symJord, mag=2, method = &quot;TPS&quot; )
+plotRefToTarget(M, pred$symJord, mag=2, method = &quot;vector&quot;)
+plotRefToTarget(M, pred$symJord, mag=2, method = &quot;points&quot;)</code></pre>
+</div>
+<p><br></br></p>
+<p><img src="5.1-Group-Comparisons_files/figure-html/method-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

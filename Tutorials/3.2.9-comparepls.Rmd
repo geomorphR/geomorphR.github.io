@@ -1,0 +1,79 @@
+---
+title: "**Comparison of Integration**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/comparepls.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+When one is performing integration research on sets of traits in different samples, it is often of interest to determine whether those integration values are significantly different from one another. The function `compare.pls` allows one to statistically compare effect sizes of two or more PLS analyses; in particular, one might wish to compare integration between two or more samples, each measuring integration between different modules. This analysis calculates effect sizes as standard deviates, z, and performs two-sample z-tests, using the pooled standard error from the sampling distributions of the PLS analyses (Adams & Collyer, 2016).
+
+The input for this function must be of class "pls," that is, an object resulting from the functions [two.b.pls](), [integration.test](), or [phylo.integration](). Any number of objects can be input.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.pls()` </font> </summary>
+  
+* $...$: saved analyses of class pls
+* $two.tailed$: A logical value to indicate whether a two-tailed test (typical and default) should be performed.
+
+</details>
+</div>
+<br></br>
+
+## **Example of Analysis**
+
+By way of example, we present an analysis of the sexual dimorphism of integration between the head and tail of pupfish. These data are included with `geomorph` by default, as a single object. The data have been separated by type (head vs. tail) and sex for the purposes of this example. Please see the tutorials on  Data Manipulation and R Data Basic for information on how to accomplish this.
+
+Here, the object 'group,' refers to the factor used to partition the pupfish data.
+
+<div class = "code">
+```{r, group}
+
+```
+</div>
+<br></br>
+
+
+Now, we run our PLS analyses using the `map` function. This allows use to run the function on each of the partitioned sets of coordinates.
+
+<div class = "code">
+```{r, integ}
+
+```
+</div>
+
+This returns a list object containing the results of our four integration tests. Remember that objects within a list can be accessed using the $ operator.
+
+Finally, we perform the statistical comparison of our results.
+
+<div class = "code">
+```{r, compare}
+
+```
+</div>
+
+Summarizing these results, returns two tables of pairwise z-tests and p-values, as well as the effect sizes for each of the integration analyses.
+
+This function returns an object of class "compare.pls", which is a list containing the following:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.pls` output </font> </summary>
+  
+* $sample.z$:	A vector of effect sizes for each sample.
+* $sample.r.sd$: A vector of standard deviations for each sampling distribution (following Box-Cox transformation).
+* $pairwise.z$:	A matrix of pairwise, two-sample z scores between all pairs of effect sizes.
+* $pairwise.p$:	A matrix of corresponding P-values.
+
+</details>
+</div>
+<br></br>

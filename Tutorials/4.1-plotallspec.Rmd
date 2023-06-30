@@ -1,0 +1,89 @@
+---
+title: "**Visualizing a Full Landmark Dataset**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/plotallspec.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+A useful step to visualize patterns of shape variation of a set of specimens (after [GPA]()) is to display all landmark coordinates for all specimens in a  single plot. This can be done using the `plotAllSpecimens` function in geomorph.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `plotAllSpecimens()` </font> </summary>
+  
+* $A$: A [3D array]() (p x k x n) containing Procrustes shape variables for a set of specimens.
+* $mean$: A logical value (TRUE or FALSE) indicating whether the mean shape should be included in the plot.
+* $links$: An optional matrix defining for links between landmarks (only if mean=TRUE).
+* $label$: A logical value indicating whether landmark numbers will be plotted (only if mean=TRUE).
+* $plot.param$: A list of plot parameters for the points (pt.bg, pt.cex), mean (mean.bg, mean.cex), links (link.col, link.lwd, link.lty) and landmark labels (txt.cex, txt.adj, txt.pos, txt.col).
+
+</details>
+</div>
+<br></br>
+
+## **Plotting two-dimensional landmark data**
+
+With two-dimensional data, `plotAllSpecimens` returns a plot like this:
+
+<div class = "code">
+```{r, eval=FALSE}
+plotAllSpecimens(gpagen(plethodon$land)$coords)
+```
+</div>
+<br></br>
+
+
+```{r, 2dplot, echo=FALSE}
+
+```
+
+
+## **Adding landmark links**
+
+Additionally, links between landmarks can be specified in order to generate a wireframe to more easily visualize shape variation. The input for this argument is a matrix of this format:
+
+<div class = "code">
+```{r, links}
+
+```
+</div>
+<br></br>
+
+<div class = "code">
+```{r, eval=FALSE}
+plotAllSpecimens(gpagen(plethodon$land)$coords, links = plethodon$links)
+```
+</div>
+<br></br>
+
+
+```{r, 2dplotlink, echo=F}
+
+```
+
+
+## **Plotting three-dimensional landmark data**
+
+Plotting 3D data is done the same way as with two dimensional data, but the output is an interactive plot that opens automatically in a new window. Links between landmarks can likewise be added to a 3D plot.
+
+<div class = "code">
+```{r, eval=FALSE}
+plotAllSpecimens(gpagen(scallops$coorddata)$coords)
+```
+</div>
+<br></br>
+
+
+```{r, 3dplot, echo=F}
+
+```
+

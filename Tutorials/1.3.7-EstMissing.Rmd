@@ -1,0 +1,234 @@
+---
+title: "**Estimate Missing Landmarks**"
+author: "Dean Adams, Michael Collyer, Antigoni Kaliontzopoulou, & Mark A. Conaway"
+---
+<br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/EstMissing.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r prelims, include=FALSE, echo = TRUE}
+
+```
+
+## **Introduction**
+
+Sometimes, specimens are not fully intact, and there are missing landmarks. For these specimens, one cannot digitize the locations of those points, as they are found in broken, or otherwise absent regions. Because geometric morphometric methods requires objects containing a complete set of landmarks for subsequent analyses (GPA superimposition and downstream statistical assessments), one must do one of the following three options:
+
+* Eliminate all specimens with missing data
+* Eliminate all landmarks that are not found on all specimens
+* Estimate the locations of missing landmarks in some intelligent manner
+
+Clearly, the first and second options are sub-optimal.  Instead we will estimate the locations of missing landmarks in `geomorph`. There are three main ways that have been used to estimate the positions of missing landmarks:
+
+1. TPS interpolation
+2. multivariate regression
+3. exploiting symmetry
+
+Methods 1 & 2 are implemented within the `estimate.missing` function of `geomorph`, and the third can be implemented using the R package Morpho
+<br></br>
+
+#### **Estimating missing data using the `estimate.missing` Function in `geomorph`**
+
+The `estimate.missing` function allows the user to estimate the locations of missing landmarks using one of two methods; 1) Thin-plate Spline, and 2) Regression. Here we will show how each of these methods work, and the results that they generate.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `estimate.missing()` </font> </summary> 
+This function allows for the estimation of missing landmark data in a set of specimens. Each of the two possible methods requires a reference in order to perform the estimation. The possible arguments, or input values specified by the user,
+are below: 
+
+* $A$: An [array]() containing landmark coordinates for a set of specimens
+* $method$: Specifies the method that should be used for estimating missing landmarks. The options are
+"TPS", or "Reg". Each will be explained in detail below. 
+
+It is important to note that the "Reg" method requires a minimum of $2m+2$ specimens in order to estimate $m$ missing landmarks.
+</details>
+</div>
+<br></br>
+
+#### **Using Thin-Plate Spline Interpolation (`TPS`)**
+
+A more general approach is to use thin-plate spline interpolation. Here, one uses the covariation among existing landmarks on one object to infer the position of the missing landmark on the other.
+
+
+Let's see an example using the salamander data including with `geomorph`:
+<br></br> 
+
+<div class = "code">
+```{r, plethdata, results='hide'}
+
+```
+</div>
+<br></br>
+
+```{r, PCAandplot, echo=FALSE, out.width="70%"}
+
+```
+
+ 
+The above figure illustrates the extremes of variation of this dataset (bottom left and right),as well as its mean shape (top-right). The `estimate.missing` function will use this mean shape as reference. Incomplete specimens will be aligned to the reference, and the locations of missing landmarks will be estimated using a thin-plate spline. 
+
+Now let's delete some landmarks from the three specimens highlighted in red:
+
+
+```{r, deletelmkspleth, echo=FALSE,eval=TRUE, out.width="70%"}
+
+```
+
+<br></br>
+
+Finally, let's estimate the landmarks via the thin-plate spline and compare to the actual specimens:
+
+<div class = "code">
+```{r, estmissingpleth, eval=TRUE,out.width="90%"}
+
+```
+</div>
+<br></br>
+
+Now plot and compare:
+
+```{r, plotcomparepleth, echo=FALSE,eval=TRUE,out.width="90%"}
+
+```
+
+
+The numbers above are measures of shape difference (Procrustes distance). As we can see, this is pretty good also, and does not require object symmetry.
+<br></br>
+
+#### **Using Regression (`Reg`)**
+
+Perhaps the most general approach is to use regression to estimate the locations of missing landmarks. Using the same salamander data: 
+
+<div class = "code">
+```{r, estmissingreg, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+Now plot and compare:
+
+<div class = "code">
+```{r, eval=FALSE}
+par(mfrow=c(2,2))
+plotRefToTarget(ref,ref,links=plethodon$links)
+mtext("Reference")
+plotRefToTarget(ref,GPA$coords[,,1],links=plethodon$links)
+mtext("TPS: Reference --> Original")
+plotRefToTarget(ref,new.reg[,,1],links=plethodon$links)
+mtext("TPS: Ref --> Estimated Specimen")
+plotRefToTarget(GPA$coords[,,1],new.reg[,,1],links=plethodon$links)
+mtext("TPS: Original --> Estimated Specimen")
+```
+</div>
+<br></br>
+
+
+```{r, plotcomparereg1, echo=FALSE}
+
+```
+
+<div class = "code">
+```{r, plotcomparereg2}
+
+```
+</div>
+As we can see from the Procrustes distances, this method is even better at estimating the locations of missing landmarks!
+
+<br></br>
+
+#### **Exploiting Object Symmetry**
+
+If one's specimens are symmetric, the locations on one side of the axis of symmetry may be used to estimate the locations of missing landmarks on the other side of the symmetry axis. Below is a simple example (**NOTE: we will use the R-package `Morpho` for the symmetry-based landmark estimation**). 
+
+<br>
+
+Here is some sample data (lizard skulls) 
+
+<div class = "code">
+```{r, sampledata, eval=TRUE,out.width="70%"}
+
+```
+</div>
+<br></br>
+
+```{r, plotallspecimens, eval=TRUE, echo = FALSE, out.width="70%"}
+
+```
+<br></br>
+
+In the right-hand plot, the red dot represents the location of the specimen (#62) for which we have missing data.
+
+In the above code, `land.prs` is a matrix identifying the bilateral pairs of landmarks in this dataset. 
+<br></br>
+
+<div class = "code">
+```{r, lmkpairs}
+
+```
+</div>
+<br></br>
+
+Here we show the missing landmarks: 
+
+
+```{r, missinglmksliz, echo = FALSE, out.width="50%"}
+
+```
+<br></br>
+
+```{r deletelmksliz, echo=FALSE}
+
+```
+
+```{r, specframe}
+
+```
+<br></br>
+
+#### **Estimating missing data by exploiting object symmetry**
+ 
+Now let's estimate the locations of the missing landmarks by their respective landmarks on the other side of the symmetry axis. Exploiting symmetry is a biologically-driven manner of estimating missing landmarks, but is only appropriate for symmetric objects.This is most easily accomplished using the `fixLMmirror` function found in the package `Morpho`. All that is required is a [3D array](Tutorials/1.1-ReadingData.html) of [Procrustes-aligned](Tutorials/2.1-GeneralizedProcrustesAnalysis.html) landmark coordinates with missing data (`inc.shape`), and a 2-column matrix identifying paired landmark numbers (`land.prs`) 
+<br></br>
+
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `fixLMmirror() (Expand for more details)` </font> </summary> 
+This function allows you to extract landmark coordinates from a "shapes," file in your working environment. The possible arguments, or input values specified by the user,
+are below: 
+
+* $x$: A matrix or an array of landmark coordinates. These can be either 2D or 3D
+* $pairedLM$: A matrix identifying pairs of landmarks (as shown above) 
+</details>
+</div>
+<br></br> 
+
+<div class = "code">
+```{r, estmissingliz, eval=TRUE,out.width="70%"}
+
+```
+</div>
+<br></br>
+
+Now plot and compare via Procrustes distance with the original:
+
+
+```{r, plotcompareliz1, eval=TRUE, echo=FALSE}
+
+```
+
+
+<div class = "code">
+```{r, plotcompareliz2, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+The number above is the amount of shape difference expressed as Procrustes distance.
+<br></br>

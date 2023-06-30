@@ -1,0 +1,97 @@
+---
+title: "**Standardizing Articulation Angles**"
+author: "Dean Adams, Michael Collyer, Antigoni Kaliontzopoulou, & Mark Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/StandardizeArticulations.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+
+```{r, prelims, include=FALSE}
+
+```
+
+
+## **Introduction**
+
+Sometimes, we obtain landmarks from specimens containing more than one anatomical component, and the relative positions of those components cannot be standardized *a priori*. In such cases, we must 'fix' their relative positions prior to [GPA](Tutorials/2.1-GeneralizedProcrustesAnalysis.html).`Geomorph` has this ability through the function `fixed.angle`, which implements one approach to the problem as outlined in Adams (1999) *Evol. Ecol. Res.*
+
+<div class = "note">
+**Note that, at present, this function may only be used for two-dimensional landmark data. For 3D data, one could use the R-package `ShapeRotator`, which generalizes Adams (1999) for 3D articulations. **
+</div>
+<br></br>
+
+Here we provide a simple example where we have some salamander data where the angle of articulation of the jaw is variable:
+
+```{r, gpadata, echo=FALSE}
+
+```
+
+<br></br>
+
+
+```{r, plotallspecimens, echo=FALSE, out.width="70%", fig.align='center'}
+
+```
+
+
+### **Input**
+
+Now let's fix the articulation angle using `fixed.angle`. There are several arguments of importance in this function that we will need to specify:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `fixed.angle() (Expand for more details)` </font> </summary>
+  
+* $A$: The input data which needing to be[Procrustes-aligned](Tutorials/2.1-GeneralizedProcrustesAnalysis.html) landmark coordinates in [3D array](Tutorials/1.1-ReadingData.html) format.
+
+* $art.pt$ This specifies the 'vertex' of the angle, or which landmark is the point of articulation of the joint; in this case, landmark 1.
+
+* $angle.pts.1$ and $angle.pts.2$: These arguments are used to specify the terminal landmarks of each 'ray' of the angle; in this case, landmarks 5 and 6:
+
+
+<div class = "code">
+```{r, endpoints, out.width="70%", fig.align='center'}
+
+```
+</div>
+<br></br>
+
+* $rot.pts$: specifies which landmarks will actually be rotated by the function. We want the mandible to move, so we list landmarks 2, 3, 4, and 5. 
+ 
+* $angle$: This argument allows us to specify the angle that we want our specimens to be rotated to. The default value for this will be the angle of the mean specimen (right?). Any values indicated here will be **in addition** to the mean angle.
+</details>
+</div>
+<br></br>
+
+<div class = "code">
+```{r, fixarticul, eval=TRUE}
+
+```
+</div>
+<br></br>
+
+ 
+### **Output**
+
+The output of `fixed.angle` is a [3D array](Tutorials/1.1-ReadingData.html) of landmark coordinates. So, let's compare our original dataset with variable articulation angles, to the adjusted dataset using `plotAllSpecimens`:
+
+<div class = "code">
+```{r,eval=FALSE}
+par(mfrow=c(1,2))
+plotAllSpecimens(gpa.rand, links = plethodon$links)
+mtext("Jaws Random Angles")
+plotAllSpecimens(gpa.fixed, links = plethodon$links)
+mtext("Jaws Standardized to Common Angle")
+plotRefToTarget(gpa.rand[,,1], gpa.rand[,,1], 
+                gridPars = GP, links = links.art, label = TRUE, method = "points")
+```
+</div>
+<br></br>
+
+```{r,plotcompare, echo=FALSE}
+
+```

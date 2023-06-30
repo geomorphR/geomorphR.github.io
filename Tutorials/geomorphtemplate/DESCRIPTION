@@ -1,0 +1,15 @@
+Package: geomorphTutorialTemplate
+Type: Package
+Title: Allows for use of a template when creating new geomorph tutorials in Rmarkdown
+Version: 0.1.0
+Authors@R: person("Mark", "Conaway", email = "markcona@iastate.edu",
+                  role = c("aut", "cre"))
+Description: This package exists only so one may utilize a pre-made template for future geomorph tutorials.
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 3.1)
+Imports:
+    stringr
+
+

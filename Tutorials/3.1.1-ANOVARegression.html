@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mark A. Conaway" />
+
+
+<title>ANOVA/Regression</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style/tutorial_theme.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo"style="height: 25px;" src="geomorph.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GM Preliminaries
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1.1-GeomorphDataTypes.html">Geomorph Data Types</a>
+    </li>
+    <li>
+      <a href="1.2-ReadingData.html">Reading Data</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data Manipulation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.3.1-GeomorphDataFrame.html">Geomorph Data Frame</a>
+        </li>
+        <li>
+          <a href="1.3.2-CombineLmkConfig.html">Combine Landmark Configurations (combine.subsets)</a>
+        </li>
+        <li>
+          <a href="1.3.3-Interlmkdist.html">Interlandmark Distances (interlmkdist)</a>
+        </li>
+        <li>
+          <a href="1.3.4-Flip-RotateLmks.html">Rotate or Flip Landmark Configurations (rotate.coords)</a>
+        </li>
+        <li>
+          <a href="1.3.5-AllAboutArrays.html">Create 3D Array (arrayspecs)</a>
+        </li>
+        <li>
+          <a href="1.3.6-Two.d.array.html">Convert Array to Matrix (two.d.array)</a>
+        </li>
+        <li>
+          <a href="1.3.7-EstMissing.html">Estimating Missing Landmarks</a>
+        </li>
+        <li>
+          <a href="1.3.8-IdentifyOutliers.html">Outlier Identification</a>
+        </li>
+        <li>
+          <a href="1.3.9-StandardizeArticulations.html">Standardizing Articulations</a>
+        </li>
+        <li>
+          <a href="1.3.10-SymmetricShapeGeneration.html">Symmetric Shape Generation</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">R Data Basics</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="1.4.1-SpecimenNames.html">Adding &amp; Changing Specimen Names</a>
+        </li>
+        <li>
+          <a href="1.4.2-ExtractingClassifiers.html">Extracting Classifiers</a>
+        </li>
+        <li class="dropdown-header">Reflecting Landmarks</li>
+        <li>
+          <a href="1.4.3-SwappingLandmarks.html">Swapping Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.4-DeletingSpecLmk.html">Delete Specs. and Landmarks</a>
+        </li>
+        <li>
+          <a href="1.4.5-MatchSpectoPhy.html">Matching Data to a Phylogeny</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Procrustes Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="2.1-GPAIntro.html">GPA Introduction</a>
+    </li>
+    <li>
+      <a href="2.2-GPAfixedlmks.html">GPA with fixed landmarks</a>
+    </li>
+    <li>
+      <a href="2.3-GPAcurves.html">GPA with curve semilandmarks</a>
+    </li>
+    <li>
+      <a href="2.4-GPAsurface.html">GPA with surface semilandmarks</a>
+    </li>
+    <li class="dropdown-header">gpagen Advanced Options</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Linear Models</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">ANOVA/Regression (ProcD.lm)</a>
+        </li>
+        <li>
+          <a href="3.1.2-Phylo-ANOVA-Regression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.1.3-Trajectoryanalysis.html">Phenotypic Trajectory Analysis</a>
+        </li>
+        <li>
+          <a href="3.1.4-Pairwisecomp.html">Pairwise Comparisons (pairwise)</a>
+        </li>
+        <li>
+          <a href="3.1.5-TwoBPLS.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.1.6-Bilatsymmanalysis.html">Analysis of Bilateral Symmetry (bilat.symmetry)</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shape Patterns</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.2.1-twobpls.html">Two-block Partial Least Squares (two.b.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.2-integrationtest.html">Integration Test</a>
+        </li>
+        <li>
+          <a href="3.2.3-modularitytest.html">Modularity Test</a>
+        </li>
+        <li>
+          <a href="3.2.4-overallintegration.html">Overall Integration for a Set of Traits</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.2.7-globalintegration.html">Global Integration</a>
+        </li>
+        <li>
+          <a href="3.2.8-compareCR.html">Comparison of Modularity (compare.CR)</a>
+        </li>
+        <li>
+          <a href="3.2.9-comparepls.html">Comparison of Integration (compare.pls)</a>
+        </li>
+        <li>
+          <a href="3.2.10-compareZVrel.html">Comparison of Overall Integration</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Phylogenetic Comparative Methods</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="3.1.1-ANOVARegression.html">Phylogenetic ANOVA/Regression (ProcD.pgls)</a>
+        </li>
+        <li>
+          <a href="3.3.1-compareevolrates.html">Compare Evolutionary Rates (compare.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.3.2-comparemultievol.html">Compare Multiple Evolutionary Rates (compare.multi.evol.rates)</a>
+        </li>
+        <li>
+          <a href="3.2.5-phylointegration.html">Phylogenetic Morphological Integration (phylo.int)</a>
+        </li>
+        <li>
+          <a href="3.2.6-phylomodularity.html">Phylogenetic Modularity (phylo.mod)</a>
+        </li>
+        <li>
+          <a href="3.3.3-physignal.html">Assessing Phylogenetic Signal (physignal)</a>
+        </li>
+        <li>
+          <a href="3.3.4-physignalz.html">Assessing Phylogenetic Signal Effect Size (physignal.z)</a>
+        </li>
+        <li>
+          <a href="3.3.5-comparephysigz.html">Comparing Phylogenetic Signal Effect Sizes (compare.physignal.z)</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualizations
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="4.1-plotallspec.html">Plot Full Landmark Dataset (plotAllSpecimens)</a>
+    </li>
+    <li>
+      <a href="4.2-plotreftarg.html">Plot Shape Differences (plotRefToTarget)</a>
+    </li>
+    <li>
+      <a href="4.3-shapepred.html">Shape Prediction from Numeric Predictors (shape.predictor)</a>
+    </li>
+    <li>
+      <a href="4.4-Ordplot.html">Ordination: PCA, pPCA, and PaCA Analyses (gm.prcomp)</a>
+    </li>
+    <li>
+      <a href="4.5-plotallometry.html">Plot Allometry</a>
+    </li>
+    <li>
+      <a href="4.6-plotspec.html">Plot 3D Specimen (plotspec)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Common Workflows
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="5.1-Group-Comparisons.html">Group Comparisons</a>
+    </li>
+    <li>
+      <a href="4.2-VisShapeDiff.html">Visualizing Shape Differences</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><strong>ANOVA/Regression</strong></h1>
+<h4 class="author">Mark A. Conaway</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2><strong>Introduction</strong></h2>
+<p>The geomorph function <code>procD.lm</code> quantifies the relative
+amount of shape variation attributable to one or more factors in a
+linear model and estimates the probability of this variation
+(“significance”) for a null model, via distributions generated from
+resampling permutations. Data input is specified by a formula (e.g.,
+y~X), where ‘y’ specifies the response variables (Procrustes shape
+variables), and ‘X’ contains one or more independent variables (discrete
+or continuous). The response matrix ‘y’ can be either in the form of a
+two-dimensional data matrix of dimension (n x [p x k]), or a 3D array (p
+x n x k). It is assumed that -if the data based on landmark coordinates
+- the landmarks have previously been aligned using Generalized
+Procrustes Analysis (GPA) [e.g., with gpagen]. The names specified for
+the independent (x) variables in the formula represent one or more
+vectors containing continuous data or factors. It is assumed that the
+order of the specimens in the shape matrix matches the order of values
+in the independent variables. Linear model fits (using the lm function)
+can also be input in place of a formula. Arguments for lm can also be
+passed on via this function.</p>
+<p>In the context of geometric morphometrics, a Procrustes ANOVA allows
+the researcher to determine the amount of shape variation that can be
+attributed to one or more other variables.For example, in the <a
+href="">Group Comparisons</a> workflow tutorial, we use this function to
+determine whether cranial shape in the <code>plethodon</code> dataset
+found in geomorph varies by species and by locality. As with any ANOVA
+or regression method, the primary input is a formula that specifies the
+response variables (y, or the Procrustes coordinates), and the one or
+more independent variables (X). This method is best used in conjunction
+with other functions like <a href="">pairwise</a> and <a
+href="">shape.predictor</a> for more robust analyses.</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>procD.lm() (Expand for more details)</code>
+</font>
+</summary>
+<p>This function performs a Procrustes ANOVA, allowing the user to
+determine whether coordinate data are correlated with other independent
+variables. The required input is a data frame, although the more
+specific geomorph data frame is recommended. Please note that some of
+the arguments for this function are not addressed here, but can be found
+in the separate <a href="">Advanced Options</a> tutorial.</p>
+<ul>
+<li><span class="math inline">\(f1\)</span>: Formula for the linear
+model, similar to a regression formula. So, given a dependent variable
+<span class="math inline">\(y\)</span> and two independent variables
+<span class="math inline">\(x1\)</span> and <span
+class="math inline">\(x2\)</span>, a possible formula could be something
+like y~x1+x2</li>
+<li><span class="math inline">\(iter\)</span>: Number of iterations for
+significance testing (default of 999)</li>
+<li><span class="math inline">\(seed\)</span>: Optional argument for
+setting the seed for random permutations of the resampling procedure. If
+this is left at NULL, results will be the same when analyses are run
+multiple times on the same data. This argument can also be set at
+“random” which will result in varying results when run multiple
+times.</li>
+<li><span class="math inline">\(RRPP\)</span>: Logical value (“TRUE” or
+“FALSE”) indicating whether residual randomization should be used for
+significance testing. See Collyer et al. (2015) for more information on
+this method.</li>
+<li><span class="math inline">\(SS.type\)</span>: The type of sums of
+squares (SS) used in computation. Input of “I” corresponds to sequential
+SS, “II” to hierarchical, and “III” to marginal sums of squares.</li>
+<li><span class="math inline">\(effect.type\)</span>: Specifies the
+random distribution from which effect size is estimated. Options are
+“F”, “SS”, “cohenf”, “MS”, or “Rsq”.</li>
+<li><span class="math inline">\(int.first\)</span>: Logical value
+indicating whether interactions of the first main effects should precede
+subsequent main effects.</li>
+<li><span class="math inline">\(data\)</span>: The input geomorph data
+frame (see above)</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+<p>With respect to the sums of squares (SS.type) argument, one’s choice
+should be determined in large part by one’s data. Each of the three SS
+types assign variation to variables in different ways. Type I
+(sequential) SS generally should not be used when one has two or more
+independent variables (factorial designs) because, as the name suggests,
+variation will be assigned in the order in which they appear in the
+formula and do not account for one another. With more than one
+independent variable, this could incorrectly inflate the importance of
+the first variable. Type II (hierarchical) sums of squares is best used
+when there is no interaction term in one’s formula. Finally, type III
+(marginal/partial) SS returns the effect of each variable as if it were
+entered last in the formula in a standard type I analysis.</p>
+</div>
+<div id="example-analysis" class="section level2">
+<h2><strong>Example Analysis</strong></h2>
+<p>The required input for this function is a data frame including
+Procrustes-aligned coordinates, but it is highly recommended that a <a
+href="">geomorph data frame</a> be used.</p>
+<div class="code">
+<pre class="r custom-inline"><code>lmks &lt;- gpagen(plethodon$land, print.progress = F)$coords
+spec &lt;- plethodon$species
+site &lt;- plethodon$site
+
+df &lt;- geomorph.data.frame(lmks, spec = spec, site = site)</code></pre>
+</div>
+<p><br></br></p>
+<p>Once the data are prepared, we are ready to run the function:</p>
+<div class="code">
+<pre class="r custom-inline"><code>fit &lt;- procD.lm(lmks ~ spec * site, 
+                data = df, iter = 999, turbo = TRUE,
+                RRPP = TRUE, print.progress = FALSE)</code></pre>
+</div>
+<p><br></br></p>
+<p>Summarizing the results produces the following table:</p>
+<div class="code">
+<pre class="r custom-inline"><code>summary(fit)</code></pre>
+<pre class="custom-inline"><code>## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on F distributions
+## 
+##           Df       SS       MS     Rsq      F      Z Pr(&gt;F)   
+## spec       1 0.029258 0.029258 0.14856 14.544 4.2241  0.001 **
+## site       1 0.064375 0.064375 0.32688 32.000 5.2101  0.001 **
+## spec:site  1 0.030885 0.030885 0.15682 15.352 5.4075  0.001 **
+## Residuals 36 0.072422 0.002012 0.36774                        
+## Total     39 0.196940                                         
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Call: procD.lm(f1 = lmks ~ spec * site, iter = 999, RRPP = TRUE, turbo = TRUE,  
+##     data = df, print.progress = FALSE)</code></pre>
+</div>
+<p><br></br></p>
+<p>Here, each row corresponds to one of the comparisons specified in our
+formula, and each column is a result for that comparison.</p>
+<ul>
+<li><span class="math inline">\(Df\)</span> = Degrees of freedom</li>
+<li><span class="math inline">\(SS\)</span> = Sum of squares (total
+variance)</li>
+<li><span class="math inline">\(MS\)</span> = Mean Squares</li>
+<li><span class="math inline">\(Rsq\)</span> = R-squared (percentage of
+variance explained by group difference)</li>
+<li><span class="math inline">\(F\)</span> = The F value, or variation
+between sample means/variation within sample means</li>
+<li><span class="math inline">\(Z\)</span> = Z-score</li>
+<li><span class="math inline">\(Pr(&gt;F)\)</span> = P value</li>
+</ul>
+<p>This function produces an object of class “procD.lm”, which is a list
+containing the following:</p>
+<div class="func">
+<details>
+<summary>
+<font size="+2"> <code>procD.lm Output</code> </font>
+</summary>
+<p>The following is the full output for the <code>procD.lm</code>
+function. Any of these subsets can be accessed using the <code>$</code>
+operator.</p>
+<ul>
+<li><span class="math inline">\(aov.table\)</span>: An analysis of
+variance table; the same as the summary.</li>
+<li><span class="math inline">\(call\)</span>: The input code.</li>
+<li><span class="math inline">\(coefficients\)</span>: A vector or
+matrix of linear model coefficients.</li>
+<li><span class="math inline">\(Y\)</span>: The response data, in matrix
+form.</li>
+<li><span class="math inline">\(X\)</span> The model matrix (This will
+be important for our visualizations later).</li>
+<li><span class="math inline">\(QR\)</span>: The decompositions of the
+model matrix into the product of an orthogonal matrix “Q” and an upper
+triangular matrix “R” generated from the calculation of
+eigenvalues.</li>
+<li><span class="math inline">\(fitted\)</span>: The fitted values.</li>
+<li><span class="math inline">\(residuals\)</span>: The residuals
+(observed responses - fitted responses).</li>
+<li><span class="math inline">\(weights\)</span>: The weights used in
+weighted least-squares fitting. If no weights are used, NULL is
+returned.</li>
+<li><span class="math inline">\(Terms\)</span>: The results of the terms
+function applied to the model matrix</li>
+<li><span class="math inline">\(term.labels\)</span>: The terms used in
+the input formula for the linear model</li>
+<li><span class="math inline">\(data\)</span>: The data frame for the
+model.</li>
+<li><span class="math inline">\(SS\)</span>: The sums of squares for
+each term, model residuals, and the total.</li>
+<li><span class="math inline">\(SS.type\)</span>: The type of sums of
+squares. One of type I or type III.</li>
+<li><span class="math inline">\(df\)</span>: The degrees of freedom for
+each SS.</li>
+<li><span class="math inline">\(R2\)</span>: The coefficient of
+determination for each model term.</li>
+<li><span class="math inline">\(F\)</span>: The F values for each model
+term.</li>
+<li><span class="math inline">\(permutations\)</span>: The number of
+random permutations (including observed) used.</li>
+<li><span class="math inline">\(random.SS\)</span>: A matrix of random
+SS found via the resampling procedure used.</li>
+<li><span class="math inline">\(random.F\)</span>: A matrix or vector of
+random F values found via the resampling procedure used.</li>
+<li><span class="math inline">\(random.cohenf\)</span>: A matrix or
+vector of random Cohen’s f-squared values found via the resampling
+procedure used.</li>
+<li><span class="math inline">\(permutations\)</span>: The number of
+random permutations (including observed) used.</li>
+<li><span class="math inline">\(effect.type\)</span>: The distribution
+used to estimate effect-size.</li>
+<li><span class="math inline">\(perm.method\)</span>: A value indicating
+whether “Raw” values were shuffled or “RRPP” performed.</li>
+<li><span class="math inline">\(gls\)</span>: This prefix will be used
+if a covariance matrix is provided to indicate GLS computations.</li>
+</ul>
+</details>
+</div>
+<p><br></br></p>
+<div class="note">
+<p><strong>Important Note!</strong> To see usage of this function
+incorporated with a full workflow, please see the <a
+href="5.1-Group-Comparisons.html">Group Comparisons</a> tutorial.</p>
+</div>
+<p><br></br></p>
+<details>
+<summary>
+<font size="+2"> Advanced Options </font>
+</summary>
+<ul>
+<li><span class="math inline">\(Cov\)</span>:</li>
+<li><span class="math inline">\(turbo\)</span>:</li>
+<li><span class="math inline">\(parallel\)</span>:</li>
+</ul>
+</details>
+<p><br></br></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

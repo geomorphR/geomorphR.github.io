@@ -1,0 +1,95 @@
+---
+title: "**Two-block Partial Least Squares**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/twobPLS.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r setup, warning=FALSE, include=FALSE}
+library(geomorph)
+data("plethShapeFood")
+coords <- gpagen(plethShapeFood$land, print.progress = F)$coords
+```
+
+## **Introduction** 
+
+A two-block partial least squares analysis is a useful tool for assessing the degree of association between two blocks (or sets) of Procrustes shape variables; or between one set of shape variables and other variables.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `two.b.pls() (Expand for more details)` </font> </summary>
+
+This function is used to perform a two-block partial least squares analysis in order to assess the degree if association between two blocks of variables.
+
+* $A1$: A 3D array (p x k x n) containing Procrustes shape variables for the first block, or a matrix (n x variables)
+* $A2$: A 3D array (p x k x n) containing Procrustes shape variables for the second block, or a matrix (n x variables)
+* $iter$: Number of iterations for significance testing.The default is 999.
+* $seed$: Optional argument for setting the seed for random permutations of the resampling procedure. If seed = "random," P-values for statistical comparisons will vary when the function is run multiple times on the same data. If left NULL (the default) P-values will be the same for repeated runs of the function, as long as the number of iterations (iter) remains the same.
+* $print.progress$: A logical value (TRUE/FALSE) to indicate whether a progress bar should be printed to the screen. This is helpful for long-running analyses.
+  
+</details>
+</div>
+<br></br>
+
+## **Example**
+
+To perform this analysis we begin with our two blocks of variables. For this example we will use Procrustes-aligned coordinates and food use data from the `plethShapeFood` dataset available with geomorph. 
+
+<div class = "code">
+```{r, PLS}
+
+```
+</div>
+<br></br>
+
+Result of the PLS can be summarized like so:
+
+<div class = "code">
+```{r, sum}
+
+```
+</div>
+<br></br>
+
+For a simple visualization of the results, one can use the base R function `plot`:
+
+<div class = "code">
+```{r, eval=FALSE}
+plot(PLS)
+```
+</div>
+<br></br>
+
+```{r, plot, echo=FALSE}
+
+```
+
+For more advanced visualizations, see [Visualizations]().
+
+Finally, the `two.b.pls` function returns an object of class "pls" that is a list of the following objects, each of which can be accessed individually with the `$` operator:
+
+* $r.pls$: The correlation coefficient between scores of the first singular vectors of the two blocks of variables.
+* $P.value$ The empirically calculated P-value from the resampling procedure.
+* $Effect.Size$: The multivariate effect size associated with sigma.d.ratio.
+* $left.pls.vectors$: The singular vectors of the left (A1) block of variables.
+* $right.pls.vectors$: The singular vectors of the right (A2) block of variables.
+* $random.r$: The correlation coefficients found in each random permutation of the resampling procedure.
+* $XScores$: Values of the left (A1) block projected onto singular vectors.
+* $YScores$: Values of the right (A2) block projected onto singular vectors.
+* $svd$: The singular value decomposition of the cross-covariances.
+* $A1$: Input values for the left block.
+* $A2$: Input values for the right block.
+* $A1.matrix$: Left block (matrix) found from A1.
+* $A2.matrix$: Right block (matrix) found from A2.
+* $permutations$: The number of random permutations used in the resampling procedure.
+* $call$: The full input code (match call).
+
+<details>
+  <summary> <font size="+2"> **Advanced Options for `two.b.pls`** </font> </summary>
+* $Test$
+</details>
+
+<br></br>

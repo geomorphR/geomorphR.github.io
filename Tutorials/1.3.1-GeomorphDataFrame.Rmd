@@ -1,0 +1,49 @@
+---
+title: "**Geomorph Data Frame**"
+author: "Mark A. Conaway"
+---
+<br></br>
+
+```{r, echo=F}
+knitr::read_chunk("scripts/GeomorphDataFrame.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, eval=T,echo=F,results='hide', warning=FALSE, message=FALSE}
+
+```
+
+The `geomorph.data.frame` function produces a list object that can be used similarly to a data frame and input into many geomorph functions. Objects that can be coersed into a geomorph data frame include Procrustes shape variables, matrices, factors, variables, and phylogenetic trees.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `geomorph.data.frame() (Expand for more details)` </font> </summary>
+
+* $...$: a list of objects to include in the data frame
+
+</details>
+</div>
+<br></br>
+
+By way of example below we show the use of this function with a set of landmarks (lmks) and two variables (spec, site).
+<br></br>
+
+<div class = "code">
+```{r, dataframe}
+
+```
+</div>
+<br></br>
+
+One can access elements within a geomorph data frame in the same way one would with a regular list; using the sub component name double parentheses ([[]]):
+
+<div class = "code">
+```{r, print}
+
+```
+</div>
+<br></br>
+
+What can go into a geomorph data frame is constrained only by the number of observations, or individuals, (n) in your dataset. In other words, all objects that you wish to coerce into the data frame must have matching numbers of individuals for the function to work.
+
+

@@ -1,0 +1,50 @@
+---
+title: "**Global Integration**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/globalintegration.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+An alternative method for quantifying morphological integration is the "Global integration" as put forth by Bookstein (2015). This method estimates the set of bending energies of a set of aligned specimens at various spatial scales, and plots the log of the variance of the partial warps versus the log of their corresponding bending energies. This can be accomplished using the `geomorph` function `globalIntegration`
+
+A slope of negative one corresponds to self-similarity, implying that patterns of shape variation are similar across spatial scales. Steeper slopes (i.e., those more extreme than -1.0) correspond to data that are globally integrated, while shallower slopes (between -1 and 0) correspond to data that are 'disintegrated (see Bookstein 2015). Isotropic data will have an expected slope of zero.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `globalIntegration()` </font> </summary>
+  
+* $A$: [3D array (p1 x k x n)]() containing Procrustes shape variables
+* $ShowPlot$: A logical (TRUE/FALSE) value indicating whether or not the plot should be returned 
+
+</details>
+</div>
+<br></br>
+
+## **Example of Analysis of Global Integration**
+
+Below is example code using the "plethodon" dataset, included by default with the `geomorph` package.
+
+<div class = "code">
+```{r, eval=FALSE}
+int <- globalIntegration(lmks$coords)
+
+int
+```
+</div>
+<br></br>
+
+```{r, globalint, echo=FALSE}
+
+```
+
+
+

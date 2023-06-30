@@ -1,0 +1,88 @@
+body {
+  background-image: linear-gradient(#3579b5, #ceecf0);
+  text-align: justify;
+  color: black;
+  font-size: 14pt;
+}
+
+body a:link {
+  color: white;
+}
+
+h1.title {
+  text-align: center;
+  color: black;
+}
+
+h2 {
+  color: black;
+}
+
+h3 {
+  color: black;
+}
+
+h4.author {
+  text-align: center;
+  color: black;
+}
+
+.navbar-default a:active {
+  background-color: #141c25f2;
+}
+
+.navbar-default .dropdown-menu {
+  display; inline-block;
+  background-color: #141c25f2;
+  color: #ceecf0 !important;
+}
+
+.dropdown-menu a:hover {
+  display; inline-block;
+  box-shadow: 0 0 5px 5px #ceecf0;
+  text-decoration: none;
+}
+
+.dropdown-menu a:active {
+  text-decoration: none;
+}
+
+.dropdown-menu a:link {
+  text-decoration: none;
+}
+
+.nav-pills a:link {
+  color: white
+}
+
+.navbar.default .logo {
+ margin: 0px !important;
+}
+
+div.func { 
+  background-color:#8DC6EF; 
+  border-radius: 5px; 
+  padding: 10px;
+}
+
+div.note { 
+  background-color:#F0B68D; 
+  border-radius: 5px; 
+  padding: 15px;
+}
+
+div.code { 
+  background-color:grey; 
+  border-radius: 5px; 
+  padding: 5px;
+}
+
+.custom-inline {
+  color: black;
+}
+
+
+
+
+
+

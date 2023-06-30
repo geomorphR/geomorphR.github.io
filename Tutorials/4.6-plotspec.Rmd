@@ -1,0 +1,63 @@
+---
+title: "**Plot 3D Specimen**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/plotspec.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+The geomorph function `plotspec` can be used to plot a 3D mesh of a specimen with an overlay of that specimen's landmarks.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `plotspec()` </font> </summary>
+
+* $spec$: An object of class [shape3d/mesh3d]()
+* $digitspec$: Data matrix containing 3D fixed and/or surface sliding coordinates.
+* $fixed$: The number of fixed template landmarks (see help files for `digitspec` function)
+* $fixed.pt.col$: The color for plotting fixed template landmarks (if any)
+* $fixed.pt.size$: Number representing the size for plotting fixed template landmarks (if any)
+* $mesh.ptsize$: Numeric Size to plot the mesh points (vertices), e.g. 0.1 for dense meshes, 3 for sparse meshes
+* $centered$: 	
+Logical Whether the data matrix is in the surface mesh coordinate system (centered = FALSE) or if the data were collected after the mesh was centered (centered = TRUE)- see details.
+
+</details>
+</div>
+<br></br>
+
+<div class = "code">
+```{r, eval=FALSE}
+plotspec(spec = mesh, digitspec = lmks, fixed = 16, centered = T)
+```
+</div>
+<br></br>
+
+```{r, default, echo=FALSE}
+plotspec(spec = mesh, digitspec = lmks, fixed = 16, centered = T)
+#rglwidget()
+```
+
+
+The color of landmark points will default to red, but can be changed:
+
+<div class = "code">
+```{r, eval=FALSE}
+plotspec(spec = mesh, digitspec = lmks, fixed = 16, centered = T, fixed.pt.col = "blue")
+
+```
+</div>
+
+
+```{r, color, echo=FALSE}
+plotspec(spec = mesh, digitspec = lmks, fixed = 16, centered = T, fixed.pt.col = "blue")
+#rglwidget()
+```
+

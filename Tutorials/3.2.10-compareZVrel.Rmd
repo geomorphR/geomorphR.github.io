@@ -1,0 +1,77 @@
+---
+title: "**Comparison of Effect Sizes from Overall Integration**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/compareZVrel.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction** 
+
+When one is performing integration research on sets of traits in different samples, it is often necessary to determine whether those integration values are significantly different from one another. The function `compare.ZVrel` allows one to statistically compare effect sizes of two or more integration analyses performed using the relative eigenvalue variance.
+
+The input for this function must be of class "rel.eig" that is, an object resulting from the function [integration.Vrel](). Any number of objects can be input.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.ZVrel()` </font> </summary>
+  
+* $...$: saved analyses of class rel.eig
+* $two.tailed$: A logical value to indicate whether a two-tailed test (typical and default) should be performed.
+
+</details>
+</div>
+<br></br>
+
+## **Example of Analysis**
+
+By way of example, we present an analysis of the morphological integration among several species of plethodontid salamander These data are included with `geomorph` by default, as a single object. The data have been separated by species for the purposes of this example. Please see the tutorials on  Data Manipulation and R Data Basic for information on how to accomplish this.
+
+First, we subset the plethodon landmark data using the 'species' factor included in the plethodon dataset.
+
+<div class = "code">
+```{r, subset}
+
+```
+</div>
+<br></br>
+
+Now, we run our Vrel analyses using the `map` function. This allows us to run the function on each of the partitioned sets of coordinates.
+
+<div class = "code">
+```{r, integ}
+
+```
+</div>
+
+Finally, we run the comparison, and summarize the results.
+
+<div class = "code">
+```{r, comp}
+
+```
+</div>
+
+Summarizing these results returns two tables of pairwise effect sizes and p-values, as well as the effect sizes for each of the integration analyses.
+
+This function returns an object of class "compare.rel.eig", which is a list containing the following:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.ZVrel` output </font> </summary>
+  
+* $sample.Re.obs$:	A vector of observed Vrel for each sample.
+* $sample.Z.obs$:	A vector of effect sizes for each sample.
+* $sample.Z.var$: A vector of variances for each effect size.
+* $pairwise.z$:	A matrix of pairwise, two-sample z scores between all pairs of effect sizes.
+* $pairwise.p$:	A matrix of corresponding P-values.
+
+</details>
+</div>
+<br></br>

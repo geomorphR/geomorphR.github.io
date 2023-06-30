@@ -1,0 +1,118 @@
+---
+title: "Advanced Options"
+author: "Mark A. Conaway"
+output: 
+  html_document:
+    css: ./style/tutorial_theme.css
+    theme: flatly
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/DeletingSpecLmk.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelim, include=FALSE}
+library(geomorph)
+headshape <-readland.tps( "./data/headshape.tps") 
+```
+
+
+## **Generalized Procrustes Analysis `gpagen` Advanced Options**
+
+<details>
+<summary> Alignment by Principal Axes (`PrinAxes`) </summary>
+
+The argument `PrinAxes` is a logical value that determines whether shape data will be aligned by their principal axes, or by the first specimen of one's data. The default value is `TRUE` which will align the specimens along the main axis of variation, or principal axis. If the argument is set to `FALSE`, specimens will be aligned according to the orientation of the first specimen.
+In most cases, the analytical differences for each method are negligible (see examples below)
+
+```{r eval=TRUE}
+GPA <- gpagen(headshape, PrinAxes = FALSE, print.progress = FALSE)
+plotAllSpecimens(GPA$coords)
+```
+
+
+```{r eval=TRUE}
+GPA <- gpagen(headshape, PrinAxes = TRUE, print.progress = FALSE)
+plotAllSpecimens(GPA$coords)
+```
+
+</details>
+
+<details>
+<summary> Number of iterations (`max.iter`) </summary>
+
+The argument `max.iter` determines the maximum number of iterations `gpagen` performs before halting the superimposition. The default value is 5, however more iterations may be necessary with larger datasets, particularly those with sliding semilandmarks (see below).
+
+</details>
+
+<details>
+<summary> Method for Semilandmark Sliding (`ProcD`) </summary>
+
+The `gpagen` function allows the user to choose between two different methods for semilandmark sliding.
+
+The sliding method is designated with the `ProcD` argument which, more specifically, is a logical value that determines whether or not semilandmarks should slide by minimizing Procrustes distance. The default value for this argument is FALSE.
+
+This default option causes the semilandmarks to slide based on the criterion of minimizing bending energy. Bending energy in a morphometric context refers to the amount of computational energy needed to warp a specimen to the mean shape of a dataset. Minimizing the bending energy of a specimen during semilandmark sliding is generally preferable because the bending energy is magnified when points are closer together and particularly if one or a few are more variable than the others (as may be possible when dealing with large numbers of semilandmarks). Therefore, minimizing this effect reduces the risk of statistical shape artifacts after sliding. From a practical standpoint, this means that semilandmarks are slid relative to the mean shape, as well as relative to other semilandmarks and anatomical landmarks. 
+
+Minimizing Procrustes distance, on the other hand, does not slide semilandmarks relative to each other or anatomical landmarks. In other words, each semilandmark slides independently. While this is less computationally complex, it can result in semilandmarks sliding beyond the extremities of a curve, or passing other semilandmarks if shape variation is high. 
+
+The following example illustrates the difference in results for the two methods in a highly variable dataset: 
+
+```{r, include=FALSE}
+# Gorilla <- read.csv("Data/Gor_Scap_Curve.csv", header = FALSE)
+# Gorilla <- arrayspecs(as.matrix(Gorilla), 110, 3)
+# Sliders <- read.csv("Data/Scapula_Sliders.csv")
+# Gorilla[,,11] <- Gorilla[,,11]*-1
+# Gorilla[,,26] <- Gorilla[,,26]*-1
+# Gorilla[,,33] <- Gorilla[,,33]*-1
+# Gorilla[,,45] <- Gorilla[,,45]*-1
+# Gorilla[,,55] <- Gorilla[,,55]*-1
+
+```
+ 
+ 
+```{r, eval=TRUE}
+# GPA_BE <- gpagen(Gorilla, curves = Sliders, ProcD = FALSE, print.progress = FALSE)
+# GPA_PD <- gpagen(Gorilla, curves = Sliders, ProcD = TRUE, print.progress = FALSE)
+```
+ 
+ 
+```{r, eval=TRUE}
+# plotAllSpecimens(GPA_BE$coords[,,1:5])
+# rglwidget()
+
+```
+
+```{r}
+# plotAllSpecimens(GPA_PD$coords[,,1:5])
+# rglwidget()
+```
+
+
+#Inserting examples with Gorilla scapulae may illustrate the difference of the approaches?
+
+Ultimately the choice of sliding method depends on the structure of ones' data. If the shape variation in a dataset is low and little sliding is necessary, minimizing Procrustes distance may be preferable since it will generally be faster computationally. In general, however, minimizing bending energy is the recommended approach here.
+
+</details>
+
+<details>
+<summary> Projection into tangent space (`proj`) </summary>
+
+The argument `proj` is a logical value that determines whether Procrustes-aligned specimens will be projected into tangent space. That is, a space tangent to the normally curved shape space. This reduces redundancy of dimensions, but also allows for usage of most standard statistics which operate under the assumption of a linear space. The default value is `TRUE`. One consequence of tangent space projection is that the sizes of aligned specimens will be very slightly different, as opposed to non-projected specimens, whose sizes will be identical. This effect is illustrated below.
+
+```{r eval=TRUE}
+GPA <- gpagen(headshape, Proj = FALSE, print.progress = FALSE)
+plot(gpagen(GPA$coords, Proj = FALSE, print.progress = FALSE)$Csize)
+```
+
+Here, no projection to tangent space is made, and each specimen has a centroid size of 1. However, these specimens are still within the curved shape space, making some analyses difficult.
+
+```{r eval=TRUE}
+GPA <- gpagen(headshape, Proj = TRUE, print.progress = FALSE)
+plot(gpagen(GPA$coords, Proj = TRUE, print.progress = FALSE)$Csize)
+```
+
+Projection into tangent space results in slight (read: negligible) differences in centroid size of aligned specimens, however, these specimens can now be analyzed in conjunction with most standard statistics since they have been projected into a linear space. 
+
+</details>

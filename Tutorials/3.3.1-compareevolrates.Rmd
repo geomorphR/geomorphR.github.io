@@ -1,0 +1,106 @@
+---
+title: "**Comparing Rates of Shape Evolution on Phylogenies (Single Trait)**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/compareevolrate.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction: Phylogenetic Comparative Methods** 
+
+Fitting linear models, and performing statistical analyses in general, to assess biological hypotheses regarding closely-related species presents a problem to the researcher. Standard statistical models rely on the assumption that observations are independent and identically distributed (iid). Mathematically, this means that the Gaussian error of an iid dataset can be expressed as an identity matrix. However, when species are closely related (for example within the same genus) by phylogeny, we expect observations taken on them to be more similar than those taken from more distantly-related species. This means that error in this case cannot be expressed as an identity matrix. In other words, observations taken from closely related species cannot be considered independent, or identically distributed. Phylogenetic Comparative Methods (PCM) is an analytical toolkit consisting of methodologies designed to account for this issue of non-independence of observations. With this toolkit, researchers can construct models and perform other related analyses with non independent observations by subsequently $conditioning$ those observations on a phylogeny. Under this PCM analytical umbrella are [Phylogenetic ANOVA](), [Phylomorphospace](), [Phylogenetic Signal](), and [Evolutionary Rates](), all of which can be performed using functions in `geomorph`.
+
+## **Comparing Evolutionary Rate Among Groups**
+
+The rate of evolutionary change, or the diversification of phenotypic traits, is an important question in evolutionary biology and related fields. In particular, evolutionary rate can be examined as a means to understand the processes responsible for evolutionary diversification. Traditionally, rates of evolution have been calculated using univariate data. However, the evolutionary rate functions in `geomorph` allow the user to calculate rates of evolution from multivariate, and even high dimensional data - that is, data where the number of trait dimensions exceeds the number of observations (taxa). 
+
+The `compare.evol.rates` function, allows the user to calculate and compare rates of evolution on a phylogeny among different species or groups. This function follows the protocol of Adams (2014) whereby, after the data (a [3D array]() of Procrustes coordinates) are conditioned on the phylogeny, evolutionary rate is calculated as the sum of squared distances between those phylogenetically-transformed data and the origin, divided by the number of trait dimensions to provide an average rate across trait dimensions. Finally evolutionary rates are compared based on the outer-product matrix of between-species differences after phylogenetic transformation. 
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.evol.rates()` </font> </summary>
+
+* $A$:	A 3D array (p x k x n) containing GPA-aligned coordinates for all specimens, or a matrix (n x variables)
+* $phy$:	A phylogenetic tree of class phylo - see read.tree in library ape
+* $gp$:	A factor array designating group membership for individuals
+* $iter$:	Number of iterations for significance testing
+* $seed$:	An optional argument for setting the seed for random permutations of the resampling procedure. If left NULL (the default), the exact same P-values will be found for repeated runs of the analysis (with the same number of iterations). If seed = "random", a random seed will be used, and P-values will vary. One can also specify an integer for specific seed values, which might be of interest for advanced users.
+* $method$:	One of "simulation" or "permutation", to choose which approach should be used to assess significance.
+* $print.progress$:	A logical value to indicate whether a progress bar should be printed to the screen. This is helpful for long-running analyses.
+
+</details>
+</div>
+<br></br>
+
+## **Example Analysis**
+
+To illustrate usage of this function, we will use landmark data from several plethodontid salamander species found in the dataset "plethspecies," included with `geomorph`. In this example, we compare evolutionary rates for the given landmark data between endangered species and non-threatened species.
+
+First, we must create a factor that identifies which species belong to which group (endangered or non-endangered):
+<div class = "code">
+```{r, factor}
+
+```
+</div>
+<br></br>
+
+Then we run the function:
+<div class = "code">
+```{r, evolrate}
+
+```
+</div>
+<br></br>
+
+Results can be summarized using the base R function `summary`:
+<div class = "code">
+```{r, sum}
+
+```
+</div>
+<br></br>
+
+This summary includes the Observed Rate Ratio, which represents the relative difference in evolutionary rates between groups (the test statistic), as well as a P-value and effect size for this statistic. Additionally, the summary provides invidual evolutionary rates for each group.
+
+Finally, results of this function can also be visualized using the base R function `plot`:
+<div class = "code">
+```{r, eval=FALSE}
+plot(ER)
+```
+</div>
+<br></br>
+
+```{r, plot, echo=FALSE}
+
+```
+
+This function generates an object of class "evolrate" which is a list, whose objects can be accessed using the $ operator.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.evol.rates()` Output </font> </summary>
+  
+* $sigma.d.ratio$:	The ratio of maximum to minimum net evolutionary rates.
+* $P.value$:	The significance level of the observed ratio.
+* $Effect.Size$:	The multivariate effect size associated with sigma.d.ratio.
+* $sigma.d.gp$:	The phylogenetic net evolutionary rate for each group of species on the phylogeny.
+* $random.sigma$:	The sigma values found in random permutations of the resampling procedure.
+* $permutations$:	The number of random permutations used.
+
+</details>
+</div>
+
+
+<div class = "note">
+**Important Note!**
+
+To compare the evolutionary rates among multiple sets of $traits$ (as opposed to groups, or species), see the tutorial for [`compare.multi.evol.rates`]()
+
+</div>
+<br></br>

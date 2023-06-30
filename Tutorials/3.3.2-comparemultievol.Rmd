@@ -1,0 +1,98 @@
+---
+title: "**Comparing Rates of Shape Evolution on Phylogenies (Single Trait)**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/comparemultievol.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r, prelims, warning=FALSE, include=FALSE}
+
+```
+
+## **Introduction: Phylogenetic Comparative Methods** 
+
+Fitting linear models, and performing statistical analyses in general, to assess biological hypotheses regarding closely-related species presents a problem to the researcher. Standard statistical models rely on the assumption that observations are independent and identically distributed (iid). Mathematically, this means that the Gaussian error of an iid dataset can be expressed as an identity matrix. However, when species are closely related (for example within the same genus) by phylogeny, we expect observations taken on them to be more similar than those taken from more distantly-related species. This means that error in this case cannot be expressed as an identity matrix. In other words, observations taken from closely related species cannot be considered independent, or identically distributed. Phylogenetic Comparative Methods (PCM) is an analytical toolkit consisting of methodologies designed to account for this issue of non-independence of observations. With this toolkit, researchers can construct models and perform other related analyses with non independent observations by subsequently $conditioning$ those observations on a phylogeny. Under this PCM analytical umbrella are [Phylogenetic ANOVA](), [Phylomorphospace](), [Phylogenetic Signal](), and [Evolutionary Rates](), all of which can be performed using functions in `geomorph`.
+
+## **Comparing Evolutionary Rate Among Traits**
+
+The `compare.multi.evol.rates` function, allows the user to calculate and compare rates of evolution on a phylogeny among sets of variables for the same set of species. This function follows the protocol of Denton & Adams (2015) whereby, after the data (a [3D array]() of Procrustes coordinates) are conditioned on the phylogeny, the net rate of shape evolution for each provided trait is calculated, and a ratio obtained. Finally evolutionary rates are compared based on the outer-product matrix of between-species differences after phylogenetic transformation. This ratio, if three or more traits are input, is defined as the ratio of the maximum to minimum rate. 
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.multi.evol.rates()` </font> </summary>
+
+* $A$:	A 3D array (p x k x n) containing GPA-aligned coordinates for all specimens, or a matrix (n x variables)
+* $gp$:	A factor array designating group membership for individuals
+* $phy$:	A phylogenetic tree of class phylo - see read.tree in library ape
+* $subset$: A logical value indicating whether or not the traits are subsets from a single landmark configuration (default is TRUE)
+* $iter$:	Number of iterations for significance testing
+* $seed$:	An optional argument for setting the seed for random permutations of the resampling procedure. If left NULL (the default), the exact same P-values will be found for repeated runs of the analysis (with the same number of iterations). If seed = "random", a random seed will be used, and P-values will vary. One can also specify an integer for specific seed values, which might be of interest for advanced users.
+* $print.progress$:	A logical value to indicate whether a progress bar should be printed to the screen. This is helpful for long-running analyses.
+
+</details>
+</div>
+<br></br>
+
+## **Example Analysis**
+
+To illustrate the use of this function, we will compare evolutionary rates between two sets of traits of plethodon salamanders crania. The data used here are available with geomorph as part of the 'plethspecies' dataset.
+
+First, we must create a vector that will be used to identify which landmarks belong to which group:
+<div class = "code">
+```{r, groups}
+
+```
+</div>
+<br></br>
+
+Then we run the function:
+<div class = "code">
+```{r, multievol}
+
+```
+</div>
+<br></br>
+
+Results can be summarized using the base R function `summary`:
+<div class = "code">
+```{r, sum}
+
+```
+</div>
+<br></br>
+
+Finally, results of this function can also be visualized using the base R function `plot`:
+<div class = "code">
+```{r, eval=FALSE}
+plot(EMR)
+```
+</div>
+```{r, plot, echo=FALSE}
+
+```
+<br></br>
+
+This function generates an object of class "evolrate" which is a list, whose objects can be accessed using the $ operator.
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `compare.evol.rates()` Output </font> </summary>
+  
+* $rates.all$:	The phylogenetic evolutionary rates for each trait.
+* $rate.ratio$:	The ratio of maximum to minimum evolutionary rates.
+* $pvalue$:	The significance level of the observed rate ratio.
+* $Effect.Size$:	The multivariate effect size associated with sigma.d.ratio.
+* $pvalue.gps$:	Matrix of pairwise significance levels comparing each pair of rates.
+* $call$:	The matched call.
+
+</details>
+</div>
+
+<div class = "note">
+**Important Note!**
+To compare evolutionary rates among different $groups$ (as opposed to traits), see the tutorial for [`compare.evol.rates`]()
+</div>
+<br></br>

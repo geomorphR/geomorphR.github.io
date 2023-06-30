@@ -1,0 +1,187 @@
+---
+title: "**Analysis of Bilateral Symmetry**"
+author: "Mark A. Conaway"
+---
+
+```{r, echo=F}
+knitr::read_chunk("scripts/Bilatsymm.R")
+knitr::opts_chunk$set(dev.args=list(bg = 'transparent'), fig.align = 'center', class.source = ".custom-inline", class.output = ".custom-inline")
+```
+
+```{r setup, warning=FALSE, include=FALSE}
+library(geomorph)
+data("lizards")
+data("mosquito")
+data("scallops")
+```
+
+## **Introduction** 
+
+Bilateral symmetry is a fundamental feature of most organisms. This refers to the idea that some biological structure is repeated in a different position or orientation, meaning that the arrangement in space of some structures is at least partially redundant (Klingenberg et al., 2002). There are two types of bilateral symmetry that the reader should be aware of. The first is matching symmetry, where a symmetric structure is present in two separate copies found on the left and right side of the body (i.e. a mosquito's wings). The second is object symmetry, where a single structure is symmetric itself along the midsagittal plane (i.e. a vertebrate skull). The approach to analyzing data with each of these types of symmetry is somewhat different.
+
+The asymmetry of a structure can also be of interest, particularly in terms of the developmental origins of shape variation (Klingenberg et al., 2002). Asymmetry can manifest in a dataset as directional, whereby consistent difference is skewed toward one side, perhaps as a reflection of difference in function (i.e. crab claws). Asymmetry can also be fluctuating which reflects instability during development.
+
+The geomorph function `bilat.symmetry` allows the user to quantify components of shape variation as described by their patterns of symmetry and asymmetry. In particular, the function decomposes shape variation into variation among individual, variation among sides (directional asymmetry), and variation due to the interaction between individual and side (fluctuating asymmetry). Each of these components are then evaluated using [Procrustes ANOVA]().
+
+Simply accounting for symmetry in a sample can be extremely important as well. In a highly symmetrical structure like a cranium, one can run into issues like ill-conditioning of the covariance matrix. This function can be used to extract the symmetric components of shape variation to address this problem, but this method is explained in a [different tutorial]().  
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `bilat.symmetry()` </font> </summary>
+  
+* $A$: A [3D array]() of either raw, or Procrustes-aligned landmark coordinates OR a [`gpagen`]() object, that is, the output from the `gpagen` function.
+
+* $ind$: A vector containing labels for each individual:
+
+<div class = "code">
+```{r,labels}
+
+```
+</div>
+
+Here, the levels indicate different individuals, whose landmarks on sided elements have been repeated.  
+<br></br>
+
+* $side$: An optional vector (for matching symmetry) designating which object belongs to which side.
+
+<div class = "code">
+```{r, side}
+
+```
+
+* $replicate$: A vector that identifies which objects belong to which group of replicates:
+
+<div class = "code">
+```{r,replicates}
+
+```
+</div>
+<br></br>
+
+* $object.sym$: Logical value (TRUE/FALSE) indicating whether analysis should be based on object symmetry (TRUE) or matching symmetry (FALSE). 
+
+* $land.pairs$: In the case of object symmetry, this argument contains a matrix indicating numbers for matched pairs of landmarks across the line of symmetry:
+
+<div class = "code">
+```{r,pairs}
+
+```
+</div>
+
+* $data$: A [geomorph data frame]() with relevant data for this analysis. Specifically, the data frame $must$ include variables for "ind" "side" and "replicate" as shown above.
+
+* $seed$: Optional argument for setting the seed for random permutations of the resampling procedure. If seed = "random," P-values for statistical comparisons will vary when the function is run multiple times on the same data. If left NULL (the default) P-values will be the same for repeated runs of the function, as long as the number of iterations (iter) remains the same.
+
+* $print.progress$: A logical value (TRUE/FALSE) to indicate whether a progress bar should be printed to the screen. This is helpful for long-running analyses.
+
+</details>
+</div>
+<br></br>
+
+## **Example Analysis: Matching Symmetry**
+
+Using a dataset of landmark coordinates taken from mosquito wings, below is an example of an analysis using this function on data with matching symmetry. In this case, the argument "object.sym" will be set to FALSE (as it is by default). The structure of the arguments for "ind," "side," and "replicate," are illustrated above.
+
+
+<div class = "code">
+```{r, match}
+
+```
+</div>
+<br></br>
+
+Results can be summarized using the base R function `summary`
+
+<div class = "code">
+```{r, matchsum}
+
+```
+</div>
+<br></br>
+
+The summary output shows results for a shape ANOVA and Centroid size ANOVA. For a more detailed explanation of the ANOVA output, see the tutorial on [Procrustes ANOVA]().
+Additionally, results can be plotted using the base R function `plot`:
+
+<div class = "code">
+```{r, eval=FALSE}
+plot(mosq.sym)
+```
+</div>
+<br></br>
+
+```{r, matchplot, echo=FALSE}
+
+```
+
+The top row of this figure shows the symmetric (left) and asymmetric (right) components of our data. The bottom row illustrates, via TPS diagram, the directional (left: variation among sides) and fluctuating (right: variation due to an individual x side interaction) asymmetry of our data.
+<br></br>
+
+## **Example Analysis: Object Symmetry**
+
+When the argument "object.sym" is set to TRUE, the function performs an analysis of object symmetry. Remember in this case, that an object identifying landmark pairs is required.
+
+<div class = "code">
+```{r, object}
+
+```
+</div>
+<br></br>
+
+Results of an analysis with object symmetry can likewise by summarized using the base R function `summary`
+
+<div class = "code">
+```{r, objsum}
+
+```
+</div>
+<br></br>
+
+The base R function `plot` returns a visualization of directional and fluctuating asymmetry in our data. In this case, since the data are three-dimensional, an interactive 3D plot is generated. Within R, this will be opened in a separate window.
+
+<div class = "code">
+```{r, eval=FALSE}
+plot(scallop.sym)
+```
+</div>
+<br></br>
+
+```{r, objplot, echo=FALSE}
+
+```
+
+This function generates an object of class "bilat.symmetry" which is a list, whose objects can be accessed separately using the $ operator:
+
+<div class = "func">
+<details>
+  <summary> <font size="+2"> `bilat.symmetry()` Output </font> </summary>
+  
+* $shape.anova$: An analysis of variance table for the shape data.
+* $size.anova$:	An analysis of variance table for the shape data (when object.sym = FALSE).
+* $symm.shape$:	The symmetric component of shape variation.
+* $asymm.shape$:	The asymmetric component of shape variation.
+* $DA.component$:	The directional asymmetry component, found as the mean shape for each side.
+* $FA.component$:	The fluctuating asymmetry component for each specimen, found as the specimen specific side deviation adjusted for the mean directional asymmetry in the dataset.
+* $signed.AI$:	Individual signed asymmetry index, as per Klingenberg and McIntyre, 1998; Lazić et al 2015.
+* $unsigned.AI$:	Individual unsigned asymmetry index, as per Klingenberg and McIntyre, 1998; Lazić et al 2015.
+* $data.type$:	A value indicating whether the analysis was performed as Object or Matching symmetry.
+* $permutations$	The number of random permutations used.
+* $random.shape.F$:	A matrix of random F-values from the Shape analysis.
+* $random.size.F$:	A matrix of random F-values from the Centroid Size analysis (when object.sym = FALSE).
+* $perm.method$:	A value indicating whether "Raw" values were shuffled or "RRPP" performed.
+* $procD.lm.shape$:	A list of typical output from an object of class procD.lm, for shape
+* $procD.lm.size$:	If applicable, a list of typical output from an object of class procD.lm, for size (when object.sym = FALSE).
+* $call$:	The matched call (input code).
+  
+</details>
+</div>
+  
+<details>
+  <summary> <font size="+2"> Advanced Options </font> </summary>
+
+* $RRPP$:
+* $SS.type$:
+* $turbo$:
+* $Parallel$:
+
+</details>
+<br></br>
