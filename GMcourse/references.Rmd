@@ -14,6 +14,8 @@ Adams, D.C., F. J. Rohlf, and D.E. Slice. 2013. A field comes of age: Geometric 
 
 **General Analytical Theory of Methods**
 
+Collyer, M.L., and D.C. Adams. 2024. Interrogating Random and Systematic Measurement Error in Morphometric Data. *Evolutionary Biology*. 51:179-207.
+
 Adams, D.C. and M.L. Collyer. 2022.  Consilience of methods for phylogenetic analysis of variance. *Evolution*. 76:1406–1419.
 
 Conaway, M.A., and D.C. Adams. 2022. An effect size for comparing the strength of morphological integration across studies. *Evolution*. 76: 2244-2259.

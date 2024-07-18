@@ -3,7 +3,8 @@
 ---
 **Previous Geometric Morphometrics in R Workshops**
 
-* 2023. Univ. Barcelona, Spain (Current)
+* 2024. Univ. Copenhagen, Denmark (Current)
+* 2023. Univ. Barcelona, Spain
 * 2019. PR Statistics, Scotland
 * 2019. Univ. de Concepción, Chile
 * 2018. PR Statistics, Wales
