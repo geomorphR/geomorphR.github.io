@@ -530,3 +530,32 @@ text(PCoA.M$points,pos=3, labels=names)
   + 4: Does the method generalize to GLS, or is it OLS specific? 
 
 + **Clearly, there is considerable work left to do, but the initial concept of using $\small{z}$-scores from RRPP for model comparison is promising!** *Stay tuned...*
+
+---
+### 2: Phylogenetic Signal: Multivariate Frontiers
+
+FROM OTHER LECTURE. WORK THIS IN AFTER PHYSIG BY DIMENSION
+
++ $Z_\theta$ provides a path for comparing the strength of phylogenetic signal across datasets
+
++ However, an unexplored frontier is how to generalize $Z_\theta$ for multivariate data
+
+--
+
++ One issue: How to obtain logL when $p>N$?
+
+  1. Use trace of **R** rather than determinant
+
+  2. Use penalized likelihood to regularize **R**
+
+  3. Use PACA for dimension reduction prior to calculating logL
+
+--
+
++ Another issue: separate  or common $\lambda$ for each trait (or trait dimension)?
+
+--
+
++ Future work will investigate the efficacy of these approaches
+---
+

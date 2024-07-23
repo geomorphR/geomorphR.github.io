@@ -4,7 +4,7 @@
     <title>09: Phylogenetic Comparative Methods and Shape Data</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="09-PhyCompMethods_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="09-PhyCompMethods_files/header-attrs-2.27/header-attrs.js"></script>
     <script src="09-PhyCompMethods_files/kePrint-0.0.1/kePrint.js"></script>
     <link href="09-PhyCompMethods_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -26,7 +26,7 @@ class: center, middle, inverse, title-slide
 
 
 
-### Lecture Outline
+### Lecture Outline 
 
 + On Correlated Observations and Errors
 + Multivariate Phylogenetic Comparative Methods
@@ -386,51 +386,51 @@ class: center, middle, inverse, title-slide
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; t1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; t3 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; t4 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; t5 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; t2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t3 &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; t1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; t3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.90 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.90 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; t4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.94 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.89 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; t5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.90 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.94 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.89 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; t2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.43 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.43 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.41 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; t3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.41 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -537,6 +537,12 @@ class: center, middle, inverse, title-slide
 + Is there evolutionary allometry of head shape (does shape covary with size across species while accounting for phylogeny)?
 
 .pull-left[
+
+```
+## 
+## No curves detected; all points appear to be fixed landmarks.
+```
+
 &lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-21-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ]
@@ -551,7 +557,7 @@ class: center, middle, inverse, title-slide
 
 .scrollable[
 
-```r
+``` r
 pgls.reg &lt;- procD.pgls(f1 = shape~svl, phy=plethtree, data=gdf, print.progress = FALSE)
 summary(pgls.reg)
 ```
@@ -586,7 +592,7 @@ summary(pgls.reg)
 
 .pull-left[.small[
 
-```r
+``` r
 plot.out &lt;- plot(pgls.reg, type = "regression", 
                  predictor = svl, reg.type = "RegScore", pch=19, col = "black")
 abline(lm(plot.out$RegScore~svl))
@@ -597,7 +603,7 @@ abline(lm(plot.out$RegScore~svl))
 
 .pull-right[.small[
 
-```r
+``` r
 preds &lt;- shape.predictor(pgls.reg$GM$pgls.fitted, 
   x= svl, Intercept = TRUE, predmin = min(svl), predmax = max(svl))
 ```
@@ -625,7 +631,7 @@ preds &lt;- shape.predictor(pgls.reg$GM$pgls.fitted,
 
 .scrollable[
 
-```r
+``` r
 pgls.aov &lt;- procD.pgls(f1 = shape~elev, phy=plethtree, data=gdf, print.progress = FALSE)
 summary(pgls.aov)
 ```
@@ -639,12 +645,10 @@ summary(pgls.aov)
 ## Sums of Squares and Cross-products: Type I 
 ## Effect sizes (Z) based on F distributions
 ## 
-##           Df        SS         MS     Rsq     F      Z Pr(&gt;F)  
-## elev       1 0.0004220 0.00042201 0.04519 1.893 1.3479    0.1 .
-## Residuals 40 0.0089175 0.00022294 0.95481                      
-## Total     41 0.0093395                                         
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##           Df        SS         MS     Rsq     F      Z Pr(&gt;F)
+## elev       1 0.0004220 0.00042201 0.04519 1.893 1.3479    0.1
+## Residuals 40 0.0089175 0.00022294 0.95481                    
+## Total     41 0.0093395                                       
 ## 
 ## Call: procD.lm(f1 = shape ~ elev, iter = iter, seed = seed, RRPP = TRUE,  
 ##     SS.type = SS.type, effect.type = effect.type, int.first = int.first,  
@@ -660,7 +664,7 @@ summary(pgls.aov)
 
 .pull-left[.small[
 
-```r
+``` r
 plot.res &lt;- gm.prcomp(shape,phy=plethtree)
 plot(plot.res,phylo = FALSE, pch=21, bg=gdf$elev, cex=2)
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
@@ -673,7 +677,7 @@ legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 
 
-```r
+``` r
 preds &lt;- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$X[,-1],
            Intercept = TRUE, Low = Low, High = High)   
 ```
@@ -736,7 +740,7 @@ preds &lt;- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$
 
 .scrollable[
 
-```r
+``` r
 land.gps&lt;-c("A","A","A","A","A","B","B","B","B","B","B")
 PLS.Y &lt;- phylo.integration(A = gdf$shape, partition.gp = land.gps, phy= plethtree, print.progress = FALSE)
 summary(PLS.Y)
@@ -766,7 +770,7 @@ summary(PLS.Y)
 + Now let's visualize these results
 
 
-```r
+``` r
 plot(PLS.Y)
 ```
 
@@ -819,7 +823,7 @@ Does head shape in in *Plethodon* display phylogenetic signal?
 
 .pull-left[
 
-```r
+``` r
 PS.shape &lt;- physignal(A=shape,phy=plethtree,iter=999, print.progress = FALSE)
 summary(PS.shape)
 ```
@@ -843,7 +847,7 @@ summary(PS.shape)
 ]
 .pull-right[
 
-```r
+``` r
 plot(PS.shape)
 ```
 
@@ -886,31 +890,6 @@ Greater phylogenetic signal in SA:V ratios!
 ]
 
 ##### From Collyer et al. (2022). *Methods Ecol. Evol.*
----
-
-### 2: Phylogenetic Signal: Multivariate Frontiers
-
-+ `\(Z_\theta\)` provides a path for comparing the strength of phylogenetic signal across datasets
-
-+ However, an unexplored frontier is how to generalize `\(Z_\theta\)` for multivariate data
-
---
-
-+ One issue: How to obtain logL when `\(p&gt;N\)`?
-
-  1. Use trace of **R** rather than determinant
-
-  2. Use penalized likelihood to regularize **R**
-
-  3. Use PACA for dimension reduction prior to calculating logL
-
---
-
-+ Another issue: separate  or common `\(\lambda\)` for each trait (or trait dimension)?
-
---
-
-+ Future work will investigate the efficacy of these approaches
 ---
 
 ### 3: Phylogenetic Ordination
@@ -979,7 +958,7 @@ Mathematically the difference between these phylogenetic ordination procedures i
 `$$\mathbf{I}^T_{n \times n} \mathbf{Z}=\mathbf{UDV}^T$$`
 .scrollable[
 
-```r
+``` r
 plot.pca &lt;- gm.prcomp(shape,phy=plethtree)
 plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
@@ -997,7 +976,7 @@ legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 .scrollable[
 
-```r
+``` r
 plot.ppca &lt;- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = FALSE)
 plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
@@ -1015,7 +994,7 @@ legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 .scrollable[
 
-```r
+``` r
 plot.paca &lt;- gm.prcomp(shape,phy=plethtree, align.to.phy = TRUE)
 plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
@@ -1091,7 +1070,7 @@ Does head shape in high-elevation *Plethodon* species evolve more rapidly than i
 .scrollable[.small[
 .pull-left[
 
-```r
+``` r
 ER&lt;-compare.evol.rates(A=gdf$shape, phy=plethtree,gp=gdf$elev,iter=999, method = 'permutation',print.progress = FALSE)
 summary(ER)
 ```
@@ -1162,7 +1141,7 @@ summary(ER)
 .scrollable[.small[
 .pull-left[
 
-```r
+``` r
 EMR &lt;- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=c(rep(1,5),rep(2,6)), print.progress = FALSE)
 summary(EMR)
 ```
@@ -1234,11 +1213,26 @@ summary(EMR)
 
 + Several methods proposed for comparing multivariate evolutionary models: `\(logL_{mult}\)`, `\(PCL\)`, `\(\sum{logL_{indiv}}\)`
 
-+ Unfortunately, *ALL* current implementations for multivariate OU models display high misspecification rates
++ Unfortunately, *nearly all* current implementations for multivariate OU models display high misspecification rates
 
 &lt;img src="lectureData/09.pcm/MultiOUProblems.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 + More analytical development needed here
+---
+
+### 4: Comparing Evolutionary 'Modes': Recent Developments
+
++ New developments in `\(logL_{mult}\)`
++ Bartoszek et al. (2024) updated algorithms in *mvSlouch* `\(^1\)`
+
+&lt;img src="lectureData/09.pcm/2024-MvSlouch.png" width="40%" style="display: block; margin: auto;" /&gt;
+
++ Misspecification levels now appropriate, and method rotation invariant
+
++ Provides a path forward for multivariate OU models (though still requires `\(n&gt;p\)` and no redundant dimensions)
+
+
+.footnote[1: took our suggestions to heart!]
 ---
 
 ### Phylogenetic Comparative Methods: Conclusions
@@ -1259,7 +1253,7 @@ summary(EMR)
 
   + Comparing evolutionary rates 
     
-  + Comparing evolutionary modes (requires more analytical development)
+  + Comparing evolutionary modes (some advance: requires more analytical development)
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
