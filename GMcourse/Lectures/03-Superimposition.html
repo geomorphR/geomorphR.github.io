@@ -4,7 +4,7 @@
     <title>3: Superimposition</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="03-Superimposition_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="03-Superimposition_files/header-attrs-2.27/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -72,7 +72,7 @@ where `\(p\)` is the number of landmarks and `\(k\)` is the number of coordinate
 ]
 ---
 
-### Centroid Size (CS): Properties
+### Centroid Size (CS): Properties 
 
 - One could use other size measures (a baseline, area, perimeter, …)
 - BUT, centroid size has some useful properties
@@ -140,10 +140,10 @@ Generalized Procrustes Analysis (GPA) removes non-shape information from landmar
 \end{bmatrix}$$`
 
 + `\(\mathbf{H}\)` is found from a regression (i.e., fit) of `\(\mathbf{Y}_2\)` on `\(\mathbf{Y}_1\)`
-  + Perform `SVD` of: `\(\mathbf{Y}_1^T\mathbf{Y}_2=\mathbf{U\Sigma{V}}^T\)`
+  + Perform `SVD` of: `\(\mathbf{Y}_1^T\mathbf{Y}_2=\mathbf{UDV}^T\)`
   + Then `\(\mathbf{H}=\mathbf{VSU}^T\)`
 
-+ Here `\(\mathbf{S}\)` has diagonals of `\(1\)` and of the same sign
++ Here `\(\mathbf{S}\)` has diagonals of `\(1\)` and of the same sign as `\(\mathbf{D}\)`
   + Diagonals of `\(1\)` so rigid rotation 
   + Of same sign to eliminate reflections
 ---
@@ -187,7 +187,7 @@ Generalized Procrustes Analysis (GPA) removes non-shape information from landmar
 
 
 
-```r
+``` r
 Y.gpa &lt;- gpagen(lizards, print.progress = FALSE)
 plotAllSpecimens(Y.gpa$coords, links=links)
 ```
@@ -208,7 +208,7 @@ plotAllSpecimens(Y.gpa$coords, links=links)
 
 .pull-left[
 
-```r
+``` r
 PCA &lt;- gm.prcomp(Y.gpa$coords)
 plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ```
@@ -226,8 +226,8 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ## [4,] 7.586907e-03 6.831716e-03 6.049213e-03
 ## [5,] 5.992073e-03 5.275534e-03 4.900721e-03
 ## [6,] 4.129789e-03 3.339428e-03 3.200212e-03
-## [7,] 2.954954e-03 2.591265e-03 2.396099e-16
-## [8,] 1.122636e-16 6.064823e-17 2.278998e-17
+## [7,] 2.954954e-03 2.591265e-03 9.806741e-17
+## [8,] 4.924342e-17 2.783938e-17 2.279726e-17
 ```
 
 + Why are 4 exactly = 0?

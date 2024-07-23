@@ -20,7 +20,7 @@ library(xaringanthemer)
 style_mono_light()
 ```
 
-### Generalized Procrustes Analysis
+### Generalized Procrustes Analysis 
 
 + Align objects to common coordinate system using superimposition (GPA)
 
@@ -381,7 +381,7 @@ include_graphics("LectureData/05.semilandmarks/DigitSurface.png")
 + Define tangent directions and generate **U**
 + **GPA + Sliding**
 
-```{r, echo = FALSE, fig.align = "center", out.width="45%"}
+```{r, echo = FALSE, fig.align = "center", out.width="40%"}
 include_graphics("LectureData/05.semilandmarks/Scallop.png")  
 ```
 ---

@@ -24,7 +24,7 @@ library(xaringanthemer)
 style_mono_light()
 ```
 
-###  A Vision of Morphometrics
+###  A Vision of Morphometrics 
 
 “The study of form may be descriptive merely, or it may become analytical.  We begin by describing the shape of an object in simple words of common speech: we end by defining it in the precise language of mathematics; and the one method tends to follow the other in strict scientific order and historical continuity.”
 

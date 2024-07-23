@@ -74,7 +74,7 @@ where $p$ is the number of landmarks and $k$ is the number of coordinate dimensi
 ]
 ---
 
-### Centroid Size (CS): Properties
+### Centroid Size (CS): Properties 
 
 - One could use other size measures (a baseline, area, perimeter, …)
 - BUT, centroid size has some useful properties

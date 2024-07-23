@@ -323,7 +323,8 @@ plot(GPA.d,Kendall.d)
 
 + GM data are points in high-dimensional shape space
   + e.g. for $p=20$ & $k=3$, shape space comprises 53 dimensions
-+ Our human brains are limited to perception in up to 3 dimensions
+
++ Our human brains are limited in their perception of high-dimensional data (more than 3D is challenging)
 + We need tools for visualizing and exploring shape variation in high-dimensional data spaces
 
 + Principal Components Analysis (PCA) is one such tool
@@ -417,7 +418,8 @@ $$\small{\mathbf{W^*}}=\mathbf{U} \mathbf{D} \mathbf{V}^T$$
 
 --
 
-+ NOTE: if **W** found as: $\small\mathbf{W}=\mathcal{V}\mathbf{(I_2\otimes{E\Lambda^{-\alpha/2}})}$ PCA=RWA is weighted by spatial scale of deformations of the ***non-affine*** shape variation
++ NOTE: if **W** found as: $\small\mathbf{W}=\mathcal{V}\mathbf{(I_2\otimes{E\Lambda^{-\alpha/2}})}$, then PCA is called RWA 
++ RWA is a PCA weighted by spatial scale of deformations of the ***non-affine*** components of shape variation
 
 + In this case
   + $\small\alpha = 0$: unweighted analysis
@@ -431,7 +433,7 @@ $$\small{\mathbf{W^*}}=\mathbf{U} \mathbf{D} \mathbf{V}^T$$
 
 ### RWA: Example
 
-+ PCA of *Podarcis* data
++ PCA of *Podarcis* data 
 
 .pull-left[
 ```{r echo=FALSE, fig.align = "center", out.width="80%" }

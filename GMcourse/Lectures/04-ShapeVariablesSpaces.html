@@ -4,7 +4,7 @@
     <title>4: Shape Variables and Shape Spaces</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="04-ShapeVariablesSpaces_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="04-ShapeVariablesSpaces_files/header-attrs-2.27/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -281,7 +281,8 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 
 + GM data are points in high-dimensional shape space
   + e.g. for `\(p=20\)` &amp; `\(k=3\)`, shape space comprises 53 dimensions
-+ Our human brains are limited to perception in up to 3 dimensions
+
++ Our human brains are limited in their perception of high-dimensional data (more than 3D is challenging)
 + We need tools for visualizing and exploring shape variation in high-dimensional data spaces
 
 + Principal Components Analysis (PCA) is one such tool
@@ -368,7 +369,8 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 
 --
 
-+ NOTE: if **W** found as: `\(\small\mathbf{W}=\mathcal{V}\mathbf{(I_2\otimes{E\Lambda^{-\alpha/2}})}\)` PCA=RWA is weighted by spatial scale of deformations of the ***non-affine*** shape variation
++ NOTE: if **W** found as: `\(\small\mathbf{W}=\mathcal{V}\mathbf{(I_2\otimes{E\Lambda^{-\alpha/2}})}\)`, then PCA is called RWA 
++ RWA is a PCA weighted by spatial scale of deformations of the ***non-affine*** components of shape variation
 
 + In this case
   + `\(\small\alpha = 0\)`: unweighted analysis
@@ -382,14 +384,14 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 
 ### RWA: Example
 
-+ PCA of *Podarcis* data
++ PCA of *Podarcis* data 
 
 .pull-left[
 &lt;img src="LectureData/04.shape.vars/LizardHead.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
-```r
+``` r
 par(mfcol = c(1, 2))
 plotAllSpecimens(Y.gpa$coords, links=links)
 PCA &lt;- gm.prcomp(Y.gpa$coords)
@@ -398,7 +400,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 
 &lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-```r
+``` r
 par(mfcol=c(1,1))
 ```
 ]
@@ -444,7 +446,7 @@ to those of another shape, and visualize how they differ
 
 .pull-left[
 
-```r
+``` r
 plotRefToTarget(male,female,links = links)
 ```
 
@@ -452,7 +454,7 @@ plotRefToTarget(male,female,links = links)
 ]
 .pull-right[
 
-```r
+``` r
 plotRefToTarget(female,male,links = links)
 ```
 
@@ -475,7 +477,7 @@ plotRefToTarget(female,male,links = links)
 
 .pull-left[
 
-```r
+``` r
 plotRefToTarget(male,female, mag = 5, links = links)
 ```
 
@@ -483,7 +485,7 @@ plotRefToTarget(male,female, mag = 5, links = links)
 ]
 .pull-right[
 
-```r
+``` r
 plotRefToTarget(female,male, mag = 5, links = links)
 ```
 
