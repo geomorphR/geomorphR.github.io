@@ -11,9 +11,9 @@
 
 
 
-<title>Course Instructors &amp; Organization</title>
+<title>Course Instructors</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -142,11 +142,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -175,8 +179,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -184,16 +188,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -250,10 +247,25 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="people.html">Instructors &amp; Organisers</a>
+  <a href="schedule.html">Schedule</a>
 </li>
 <li>
-  <a href="content.html">Course content</a>
+  <a href="lectures.html">Lectures</a>
+</li>
+<li>
+  <a href="labs.html">Lab Tutorials</a>
+</li>
+<li>
+  <a href="previous.html">Previous Workshops</a>
+</li>
+<li>
+  <a href="references.html">References</a>
+</li>
+<li>
+  <a href="people.html">People</a>
+</li>
+<li>
+  <a href="https://www.gmshiny.com/">GMShiny</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -267,82 +279,47 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Course Instructors &amp; Organization</h1>
+<h1 class="title toc-ignore">Course Instructors</h1>
 
 </div>
 
 
-<div id="course-instructors" class="section level1">
-<h1>Course instructors</h1>
 <div
-style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 10px;">
+style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 30px;">
 <div>
-<div class="figure">
-<img src="people/Dean.jpeg" alt="" />
-<p class="caption"><a
+<div class="float">
+<img src="people/Dean.jpg"
+alt="Dean C. Adams Distinguished Professor Iowa State University" />
+<div class="figcaption"><a
 href="https://www.eeob.iastate.edu/people/dean-adams"><strong>Dean C.
 Adams</strong></a><br />
-Distinguished Professor<br />
-EEOB - Iowa State University</p>
+Distinguished Professor Iowa State University</div>
 </div>
 </div>
 <div>
-<div class="figure">
-<img src="people/Mike.png" alt="" />
-<p class="caption"><a
+<div class="float">
+<img src="people/Mike.jpg"
+alt="Michael Collyer Professor Chatham University" />
+<div class="figcaption"><a
 href="https://www.michaelcollyer.com/home"><strong>Michael
 Collyer</strong></a><br />
-Professor<br />
-Chatham University</p>
-</div>
-</div>
-<div>
-<div class="figure">
-<img src="people/Erica.jpeg" alt="" />
-<p class="caption"><a
-href="https://www.csbsju.edu/biology/faculty/erica-baken"><strong>Erica
-Baken</strong></a><br />
-Visiting assistant professor<br />
-College of Saint Benedict<br />
-Saint John´s University</p>
-</div>
-</div>
-<div>
-<div class="figure">
-<img src="people/Antigoni.jpg" alt="" />
-<p class="caption"><a
-href="https://sites.google.com/view/akaliontzopoulou/home"><strong>Antigoni
-Kaliontzopoulou</strong></a><br />
-Ramón y Cajal researcher<br />
-BEECA &amp; IrBIO, Universitat de Barcelona</p>
+Professor Chatham University</div>
 </div>
 </div>
 </div>
-</div>
-<div id="local-organizing-committee" class="section level1">
-<h1>Local organizing committee</h1>
-<div
-style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-column-gap: 10px;">
-<div id="course-coordinator" class="section level3">
-<h3>Course coordinator</h3>
-<div class="figure">
-<img src="people/Antigoni.jpg" alt="" />
-<p class="caption"><strong>Antigoni Kaliontzopoulou</strong><br />
-BEECA &amp; IrBIO, Universitat de Barcelona</p>
-</div>
-</div>
-<div id="course-logistics" class="section level3">
-<h3>Course logistics</h3>
-<div class="figure">
-<img src="people/Adri.jpeg" alt="" />
-<p class="caption"><a
-href="https://www.researchgate.net/profile/Adria-Bellvert-Banti"><strong>Adrià
-Bellvert</strong></a><br />
-PhD student<br />
-BEECA &amp; IrBIO, Universitat de Barcelona</p>
-</div>
-</div>
-</div>
+<div id="section" class="section level1">
+<h1></h1>
+<p>For over 20 years, Dean and Mike have collaborated on developing
+quantitative approaches for the analysis of biological data, with an
+emphasize on multivariate phenotypes (<em>geometric morphometrics</em>).
+They regularly teach courses in biostatistics at their home
+institutions, and are co-instructors of international workshops in
+quantitative biological methods (Geometric Morphometics and Multivariate
+Statistics). They are the primary authors and maintainers of two popular
+R-packages: <code>RRPP</code> and <code>geomorph</code>. Mike and Dean
+are both elected Fellows of the American Association for the Advancement
+of Science, and Dean is a recipient of the Rohlf Medal for Excellence in
+Morphometric Methods.</p>
 </div>
 
 

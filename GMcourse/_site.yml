@@ -15,5 +15,7 @@ navbar:
       href: previous.html
     - text: "References"
       href: references.html
+    - text: "People"
+      href: people.html
     - text: "GMShiny"
       href: https://www.gmshiny.com/
