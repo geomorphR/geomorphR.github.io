@@ -24,7 +24,7 @@
 
 [09-Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Lectures/09-PhyCompMethods.html) 
 
-[10-Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error](https://geomorphR.github.io/GMcourse/Lectures/10-RepeasteShapeMeasures.html)
+[10-Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error](https://geomorphR.github.io/GMcourse/Lectures/10-RepeatedShapeMeasures.html)
 
 ----
 
