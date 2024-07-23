@@ -4,7 +4,7 @@
     <title>12: Integration and Modularity</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="12-IntegrationModularity_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="12-IntegrationModularity_files/header-attrs-2.27/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 
 
 
-### Trait Covariation
+### Trait Covariation 
 
 + Organisms are composed of recognizable parts
 + These parts are to some extent correlated
@@ -224,7 +224,7 @@ VE | `\(\sum(\lambda_i-\overline{\lambda})^2/p\)`| Wagner, 1984
 Compare overall integration in shape shape across *Plethodon* species 
 .scrollable[
 
-```r
+``` r
 data("plethodon")
 Y.gpa &lt;- gpagen(plethodon$land, print.progress = FALSE)
 #Separate data by species
@@ -280,7 +280,7 @@ compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
 
 .scrollable[
 
-```r
+``` r
 data(plethodon) 
 Y.gpa&lt;-gpagen(plethodon$land, print.progress = FALSE)    #GPA-alignment    
 
@@ -382,7 +382,7 @@ globalIntegration(Y.gpa$coords) #not spatially integrated
 
 .pull-right[
 
-```r
+``` r
 data(pupfish)
 Y.gpa &lt;- gpagen(pupfish$coords, print.progress = FALSE)
 shape &lt;- two.d.array(Y.gpa$coords)
@@ -410,7 +410,7 @@ RV &lt;- sum(colSums(S12^2))/sqrt(sum(S11^2)*sum(S22^2))
 
 .pull-left[
 
-```r
+``` r
 PLS &lt;- two.b.pls(y,x, iter=999, print.progress = FALSE)
 summary(PLS)
 ```
@@ -438,7 +438,7 @@ summary(PLS)
 .pull-right[
 .scrollable[
 
-```r
+``` r
 plot(PLS)
 ```
 
@@ -528,7 +528,7 @@ Compare permutation distributions with one another (minus observed in this case)
 + Example using the pupfish data
 
 
-```r
+``` r
 # Compare morphological integration between pupfish head and body shapes
 data(pupfish) # GPA previously performed
 group &lt;- factor(paste(pupfish$Pop, pupfish$Sex, sep = "."))
@@ -548,7 +548,7 @@ head.coords.gp &lt;- coords.subset(head.coords, group)
 
 .scrollable[
 
-```r
+``` r
 # Obtain Integration for groups
 integ.tests &lt;- Map(function(x,y) integration.test(x, y, iter=499, 
                 print.progress = FALSE), head.coords.gp, tail.coords.gp)
@@ -661,7 +661,7 @@ compare.pls(integ.tests)
 ### 3: Evaluating Modularity: Example 2
 
 
-```r
+``` r
 data(pupfish) 
 Y.gpa&lt;-gpagen(pupfish$coords, print.progress = FALSE)    #GPA-alignment    
 # landmarks on the body vs. operculum
@@ -721,7 +721,7 @@ modularity.test(Y.gpa$coords,land.gps,CI=FALSE,print.progress = FALSE)
 + Example using the pupfish data
 
 
-```r
+``` r
 # Compare modularity between pupfish head and body shapes
 data(pupfish) 
 Y.gpa&lt;-gpagen(pupfish$coords, print.progress = FALSE)    #GPA-alignment    
@@ -738,7 +738,7 @@ coords.gp &lt;- coords.subset(Y.gpa$coords, group)
 
 .scrollable[
 
-```r
+``` r
 # Modularity tests per group
 modul.tests &lt;- Map(function(x) modularity.test(x, land.gps,print.progress = FALSE), coords.gp) 
 # Compare modularity

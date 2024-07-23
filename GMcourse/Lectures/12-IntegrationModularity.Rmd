@@ -24,7 +24,7 @@ library(xaringanthemer)
 style_mono_light()
 ```
 
-### Trait Covariation
+### Trait Covariation 
 
 + Organisms are composed of recognizable parts
 + These parts are to some extent correlated
