@@ -322,90 +322,7 @@ include_graphics("LectureData/10.asymmetry/RadialSymm.png")
 ```{r, echo = FALSE, fig.align = "center", out.width="70%"}
 include_graphics("LectureData/10.asymmetry/CoralSymmetry.png")  
 ``` 
----
 
-### A Note on Geometric Transformations
-
-+ Any captured shape difference that follows a geometric rule can be modelled using the Procrustes paradigm
-
-+ We can account for undesired effects
-
-+ We can model shapes and other effects separately
-
---
-
-+ Articulations frequently cause this kind of effects
-
-+ Shape effects + positional effects
-
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/10.asymmetry/ArticConcept.png")  
-``` 
----
-
-### Geometric Transformations: Articulations
-
-+ For articulated structures, several solutions exist
-  + Fixing the angle in all specimens through a mathematical transformation
-  + Separating the subsets to analyse separately, etc. 
-    
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/10.asymmetry/ArticMath.png")  
-``` 
-
-###### Adams. (1999). *Evol. Ecol. Res.*
----
-
-# Articulation Standardization: Example
-
-+ Standardize some data for relative jaw position
-
-```{r echo=FALSE, fig.align = "center", eval=TRUE, out.width="40%"}
-library(geomorph)
-data(plethodon)
-Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
-
-rand.jaw <-Y.gpa$coords
-for (i in 1:dim(Y.gpa$coords)[[3]]){
-  tmp <- fixed.angle(Y.gpa$coords,art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, 
-                     rot.pts = c(2,3,4,5),angle = -1*runif(1,min=0,max=40),degrees=TRUE)
-  rand.jaw[,,i] <- tmp[,,i]
-}
-gpa.rand <- gpagen(rand.jaw, print.progress = FALSE)$coords
-```
-
-```{r echo=TRUE, fig.align = "center", eval=TRUE, out.width="40%"}
-jaw.fixed <- fixed.angle(gpa.rand, art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, rot.pts = c(2,3,4,5))
-
-gpa.fixed <- gpagen(jaw.fixed, print.progress = FALSE)$coords
-
-```
-
-```{r echo=FALSE, fig.align = "center", eval=TRUE, out.width="40%"}
-par(mfrow = c(1,2))
-plotAllSpecimens(gpa.rand, links = plethodon$links)
-mtext("Jaws Random Angles")
-plotAllSpecimens(gpa.fixed, links = plethodon$links)
-mtext("Jaws Standardized to Common Angle")
-par(mfrow = c(1,1))
-```
-
----
-
-### Another Note on Geometric Transformations
-
-+ Considering 'fixing' articulation angles in reverse results in a different pattern **motion analysis**
-  + For shape devoid of movement, one fixes the angle.
-  + For quantifying movement, one compares shapes across the motion path interested
-
-+ The latter forms a *trajectory* that describes the motion path
-+ It is represented by a sequence of shapes (a trajectory) in shape space 
-
-```{r, echo = FALSE, fig.align = "center", out.width="50%"}
-include_graphics("LectureData/10.asymmetry/MotionAnal.png")  
-``` 
-
-###### NOTE: see Phenotypic Trajectory Analysis lecture for analytical details
 ---
 
 ### Symmetry: Summary
@@ -417,5 +334,5 @@ include_graphics("LectureData/10.asymmetry/MotionAnal.png")
 + DA: adaptation?
 + Use ANOVA procedures to separate variation within (asymmetry) and among individuals
 + Extensions to different types of symmetry
-+ Geometric transformations in general: any effect that follows a geometric rule can be taken into account, partialed out, or targeted in the Procrustes framework
+
 

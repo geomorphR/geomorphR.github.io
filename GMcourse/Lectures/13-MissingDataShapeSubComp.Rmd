@@ -21,6 +21,14 @@ library(xaringanthemer)
 style_mono_light()
 ```
 
+### Data Compications in GMM
+
++ GPA: Aligns specimens to the average shape (reference, consensus shape)
+
+  + Removes non-shape information
+  + Requires landmark correspondence among specimens, and that all landmarks are present on all specimens
+ 
+
 ### The Problem of Missing Data
 
 .pull-left[
@@ -597,6 +605,117 @@ include_graphics("LectureData/13.missing/MethodsCompare.png")
 
 + **Regression approach appears most robust**
 
+---
+
+### Special Considerations: Positional Effects
+
++ Sometimes objects positional variation  of their subcomponents 
+  + Articulations frequently cause this 
++ Thus our data have: shape effects + positional effects 
++ GMM procedures can account for this 
+
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+include_graphics("LectureData/13.missing/ArticConcept.png")  
+``` 
+
+---
+
+### Special Considerations: Articulations
+
++ For articulated structures, several solutions exist
+  + Fixing the angle in all specimens through a mathematical transformation
+  + Separating the subsets to analyse separately, etc. 
+    
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+include_graphics("LectureData/13.missing/ArticMath.png")  
+``` 
+
+###### Adams. (1999). *Evol. Ecol. Res.*
+---
+
+### Articulation Standardization
+
++ PUT MATH OF METHOD HERE
+
+---
+
+### Articulation Standardization: Example
+
++ Standardize some data for relative jaw position
+
+```{r echo=FALSE, fig.align = "center", eval=TRUE, out.width="40%"}
+library(geomorph)
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
+
+rand.jaw <-Y.gpa$coords
+for (i in 1:dim(Y.gpa$coords)[[3]]){
+  tmp <- fixed.angle(Y.gpa$coords,art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, 
+                     rot.pts = c(2,3,4,5),angle = -1*runif(1,min=0,max=40),degrees=TRUE)
+  rand.jaw[,,i] <- tmp[,,i]
+}
+gpa.rand <- gpagen(rand.jaw, print.progress = FALSE)$coords
+```
+
+```{r echo=TRUE, fig.align = "center", eval=TRUE, out.width="40%"}
+jaw.fixed <- fixed.angle(gpa.rand, art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, rot.pts = c(2,3,4,5))
+
+gpa.fixed <- gpagen(jaw.fixed, print.progress = FALSE)$coords
+
+```
+
+.pull-left[
+```{r, echo = FALSE, fig.align = "center", out.width="70%"}
+plotAllSpecimens(gpa.rand, links = plethodon$links)
+mtext("Jaws Random Angles")
+```
+]
+
+.pull-right[
+```{r, echo = FALSE, fig.align = "center", out.width="70%"}
+plotAllSpecimens(gpa.fixed, links = plethodon$links)
+mtext("Jaws Standardized to Common Angle")
+```
+]
 
 
+---
 
+### Special Considerations: Combining Shapes
+
++ Sometimes we obtain the shape of two subcomponents separately 
++ We wish to combine these for an overall view of shape variation 
++ GMM procedures have been developed for this
+
+```{r, echo = FALSE, fig.align = "center", out.width="50%"}
+include_graphics("LectureData/13.missing/CombineSubsetConcept.png")  
+```
+---
+
+### Combining Subsets
+
++ ADD DeSCRIPTION HERE
+---
+
+### Combining Subset Procedure
+
++ math
+---
+
+### Combining Subsets: Example
+
++ Example in R
+---
+
+### Conclusions: Special Considerations
+
++ The Procrustes paradigm provides unparalleled rigor for statistical shape analysis
+  + But GPA requires perfect correspondence of variables among objects
+  + Also assumes that other non-shape variation is held constant
+  
++ Real biological data have challenges
+  + Objects are sometimes incomplete (missing components)
+  + Objects can have positional variation between parts (articulation variation)
+  + Objects are comprised of multiple subcomponents measured separately
+
++ Adjustments to GMM protocol enable the analysis of shape from these objects

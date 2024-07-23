@@ -412,65 +412,7 @@ plot(lizard.sym, warpgrids = TRUE)
 + Symmetry Analysis in corals
 
 &lt;img src="LectureData/10.asymmetry/CoralSymmetry.png" width="70%" style="display: block; margin: auto;" /&gt;
----
 
-### A Note on Geometric Transformations
-
-+ Any captured shape difference that follows a geometric rule can be modelled using the Procrustes paradigm
-
-+ We can account for undesired effects
-
-+ We can model shapes and other effects separately
-
---
-
-+ Articulations frequently cause this kind of effects
-
-+ Shape effects + positional effects
-
-&lt;img src="LectureData/10.asymmetry/ArticConcept.png" width="80%" style="display: block; margin: auto;" /&gt;
----
-
-### Geometric Transformations: Articulations
-
-+ For articulated structures, several solutions exist
-  + Fixing the angle in all specimens through a mathematical transformation
-  + Separating the subsets to analyse separately, etc. 
-    
-&lt;img src="LectureData/10.asymmetry/ArticMath.png" width="80%" style="display: block; margin: auto;" /&gt;
-
-###### Adams. (1999). *Evol. Ecol. Res.*
----
-
-# Articulation Standardization: Example
-
-+ Standardize some data for relative jaw position
-
-
-
-
-``` r
-jaw.fixed &lt;- fixed.angle(gpa.rand, art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, rot.pts = c(2,3,4,5))
-
-gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
-```
-
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-25-1.png" width="40%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Another Note on Geometric Transformations
-
-+ Considering 'fixing' articulation angles in reverse results in a different pattern **motion analysis**
-  + For shape devoid of movement, one fixes the angle.
-  + For quantifying movement, one compares shapes across the motion path interested
-
-+ The latter forms a *trajectory* that describes the motion path
-+ It is represented by a sequence of shapes (a trajectory) in shape space 
-
-&lt;img src="LectureData/10.asymmetry/MotionAnal.png" width="50%" style="display: block; margin: auto;" /&gt;
-
-###### NOTE: see Phenotypic Trajectory Analysis lecture for analytical details
 ---
 
 ### Symmetry: Summary
@@ -482,7 +424,7 @@ gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
 + DA: adaptation?
 + Use ANOVA procedures to separate variation within (asymmetry) and among individuals
 + Extensions to different types of symmetry
-+ Geometric transformations in general: any effect that follows a geometric rule can be taken into account, partialed out, or targeted in the Procrustes framework
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

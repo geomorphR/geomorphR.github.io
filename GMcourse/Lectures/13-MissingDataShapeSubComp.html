@@ -24,6 +24,14 @@ class: center, middle, inverse, title-slide
 
 
 
+### Data Compications in GMM
+
++ GPA: Aligns specimens to the average shape (reference, consensus shape)
+
+  + Removes non-shape information
+  + Requires landmark correspondence among specimens, and that all landmarks are present on all specimens
+ 
+
 ### The Problem of Missing Data
 
 .pull-left[
@@ -408,9 +416,96 @@ new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
 
 + **Regression approach appears most robust**
 
+---
+
+### Special Considerations: Positional Effects
+
++ Sometimes objects positional variation  of their subcomponents 
+  + Articulations frequently cause this 
++ Thus our data have: shape effects + positional effects 
++ GMM procedures can account for this 
+
+&lt;img src="LectureData/13.missing/ArticConcept.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Special Considerations: Articulations
+
++ For articulated structures, several solutions exist
+  + Fixing the angle in all specimens through a mathematical transformation
+  + Separating the subsets to analyse separately, etc. 
+    
+&lt;img src="LectureData/13.missing/ArticMath.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+###### Adams. (1999). *Evol. Ecol. Res.*
+---
+
+### Articulation Standardization
+
++ PUT MATH OF METHOD HERE
+
+---
+
+### Articulation Standardization: Example
+
++ Standardize some data for relative jaw position
 
 
 
+
+``` r
+jaw.fixed &lt;- fixed.angle(gpa.rand, art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, rot.pts = c(2,3,4,5))
+
+gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
+```
+
+.pull-left[
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-32-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-33-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+
+### Special Considerations: Combining Shapes
+
++ Sometimes we obtain the shape of two subcomponents separately 
++ We wish to combine these for an overall view of shape variation 
++ GMM procedures have been developed for this
+
+&lt;img src="LectureData/13.missing/CombineSubsetConcept.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+
+### Combining Subsets
+
++ ADD DeSCRIPTION HERE
+---
+
+### Combining Subset Procedure
+
++ math
+---
+
+### Combining Subsets: Example
+
++ Example in R
+---
+
+### Conclusions: Special Considerations
+
++ The Procrustes paradigm provides unparalleled rigor for statistical shape analysis
+  + But GPA requires perfect correspondence of variables among objects
+  + Also assumes that other non-shape variation is held constant
+  
++ Real biological data have challenges
+  + Objects are sometimes incomplete (missing components)
+  + Objects can have positional variation between parts (articulation variation)
+  + Objects are comprised of multiple subcomponents measured separately
+
++ Adjustments to GMM protocol enable the analysis of shape from these objects
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

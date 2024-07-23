@@ -324,6 +324,30 @@ include_graphics("LectureData/01.Intro/Symmetry.png")
 ```
 ---
 
+### Special Considerations: Positional Effects
+
++ Sometimes objects positional variation  of their subcomponents 
+  + Articulations frequently cause this 
++ Thus our data have: shape effects + positional effects 
++ GMM procedures can account for this (discussed later this week)
+
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+include_graphics("LectureData/13.missing/ArticConcept.png")  
+``` 
+
+---
+
+### Special Considerations: Combining Shapes
+
++ Sometimes we obtain the shape of two subcomponents separately 
++ We wish to combine these for an overall view of shape variation 
++ GMM procedures have been developed for this  (discussed later this week)
+
+```{r, echo = FALSE, fig.align = "center", out.width="50%"}
+include_graphics("LectureData/13.missing/CombineSubsetConcept.png")  
+```
+---
+
 ### Dean's View of Quantitative Biology
 
 + Methods are a product of theory and data type
