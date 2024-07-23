@@ -7,30 +7,29 @@ Daily Schedule of Activities
     + Morphometrics: History, Introduction and Data Types
     + Linear Algebra and Linear Models 
     + Superimposition: Generalized Procrustes Analysis (GPA)
-    + Laboratory Tutorial-Individual Research
+    + Shape Spaces, Shape Variables, & PCA 
     
 * Day 2
-    + Shape Spaces, Shape Variables, & PCA 
-    + GPA with Semilandmarks
-    + Introduction to gmShiny
     + Laboratory Tutorial-Individual Research
-    
-* Day 3
+    + GPA with Semilandmarks
     + Shape Statistics I
     + Allometry
+    
+* Day 3
+    + Laboratory Tutorial-Individual Research
     + Shape Statistics II
-    + Laboratory Tutorial-Individual Research    
+    + Phylogenetics and Shape Variation
+    + Repeated Shape Measures: Symmetry/Asymmetry and Measurement Error
 
 * Day 4
-    + Phylogenetics and Shape Variation
-    + Symmetry and Asymmetry
-    + Disparity
+    + Laboratory Tutorial-Individual Research    
+    + RRPP Extensions
     + Integration and Modularity 
+    + Missing Data 
     + Laboratory Tutorial-Individual Research
     
 * Day 5
-    + Missing Data 
-    + Future Directions and Prospectus
+    + Recent GMM Advances and Prospectus
     + Student Presentations
     
     

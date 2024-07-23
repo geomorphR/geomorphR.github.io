@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>10: Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <script src="10-RepeatedShapeMeasures_files/header-attrs-2.27/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# 10: Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error
+]
+.author[
+### 
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+.scrollable {
+  height: 80%;
+  overflow-y: auto;
+} 
+&lt;/style&gt;
+
+### Symmetry and Asymmetry
+
++ Many objects are built symmetrically
+
++ Paired structures and serially homologous body parts are organized in a symmetric way
+
+--
+
++ Bilateral symmetry: structures arranged in either side of the body mid-line (axis of symmetry)
+
++ Symmetry poses some challenges for morphometric data analysis
+
+---
+
+### Types of Bilateral Symmetry
+
+- Two main types of bilateral symmetry:
+- **Matching symmetry**: pairs of structures are found across the mid-line of the object (e.g. insect wings, tetrapod limbs etc)
+- **Object symmetry**: single structure with internal structural symmetry (e.g. structures in vertebrate skull)
+
+&lt;img src="LectureData/10.asymmetry/SymmTypes.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### The Problem with Symmetrical Objects
+
++ Landmark positions are not independent in symmetric objects
++ Lack of statistical independence for paired landmarks
++ Some dimensions of shape space have little variance
++ SSCP matrices become singular (or nearly so)
+  + This causes issues with parametric statistical hypothesis-testing methods ('divide' by zero or nearly so)
+    
+&lt;img src="LectureData/10.asymmetry/SymmLizard.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+--
+
++ The problem becomes more acute as objects become more symmetrical!
+
+---
+
+### The Problem with Symmetrical Objects (Cont.)
+
++ The data in reality have fewer dimensions, so use less data. How?
+  + Digitize only half structure
+  + Reflect structure and take the average: make a symmetrical structure
++ Using only `\(\frac{1}{2}\)` structure has challenges:
+  + Does not represent entire shape
+  + Can introduce assymetries because the midline is not 'anchored' during the analysis 
+
++ Solution: use **entire structure** and **RRPP** for statistical evaluation!
+
+###### As we've seen this week, RRPP, combined with robust summary test statistics, does not require inverting (nearly) singular covariance matrices, so model evaluation is not compromised by this issue.
+---
+
+### Symmetric Objects: Example
+
++ Note the large number of shape dimensions with no variation. Much of this is due to bilateral symmetry!
+
+.scrollable[
+
+```
+## 
+## No curves detected; all points appear to be fixed landmarks.
+```
+
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-4-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+```
+## Importance of components:
+##                            PC1     PC2     PC3     PC4      PC5      PC6
+## Standard deviation     0.02167 0.01764 0.01354 0.01115 0.009989 0.008932
+## Proportion of Variance 0.27485 0.18198 0.10735 0.07272 0.058380 0.046680
+## Cumulative Proportion  0.27485 0.45683 0.56418 0.63690 0.695290 0.741960
+##                            PC7      PC8      PC9     PC10    PC11     PC12
+## Standard deviation     0.00823 0.007665 0.006262 0.005993 0.00541 0.005021
+## Proportion of Variance 0.03964 0.034380 0.022940 0.021010 0.01713 0.014750
+## Cumulative Proportion  0.78160 0.815980 0.838920 0.859940 0.87706 0.891810
+##                            PC13     PC14     PC15    PC16     PC17     PC18
+## Standard deviation     0.004777 0.004682 0.004486 0.00432 0.004139 0.003805
+## Proportion of Variance 0.013350 0.012830 0.011780 0.01092 0.010020 0.008470
+## Cumulative Proportion  0.905170 0.918000 0.929770 0.94069 0.950710 0.959180
+##                           PC19     PC20     PC21     PC22     PC23     PC24
+## Standard deviation     0.00354 0.003408 0.003317 0.003162 0.003013 0.002664
+## Proportion of Variance 0.00733 0.006800 0.006440 0.005850 0.005310 0.004150
+## Cumulative Proportion  0.96652 0.973310 0.979750 0.985600 0.990910 0.995070
+##                           PC25     PC26      PC27      PC28     PC29      PC30
+## Standard deviation     0.00242 0.001605 3.613e-15 3.489e-15 3.46e-15 3.285e-15
+## Proportion of Variance 0.00343 0.001510 0.000e+00 0.000e+00 0.00e+00 0.000e+00
+## Cumulative Proportion  0.99849 1.000000 1.000e+00 1.000e+00 1.00e+00 1.000e+00
+##                             PC31      PC32      PC33      PC34      PC35
+## Standard deviation     3.235e-15 3.172e-15 3.103e-15 3.041e-15 3.018e-15
+## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
+##                             PC36      PC37      PC38      PC39      PC40
+## Standard deviation     2.983e-15 2.915e-15 2.868e-15 2.799e-15 2.747e-15
+## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
+##                            PC41      PC42      PC43      PC44      PC45
+## Standard deviation     2.72e-15 2.696e-15 2.639e-15 2.612e-15 2.565e-15
+## Proportion of Variance 0.00e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  1.00e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
+##                             PC46      PC47      PC48      PC49     PC50
+## Standard deviation     2.546e-15 2.492e-15 2.414e-15 2.385e-15 2.28e-15
+## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.00e+00
+## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.00e+00
+##                             PC51      PC52      PC53      PC54      PC55
+## Standard deviation     2.195e-15 2.144e-15 4.521e-16 4.253e-16 2.846e-17
+## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
+##                             PC56
+## Standard deviation     1.574e-17
+## Proportion of Variance 0.000e+00
+## Cumulative Proportion  1.000e+00
+```
+]
+
+---
+
+### The Biology of Asymmetry
+
++ Different types of asymmetry are thought to have a biological meaning
+
++ **Directional asymmetry**: consistent difference skewed towards one of the sides (at the population level); thought to reflect difference in use, e.g. fiddler crabs feeding vs. fighting displays
+
+&lt;img src="LectureData/10.asymmetry/FiddlerCrab.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+--
+
++ **Fluctuating asymmetry**: thought to reflect instability during development (genetic, environmental etc)
+
++ Long debate about the meaning of FA
+---
+
+### Types of Symmetry
+
++ Perfect symmetry is rare in biology; objects nearly always have some degree of asymmetry
+
++ Three main types of asymmetry have been described, based on the statistical distribution of asymmetry in the population
+
+--
+
++ **1: Directional**: consistent `\(\small{(R-L)}\)` differences with one side always larger than the other: `\(\small{\overline{(R-L)}\neq0}\)`
+
++ **2: Fluctuating**: small random `\(\small{(R-L)}\)` deviations with `\(\small{\overline{(R-L)}=0}\)`
+
++ **3: Antisymmetry**: consistent `\(\small{(R-L)}\)` differences, but larger side random
+
+&lt;img src="LectureData/10.asymmetry/SymmTypesHist.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### Analysis of Symmetry: General Procedure
+
++ The presence of various types of asymmetry may be evaluated using one of several  factorial ANOVA designs
+
++ Traits need to be quantified multiple  times, so that measurement error may be quantified
+
++ This allows one to evaluate if the (normally small) differences between sides are actually “real” or due to measurement error (ME)
+
+--
+
++ ANOVA then often set up as:
+
+&lt;img src="LectureData/10.asymmetry/AnovaDesign.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### Extensions to GM Shape Data 
+
+&lt;img src="LectureData/10.asymmetry/ReflectObjects.png" width="70%" style="display: block; margin: auto;" /&gt;
+
++ **Procedure**
+  + 1: Digitize right and left structures (or R and L sides), possibly multiple times for ME
+  + 2: Reflect one side to match the other (and relabel landmarks for object symmetry)
+  + 3: GPA + projection to tangent space
+  + 4: Factorial ANOVA – SS for Individual, SS Side (DA), SS Side x Individual (FA) 
+  + 5: Assess model factors via permutation approaches
+
+###### Klingenberg &amp; McIntyre (1998). *Evolution.*; Klingenberg et al. (2002). *Evolution.*
+---
+
+### Decomposition of Asymmetry Component
+
++ One can approach the problem more theoretically (rather than 'procedurally')
+  + ANOVA effects represent Sums of Squares, which correspond to various asymmetry components
+  + Therefore, decomposing SST (total shape variation) obtained via `\(\small{D}_{Proc}\)` provides variance components for both DA and FA
+
+`$$\small{SST}=\sum^n_1{D}^2_{(X_i,Y_i)}=nD^2_{(\overline{X},\overline{Y})}+\sum^n_1{D}^2_{(X_i-\overline{X},Y_i-\overline{Y})}$$`
+
+--
+
++ where: `\(\small{nD}^2_{(\overline{X},\overline{Y})}\)` represents the **Directional Asymmetry** component
+
++ and: `\(\small\sum^n_1{D}^2_{(X_i-\overline{X},Y_i-\overline{Y})}\)` represents the **Fluctuating Asymmetry** component
+
+###### Mardia et al. (2000). *Biometrika*.
+---
+
+### Matching Symmetry: Example
+
+&lt;img src="LectureData/10.asymmetry/MatchExWings.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+
+### Matching Symmetry: Example 2
+.scrollable[
+
+``` r
+data(mosquito)
+Y.gpa &lt;- gpagen(mosquito$wingshape, print.progress = FALSE)
+plot(Y.gpa)
+```
+
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+### Matching Symmetry: Example 2 (Cont.)
+.scrollable[
+
+``` r
+mosquito.sym &lt;- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, 
+                           object.sym = FALSE, print.progress = FALSE)
+summary(mosquito.sym)
+```
+
+```
+## 
+## Call:
+## bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side = mosquito$side,  
+##     object.sym = FALSE, print.progress = FALSE) 
+## 
+## 
+## Symmetry (data) type: Matching 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 1000 Permutations
+## 
+## Shape ANOVA
+##          Df       SS        MS     Rsq      F       Z Pr(&gt;F)    
+## ind       9 0.104888 0.0116542 0.45533 2.7646  4.7037  0.001 ***
+## side      1 0.003221 0.0032209 0.01398 0.7641 -0.3558  0.635    
+## ind:side 29 0.122249 0.0042155 0.53069                          
+## Total    39 0.230358                                            
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## 
+## Centroid Size ANOVA
+##          Df         SS         MS     Rsq      F        Z Pr(&gt;F)
+## ind       9 4.1496e-09 4.6107e-10 0.18555 0.7484 -0.42684  0.665
+## side      1 3.4740e-10 3.4738e-10 0.01553 0.5638  0.15784  0.471
+## ind:side 29 1.7867e-08 6.1609e-10 0.79891                       
+## Total    39 2.2364e-08
+```
+]
+---
+
+### Matching Symmetry: Example 2 (Cont.)
+.scrollable[
+
+``` r
+plot(mosquito.sym, warpgrids = TRUE)
+```
+
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+### Object Symmetry: Example
+
+&lt;img src="LectureData/10.asymmetry/ObjExLizards.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+
+### Object Symmetry: Example 2
+.scrollable[
+
+``` r
+data('lizards')
+Y.gpa &lt;- gpagen(lizards$coords, print.progress = FALSE)
+plot(Y.gpa)
+```
+
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+### Object Symmetry: Example 2 (Cont.)
+.scrollable[
+
+``` r
+lizard.sym &lt;- bilat.symmetry(A = Y.gpa, ind = lizards$ind, replicate = lizards$rep,
+                           object.sym = TRUE, land.pairs = lizards$lm.pairs, print.progress = FALSE)
+summary(lizard.sym)
+```
+
+```
+## 
+## Call:
+## bilat.symmetry(A = Y.gpa, ind = lizards$ind, replicate = lizards$rep,  
+##     object.sym = TRUE, land.pairs = lizards$lm.pairs, print.progress = FALSE) 
+## 
+## 
+## 
+## Symmetry (data) type: Object 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 1000 Permutations
+## 
+## Shape ANOVA
+##                     Df       SS        MS     Rsq       F       Z Pr(&gt;F)    
+## ind                 48 0.236788 0.0049331 0.83194  7.3721 -0.1011  0.536    
+## side                 1 0.009432 0.0094317 0.03314 14.0951  3.7540  0.001 ***
+## ind:side            48 0.032119 0.0006692 0.11285 10.4367 19.7078  0.001 ***
+## ind:side:replicate  98 0.006283 0.0000641 0.02208                           
+## Total              195 0.284622                                             
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+]
+---
+
+### Object Symmetry: Example 2 (Cont.)
+.scrollable[
+
+``` r
+plot(lizard.sym, warpgrids = TRUE)
+```
+
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-16-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+### Other Types of Asymmetry
+
++ Many other types of (a)symmetry are present in biological data
++ How can we quantify asymmetry for these structures?
+
+&lt;img src="LectureData/10.asymmetry/HigherSymm.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### Symmetry Groups
+
++ One can approach the problem by defining **Symmetry Groups**
++ Symmetry groups: transformations that leave the data invariant
++ e.g.: bilateral symmetry = reflection across the midline
+
+&lt;img src="LectureData/10.asymmetry/SymmGroups.png" width="40%" style="display: block; margin: auto;" /&gt;
+
++ Symmetry groups define transformations such that there are invariances in those symmetric 'dimensions'
++ These groups describe the ways in which symmetry can be defined, and thus quantified for more complex structures (e.g., radial symmetry)
+
+###### Savriama and Klingenberg. (2011). *BMC Evol. Biol.*
+---
+
+### Symmetry: Extended Protocol
+
+.pull-left[
++ For bilateral asymmetry: transformation = reflection
++ For other types, decompose asymmetry to the components defining the symmetry type based on the appropriate symmetry groups
+
++ Example: Rotational Symmetry
+  + Digitize all p components 
+  + GPA + projection
+  + Decompose shape variation into symmetry components, quantify and evaluate
+]
+
+.pull-right[
+&lt;img src="LectureData/10.asymmetry/RadialSymm.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+###### Savriama and Klingenberg. (2011). *BMC Evol. Biol.*
+
+---
+
+### Complex Symmetry: Example
+
++ Symmetry Analysis in corals
+
+&lt;img src="LectureData/10.asymmetry/CoralSymmetry.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+### A Note on Geometric Transformations
+
++ Any captured shape difference that follows a geometric rule can be modelled using the Procrustes paradigm
+
++ We can account for undesired effects
+
++ We can model shapes and other effects separately
+
+--
+
++ Articulations frequently cause this kind of effects
+
++ Shape effects + positional effects
+
+&lt;img src="LectureData/10.asymmetry/ArticConcept.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+
+### Geometric Transformations: Articulations
+
++ For articulated structures, several solutions exist
+  + Fixing the angle in all specimens through a mathematical transformation
+  + Separating the subsets to analyse separately, etc. 
+    
+&lt;img src="LectureData/10.asymmetry/ArticMath.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+###### Adams. (1999). *Evol. Ecol. Res.*
+---
+
+# Articulation Standardization: Example
+
++ Standardize some data for relative jaw position
+
+
+
+
+``` r
+jaw.fixed &lt;- fixed.angle(gpa.rand, art.pt=1, angle.pts.1 = 5, angle.pts.2 = 6, rot.pts = c(2,3,4,5))
+
+gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
+```
+
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-25-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Another Note on Geometric Transformations
+
++ Considering 'fixing' articulation angles in reverse results in a different pattern **motion analysis**
+  + For shape devoid of movement, one fixes the angle.
+  + For quantifying movement, one compares shapes across the motion path interested
+
++ The latter forms a *trajectory* that describes the motion path
++ It is represented by a sequence of shapes (a trajectory) in shape space 
+
+&lt;img src="LectureData/10.asymmetry/MotionAnal.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+###### NOTE: see Phenotypic Trajectory Analysis lecture for analytical details
+---
+
+### Symmetry: Summary
+
++ Symmetry causes redundancy in shape data 
++ Can account for symmetry effects analytically 
++ Asymmetry: biological significance
++ FA: developmental instability
++ DA: adaptation?
++ Use ANOVA procedures to separate variation within (asymmetry) and among individuals
++ Extensions to different types of symmetry
++ Geometric transformations in general: any effect that follows a geometric rule can be taken into account, partialed out, or targeted in the Procrustes framework
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-light",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"self_contained": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

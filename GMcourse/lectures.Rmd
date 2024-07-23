@@ -8,37 +8,35 @@
 
 [03-Superimposition: Generalized Procrustes Analysis (GPA)](https://geomorphR.github.io/GMcourse/Lectures/03-Superimposition.html)
 
-----
-
 [04-Shape Spaces, Shape Variables, & PCA](https://geomorphR.github.io/GMcourse/Lectures/04-ShapeVariablesSpaces.html)
 
-[05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/05-Semilandmarks.html)
-
-[GMShiny demo](https://www.gmshiny.com/)
-
 ----
+
+[05-GPA with Semilandmarks](https://geomorphR.github.io/GMcourse/Lectures/05-Semilandmarks.html)
 
 [06-Shape Statistics I](https://geomorphR.github.io/GMcourse/Lectures/06-ShapeStatistics1.html)
 
 [07-Allometry](https://geomorphR.github.io/GMcourse/Lectures/07-Allometry.html)
 
-[08-Shape Statistics II](https://geomorphR.github.io/GMcourse/Lectures/08-ShapeStatistics2.html) 
-
 ----
+
+[08-Shape Statistics II](https://geomorphR.github.io/GMcourse/Lectures/08-ShapeStatistics2.html) 
 
 [09-Phylogenetic Comparative Methods](https://geomorphR.github.io/GMcourse/Lectures/09-PhyCompMethods.html) 
 
-[10-Symmetry and Asymmetry](https://geomorphR.github.io/GMcourse/Lectures/10-Asymmetry.html)
+[10-Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error](https://geomorphR.github.io/GMcourse/Lectures/10-RepeasteShapeMeasures.html)
+
+----
 
 [11-RRPP Extensions (Trajectory Analysis & Morphlogical Disparity)](https://geomorphR.github.io/GMcourse/Lectures/11-RRPPExtensions.html)
 
 [12-Integration and Modularity](https://geomorphR.github.io/GMcourse/Lectures/12-IntegrationModularity.html)
 
-----
-
 [13-Missing Data](https://geomorphR.github.io/GMcourse/Lectures/13-MissingData.html)
 
-[14-Future Directions and Prospectus](https://geomorphR.github.io/GMcourse/Lectures/14-Prospectus.html)
+----
+
+[14-Recent GMM Advances and Prospectus](https://geomorphR.github.io/GMcourse/Lectures/14-Prospectus.html)
 
 ----
 

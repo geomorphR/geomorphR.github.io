@@ -1,5 +1,5 @@
 ---
-title: "10: Symmetry and Asymmetry"
+title: "10: Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error"
 author: ""
 output:
   xaringan::moon_reader:
