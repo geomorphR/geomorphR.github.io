@@ -4,7 +4,7 @@
     <title>7: Allometry</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="07-Allometry_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="07-Allometry_files/header-attrs-2.27/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -168,7 +168,7 @@ This is a hypothesis of *Allometry* (shape~size covariation)
 ]
 .pull-right[
 
-```r
+``` r
 data(pupfish)
 pupfish$logSize &lt;- log(pupfish$CS)
 pupfish$Group &lt;- interaction(pupfish$Pop, pupfish$Sex)
@@ -219,7 +219,7 @@ Great, but how does one visualize this multivariate allometry??
 
 .pull-left[
 
-```r
+``` r
 M &lt;- mshape(pupfish$coords)
 preds &lt;- shape.predictor(fit$GM$fitted, x= pupfish$logSize, Intercept = TRUE, 
                          predmin = min(pupfish$logSize), 
@@ -229,7 +229,7 @@ preds &lt;- shape.predictor(fit$GM$fitted, x= pupfish$logSize, Intercept = TRUE,
 ]
 .pull-right[
 
-```r
+``` r
 par(mfrow=c(1,2))
 plotRefToTarget(M, preds$predmin, mag=1)
 mtext("Regression Min")
@@ -239,7 +239,7 @@ mtext("Regression Max")
 
 &lt;img src="07-Allometry_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
-```r
+``` r
 par(mfrow=c(1,1))
 ```
 ]
@@ -262,22 +262,28 @@ par(mfrow=c(1,1))
 ### Allometry Example: *Podarcis*
 
 .pull-left[
+
+```
+## 
+## No curves detected; all points appear to be fixed landmarks.
+```
+
 &lt;img src="07-Allometry_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
-```r
+``` r
 fit &lt;- procD.lm(Y.gpa$coords~CS*type, data = gdf, print.progress = FALSE)
 anova(fit)$table
 ```
 
 ```
-##            Df      SS       MS     Rsq       F      Z Pr(&gt;F)   
-## CS          1 0.05814 0.058139 0.09503 40.0581 7.2274  0.001 **
-## type        1 0.03235 0.032350 0.05287 22.2892 4.6569  0.001 **
-## CS:type     1 0.00610 0.006105 0.00998  4.2061 3.0990  0.001 **
-## Residuals 355 0.51524 0.001451 0.84212                         
-## Total     358 0.61183                                          
+##            Df      SS       MS     Rsq       F      Z Pr(&gt;F)    
+## CS          1 0.05814 0.058139 0.09503 40.0581 7.2274  0.001 ***
+## type        1 0.03235 0.032350 0.05287 22.2892 4.6569  0.001 ***
+## CS:type     1 0.00610 0.006105 0.00998  4.2061 3.0990  0.001 ***
+## Residuals 355 0.51524 0.001451 0.84212                          
+## Total     358 0.61183                                           
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -297,7 +303,7 @@ anova(fit)$table
 
 .pull-left[
 
-```r
+``` r
 shape.gps &lt;- coords.subset(fit$GM$fitted,type)
 CS.R &lt;- gdf$CS[which(type=="R")]
 CS.U &lt;-   gdf$CS[which(type=="U")]
@@ -347,7 +353,11 @@ M &lt;- mshape(Y.gpa$coords)
   + 5: Visualize allometry as (CAC vs. SSPC1)   &amp; (CAC vs. RSC1)
 
 `$$\small\alpha=(\mathbf{Z}_{c}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$`
-`$$\small{CAC}=\mathbf{Z}_{c}\alpha$$`             where `$$\small\alpha=\alpha\sqrt{(\alpha^T\alpha)}$$`
+`$$\small{CAC}=\mathbf{Z}_{c}\alpha$$`             
+
+where 
+
+`$$\small\alpha=\alpha\sqrt{(\alpha^T\alpha)}$$`
 ---
 
 ### Size-Shape Space: Example
@@ -443,7 +453,7 @@ M &lt;- mshape(Y.gpa$coords)
 + **Question**: Which groups have different allometries, and how do they differ?
 
 
-```r
+``` r
 data(pupfish)
 plotAllSpecimens(pupfish$coords)
 ```
@@ -457,7 +467,7 @@ plotAllSpecimens(pupfish$coords)
 
 
 
-```r
+``` r
 fit.common &lt;- procD.lm(coords ~ logSize + Group, 
                      data = pupfish, print.progress = FALSE) 
 fit.unique &lt;- procD.lm(coords ~ logSize * Group, 
@@ -469,7 +479,7 @@ fit.unique &lt;- procD.lm(coords ~ logSize * Group,
 
 .pull-right[
 
-```r
+``` r
 anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 ```
 
@@ -497,7 +507,7 @@ anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
 
-+ Allometric plots
++ Allometric plots 
   + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
 &lt;img src="07-Allometry_files/figure-html/unnamed-chunk-28-1.png" width="50%" style="display: block; margin: auto;" /&gt;
@@ -509,7 +519,7 @@ anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 
 .scrollable[
 
-```r
+``` r
 PW.u &lt;- pairwise(fit.unique, groups = pupfish$Group,
                covariate = log(pupfish$CS), print.progress = FALSE)
 summary(PW.u, test = "dist")
@@ -546,7 +556,7 @@ summary(PW.u, test = "dist")
 
 .scrollable[
 
-```r
+``` r
 summary(PW.u, test = "VC", angle.type = "deg") 
 ```
 
@@ -584,7 +594,7 @@ summary(PW.u, test = "VC", angle.type = "deg")
 
 .scrollable[
 
-```r
+``` r
 PW.c &lt;- pairwise(fit.common, groups = pupfish$Group,
                print.progress = FALSE)
 summary(PW.c, test = "dist") 

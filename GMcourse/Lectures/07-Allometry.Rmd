@@ -369,7 +369,11 @@ include_graphics("LectureData/07.allometry/SizeShapeConcept.png")
   + 5: Visualize allometry as (CAC vs. SSPC1)   & (CAC vs. RSC1)
 
 $$\small\alpha=(\mathbf{Z}_{c}^T\mathbf{CS})/\mathbf{(CS^TCS)}$$
-$$\small{CAC}=\mathbf{Z}_{c}\alpha$$             where $$\small\alpha=\alpha\sqrt{(\alpha^T\alpha)}$$
+$$\small{CAC}=\mathbf{Z}_{c}\alpha$$             
+
+where 
+
+$$\small\alpha=\alpha\sqrt{(\alpha^T\alpha)}$$
 ---
 
 ### Size-Shape Space: Example
@@ -507,7 +511,7 @@ anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
 
-+ Allometric plots
++ Allometric plots 
   + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
 ```{r, echo = FALSE, fig.align = "center",  out.width = "50%"}

@@ -32,7 +32,7 @@
 
 [12-Integration and Modularity](https://geomorphR.github.io/GMcourse/Lectures/12-IntegrationModularity.html)
 
-[13-Missing Data](https://geomorphR.github.io/GMcourse/Lectures/13-MissingData.html)
+[13-Missing Data and Shape Subcomponents](https://geomorphR.github.io/GMcourse/Lectures/13-MissingDataShapeSubComp.html)
 
 ----
 
