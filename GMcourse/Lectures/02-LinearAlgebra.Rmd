@@ -75,15 +75,15 @@ $$a = 5$$   $$b = 2$$   $$c = -3$$
 
 Vectors
  
-$$\mathbf{a} = \begin{bmatrix}
+$$\mathbf{a} = \begin{pmatrix}
  5 \\ 
  3 \\ 
  -2 
-\end{bmatrix}$$
+\end{pmatrix}$$
 
-$$\mathbf{a}^T = \begin{bmatrix}
+$$\mathbf{a}^T = \begin{pmatrix}
  5 & 3 & -2
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 The superscript, $^T$, means vector transpose.  Note, $\left(\mathbf{a}^T \right)^T = \mathbf{a}$
 
@@ -93,41 +93,41 @@ The superscript, $^T$, means vector transpose.  Note, $\left(\mathbf{a}^T \right
 Vector addition/subtraction (consistent orientation is important)
 
 .pull-left[
-$$\mathbf{a} = \begin{bmatrix}
+$$\mathbf{a} = \begin{pmatrix}
  5 \\ 
  3 \\ 
  -2 
-\end{bmatrix}$$
+\end{pmatrix}$$
 
-$$\mathbf{b}^T = \begin{bmatrix}
+$$\mathbf{b}^T = \begin{pmatrix}
  -5 & 0 & 1
-\end{bmatrix}$$
+\end{pmatrix}$$
 ]
 .pull.right[
-$$\mathbf{a}^T + \mathbf{b}^T= \begin{bmatrix}
+$$\mathbf{a}^T + \mathbf{b}^T= \begin{pmatrix}
  0 & 3 & -1
-\end{bmatrix}$$
+\end{pmatrix}$$
 
-$$\mathbf{a} - \mathbf{b} = \begin{bmatrix}
+$$\mathbf{a} - \mathbf{b} = \begin{pmatrix}
  10 \\ 3 \\ -3
-\end{bmatrix}$$
+\end{pmatrix}$$
 ]
 ---
 ### Vector Multiplication
 
 #### Not this!
 
-$$\mathbf{a}^T = \begin{bmatrix}
+$$\mathbf{a}^T = \begin{pmatrix}
  5 & 3 & -2
-\end{bmatrix}$$
+\end{pmatrix}$$
 
-$$\mathbf{b}^T = \begin{bmatrix}
+$$\mathbf{b}^T = \begin{pmatrix}
  -5 & 0 & 1
-\end{bmatrix}$$
+\end{pmatrix}$$
 
-$$\mathbf{a}^T \times \mathbf{b}^T= \begin{bmatrix}
+$$\mathbf{a}^T \times \mathbf{b}^T= \begin{pmatrix}
  -25 & 0 & -2
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 But it is kind of that, in part...
 
@@ -186,13 +186,13 @@ For $n \times 1$ vectors
 $$\mathbf{a}^T \mathbf{b} = \sum_{i=1}^n a_ib_i$$
 
 For example, 
-$$\mathbf{a}^T = \begin{bmatrix}
+$$\mathbf{a}^T = \begin{pmatrix}
  5 & 3 & -2
-\end{bmatrix}$$
+\end{pmatrix}$$
 
-$$\mathbf{b} = \begin{bmatrix}
+$$\mathbf{b} = \begin{pmatrix}
  -5 \\ 0 \\ 1
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 $$\mathbf{a}^T \mathbf{b} = \left(5\times -5 \right) + \left(3 \times 0 \right) + \left(-2 \times 1 \right) = -27$$
 
@@ -210,26 +210,26 @@ If inner dimensions match, the multiplication is possible.  The product has dime
 
 For $n \times 1$ vectors
 
-$$\mathbf{a}\mathbf{b}^T  = \begin{bmatrix}
+$$\mathbf{a}\mathbf{b}^T  = \begin{pmatrix}
 a_1b_1 & a_1b_2 & a_1b_3 & \cdots & a_1b_n\\
 a_2b_1 & a_2b_2 & a_2b_3 & \cdots & a_2b_n\\
 a_3b_1 & a_3b_2 & a_3b_3 & \cdots & a_3b_n\\
 \vdots & \vdots & \vdots & \ddots & \vdots\\
 a_nb_1 & a_nb_2 & a_nb_3 & \cdots & a_nb_n\\
-\end{bmatrix} =
+\end{pmatrix} =
 \mathbf{M}_{n \times n}$$
 ---
 ### Vector Multiplication (cont.): Vector Outer Products (cont.)
 
 ### Important Notes
 
-$$\mathbf{a}\mathbf{b}^T  = \begin{bmatrix}
+$$\mathbf{a}\mathbf{b}^T  = \begin{pmatrix}
 a_1b_1 & a_1b_2 & a_1b_3 & \cdots & a_1b_n\\
 a_2b_1 & a_2b_2 & a_2b_3 & \cdots & a_2b_n\\
 a_3b_1 & a_3b_2 & a_3b_3 & \cdots & a_3b_n\\
 \vdots & \vdots & \vdots & \ddots & \vdots\\
 a_nb_1 & a_nb_2 & a_nb_3 & \cdots & a_nb_n\\
-\end{bmatrix} =
+\end{pmatrix} =
 \mathbf{M}_{n \times n}$$
 
 - $\mathbf{M}$ is called a matrix, with dimensions defined
@@ -263,14 +263,14 @@ Y
 ```
 Which is R's way of saying,
 
-$$\small{\mathbf{Y} = \begin{bmatrix}
+$$\small{\mathbf{Y} = \begin{pmatrix}
 2 & -1 \\
 3 & -2 \\
 2 & 0 \\
 5 & 0 \\
 6 & 1 \\
 8 & -1 \\
-\end{bmatrix}}$$
+\end{pmatrix}}$$
 
 $\mathbf{Y}$ is a matrix and a data frame.  Row vectors are observations for the variables represented as column vectors. The dimensions of $\mathbf{Y}$ are $n \times p$ for the $n$ observations of subjects for $p$ variables.
 ---
@@ -301,51 +301,51 @@ Matrix multiplication is nothing more than systematic calculation of vector inne
 .pull-right[
 Let $\mathbf{X}$ be an $n \times k$ matrix and let $\mathbf{Y}$ by an $n \times p$ matrix, such that
 
-$$\small \mathbf{X} = \begin{bmatrix}
+$$\small \mathbf{X} = \begin{pmatrix}
 \mathbf{x}_1 &
 \mathbf{x}_2 &
 \cdots &
 \mathbf{x}_k 
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 and
 
-$$\small \mathbf{Y} = \begin{bmatrix}
+$$\small \mathbf{Y} = \begin{pmatrix}
 \mathbf{y}_1 &
 \mathbf{y}_2 &
 \cdots & 
 \mathbf{y}_p
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 Note that each $\mathbf{x}_i$ column vector is $n \times 1$ in dimension for $k$ vectors and each $\mathbf{y}_i$ is $n \times 1$ in dimension for $p$ vectors.  Thus,
 ]
 ---
 ### Matrix Addition, Subtraction, Multiplication (Cont.)
 
-$$\mathbf{X} = \begin{bmatrix}
+$$\mathbf{X} = \begin{pmatrix}
 \mathbf{x}_1 &
 \mathbf{x}_2 &
 \cdots &
 \mathbf{x}_k 
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 and 
 
-$$\mathbf{Y} = \begin{bmatrix}
+$$\mathbf{Y} = \begin{pmatrix}
 \mathbf{y}_1 &
 \mathbf{y}_2 &
 \cdots & 
 \mathbf{y}_p
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 and 
 
-$$\mathbf{X}^T\mathbf{Y} = \begin{bmatrix}
+$$\mathbf{X}^T\mathbf{Y} = \begin{pmatrix}
 \mathbf{x}_1^T\mathbf{y}_1 & \mathbf{x}_1^T\mathbf{y}_2 & \cdots & \mathbf{x}_1^T\mathbf{y}_p\\
 \mathbf{x}_2^T\mathbf{y}_1 & \mathbf{x}_2^T\mathbf{y}_2 & \cdots & \mathbf{x}_2^T\mathbf{y}_p\\
 \vdots & \vdots & & \vdots\\
 \mathbf{x}_k^T\mathbf{y}_1 & \mathbf{x}_k^T\mathbf{y}_2 & \cdots & \mathbf{x}_k^T\mathbf{y}_p\\
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 The matrix product is a matrix with $k \times p$ inner-products
 ---
@@ -425,7 +425,13 @@ This is not something we can do.  We can invert some matrices, but we will come 
 - Any matrix or vector multiplied by a scalar multiplies every element by the scalar.  The name, "scalar," means that every element is scaled.
 - Like vectors that have inner-products (dot products) or outer-products, sometimes matrices can be similar.  The tendency though is to call these cross-product matrices.  
 - A vector inner-product of the form, $\mathbf{x}^T\mathbf{x}$ is a generalized method of squaring.  It is precisely the sum of squared values, rather than just a squared value.
-- A matrix cross-product of the form, $\mathbf{X}^T\mathbf{X}$ is a generalized method of squaring.  This matrix has summed squared values of column vectors of $\mathbf{X}$ on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+- A matrix **cross-product** of the form, $\mathbf{X}^T\mathbf{X}$ is a generalized method of squaring.  This matrix has summed squared values of column vectors of $\mathbf{X}$ on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+- A matrix **outer-product** of the form, $\mathbf{X}\mathbf{X}^T$ can also be considered a generalized method of squaring.  This matrix has summed squared values of row vectors of $\mathbf{X}$ on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+- The **trace** of a symmetric matrix is the sum of diagonal elements.  One convenience is $trace(\mathbf{X}^T\mathbf{X}) = trace(\mathbf{X}\mathbf{X}^T)$.
+---
+
+### Important Matrix and Vector Multiplication Properties (cont.)
+
 - A matrix is **square** when it has equal rows and columns, e.g., $n \times n$.
 - If $\mathbf{XY}$ is possible and $\mathbf{YX}$ is possible, they will not have the same product unless both matrices are square and $\mathbf{X} = \mathbf{Y}$.  The dimensions of matrix products are also likely different.
 - The next slide will describe some special matrices.
@@ -445,19 +451,19 @@ This is not something we can do.  We can invert some matrices, but we will come 
 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
-|**Square matrix:** Any matrix with the same number of rows and columns, e.g., $n \times n$ | $\small{\mathbf{S} = \begin{bmatrix} 2 & 3 & 1 \\ 4 & 7 & 5\\ 1 & 10 & 0 \\ \end{bmatrix}}$ | These matrices, themselves, are generally not too compelling, unless there is a relationship between the row and column variables.|
-|**Symmetric matrix:** A square matrix that has symmetry above and below the diagonal| $\small{\mathbf{S} = \begin{bmatrix} 2 & 3 & 1 \\ 3 & 7 & 10\\ 1 & 10 & 0 \\ \end{bmatrix}}$ | These matrices have the condition that $\mathbf{S} = \mathbf{S}^T$.|
-|**Diagonal matrix:** A symmetric matrix that has non-0 elements only along the diagonal; all others are 0.| $\small{\mathbf{D} = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 7 & 0\\ 0 & 0 & 0 \\ \end{bmatrix}}$ | Note that the diagonal elements can still be 0.  If all diagonal elements are equal, we can say $\mathbf{D} = a\mathbf{I}$, for a scalar, $a$, and an identity matrix, $\mathbf{I}$.|
-|**Identity matrix:** A diagonal matrix that has diagonal elements equal to 1.| $\small{\mathbf{I} = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0\\ 0 & 0 & 1 \\ \end{bmatrix}}$ | This is the matrix equivalent to a value of 1, such that $\mathbf{AI} = \mathbf{A}$
+|**Square matrix:** Any matrix with the same number of rows and columns, e.g., $n \times n$ | $\small{\mathbf{S} = \begin{pmatrix} 2 & 3 & 1 \\ 4 & 7 & 5\\ 1 & 10 & 0 \\ \end{pmatrix}}$ | These matrices, themselves, are generally not too compelling, unless there is a relationship between the row and column variables.|
+|**Symmetric matrix:** A square matrix that has symmetry above and below the diagonal| $\small{\mathbf{S} = \begin{pmatrix} 2 & 3 & 1 \\ 3 & 7 & 10\\ 1 & 10 & 0 \\ \end{pmatrix}}$ | These matrices have the condition that $\mathbf{S} = \mathbf{S}^T$.|
+|**Diagonal matrix:** A symmetric matrix that has non-0 elements only along the diagonal; all others are 0.| $\small{\mathbf{D} = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 7 & 0\\ 0 & 0 & 0 \\ \end{pmatrix}}$ | Note that the diagonal elements can still be 0.  If all diagonal elements are equal, we can say $\mathbf{D} = a\mathbf{I}$, for a scalar, $a$, and an identity matrix, $\mathbf{I}$.|
+|**Identity matrix:** A diagonal matrix that has diagonal elements equal to 1.| $\small{\mathbf{I} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0\\ 0 & 0 & 1 \\ \end{pmatrix}}$ | This is the matrix equivalent to a value of 1, such that $\mathbf{AI} = \mathbf{A}$
 ---
 
 ### Special Matrices (cont.)
 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
-|**Orthogonal matrix:** A symmetric matrix that has the property that $\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}$.| $\small{\mathbf{A} = \begin{bmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{bmatrix}}$ | $\small{\mathbf{AA}^T} = \begin{bmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{bmatrix} \begin{bmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$ |
-|**Orthonormal matrix:** An orthogonal matrix with unit vectors (length of 1) $\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}$.| $\small{\mathbf{A} = \begin{bmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{bmatrix}}$ | $\small{\lvert\lvert\mathbf{a}_1 \rvert\rvert  =(\mathbf{a}_1^T\mathbf{a}_1)^{1/2} = (0.7071^2 +0.7071^2)^{1/2} =1}$  $\small{\lvert\lvert\mathbf{a}_2\rvert\rvert=(\mathbf{a}_2^T\mathbf{a}_2)^{1/2} = (0.7071^2 + (-0.7071)^2)^{1/2} =1}$|
-|**Idempotent matrix:** A symmetric matrix with the property $\mathbf{HH} = \mathbf{H}$ | $\small{\mathbf{H} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix}}$ | $\begin{align*} \small{\mathbf{HH}} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix} \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix} \\ = \small{\begin{bmatrix} 0.5^2 + 0.5^2 & 0.5^2 + 0.5^2 \\ 0.5^2 + 0.5^2 & 0.5^2 + 0.5^2 \end{bmatrix} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix}} \end{align*}$  
+|**Orthogonal matrix:** A symmetric matrix that has the property that $\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}$.| $\small{\mathbf{A} = \begin{pmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{pmatrix}}$ | $\small{\mathbf{AA}^T} = \begin{pmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{pmatrix} \begin{pmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ |
+|**Orthonormal matrix:** An orthogonal matrix with unit vectors (length of 1) $\mathbf{AA}^T = \mathbf{A}^T\mathbf{A} = \mathbf{I}$.| $\small{\mathbf{A} = \begin{pmatrix} 0.7071 & 0.7071 \\ 0.7071 & -0.7071 \end{pmatrix}}$ | $\small{\lvert\lvert\mathbf{a}_1 \rvert\rvert  =(\mathbf{a}_1^T\mathbf{a}_1)^{1/2} = (0.7071^2 +0.7071^2)^{1/2} =1}$  $\small{\lvert\lvert\mathbf{a}_2\rvert\rvert=(\mathbf{a}_2^T\mathbf{a}_2)^{1/2} = (0.7071^2 + (-0.7071)^2)^{1/2} =1}$|
+|**Idempotent matrix:** A symmetric matrix with the property $\mathbf{HH} = \mathbf{H}$ | $\small{\mathbf{H} = \begin{pmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{pmatrix}}$ | $\begin{align*} \small{\mathbf{HH}} = \begin{pmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{pmatrix} \begin{pmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{pmatrix} \\ = \small{\begin{pmatrix} 0.5^2 + 0.5^2 & 0.5^2 + 0.5^2 \\ 0.5^2 + 0.5^2 & 0.5^2 + 0.5^2 \end{pmatrix} = \begin{pmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{pmatrix}} \end{align*}$  
 
 ***Idempotency is a property that is important for orthogonal projection, covered next***
 ---
@@ -466,8 +472,8 @@ This is not something we can do.  We can invert some matrices, but we will come 
 
 | Matrix and description | Example | Comments |
 | ------ | ---- | ------ |
-|**Projection matrix:** Any matrix that can be multiplied with data that map the data to new vectors (transformation), taking the form, $\mathbf{PY}$ or $\mathbf{YP}$.| $\small{\mathbf{P} = \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix}}$ | Although projection (transformation) matrices can have many forms, typical ones are: "hat" matrices, $\mathbf{H}$, which if idempotent perform orthogonal projections, but if merely symmetric perform shears (more on this soon); and eigenvectors ( $\mathbf{V}$ ).
-|**Positive-definite matrix:** If $\mathbf{X}$ is symmetric, $\mathbf{a}^T \mathbf{Xa}$ is a positive scalar if $\mathbf{a}$ has non-zero values.  Thus, $\mathbf{X}$ is positive-definite.| $\small{\mathbf{X} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 2 \end{bmatrix}}$ | This also means all eigenvalues of $\mathbf{X}$ are non-negative (more later).  ***Covariance matrices for shape data are often not positive-definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
+|**Projection matrix:** Any matrix that can be multiplied with data that map the data to new vectors (transformation), taking the form, $\mathbf{PY}$ or $\mathbf{YP}$.| $\small{\mathbf{P} = \begin{pmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{pmatrix}}$ | Although projection (transformation) matrices can have many forms, typical ones are: "hat" matrices, $\mathbf{H}$, which if idempotent perform orthogonal projections, but if merely symmetric perform shears (more on this soon); and eigenvectors ( $\mathbf{V}$ ).
+|**Positive-definite matrix:** If $\mathbf{X}$ is symmetric, $\mathbf{a}^T \mathbf{Xa}$ is a positive scalar if $\mathbf{a}$ has non-zero values.  Thus, $\mathbf{X}$ is positive-definite.| $\small{\mathbf{X} = \begin{pmatrix} 1 & 0.5 \\ 0.5 & 2 \end{pmatrix}}$ | This also means all eigenvalues of $\mathbf{X}$ are non-negative (more later).  ***Covariance matrices for shape data are often not positive-definite because (1) generalized Procrustes analysis creates redundancies in the data and (2) there are often more shape variables than observations.  We will cover these issues in much detail, later***
 
 It should be clear that matrices can have several properties.  For example, a *projection matrix* can be symmetric and idempotent.
 ---
@@ -525,7 +531,7 @@ To best understand attributes of high-dimensional data spaces and algebra applie
 #### The Result of $\mathbf{YH}$, where $\mathbf{H}$ is a $p \times p$ matrix
 
 **Note** that $\mathbf{H}_{orthogonal}$ can be viewed as a rotation matrix, which makes sense in low-dimensional data spaces.  For example, in a two-dimension data space, it can be the same as:
-$$\mathbf{H}_{orthogonal} = \begin{bmatrix} \cos\theta & -\sin\theta\\ \sin\theta & \cos\theta \end{bmatrix}$$
+$$\mathbf{H}_{orthogonal} = \begin{pmatrix} \cos\theta & -\sin\theta\\ \sin\theta & \cos\theta \end{pmatrix}$$
 for a rotational angle, $\theta$, in a plane.
 ---
 
@@ -567,15 +573,15 @@ We will learn more about statistical methods, but nearly each method will be eit
 - Illustration is simplest with a $2 \times 2$ matrix
 
 Let $\mathbf{A}$ be a $2 \times 2$ matrix,
-$$\mathbf{A} = \begin{bmatrix}
+$$\mathbf{A} = \begin{pmatrix}
 a & b \\
 c & d
-\end{bmatrix}$$
+\end{pmatrix}$$
 Then,
-$$\mathbf{A}^{-1} = \left| \mathbf{A} \right|^{-1} \begin{bmatrix}
+$$\mathbf{A}^{-1} = \left| \mathbf{A} \right|^{-1} \begin{pmatrix}
 d & -b\\
 -c & a
-\end{bmatrix}$$
+\end{pmatrix}$$
 where $\left| \mathbf{A} \right| = ad-bc$
 
 If $|\mathbf{A}| = 0$, the matrix is *singular* and cannot be inverted (dividing by 0 from matrices).
@@ -584,16 +590,16 @@ If $|\mathbf{A}| = 0$, the matrix is *singular* and cannot be inverted (dividing
 ### Matrix Inversion (Cont.)
 
 #### Example
-$$\mathbf{A} = \begin{bmatrix}
+$$\mathbf{A} = \begin{pmatrix}
 3 & 4 \\
 4 & 6
-\end{bmatrix}$$
+\end{pmatrix}$$
 
 $$\left| \mathbf{A} \right| = 18-16$$
 $$\left| \mathbf{A} \right|^{-1} = 0.5$$
-$$\mathbf{A}^{-1} = \left| \mathbf{A} \right|^{-1} \begin{bmatrix}
-d & -b\\ -c & a \end{bmatrix} = 0.5 \begin{bmatrix} 6 & -4\\ -4 & 3
-\end{bmatrix} = \begin{bmatrix} 3 & -2\\ -2 & 1.5 \end{bmatrix}$$
+$$\mathbf{A}^{-1} = \left| \mathbf{A} \right|^{-1} \begin{pmatrix}
+d & -b\\ -c & a \end{pmatrix} = 0.5 \begin{pmatrix} 6 & -4\\ -4 & 3
+\end{pmatrix} = \begin{pmatrix} 3 & -2\\ -2 & 1.5 \end{pmatrix}$$
 ---
 
 ### Matrix Inversion (Cont.)
@@ -619,11 +625,96 @@ A %*% solve(A)
 ### Matrix Inversion (Cont.)
 
 - Note, inversion with 3 × 3 matrices or larger, not a trivial exercise
-- Plagiarized from Wikipedia…
 
-```{r, echo = FALSE, out.width="80%"}
-include_graphics("LectureData/02.matrices/wiki.inversion.png")  
-```
+.pull-left[
+- Let $\mathbf{A}$ be a $3 \times 3$ matrix,
+$$\mathbf{A} = \begin{pmatrix}
+a & b & c\\
+d & e & f\\
+g & h & i\\
+\end{pmatrix}$$
+]
+.pull-right[
+
+- Let's also assume before proof that $\mathbf{A}$ is invertible.
+]
+
+***Algorithm:***
++ Find the ***nine*** possible $2 \times 2$ matrices within $\mathbf{A}$, e.g., 
+.center[
+$\begin{pmatrix} a & b\\ d & e\\ \end{pmatrix}$, $\begin{pmatrix} a & c\\ d & f\\ \end{pmatrix}$, $\begin{pmatrix} b & c\\ e & f\\ \end{pmatrix}$, etc.
+]
+---
+### Matrix Inversion (Cont.)
+.pull-left[
+- Let $\mathbf{A}$ be a $3 \times 3$ matrix,
+$$\mathbf{A} = \begin{pmatrix}
+a & b & c\\
+d & e & f\\
+g & h & i\\
+\end{pmatrix}$$
+]
+.pull-right[
+
+- Let's also assume before proof that $\mathbf{A}$ is invertible.
+]
+
+***Algorithm:***
++ Find the determinant of each and give them names.  Every other determinant is negative.  The names correspond to the rows and columns not represented by each of the ***nine*** elements:
+.center[
+$A = (ei - fh)$, $D = -(bi - ch)$, $G = (bf - ce)$,
+
+$B = -(di - fg)$, $E = (ai - cg)$, $H= -(af - cd)$,
+
+$C = (dh - eg)$, $F = -(ah - bg)$, $I = (ae - bd)$
+]
+---
+### Matrix Inversion (Cont.)
+.pull-left[
+- Let $\mathbf{A}$ be a $3 \times 3$ matrix,
+$$\mathbf{A} = \begin{pmatrix}
+a & b & c\\
+d & e & f\\
+g & h & i\\
+\end{pmatrix}$$
+
+***Algorithm:***
+- Find the determinant of $\mathbf{A}$:
+
+$\left| \mathbf{A} \right| = aA + bB + cC$
+]
+.pull-right[
+- If the determinant is greater than 0, then $\mathbf{A}$ is invertible.
+]
+
+- Make a new matrix:
+
+$$\mathbf{A}^{-1} = \frac{1}{\left| \mathbf{A} \right|} 
+\begin{pmatrix} 
+A & B & C\\ 
+D & E & F\\ 
+G & H & I\\ 
+\end{pmatrix}^T = \frac{1}{\left| \mathbf{A} \right|} 
+\begin{pmatrix} 
+A & D & G\\ 
+B & E & H\\ 
+C & F & I\\ 
+\end{pmatrix}$$
+---
+### Matrix Inversion (Cont.)
+
+For the sake of sanity, we will not consider $4 \times 4$ or larger matrices!
+
+Generally speaking, software packages also do not ***solve*** matrix inverses in a way that makes sense like the previous demonstration.  (Also, `solve` is a function in `R` for finding a matrix inverse.)  Rather, they use a library of numerical routines that find computational solutions that converge on algebraic solutions.
+
+For example, `R` relies on the **L**inear **A**lgebra **Pack**age (LAPACK), which relies on **B**asic **L**inear **A**lgebra **S**ub-programs (BLAS), the subroutines that provide building blocks for computational routines. $^*$
+
+**Basically, understanding the concept is sufficient.**  One can trust that computers and their programs can be relied upon for efficient matrix inversion, within reason.  Matrix inversion is, however, a ***Big Data*** concern, as computer memory is finite.
+
+.footnote[
+$^*$ LAPACK has roots in `Fortran`, which is used in `R`.  `R` also relies on `C` and `C++`, which also use LAPACK plus other linear alegrba packages.
+]
+---
 
 .center[
 
@@ -689,10 +780,10 @@ X
 ```
 With a little bit of mind-bending, one might notice that 
 
-$$\mathbf{X}^T\mathbf{X} = \begin{bmatrix}
+$$\mathbf{X}^T\mathbf{X} = \begin{pmatrix}
 n & \sum X\\
 \sum X & \sum X^2
-\end{bmatrix}$$
+\end{pmatrix}$$
 ---
 
 ### Putting Our Current Knowledge to Good Use! (Cont.)
@@ -700,14 +791,14 @@ n & \sum X\\
 #### An Example (recalling an earlier example) using R scripts
 
 Let's reduce the $\mathbf{X}$ matrix, such that
-$$\mathbf{X}_0 = \begin{bmatrix}
+$$\mathbf{X}_0 = \begin{pmatrix}
 1\\
 1\\
 1\\
 1\\
 1\\
 1
-\end{bmatrix}$$
+\end{pmatrix}$$
 ---
 
 ### Putting Our Current Knowledge to Good Use! (Cont.)
@@ -921,7 +1012,7 @@ $\mathbf{Q}$ and $\mathbf{R}$ are solved via numerical approximation algorithms 
 
 $$\mathbf{Y}_{n \times p} =\mathbf{U}_{n \times p'} \mathbf{D}_{p' \times p'} \mathbf{V}_{p' \times p'}^T$$
 
-$\mathbf{U}$ (left singular values) and $\mathbf{V}$ (right singular values) are solved via numerical approximation algorithms.  The number of singular values is $p'= \min(n,p)$. If $\mathbf{Y}$ is not full-rank, some of the singular values in $\mathbf{D}$ will be 0.  The singular values decrease from largest to smallest.
+$\mathbf{U}$ (left singular values) and $\mathbf{V}$ (right singular values) are solved via numerical approximation algorithms.  The number of singular values is $p'= \min(n - 1,p)$. If $\mathbf{Y}$ is not full-rank, some of the singular values in $\mathbf{D}$ will be 0.  The singular values decrease from largest to smallest.
 
 ---
 
