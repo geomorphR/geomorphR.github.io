@@ -28,11 +28,27 @@ class: center, middle, inverse, title-slide
 
 + GPA: Aligns specimens to the average shape (reference, consensus shape)
 
-  + Removes non-shape information
-  + Requires landmark correspondence among specimens, and that all landmarks are present on all specimens
- 
++ Removes non-shape information so that shape may be reliably evaluated
 
-### The Problem of Missing Data
+--
+
++ However, GPA requires landmark correspondence among specimens
+  + Thus, all landmarks are present on all specimens
+  + Specimens with missing data can cause complications
+
+--
+
++ GPA also requires that landmarks come from a single, rigid structure
+  + Sometimes there are positional differences among subsets of landmarks
+  + Sometimes we wish to combine anatomical components into a single analysis
+
+--
+
++ Here we describe approaches for accounting for these challenges
+---
+
+
+### I: The Problem of Missing Data
 
 .pull-left[
 + GPA: Aligns specimens to the average shape (reference, consensus shape)
@@ -418,32 +434,42 @@ new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
 
 ---
 
-### Special Considerations: Positional Effects
+### II: Special Considerations: Positional Effects
 
-+ Sometimes objects positional variation  of their subcomponents 
++ Sometimes objects positional variation  of their subcomponents
   + Articulations frequently cause this 
 + Thus our data have: shape effects + positional effects 
-+ GMM procedures can account for this 
++ GMM procedures have been developed to account for this `\(^1\)`
 
 &lt;img src="LectureData/13.missing/ArticConcept.png" width="80%" style="display: block; margin: auto;" /&gt;
 
+.footnote[1. Adams (1999). *Evol. Ecol. Res.*]
 ---
 
 ### Special Considerations: Articulations
 
 + For articulated structures, several solutions exist
   + Fixing the angle in all specimens through a mathematical transformation
-  + Separating the subsets to analyse separately, etc. 
+  + Separating the subsets to analyse separately, etc. `\(^1\)`
     
-&lt;img src="LectureData/13.missing/ArticMath.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/ArticMath.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-###### Adams. (1999). *Evol. Ecol. Res.*
+.footnote[1. Adams (1999). *Evol. Ecol. Res.*]
+
 ---
 
-### Articulation Standardization
+### Articulation Standardization: Flow of Computations
 
-+ PUT MATH OF METHOD HERE
++ 1: Identify articulation point, and points on each subset (or their centroids)
++ 2: For `\(n = 1 \rightarrow i\)` specimens, center specimens on articulation
++ 3: For `\(n = 1 \rightarrow i\)` specimens, calculate `\(\theta_{i}\)`
++ 4: Estimate `\(\bar\theta\)` for sample
++ 5: For `\(n = 1 \rightarrow i\)` specimens, rotate one subset so `\(\theta_{i} = \bar\theta\)` 
++ 6: Perform GPA on standardized specimens 
 
+##### Adams (1999). *Evol. Ecol. Res.*
+
+.footnote[Note: Fixed angle method of Adams (1999) generalized for 3D data: Vidal-Garcia et al. (2018). *Ecol. Evol.*]
 ---
 
 ### Articulation Standardization: Example
@@ -467,31 +493,58 @@ gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
 &lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-33-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
-
 ---
 
-### Special Considerations: Combining Shapes
+### III: Special Considerations: Combining Shapes
 
-+ Sometimes we obtain the shape of two subcomponents separately 
++ Sometimes we obtain the shape of two subcomponents (configurations) separately 
 + We wish to combine these for an overall view of shape variation 
 + GMM procedures have been developed for this
+  + A **critical** consideration is the appropriate size-scaling of the configurations
 
-&lt;img src="LectureData/13.missing/CombineSubsetConcept.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/CombineSubsetConcept.png" width="45%" style="display: block; margin: auto;" /&gt;
 ---
 
-### Combining Subsets
+### Combining Subsets: Flow of Computations
 
-+ ADD DeSCRIPTION HERE
----
++ Perform GPA on each subset separately
 
-### Combining Subset Procedure
++ Scale each subset configuration by: `\(\frac{w_iCS_i}{\sqrt{\sum{w_iCS^2_i}}}\)`
+  + where `\(CS_i\)` is the centroid size of that configuration and `\(w_i\)` is a possible weight
 
-+ math
++ Combine size-scaled subset configurations
+
++ Treat as overall set of shape variables for analysis
+
++ Note: using equal `\(w_i\)` guarantees that the *relative sizes* of the subset configurations are preserved (Collyer et al. 2020)
+  + ( see Adams 1999 for a related approach for 2 subsets)
+  
+.footnote[1. Collyer, Davis, Adams. (2020). *Evol. Biol.*]
 ---
 
 ### Combining Subsets: Example
 
-+ Example in R
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-35-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+
+.center[Original Data: Heads and Tails of larval salamanders]
+
+---
+### Combining Subsets: Example Cont.
+
+
+``` r
+comb.lm &lt;- combine.subsets(head = head.gpa, tail = tail.gpa, gpa = TRUE)
+```
+
+.pull-left[
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-37-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-38-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.center[Note correct relative sizes of subset configurations]
 ---
 
 ### Conclusions: Special Considerations

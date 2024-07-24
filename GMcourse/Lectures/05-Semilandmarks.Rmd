@@ -467,6 +467,17 @@ include_graphics("LectureData/05.semilandmarks/ProcParadigm.png")
 ```
 
 ---
+
+### Comments: The Iteration Issue
+
++ GPA convergence might be expected with minimized Procrustes distance but should not be expected with BE.  The criterion for measuring convergence is to measure total sums of squares among configurations, but the generalized least squares solutions can inflate variance. $^1$
+
+```{r, echo = FALSE, fig.align = "center", out.width="55%"}
+include_graphics("LectureData/05.semilandmarks/Iters.png")  
+```
+
+.footnote[1. From Supp. Info. of Baken et al. (2021). *MEE*]
+---
   
 ### Caveats, comments, and Best practices
 
@@ -485,4 +496,3 @@ include_graphics("LectureData/05.semilandmarks/ProcParadigm.png")
   + Best practices for auto-landmark placement?  
 
 .footnote[1. Baken et al. (2021). *MEE*]
-

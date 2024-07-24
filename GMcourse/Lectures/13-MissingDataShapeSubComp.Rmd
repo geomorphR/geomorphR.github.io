@@ -25,11 +25,27 @@ style_mono_light()
 
 + GPA: Aligns specimens to the average shape (reference, consensus shape)
 
-  + Removes non-shape information
-  + Requires landmark correspondence among specimens, and that all landmarks are present on all specimens
- 
++ Removes non-shape information so that shape may be reliably evaluated
 
-### The Problem of Missing Data
+--
+
++ However, GPA requires landmark correspondence among specimens
+  + Thus, all landmarks are present on all specimens
+  + Specimens with missing data can cause complications
+
+--
+
++ GPA also requires that landmarks come from a single, rigid structure
+  + Sometimes there are positional differences among subsets of landmarks
+  + Sometimes we wish to combine anatomical components into a single analysis
+
+--
+
++ Here we describe approaches for accounting for these challenges
+---
+
+
+### I: The Problem of Missing Data
 
 .pull-left[
 + GPA: Aligns specimens to the average shape (reference, consensus shape)
@@ -607,36 +623,46 @@ include_graphics("LectureData/13.missing/MethodsCompare.png")
 
 ---
 
-### Special Considerations: Positional Effects
+### II: Special Considerations: Positional Effects
 
-+ Sometimes objects positional variation  of their subcomponents 
++ Sometimes objects positional variation  of their subcomponents
   + Articulations frequently cause this 
 + Thus our data have: shape effects + positional effects 
-+ GMM procedures can account for this 
++ GMM procedures have been developed to account for this $^1$
 
 ```{r, echo = FALSE, fig.align = "center", out.width="80%"}
 include_graphics("LectureData/13.missing/ArticConcept.png")  
 ``` 
 
+.footnote[1. Adams (1999). *Evol. Ecol. Res.*]
 ---
 
 ### Special Considerations: Articulations
 
 + For articulated structures, several solutions exist
   + Fixing the angle in all specimens through a mathematical transformation
-  + Separating the subsets to analyse separately, etc. 
+  + Separating the subsets to analyse separately, etc. $^1$
     
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+```{r, echo = FALSE, fig.align = "center", out.width="70%"}
 include_graphics("LectureData/13.missing/ArticMath.png")  
 ``` 
 
-###### Adams. (1999). *Evol. Ecol. Res.*
+.footnote[1. Adams (1999). *Evol. Ecol. Res.*]
+
 ---
 
-### Articulation Standardization
+### Articulation Standardization: Flow of Computations
 
-+ PUT MATH OF METHOD HERE
++ 1: Identify articulation point, and points on each subset (or their centroids)
++ 2: For $n = 1 \rightarrow i$ specimens, center specimens on articulation
++ 3: For $n = 1 \rightarrow i$ specimens, calculate $\theta_{i}$
++ 4: Estimate $\bar\theta$ for sample
++ 5: For $n = 1 \rightarrow i$ specimens, rotate one subset so $\theta_{i} = \bar\theta$ 
++ 6: Perform GPA on standardized specimens 
 
+##### Adams (1999). *Evol. Ecol. Res.*
+
+.footnote[Note: Fixed angle method of Adams (1999) generalized for 3D data: Vidal-Garcia et al. (2018). *Ecol. Evol.*]
 ---
 
 ### Articulation Standardization: Example
@@ -644,8 +670,8 @@ include_graphics("LectureData/13.missing/ArticMath.png")
 + Standardize some data for relative jaw position
 
 ```{r echo=FALSE, fig.align = "center", eval=TRUE, out.width="40%"}
-library(geomorph)
 data(plethodon)
+plethodon$links <- rbind(plethodon$links, c(1,6))
 Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
 
 rand.jaw <-Y.gpa$coords
@@ -678,33 +704,79 @@ mtext("Jaws Standardized to Common Angle")
 ```
 ]
 
-
 ---
 
-### Special Considerations: Combining Shapes
+### III: Special Considerations: Combining Shapes
 
-+ Sometimes we obtain the shape of two subcomponents separately 
++ Sometimes we obtain the shape of two subcomponents (configurations) separately 
 + We wish to combine these for an overall view of shape variation 
 + GMM procedures have been developed for this
+  + A **critical** consideration is the appropriate size-scaling of the configurations
 
-```{r, echo = FALSE, fig.align = "center", out.width="50%"}
+```{r, echo = FALSE, fig.align = "center", out.width="45%"}
 include_graphics("LectureData/13.missing/CombineSubsetConcept.png")  
 ```
 ---
 
-### Combining Subsets
+### Combining Subsets: Flow of Computations
 
-+ ADD DeSCRIPTION HERE
----
++ Perform GPA on each subset separately
 
-### Combining Subset Procedure
++ Scale each subset configuration by: $\frac{w_iCS_i}{\sqrt{\sum{w_iCS^2_i}}}$
+  + where $CS_i$ is the centroid size of that configuration and $w_i$ is a possible weight
 
-+ math
++ Combine size-scaled subset configurations
+
++ Treat as overall set of shape variables for analysis
+
++ Note: using equal $w_i$ guarantees that the *relative sizes* of the subset configurations are preserved (Collyer et al. 2020)
+  + ( see Adams 1999 for a related approach for 2 subsets)
+  
+.footnote[1. Collyer, Davis, Adams. (2020). *Evol. Biol.*]
 ---
 
 ### Combining Subsets: Example
 
-+ Example in R
+```{r echo=FALSE, fig.align = "center", eval=TRUE, out.width="35%"}
+data(larvalMorph) 
+head.gpa <- gpagen(larvalMorph$headcoords, 
+                   curves = larvalMorph$head.sliders, print.progress = FALSE)
+tail.gpa <- gpagen(larvalMorph$tailcoords, 
+                   curves = larvalMorph$tail.sliders, print.progress = FALSE)
+
+# Original Data
+invisible(capture.output(all.lm <- combine.subsets(head = larvalMorph$headcoords,
+                          tail = larvalMorph$tailcoords, 
+                          gpa = FALSE, CS.sets = NULL)))
+
+plotAllSpecimens(all.lm$coords)
+```
+
+.center[Original Data: Heads and Tails of larval salamanders]
+
+---
+### Combining Subsets: Example Cont.
+
+```{r echo=TRUE, fig.align = "center", eval=TRUE, out.width="40%"}
+comb.lm <- combine.subsets(head = head.gpa, tail = tail.gpa, gpa = TRUE)
+```
+
+.pull-left[
+```{r, echo = FALSE, fig.align = "center", out.width="70%"}
+ plotAllSpecimens(comb.lm$coords)
+mtext("Combined Shapes")
+```
+]
+
+.pull-right[
+```{r, echo = FALSE, fig.align = "center", out.width="70%"}
+ plot(comb.lm$coords[,,1], pch = 21, bg = c(rep(1,26), 
+                   rep(2,64)), asp = 1)
+mtext("First Shape")
+```
+]
+
+.center[Note correct relative sizes of subset configurations]
 ---
 
 ### Conclusions: Special Considerations
