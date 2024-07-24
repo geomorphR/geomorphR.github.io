@@ -1,5 +1,5 @@
 ---
-title: "14: Recent GMM Advances and Prospectus"
+title: "14: Prospectus and Future Directions"
 author: ""
 output:
   xaringan::moon_reader:
@@ -16,7 +16,6 @@ output:
 library(knitr)
 library(RRPP)
 library(geomorph)
-library(phytools)
 knitr::opts_chunk$set(echo = TRUE)
 
 
@@ -57,7 +56,7 @@ $$z =\frac{\log(F) - \mu_{\log(F)}}{\sigma_{\log(F)}}$$
 
 3: Fit $\small\mathbf{X}_{F}$ using $\small\mathbf{\mathcal{Z}}$: obtain coefficients and summary statistics
 
-4: Calculate $\small{F}$-value (or other test statistic) in every random permutation (observed case counts as one permutation)
+4: Calculate $\small{F}$-value in every random permutation (observed case counts as one permutation)
 
 5: For $\small{n}$ permutations, $\small{P} = \frac{n(F_{random} \geq F_{obs})}{n}$
 ]
@@ -105,7 +104,6 @@ What we learned this week: Procrustes + RRPP with effect sizes ( $Z$-scores) pro
   + Do rates of phenotypic shape evolution differ?
 + 5: GM-specific questions: 
   + Is there shape asymmetry? Is it directional or fluctuating? 
-  + For repeated shapes, is measurement error a concern?
   + Is there modular signal in my data?  Integrated signal? 
   + Is the degree of modularity (or integration) greater in one dataset relative to another?
   + Are there allometric patterns of shape variation? 
@@ -116,258 +114,18 @@ What we learned this week: Procrustes + RRPP with effect sizes ( $Z$-scores) pro
 
 ### What's Left to Do?
 
-+ Given the breadth of topics we covered, one might reasonably ask "In terms of theory, is there anything left to do?"
++ Given the breadth of topics we covered, one might reasonably ask "In terms of theory, is there nothing left to do?"
 
-+ Can empiricists expect additional novel approaches to be developed going forward, that help biologists address new and important questions?
-
---
-
-+ We argue the answer to this question is **YES**!!
-
-+ Here are some recent '*Up and Coming*' methods from Dean and Mike, as well as our musings on other possible areas of future work
----
-
-
-### Current 1: Dimensions of Phylogenetic Signal 
-
-+ The degree to which phenotypic similarity associates with phylogenetic relatedness
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-include_graphics("lectureData/14.prospectus/PhySigConcept.png")
-```
-
-+ For multivariate data, we have $K_{mult}=\frac{\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}^{T}\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}}{\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^{T}\mathbf{\Omega1})^{-1}}{N-1}$
-
----
-
-### Current 1: Dimensions of Phylogenetic Signal 
-
-+ 100s of GMM (and other) studies have utilized $K_{mult}$: 
-
-.pull-left[
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-include_graphics("lectureData/14.prospectus/PhySigWeakHist.png")
-```
-
-+ Such patterns often interpreted as "Significant, but weak phylogenetic signal"
-]
++ That is to say, can one reasonably expect additional novel approaches to be developed going forward, that biologists can then use to address new and important questions?
 
 --
 
-.pull-right[
++ We contend that the answer to this question is **YES**!!
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-include_graphics("lectureData/14.prospectus/PhySigSimul.png")
-```
-
-+ But phylogenetic signal could be "concentrated" in a few dimensions
-]
-
-+ How do we evaluate dimensions of phylogenetic signal in multivariate data? 
-
++ While we do not know all possible avenues of future analytical research, we provide a few obvious areas for future work here
 ---
 
-### Current 1: Dimensions of Phylogenetic Signal: Computations 
-
-+ Re-examine $K$ and decompose it into component dimensions$^1$
-
-+ Numerator of $K_{mult}$ is ratio of covariance matrices: 
-
-$$\frac{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T(\mathbf{Z}-E(\mathbf{Z})\right)}{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T\mathbf\Omega^{-1}(\mathbf{Z}-E(\mathbf{Z}))\right)} = \frac{tr(SSCP_0)}{tr(SSCP_{\Omega})}$$ 
---
-
-So rather than finding the trace of each component separately, summarize them as: 
-
-$$K= \frac{SSCP_0}{SSCP_{\Omega}} = SSCP_{\Omega}^{-1}SSCP_0$$
-
-This is a *relative eigenanalysis* of $SSCP_0$ relative to $SSCP_{\Omega}$
-
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-### Current 1: Dimensions of Phylogenetic Signal: Computations 
-
-+ Perform *relative eigenanalysis* of $SSCP_0$ relative to $SSCP_{\Omega}$
-
-$$K= \frac{SSCP_0}{SSCP_{\Omega}} = SSCP_{\Omega}^{-1}SSCP_0$$
-
-+ Next, decompose as: $K=\mathbf{E}\boldsymbol{\Lambda}\mathbf{E}^T$
-
-+ Diagonal elements of $\boldsymbol{\Lambda}$ are eigenvalues
-
-+ Summarize eigenvalues: $tr(K)=\sum\delta_i$ and $det(K)=\prod\delta_i$
-
-+ Evaluate statistically via permutation
-  + Note: $H_0$ is that $SSCP_0$ and $SSCP_{\Omega}$ are proportional, so:  $H_0 = \delta_1 = \delta_2 = \delta_3...$
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-### Current 1: Dimensions of Phylogenetic Signal: Example I
-
-+ Papionins display strong and concentrated phylogenetic signal 
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="60%"}
-include_graphics("lectureData/14.prospectus/PhySigHomin.png")
-```
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-
-### Current 1: Dimensions of Phylogenetic Signal: Example II
-
-+ Crocodylians display strong and concentrated phylogenetic signal 
-
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="60%"}
-include_graphics("lectureData/14.prospectus/PhySigCroc.png")
-```
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-### Current 2: Phylogenetic Comparison of Microevolutionary Patterns
-
-.pull-left[
-Contemporary timescales: evaluate trends within species (microevolution)
-
-```{r, echo=FALSE, out.width="95%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Micro.png")
-```
-
-Evaluated via standard (OLS) linear models
-]
-
---
-
-.pull-right[
-Macroevolutionary timescales: evaluate trends across the phylogeny
-
-```{r, echo=FALSE, out.width="95%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Macro.png")
-```
-
-Evaluated via phylogenetic comparative methods
-]
-
---
-
-+ When comparing intraspecific trends across species, we ***should*** account for phylogenetic nonindependence
-
-+ How can we do that? 
----
-
-### Current 2: PCMs and Multiple Individuals
-
-PCMs use 1 individual per species (e.g., species means)
-
-  - Assumes $\sigma^2_{within.spp} <<  \sigma^2_{among.spp}$
-
---
-
-Using species means in presence of $\sigma^2_{within.spp}$ is problematic 
-
-- Can $\uparrow$ bias in parameter estimates
-- Can $\uparrow$ type I error, $\downarrow$ power, and $\uparrow$ model misspecification 
-
---
-
-Some PCMs can include intraspecific variation (Ives et al. 2007; Felsenstein 2008), but
-
-- $\sigma^2_{within.spp}$ is unstructured sampling error around the mean
-- In other words, assume within-species variation is **random** (i.e., measurement error)
-
-What about within-species variation that is not random? 
-
-How can we account for it (or compare it across species)?
----
-
-## Current 2: Extended Phylogenetic Least Squares (E-PGLS) $^1$
-
-+ E-PGLS provide a bridge between micro- and macroevolutionary patterns
-  + Can evaluate cross-species trends of trait covariation (univariate and multivariate) based on multiple individuals per species
-  + Can compare within-species patterns across species while conditioning on the phylogeny
-
-+ E-PGLS combines: 
-
-  + Hierarchical linear model 
-  + Expanded phylogenetic covariance matrix
-  + Novel permutation procedure 
-
-.footnote[1. Adams and Collyer (In Review)]
----
-
-## Current 2: E-PGLS: Procedure
-
-+ The E-PGLS model: $\mathbf{Z} = \mathbf{X}_S \hat{\mathbf{B}}_S + \mathbf{X}_X \hat{\mathbf{B}}_X + \mathbf{X}_{C_{X}}\hat{\mathbf{B}}_{C_{X}} + \mathbf{E}$
-
-+ Phenotypic data, $\mathbf{Z}$, is described by a partitioned model, $\mathbf{X} = \mathbf{X}_S \vert \mathbf{X}_X \vert \mathbf{X}_{C_X}$, with residual error, $\mathbf{E}$, distributed as $\mathbf{E} \sim \mathcal{MN}(0,\boldsymbol{\Omega}_{n})$
-    + $\boldsymbol{\Omega}_n$ is an expanded phylogenetic covariance matrix
-
---
-
-.pull-left[
-
-$\boldsymbol{\Omega}_n = \mathbf{X}_S\boldsymbol{\Omega}\mathbf{X}_S^T$
-
-```{r, echo=FALSE, out.width="90%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/ExpandedOmegaMatrix.png")
-```
-]
-
---
-
-.pull-right[
-Type III SS for `Species` effect, and type II SS for other effects (to hold interspecific trends constant)
-
-Special RRPP procedures utilized (RRPP restricted to within species to evaluate other model effects: similar to ME methods)
-
-Adams and Collyer (In Review)
-]
-
----
-
-## Current 2: E-PGLS: Simulations
-
-.pull-left[
-
-```{r, echo=FALSE, out.width="90%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Fig1.png")
-```
-
-Method emulates existing approaches when within-species variation is random 
-
-]
-
---
-
-.pull-right[
-```{r, echo=FALSE, out.width="65%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Fig2a.png")
-include_graphics("lectureData/14.prospectus/Fig2b.png")
-```
-
-Method has appropriate type I error, power and empirical sampling distributions
-
-]
-
-.footnote[1. Adams and Collyer (In Review)]
-
----
-
-## Current 2: E-PGLS: Example (pupfish SShD)
-
-
-```{r, echo=FALSE, out.width="80%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Fig3.png")
-```
-
-.footnote[1. Adams and Collyer (In Review)]
-
----
-
-### Future 1: An Improved Procrustes Algorithm
+### 1: An Improved Procrustes Algorithm
 
 + Recall the workhorse of geometric morphometrics: the Generalized Procrustes Analysis (superimposition)
   + Translate all specimens to a common location
@@ -773,5 +531,31 @@ text(PCoA.M$points,pos=3, labels=names)
 
 + **Clearly, there is considerable work left to do, but the initial concept of using $\small{z}$-scores from RRPP for model comparison is promising!** *Stay tuned...*
 
+---
+### 2: Phylogenetic Signal: Multivariate Frontiers
 
+FROM OTHER LECTURE. WORK THIS IN AFTER PHYSIG BY DIMENSION
+
++ $Z_\theta$ provides a path for comparing the strength of phylogenetic signal across datasets
+
++ However, an unexplored frontier is how to generalize $Z_\theta$ for multivariate data
+
+--
+
++ One issue: How to obtain logL when $p>N$?
+
+  1. Use trace of **R** rather than determinant
+
+  2. Use penalized likelihood to regularize **R**
+
+  3. Use PACA for dimension reduction prior to calculating logL
+
+--
+
++ Another issue: separate  or common $\lambda$ for each trait (or trait dimension)?
+
+--
+
++ Future work will investigate the efficacy of these approaches
+---
 

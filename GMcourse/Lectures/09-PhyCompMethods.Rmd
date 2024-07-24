@@ -717,10 +717,17 @@ $$\small{logL=log(\frac{(\mathbf{Z}-E(\mathbf{Z}))^T\mathbf\Omega^\lambda{^{-1}}
   + Approach based on the distance-covariance equivalency
   + Uses distances between species in the original and phylo-transformed dataspaces
 
-$$\small{K_{mult}=\frac{\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}^{T}\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}}{\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^{T}\mathbf{\Omega1})^{-1}}{N-1}}$$
+$$K_{mult}=\frac{\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}^{T}\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}}{\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^{T}\mathbf{\Omega1})^{-1}}{N-1}$$
+
 
   + $\small\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}$ is the distance from each object to the phylogenetic mean
   + $\small\mathbf{PD}_{\tilde{\mathbf{Z}},0}$ is the distance between each object in the phylogenetically-transformed space (found as: $\small\tilde{\mathbf{Z}}=\mathbf{P}(\mathbf{Z-E(\mathbf{Z})})$) and the origin
+
+--
+
+This is the same as: 
+
+$$K_{mult}=\frac{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T(\mathbf{Z}-E(\mathbf{Z})\right)}{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T\mathbf\Omega^{-1}(\mathbf{Z}-E(\mathbf{Z}))\right)}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^T\mathbf{\Omega1})^{-1}}{N-1}$$
 
 .footnote[1: Adams (2014). *Syst. Biol.*]
 ---
