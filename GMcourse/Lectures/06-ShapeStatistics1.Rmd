@@ -195,10 +195,10 @@ Statistical analysis of shape can be thought of as a process that finds one or a
 
 #### How PCA is usually presented:
 
-$$\hat{\mathbf{\Sigma}} = \mathbf{V\Lambda V}^T,$$
+$$\hat{\boldsymbol{\Sigma}} = \mathbf{V\Lambda V}^T,$$
 where 
 
-+ $\hat{\mathbf{\Sigma}}$ is a residual covariance matrix (more on this soon)
++ $\hat{\boldsymbol{\Sigma}}$ is a residual covariance matrix (more on this soon)
 + $\mathbf{V}$ is a rectangular matrix of eigenvectors
 + $\mathbf{\Lambda}$ is a diagonal matrix with eigenvalues $(\lambda)$ along the diagonal.
 
@@ -215,7 +215,7 @@ where $\mathbf{A}$ = $\mathbf{I}_{n \times n}$, thus
 $$\mathbf{I}^T_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$
 
 + The right singular vectors (from singular value decomposition) are the same as the eigenvectors calculated in the classic way.
-+ $\mathbf{Z}$ are data that have been .red[centered] or .red[standardized], and as such, $\hat{\mathbf{\Sigma}} = (n-1)^{-1} \mathbf{Z}^T\mathbf{Z}$.
++ $\mathbf{Z}$ are data that have been .red[centered] or .red[standardized], and as such, $\hat{\boldsymbol{\Sigma}} = (n-1)^{-1} \mathbf{Z}^T\mathbf{Z}$.
 + $\mathbf{D}$ is the diagonal matrix of singular values ( $d$ ), which can be transformed to eigenvalues as $\lambda_i = d_i^2(n-1)^{-1}$.
 
 ***How is this easier?***  It might not seem easier yet, but when presented as $\mathbf{A}^T\mathbf{Z}$, one can think of how data are aligned.  In this case, they are aligned to $\mathbf{I}_{n \times n}$, which is like saying **independence** of alignment.
@@ -290,8 +290,8 @@ plot(PCA,
 + PCA is the most basic way to look at a high-dimensional data space in discernible dimensions.
 + Alignment of data to its inherent, principal axes.
 + A rigid rotation of the data space (orthogonal projection)
-+ The distances among observed shapes in all PC dimensions is the same as the distances in original dimensions, so long as $\sum\lambda_i = trace(\hat{\mathbf{\Sigma}})$.  In other words, the diagonals of $\mathbf{ZZ}^T$ and $\mathbf{PP}^T$ are the same.
-+ .remark-code[.red[Some sources discuss PCA performed on either covariance or correlation matrices.  **This is unnecessary.**  If $\mathbf{Z}$ is a matrix of centered data, then $\hat{\mathbf{\Sigma}}$ is a covariance matrix; if $\mathbf{Z}$ is a matrix of standardized data, then $\hat{\mathbf{\Sigma}}$ is a correlation matrix.  Performing PCA on a correlation matrix is simply making the *a priori* decision to standardize data $^1$.
++ The distances among observed shapes in all PC dimensions is the same as the distances in original dimensions, so long as $\sum\lambda_i = trace(\hat{\boldsymbol{\Sigma}})$.  In other words, the diagonals of $\mathbf{ZZ}^T$ and $\mathbf{PP}^T$ have the same sum.
++ .remark-code[.red[Some sources discuss PCA performed on either covariance or correlation matrices.  **This is unnecessary.**  If $\mathbf{Z}$ is a matrix of centered data, then $\hat{\boldsymbol{\Sigma}}$ is a covariance matrix; if $\mathbf{Z}$ is a matrix of standardized data, then $\hat{\boldsymbol{\Sigma}}$ is a correlation matrix.  Performing PCA on a correlation matrix is simply making the *a priori* decision to standardize data $^1$.
 ]]
 
 .footnote[1. Data centering and standardization are discussed in the appendix for these lectures.]
@@ -385,7 +385,7 @@ However, the typical ***GM paradigm*** via PLS is to do the following:
 .pull-left[
 PLS is generally presented as partitioning of a covariance matrix, but this is not fully necessary.
 
-If we concatenate our data, $\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2$, then a covariance matrix found as $\hat{\mathbf{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}$ has the following form.
+If we concatenate our data, $\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2$, then a covariance matrix found as $\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}$ has the following form.
 
 ```{r, ech0 = FALSE, eval = TRUE, fig.height=4}
 library(Matrix)
@@ -411,7 +411,7 @@ image(M, sub = "", xlab = "", ylab = "")
 .pull-left[
 PLS is generally presented as partitioning of a covariance matrix, but this is not fully necessary.
 
-If we concatenate our data, $\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2$, then a covariance matrix found as $\hat{\mathbf{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}$ has the following form.
+If we concatenate our data, $\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2$, then a covariance matrix found as $\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}$ has the following form.
 
 
 + **.blue[PLS is generally referred to as two-block PLS based on this original presentation by Rohlf and Corti (2000)] .red[but there is no need to calculate a covariance matrix and partition it]**
@@ -586,9 +586,16 @@ PLS$left.pls.vectors[, 1]
 
 ### Partial Least Squares, a few other examples
 
+**Shape allometry**
+
+The covariation between shape and size; i.e., how shape changes as organisms grow or develop.
+---
+
+### Partial Least Squares, a few other examples
+
 .pull-left[.med[
 
-**Allometry**
+**Shape allometry**
 
 $\mathbf{Z}_1$ is a vector of the log of centroid size
 ```{r, echo = TRUE, include = TRUE}
@@ -608,6 +615,14 @@ Notice this:
 PLS$XScores[1:5, 1]
 ```
 ]]
+
+---
+
+### Partial Least Squares, a few other examples
+
+**Module shape covariation**
+
+The strength of covariation among sub-configurations of a landmark configuration, which are hypothetical genetic/developmental modules.
 
 ---
 
@@ -754,7 +769,7 @@ A null hypothesis test is one that tests the independence (no covariation) betwe
 
 Every test of a null hypothesis must have a process of generating randomness under the null hypothesis.  For the case of matrix covariation, the null process is **randomization of the pairs of vectors** among the observations.  This occurs by randomizing the row vectors of either $\mathbf{Z}_1$ or $\mathbf{Z}_2$.
 
-Because $\mathbf{Z}_1$ and $\mathbf{Z}_2$ are both centered or standardized, they are **residuals** (of the mean).  The process of randomizing residuals in a permutation procedure (**.blue[RRPP]**) is often used with shape data to generate sampling distributions of test statistics.
+Because $\mathbf{Z}_1$ and $\mathbf{Z}_2$ are both centered or standardized, they are **residuals** (of the mean).  Randomizing residuals in a permutation procedure (**.blue[RRPP]**) is used with shape data to generate test-statistic sampling distributions.
 ---
 
 ### Randomization of residuals in a permutation procedure (RRPP) for $r_{PLS}$
@@ -798,7 +813,7 @@ food <- plethShapeFood$food
 rownames(food) <- names(GPA$Csize)
 PLSfood <- two.b.pls(food, GPA$coords, 
                   print.progress = FALSE, iter = 9999)
-PLSallometry <- two.b.pls(GPA$Csize, GPA$coords, 
+PLSallometry <- two.b.pls(log(GPA$Csize), GPA$coords, 
                   print.progress = FALSE, iter = 9999)
 PLSintegration <- two.b.pls(GPA$coords[1:5,, ], GPA$coords[8:13,,], 
                   print.progress = FALSE, iter = 9999)
@@ -839,7 +854,7 @@ Note: two-sample $Z$ statistic is found as $Z_{12} = \frac{| (\theta_1 - \mu_1) 
   + Parametric statistics (not discussed here) use probability density or mass functions ***as a proxy*** for the *distribution of all possible random outcomes* of a null process, provided assumptions are met.
   + RRPP performs a subset of random permutations ***as a proxy*** for the *distribution of all possible random outcomes* of a null process.
 + Why RRPP rather than parametric statistics?
-  + produces commensurate distributions with parametric density functions, unde appropriate conditions. $^1$
+  + produces commensurate distributions with parametric density functions, under appropriate conditions. $^1$
   + No parametric proxy? RRPP can still be used.
   + Fast computers.
 + **.blue[For PLS analyses, RRPP = randomizing the row vectors of only one set of data (sufficient to make random pairs of vectors).  Independent data?  Random] $r_{PLS}$ .blue[values consistently as large as the observed value.  Data sets covary?] $r_{PLS}$ .blue[will be rare (in a large way).]**
@@ -872,9 +887,9 @@ Examples include:
 
 $$\mathbf{A}^T\mathbf{Z} = \mathbf{UDV}^T$$
 
-Let $\mathbf{A} = \mathbf{\Omega}$, where $\mathbf{\Omega}$ is an $N \times N$ matrix of phylogenetic covariances, assuming a Brownian motion model of evolutionary divergence, corresponding to the $N \times p$ matrix of centered or standardized data, $\mathbf{Z}$.  Then,
+Let $\mathbf{A} = \boldsymbol{\Omega}$, where $\boldsymbol{\Omega}$ is an $N \times N$ matrix of phylogenetic covariances, assuming a Brownian motion model of evolutionary divergence, corresponding to the $N \times p$ matrix of centered or standardized data, $\mathbf{Z}$.  Then,
 
-$$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
+$$\boldsymbol{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
 
 is an analysis that finds phylogenetically aligned components of the data (most phylogenetic signal in the first few components).
 
@@ -882,9 +897,9 @@ is an analysis that finds phylogenetically aligned components of the data (most 
 
 ### Phylogenetically aligned component analysis (PACA) $^1$
 
-$$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
+$$\boldsymbol{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
 + $\mathbf{Z}$ is an $N \times p$ matrix of centered or standardized data.  (We use $N$ rather than $n$ because these are the $N$ taxonomic observations in the phylogenetic tree considered, rather than $n$ observations sampled from a population of $N$ data.)
-+ $\mathbf{\Omega}$ is an $N \times N$ covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
++ $\boldsymbol{\Omega}$ is an $N \times N$ covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
 + **See next slide for illustration.**
 
 .footnote[1. Collyer & Adams. (2021). *Methods in Ecology and Evolution*.]
@@ -917,9 +932,9 @@ vcv(tree)
 
 ### Phylogenetically aligned component analysis (PACA) $^1$
 
-$$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
+$$\boldsymbol{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
 + $\mathbf{Z}$ is an $N \times p$ matrix of centered or standardized data.  (We use $N$ rather than $n$ because these are the $N$ taxonomic observations in the phylogenetic tree considered, rather than $n$ observations sampled from a population of $N$ data.)
-+ $\mathbf{\Omega}$ is an $N \times N$ covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
++ $\boldsymbol{\Omega}$ is an $N \times N$ covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
 + ** $\mathbf{V}$ is the matrix of phylogenetically aligned components.**  These vectors maximize covariation between data and phylogenetic signal. $^2$
 + ** $\mathbf{D}$ is the diagonal matrix of singular values.**  These values help to evaluate strength of covariance.
 
@@ -936,7 +951,7 @@ $$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
 
 .blue[But singular values can be misleading.  If we measure the strength of covariation as] $d^2_i / \sum d^2_i$.blue[, we might infer that a vector explains a lot of covariation, even if] $\sum d^2_i$ .blue[is small.]  
 
-$\sum d^2_i$ is maximized as $\sum \lambda_{\mathbf{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}$, for the eigenvalues found separately for $\mathbf{\Omega}$ and $\mathbf{Z}$.  Thus, $RV_i = \frac{d^2_i}{\sum \lambda_{\mathbf{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}}$ is an appropriate way to measure the strength of covariance for PAC $i$.
+$\sum d^2_i$ is maximized as $\sum \lambda_{\boldsymbol{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}$, for the eigenvalues found separately for $\boldsymbol{\Omega}$ and $\mathbf{Z}$.  Thus, $RV_i = \frac{d^2_i}{\sum \lambda_{\boldsymbol{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}}$ is an appropriate way to measure the strength of covariance for PAC $i$.
 
 Each component's $RV$ score can be loosely interpreted like the percentage of variation explained in PCA, but in PACA, it is the percentage of explained **covariation**.
 ---
@@ -1114,7 +1129,7 @@ Why use PACA?
 
 
 ### The General Linear Model
-$$\huge \mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$
+$$\huge \mathbf{Z}=\mathbf{X}\boldsymbol{\beta } +\mathbf{E}$$
 
 | Component | Dimension | Description
 |------- | :----------- | :-----------------------------
@@ -1132,20 +1147,20 @@ Like any area of statistics, the coefficients for a linear model (which has para
 **Ordinary least-squares estimation (OLS)**
 
 .pull-left[
-$$\small{\mathbf{Z}=\mathbf{X}\mathbf{\beta }}$$
-$$\small{\mathbf{X}^T\mathbf{Z} = \mathbf{X}^T\mathbf{X}\mathbf{\beta }}$$
+$$\small{\mathbf{Z}=\mathbf{X}\boldsymbol{\beta }}$$
+$$\small{\mathbf{X}^T\mathbf{Z} = \mathbf{X}^T\mathbf{X}\boldsymbol{\beta }}$$
 
 $$\small{\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
-\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{X}\mathbf{\beta }}$$
+\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{X}\boldsymbol{\beta }}$$
 $$\small{\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
-\mathbf{I}\mathbf{\beta }}$$
+\mathbf{I}\boldsymbol{\beta }}$$
 
-$$\small{\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )}$$
+$$\small{\hat{\boldsymbol{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )}$$
 ]
 .pull-right[
 The $\hat{ }$ reminds us that this is a matrix of estimate values.
 
-**Notice that** this resembles something, i.e., $\hat{\mathbf{\beta }}= \mathbf{A}^{T} \mathbf{Z}$, if $\mathbf{A} = \mathbf{X}\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.
+**Notice that** this resembles something, i.e., $\hat{\boldsymbol{\beta }}= \mathbf{A}^{T} \mathbf{Z}$, if $\mathbf{A} = \mathbf{X}\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.
 
 In other words, linear model coefficients are the result of an alignment of data to parameters of a linear model, $\mathbf{X}$, which have been standardized by the cross-products of the parameters, $\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.  The matrix $\mathbf{A}$ in this case is a matrix of standardized model parameters.
 ]
@@ -1156,18 +1171,18 @@ In other words, linear model coefficients are the result of an alignment of data
 **Generalized least-squares estimation (GLS)**
 
 .pull-left[
-$$\small{\mathbf{Z}=\mathbf{X}\mathbf{\beta }}$$
-$$\small{\mathbf{X}^T \mathbf{\Omega}^{-1} \mathbf{Z} = \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X}\mathbf{\beta }}$$
+$$\small{\mathbf{Z}=\mathbf{X}\boldsymbol{\beta }}$$
+$$\small{\mathbf{X}^T \boldsymbol{\Omega}^{-1} \mathbf{Z} = \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X}\boldsymbol{\beta }}$$
 
-$$\small{\left( \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{Z} = 
-\left( \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X}\mathbf{\beta }}$$
-$$\small{\left( \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{Z} = 
-\mathbf{I}\mathbf{\beta }}$$
+$$\small{\left( \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{Z} = 
+\left( \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X}\boldsymbol{\beta }}$$
+$$\small{\left( \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{Z} = 
+\mathbf{I}\boldsymbol{\beta }}$$
 
-$$\small{\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{\Omega}^{-1} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T}\mathbf{\Omega}^{-1} \mathbf{Z}\right )}$$
+$$\small{\hat{\boldsymbol{\beta }}=\left ( \mathbf{X}^{T}\boldsymbol{\Omega}^{-1} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T}\boldsymbol{\Omega}^{-1} \mathbf{Z}\right )}$$
 ]
 .pull-right[
-$\mathbf{\Omega}$ is an $n \times n$ covariance matrix that explains the non-independence among observations.  If $\mathbf{\Omega} = \mathbf{I}$, then GLS estimation becomes OLS estimation, meaning **observations are independently sampled**.
+$\boldsymbol{\Omega}$ is an $n \times n$ covariance matrix that explains the non-independence among observations.  If $\boldsymbol{\Omega} = \mathbf{I}$, then GLS estimation becomes OLS estimation, meaning **observations are independently sampled**.
 
 This is still true: linear model coefficients are the result of an alignment of data to parameters of a linear model, $\mathbf{X}$, which have been standardized by the cross-products of the parameter.  However, the standardization of parameter includes accounting for the non-independence among data observations.
 ]
@@ -1177,19 +1192,19 @@ This is still true: linear model coefficients are the result of an alignment of 
 
 **Synthetic approach**
 
-Let $\mathbf{\Omega}^{1/2}$ be a matrix square-root of $\mathbf{\Omega}$, found either via SVD or a Cholesky decomposition $^1$.
+Let $\boldsymbol{\Omega}^{1/2}$ be a matrix square-root of $\boldsymbol{\Omega}$, found either via SVD or a Cholesky decomposition $^1$.
 
-Let $\tilde{\mathbf{X}} = \mathbf{\Omega}^{-1/2}\mathbf{X}$
+Let $\tilde{\mathbf{X}} = \boldsymbol{\Omega}^{-1/2}\mathbf{X}$
 
-Let $\mathbf{\tilde{Z}} = \mathbf{\Omega}^{-1/2}\mathbf{Z}$. $^2$
+Let $\mathbf{\tilde{Z}} = \boldsymbol{\Omega}^{-1/2}\mathbf{Z}$. $^2$
 
 Then,
 
-$$\hat{\mathbf{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1}\left ( \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}} \right)$$
+$$\hat{\boldsymbol{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1}\left ( \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}} \right)$$
 
 .footnote[
 1. Different ways of obtaining a matrix square-root are presented in the Appendix.
-2. If $\mathbf{\Omega} = \mathbf{I}$, then $\mathbf{\tilde{X}} = \mathbf{X}$ and $\mathbf{\tilde{Z}} = \mathbf{Z}$, meaning this approach finds either the GLS or OLS solution to estimation.
+2. If $\boldsymbol{\Omega} = \mathbf{I}$, then $\mathbf{\tilde{X}} = \mathbf{X}$ and $\mathbf{\tilde{Z}} = \mathbf{Z}$, meaning this approach finds either the GLS or OLS solution to estimation.
 ]
 
 ---
@@ -1199,24 +1214,27 @@ $$\hat{\mathbf{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right 
 **Regarding coefficients**
 
 1. The coefficients, $\hat{\boldsymbol{\beta}}$, explain the expected change in data, $\mathbf{Z}$, associated with the *standardized matrix of parameters*.  (This is different than standardizing each of the parameters, which could also be done.)
-2. Note that the linear model design has $k$ parameters (columns).  $\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}$ is a $k \times k$ matrix.  $\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$ is an $n \times k$ matrix, just like $\tilde{\mathbf{X}}$  Thus, $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in each of $p$ variables in $\mathbf{Z}$ associated with each of $k$ parameters in $\tilde{\mathbf{X}}$.
-3. **This is beautiful just by itself!**
+2. Note that the linear model design has $k$ parameters (columns).  $\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}$ is a $k \times k$ matrix.  $\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$ is an $n \times k$ matrix, just like $\tilde{\mathbf{X}}$  Thus, 
 
---
+$$ \mathbf{A}^T\mathbf{Z} = \left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1} \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}}  = \hat{\boldsymbol{\beta}}$$
+
+$\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in each of $p$ variables in $\mathbf{Z}$ associated with each of $k$ parameters in $\tilde{\mathbf{X}}$.
+
+**This is beautiful just by itself!**
+
+---
 
 **Regarding fitted values, predicted values, and residuals**
-4. **Fitted values** are found as $\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}$.  These are made for the full set of data (*training data*) used to estimate coefficients.  **A predicted value** is found as $\hat{\mathbf{z}}^T_H = \mathbf{x}^T\hat{\boldsymbol{\beta}}$ for any possible vector of model parameters, $\mathbf{x}^T$, which might be different than any row vector found in $\mathbf{X}$.  The $_H$ subscript is used to indicate a *hypothetical* result.
+4. **Fitted values** are found as $\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}$.  These are made for the full set of data (*training data*) used to estimate coefficients.  **A predicted value** is found as $\hat{\mathbf{z}}^T_H = \mathbf{x}^T\hat{\boldsymbol{\beta}}$ for any possible vector of model parameters, $\mathbf{x}^T$, which might be different than any row vector found in $\mathbf{X}$.  The $_H$ subscript is used to indicate a *hypothetical* result. 
 5. **Residuals** are found as $\mathbf{E} = \mathbf{Z} - \hat{\mathbf{Z}}$.  If values in $\mathbf{E}$ tend to be small in magnitude, $\hat{\mathbf{Z}}$ is close to perfectly estimating $\mathbf{Z}$, meaning the model, $\mathbf{X}$ is *good*.  If values are large, there is much **error** in the model's ability to estimate the data.
+
+.remark-code[.blue[Note that **transformed fitted values** are found as]] $\hat{\tilde{\mathbf{Z}}} = \tilde{\mathbf{X}}\hat{\boldsymbol{\beta}}$.
+
+.remark-code[.blue[Note that **transformed residuals** are found as]] $\tilde{\mathbf{E}} = \tilde{\mathbf{Z}} - \hat{\tilde{\mathbf{Z}}}$, where $\mathbf{Z}_{trans} = $
+
+Working with transformed fitted values and residuals is important for hypothesis testing.
 ---
 
-### What does a linear model do?
-
-**Regarding model error**
-6. A sums of squares and cross-products (SSCP) matrix, $(\mathbf{S})$, can be used in a comparative way to assess if a model is good or better than alternatives.  This needs to be explored in more detail (next slide).
-7. A statistical assessment of a model requires calculating one or more $\mathbf{S}$ matrices.  A statistical assessment involves associating a probability with an $\mathbf{S}$ matrix, given a null hypothesis.
-8. An SSCP matrix is converted into a covariance matrix, $\hat{\boldsymbol{\Sigma}}$, as $\hat{\boldsymbol{\Sigma}} = df^{-1}\mathbf{S}$; i.e., all elements of $\mathbf{S}$ are divided by **degrees of freedom**.  What the degrees of freedom are will make more sense soon.
-
----
 
 ### Let's pause to think about the alignment of data for linear models
 
@@ -1232,7 +1250,7 @@ All statistical steps take the form, $\mathbf{A}^T\mathbf{Z}$, but what $\mathbf
 
 ---
 
-### Residual covariance matrices
+### Residual covariance matrices (model error)
 
 + Residual covariance matrices are the engines that drive statistical analyses.  
 + Residual covariance matrices (or SSCP matrices) are used to estimate ANOVA and MANOVA statistics.
@@ -1246,99 +1264,6 @@ Presented this way, the algebra is less encumbered than the alternative way, sho
 + Degrees of freedom $(df)$ are typically $n-k$, where $n$ is the number of observations and $k$ is the number of parameters in the model (columns of $\mathbf{X}$).
 ---
 
-### A tale of two model alignments -- The same story for almost any linear model application
-
-Humans are intrinsically compelled to compare things.
-
-.pull-left[
-Is my model good?  **This is a horrible question to ask!**
-]
-
-.pull-right[
-Is my model good compared to a null model?  **This is a good question to ask!**
-]
-
---
-
-So what is a null model?  **A null model can take different forms and several null models can be used to entertain the properties of alternative models**  But every model has at least one null model that is estimated the same way: **the mean of the data**.
-
-**What is** ***the*** **null model?**
-
-.pull-left[
-+ $\mathbf{X}$ is an $n \times 1$ vector of 1s.
-+ $\hat{\boldsymbol{\beta}}$ is a $1 \times p$ vector of mean values of the $p$ variables in $\mathbf{Z}$.
-+ $\hat{\mathbf{Z}} =\mathbf{HZ}$ is the $n \times p$ matrix of fitted values, where each row of this matrix is the vector of mean values.
-]
-.pull-right[
-+ $\tilde{\mathbf{E}}$ is the matrix of transformed residuals, and $\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\tilde{\mathbf{E}}^T\tilde{\mathbf{E}}$.
-+ Why does $df = n-1$?  Because this is really $n-k$, where $k = 1$, the one parameter being the vector of 1s in $\mathbf{X}$.
-]
-
----
-
-### A tale of two model alignments -- The same story for almost any linear model application
-
-**What is** ***the*** **null model?**
-
-$\tilde{\mathbf{E}}$ is the matrix of transformed residuals, and $\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\tilde{\mathbf{E}}^T\tilde{\mathbf{E}}$.
-
-**.blue[This is very important!!]**
-
-This is the basis for all model comparisons.  This is a model that suggests there are no explanatory parameters, and that estimating the mean is sufficient for predicting what a vector of values $(\mathbf{z}^T)$ should be for an entire population of data.  
-
-We can estimate the coefficients and fitted values for an alternative model, and compare covariance matrices.  The table shown next illustrates how this will be done.
-
----
-
-### A tale of two model alignments -- The same story for almost any linear model application
-
-|Null model|Comment|Alternative model|Comment|
-|--|---|--|---|
-| $\mathbf{X}_{null}$ | This is a vector of 1s | $\mathbf{X}_{alt}$ | This is a vector of 1s, plus one or more other parameters. |
-| $n-1$ | The $df$ for estimating the mean | $n-k$ | The $df$ for estimating the coefficients for all $k$ parameters in the alternative model.|
-| $(n-1)^{-1}\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null}$ | The residual covariance matrix of null model. | $(n-k)^{-1}\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt}$ | The residual covariance matrix of alternative model. |
-
-A model comparison statistic compares these two residual covariance matrices:
-
-$$\hat{\boldsymbol{\Sigma}}_{effect} = \left((n-1)-(n-k)\right)^{-1}(\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null} -\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt})$$
-
-which is simplified to
-
-$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null}  -\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt})$$
----
-
-
-### A tale of two model alignments -- The same story for almost any linear model application
-
-This is a model comparison:
-
-$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null}  -\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt})$$
-
-It compares the residual variation between two models.  If the values are large, it suggests that error can be reduced by including additional parameters in the null model.  Thus, it measures the **effect** of adding additional parameters to the model.
-
-An algebraically equivalent way of obtaining the same result is:
-
-$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}},$$
-where $\Delta\tilde{\mathbf{H}} = \tilde{\mathbf{H}}_{alt} - \tilde{\mathbf{H}}_{null}$.  This looks like a comparison of fitted values, but is, in fact, a comparison of transformed fitted values, since we use $\Delta\mathbf{\tilde{H}}$ rather than $\Delta\mathbf{H}$ and $\mathbf{\tilde{Z}}$ instead of $\mathbf{Z}$.  
-
-Nevertheless, what this illustrates is we can obtain transformed fitted values or transformed residuals, and the covariance matrix for the effect of adding parameters to a null model is found from the difference between commensurate matrices.
-
----
-### A tale of two model alignments -- The same story for almost any linear model application
-
-This is a model comparison:
-
-$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}},$$
-
-Why go through all this algebra?  **Because a difference in model projections is a projection of model differences!**  Henceforth we can explain what $\Delta\mathbf{\tilde{H}}$ means without having to go through this algebra again.  **We can know that $\Delta\mathbf{\tilde{H}}$ means a difference in alignments of data because of alternative models that if is large in its effect on transformation of $\mathbf{Z}$ suggests that the alternative model is a viable model for explanation of a biological phenomenon.**
-
-.remark-code[.red[
-If the preceding algebraic demonstration is daunting, please realize that $\Delta\mathbf{\tilde{H}\tilde{Z}}$ can be loosely translated as an effect due to differences by model predictions.  In this way, when we talk about more complex models, $\Delta\mathbf{\tilde{H}\tilde{Z}}$ is a prevailing concept.
-]]
-
-** $\Delta\mathbf{HZ}$ .red[is the difference in model predictions and] $\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}}$ .red[is the covariance matrix for the different predictions, the effect of adding parameters to the null model design.]**
-
----
 
 ### Finally, a linear model example.
 
@@ -1509,7 +1434,7 @@ $\mathbf{A}^T\mathbf{Z}$ describes the alignment of data $(\mathbf{Z})$ to somet
 |---|---|---|---|
 |PCA| $\mathbf{I}$ |Decompose|Find the principal vectors of variation in a multivariate data space, to best envision patterns of dispersion|
 |PLS| $\mathbf{Z}_{other}$ |Decompose| Find the principal vectors of covariation between two data sets.  Statistical analysis is also possible by creating random distributions of correlation coefficients between principal scores.|
-|PACA| $\mathbf{\Omega}$ |Decompose|Find the principal vectors of variation in a multivariate data space, constrained to be aligned with phylogenetic signal.  PACs might be similar to PCs if phylogenetic signal pervades shape differences.  PACs could be different if other sources of variation exist.|
+|PACA| $\boldsymbol{\Omega}$ |Decompose|Find the principal vectors of variation in a multivariate data space, constrained to be aligned with phylogenetic signal.  PACs might be similar to PCs if phylogenetic signal pervades shape differences.  PACs could be different if other sources of variation exist.|
 |GLM| $\mathbf{H}$ |Compare|Find the coefficients and fitted values of null and alternative models, and compare the alternative to the null to ascertain whether parameters are meaningful.|
 
 All of these purposes are helpful for inferential statistics, the more prominent theme in **Shape Statistics II**.

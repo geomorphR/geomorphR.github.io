@@ -4,16 +4,17 @@
     <title>6. Shape Statistics I</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="06-ShapeStatistics1_files/header-attrs-2.21/header-attrs.js"></script>
-    <script src="06-ShapeStatistics1_files/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+    <script src="06-ShapeStatistics1_files/header-attrs-2.27.1/header-attrs.js"></script>
+    <link href="06-ShapeStatistics1_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+    <script src="06-ShapeStatistics1_files/htmlwidgets-1.6.4/htmlwidgets.js"></script>
     <link href="06-ShapeStatistics1_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-    <script src="06-ShapeStatistics1_files/datatables-binding-0.27/datatables.js"></script>
+    <script src="06-ShapeStatistics1_files/datatables-binding-0.33/datatables.js"></script>
     <script src="06-ShapeStatistics1_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <link href="06-ShapeStatistics1_files/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="06-ShapeStatistics1_files/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
-    <script src="06-ShapeStatistics1_files/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
-    <link href="06-ShapeStatistics1_files/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-    <script src="06-ShapeStatistics1_files/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+    <link href="06-ShapeStatistics1_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="06-ShapeStatistics1_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="06-ShapeStatistics1_files/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+    <link href="06-ShapeStatistics1_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+    <script src="06-ShapeStatistics1_files/crosstalk-1.2.1/js/crosstalk.min.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -204,10 +205,10 @@ Statistical analysis of shape can be thought of as a process that finds one or a
 
 #### How PCA is usually presented:
 
-`$$\hat{\mathbf{\Sigma}} = \mathbf{V\Lambda V}^T,$$`
+`$$\hat{\boldsymbol{\Sigma}} = \mathbf{V\Lambda V}^T,$$`
 where 
 
-+ `\(\hat{\mathbf{\Sigma}}\)` is a residual covariance matrix (more on this soon)
++ `\(\hat{\boldsymbol{\Sigma}}\)` is a residual covariance matrix (more on this soon)
 + `\(\mathbf{V}\)` is a rectangular matrix of eigenvectors
 + `\(\mathbf{\Lambda}\)` is a diagonal matrix with eigenvalues `\((\lambda)\)` along the diagonal.
 
@@ -224,7 +225,7 @@ where `\(\mathbf{A}\)` = `\(\mathbf{I}_{n \times n}\)`, thus
 `$$\mathbf{I}^T_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$`
 
 + The right singular vectors (from singular value decomposition) are the same as the eigenvectors calculated in the classic way.
-+ `\(\mathbf{Z}\)` are data that have been .red[centered] or .red[standardized], and as such, `\(\hat{\mathbf{\Sigma}} = (n-1)^{-1} \mathbf{Z}^T\mathbf{Z}\)`.
++ `\(\mathbf{Z}\)` are data that have been .red[centered] or .red[standardized], and as such, `\(\hat{\boldsymbol{\Sigma}} = (n-1)^{-1} \mathbf{Z}^T\mathbf{Z}\)`.
 + `\(\mathbf{D}\)` is the diagonal matrix of singular values ( `\(d\)` ), which can be transformed to eigenvalues as `\(\lambda_i = d_i^2(n-1)^{-1}\)`.
 
 ***How is this easier?***  It might not seem easier yet, but when presented as `\(\mathbf{A}^T\mathbf{Z}\)`, one can think of how data are aligned.  In this case, they are aligned to `\(\mathbf{I}_{n \times n}\)`, which is like saying **independence** of alignment.
@@ -252,7 +253,7 @@ PCA finds vectors, `\(\mathbf{V}\)`, from the solution,
 #### Example with `plethodon` data in `geomorph`
 .med[
 
-```r
+``` r
 data(plethodon)
 GPA &lt;- gpagen(plethodon$land, print.progress = FALSE)
 * PCA &lt;- gm.prcomp(GPA$coords) 
@@ -261,13 +262,13 @@ GPA &lt;- gpagen(plethodon$land, print.progress = FALSE)
 Let's look at the `\(\mathbf{V}\)` matrix (PC vector loadings) for the first 5 vectors.  Recall from the lecture on linear algebra, `\(\mathbf{V}\)` is the same as a *rotation* matrix.
 
 
-```r
+``` r
 PCA$rot[, 1:5]
 ```
 
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0ce7ab065a62491b9c8e" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-0ce7ab065a62491b9c8e">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1.X","1.Y","2.X","2.Y","3.X","3.Y","4.X","4.Y","5.X","5.Y","6.X","6.Y","7.X","7.Y","8.X","8.Y","9.X","9.Y","10.X","10.Y","11.X","11.Y","12.X","12.Y"],[-0.18519,0.05405,-0.25751,0.12104,0.24555,0.08671,0.01913,0.01574,0.03013,-0.06,0.03942,-0.07298,-0.03292,-0.15883,-0.07436,-0.02267,-0.1294,0.14563,-0.14615,0.04686,0.78142,-0.05272,-0.29012,-0.10285],[0.44578,0.26015,0.14487,0.35368,0.06079,0.15116,-0.00471,-0.10675,-0.04475,-0.10706,-0.02427,-0.16916,-0.14499,-0.08201,-0.0491,-0.01583,0.0163,0.10257,0.07706,0.13217,-0.18989,0.04808,-0.28709,-0.56701],[0.22986,-0.08275,0.21506,0.10056,0.32681,0.00228,-0.20322,0.35931,-0.19877,0.15439,-0.17122,0.00981,-0.21542,-0.18189,0.06254,-0.16576,0.18179,-0.23899,0.07886,-0.13614,0.01087,-0.20317,-0.31717,0.38235],[-0.26247,0.11272,-0.01087,0.46841,0.47658,-0.04908,-0.11434,-0.00444,-0.05717,0.12899,0.1062,0.0582,0.08944,0.01527,-0.1435,-0.17252,-0.17443,-0.1315,-0.16718,-0.21664,-0.17314,-0.06654,0.43089,-0.14288],[-0.16719,0.22104,0.02176,-0.25447,0.44786,0.02916,-0.0437,-0.44113,-0.16144,-0.22846,-0.05394,0.14802,0.0188,0.27939,-0.08595,0.08478,0.38216,0.11626,-0.05794,0.12139,-0.12552,-0.17414,-0.1749,0.09816]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Comp1<\/th>\n      <th>Comp2<\/th>\n      <th>Comp3<\/th>\n      <th>Comp4<\/th>\n      <th>Comp5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":3,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[3,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ff6ba36e5b4433b71799" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ff6ba36e5b4433b71799">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1.X","1.Y","2.X","2.Y","3.X","3.Y","4.X","4.Y","5.X","5.Y","6.X","6.Y","7.X","7.Y","8.X","8.Y","9.X","9.Y","10.X","10.Y","11.X","11.Y","12.X","12.Y"],[-0.18519,0.05405,-0.25751,0.12104,0.24555,0.08671,0.01913,0.01574,0.03013,-0.06,0.03942,-0.07298,-0.03292,-0.15883,-0.07436,-0.02267,-0.1294,0.14563,-0.14615,0.04686,0.78142,-0.05272,-0.29012,-0.10285],[0.44578,0.26015,0.14487,0.35368,0.06079,0.15116,-0.00471,-0.10675,-0.04475,-0.10706,-0.02427,-0.16916,-0.14499,-0.08201,-0.0491,-0.01583,0.0163,0.10257,0.07706,0.13217,-0.18989,0.04808,-0.28709,-0.56701],[0.22986,-0.08275,0.21506,0.10056,0.32681,0.00228,-0.20322,0.35931,-0.19877,0.15439,-0.17122,0.009809999999999999,-0.21542,-0.18189,0.06254,-0.16576,0.18179,-0.23899,0.07886,-0.13614,0.01087,-0.20317,-0.31717,0.38235],[-0.26247,0.11272,-0.01087,0.46841,0.47658,-0.04908,-0.11434,-0.00444,-0.05717,0.12899,0.1062,0.0582,0.08944000000000001,0.01527,-0.1435,-0.17252,-0.17443,-0.1315,-0.16718,-0.21664,-0.17314,-0.06654,0.43089,-0.14288],[-0.16719,0.22104,0.02176,-0.25447,0.44786,0.02916,-0.0437,-0.44113,-0.16144,-0.22846,-0.05394,0.14802,0.0188,0.27939,-0.08595,0.08477999999999999,0.38216,0.11626,-0.05794,0.12139,-0.12552,-0.17414,-0.1749,0.09816]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Comp1<\/th>\n      <th>Comp2<\/th>\n      <th>Comp3<\/th>\n      <th>Comp4<\/th>\n      <th>Comp5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":3,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Comp1","targets":1},{"name":"Comp2","targets":2},{"name":"Comp3","targets":3},{"name":"Comp4","targets":4},{"name":"Comp5","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[3,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ]
 
 ---
@@ -283,7 +284,7 @@ We can ascertain that the first axis explains almost 37% of the shape variation 
 ]
 .pull-right[.med[
 
-```r
+``` r
 plot(PCA, 
      pch = 15 + as.numeric(plethodon$site), 
      col = plethodon$species, cex = 2)
@@ -300,8 +301,8 @@ plot(PCA,
 + PCA is the most basic way to look at a high-dimensional data space in discernible dimensions.
 + Alignment of data to its inherent, principal axes.
 + A rigid rotation of the data space (orthogonal projection)
-+ The distances among observed shapes in all PC dimensions is the same as the distances in original dimensions, so long as `\(\sum\lambda_i = trace(\hat{\mathbf{\Sigma}})\)`.  In other words, the diagonals of `\(\mathbf{ZZ}^T\)` and `\(\mathbf{PP}^T\)` are the same.
-+ .remark-code[.red[Some sources discuss PCA performed on either covariance or correlation matrices.  **This is unnecessary.**  If `\(\mathbf{Z}\)` is a matrix of centered data, then `\(\hat{\mathbf{\Sigma}}\)` is a covariance matrix; if `\(\mathbf{Z}\)` is a matrix of standardized data, then `\(\hat{\mathbf{\Sigma}}\)` is a correlation matrix.  Performing PCA on a correlation matrix is simply making the *a priori* decision to standardize data `\(^1\)`.
++ The distances among observed shapes in all PC dimensions is the same as the distances in original dimensions, so long as `\(\sum\lambda_i = trace(\hat{\boldsymbol{\Sigma}})\)`.  In other words, the diagonals of `\(\mathbf{ZZ}^T\)` and `\(\mathbf{PP}^T\)` have the same sum.
++ .remark-code[.red[Some sources discuss PCA performed on either covariance or correlation matrices.  **This is unnecessary.**  If `\(\mathbf{Z}\)` is a matrix of centered data, then `\(\hat{\boldsymbol{\Sigma}}\)` is a covariance matrix; if `\(\mathbf{Z}\)` is a matrix of standardized data, then `\(\hat{\boldsymbol{\Sigma}}\)` is a correlation matrix.  Performing PCA on a correlation matrix is simply making the *a priori* decision to standardize data `\(^1\)`.
 ]]
 
 .footnote[1. Data centering and standardization are discussed in the appendix for these lectures.]
@@ -395,7 +396,7 @@ However, the typical ***GM paradigm*** via PLS is to do the following:
 .pull-left[
 PLS is generally presented as partitioning of a covariance matrix, but this is not fully necessary.
 
-If we concatenate our data, `\(\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2\)`, then a covariance matrix found as `\(\hat{\mathbf{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}\)` has the following form.
+If we concatenate our data, `\(\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2\)`, then a covariance matrix found as `\(\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}\)` has the following form.
 
 ![](06-ShapeStatistics1_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 ]
@@ -415,7 +416,7 @@ If we concatenate our data, `\(\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2\)`, then
 .pull-left[
 PLS is generally presented as partitioning of a covariance matrix, but this is not fully necessary.
 
-If we concatenate our data, `\(\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2\)`, then a covariance matrix found as `\(\hat{\mathbf{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}\)` has the following form.
+If we concatenate our data, `\(\mathbf{Z} = \mathbf{Z}_1 | \mathbf{Z}_2\)`, then a covariance matrix found as `\(\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\mathbf{Z}^T\mathbf{Z}\)` has the following form.
 
 
 + **.blue[PLS is generally referred to as two-block PLS based on this original presentation by Rohlf and Corti (2000)] .red[but there is no need to calculate a covariance matrix and partition it]**
@@ -457,7 +458,7 @@ Before getting into a statistical test, let's look at the steps of the **.blue[G
 **First, data analysis set up.**
 
 
-```r
+``` r
 data(plethShapeFood) 
 GPA &lt;- gpagen(plethShapeFood$land, print.progress = FALSE) 
 Z2 &lt;- GPA$coords
@@ -474,64 +475,64 @@ rownames(Z1) &lt;- dimnames(Z2)[[3]]
 
 .pull-left[.small[
 
-```r
+``` r
 PLS$left.pls.vectors[, 1:3]
 ```
 
 ```
 ##                 [,1]         [,2]        [,3]
-## oligoch   0.09004086  0.003112899  0.10080188
-## gastrop  -0.01806988 -0.550910355 -0.34547832
-## isopoda   0.04248161  0.341360115  0.01758372
-## diplop    0.05513422  0.382587566  0.20527963
-## chilop    0.09336132  0.037443265  0.04266139
-## acar     -0.50752475  0.019441095  0.41786654
-## araneida  0.25374179 -0.046295602  0.40983773
-## chelon   -0.11208684 -0.285524589  0.47666133
-## coleopt   0.49499065  0.224817353 -0.03268055
-## collemb  -0.39472156  0.072040810  0.09579918
-## diptera   0.16588149 -0.046529118  0.23630937
-## hymen     0.36492582 -0.498143789  0.27865952
-## isopt    -0.11941724 -0.133602846 -0.25262551
-## orthopt   0.12637425  0.040163997 -0.02415219
-## larvae    0.21581022  0.077047426  0.13298564
-## eggs     -0.07184867 -0.129214952  0.17493561
+## oligoch   0.09004086 -0.003112899  0.10080188
+## gastrop  -0.01806988  0.550910355 -0.34547832
+## isopoda   0.04248161 -0.341360115  0.01758372
+## diplop    0.05513422 -0.382587566  0.20527963
+## chilop    0.09336132 -0.037443265  0.04266139
+## acar     -0.50752475 -0.019441095  0.41786654
+## araneida  0.25374179  0.046295602  0.40983773
+## chelon   -0.11208684  0.285524589  0.47666133
+## coleopt   0.49499065 -0.224817353 -0.03268055
+## collemb  -0.39472156 -0.072040810  0.09579918
+## diptera   0.16588149  0.046529118  0.23630937
+## hymen     0.36492582  0.498143789  0.27865952
+## isopt    -0.11941724  0.133602846 -0.25262551
+## orthopt   0.12637425 -0.040163997 -0.02415219
+## larvae    0.21581022 -0.077047426  0.13298564
+## eggs     -0.07184867  0.129214952  0.17493561
 ```
 ]]
 .pull-right[.small[
 
-```r
+``` r
 PLS$right.pls.vectors[, 1:3]
 ```
 
 ```
 ##             [,1]         [,2]         [,3]
-## 1.X   0.13133953  0.016017800 -0.027231576
-## 1.Y   0.14787439  0.064700347  0.002158334
-## 2.X   0.18997240 -0.085495097  0.016186956
-## 2.Y   0.21071931 -0.041299482  0.160306629
-## 3.X  -0.10497337 -0.278032904  0.217025988
-## 3.Y   0.01823770 -0.011813496  0.023272786
-## 4.X   0.02175516  0.014456289 -0.236713711
-## 4.Y  -0.29628475 -0.050082411 -0.049278170
-## 5.X  -0.03246685 -0.057861386 -0.169413647
-## 5.Y  -0.30786568  0.049237233 -0.041987632
-## 6.X   0.04097434 -0.307022495  0.528304865
-## 6.Y   0.26835518  0.281134207  0.261101618
-## 7.X   0.08484467 -0.072600350 -0.258164600
-## 7.Y   0.10011120  0.351750512  0.199695532
-## 8.X   0.24257232  0.199231902 -0.319392449
-## 8.Y  -0.27613187  0.102491653 -0.029819586
-## 9.X  -0.52125417  0.365570595  0.248722170
-## 9.Y  -0.29871448 -0.283290297 -0.160260576
-## 10.X -0.01313886  0.341927800 -0.085658889
-## 10.Y  0.13148260 -0.225262939  0.076937140
-## 11.X -0.02765115  0.184773252 -0.070110492
-## 11.Y  0.12231665 -0.088280534  0.029395633
-## 12.X -0.07705921 -0.329160469 -0.015287345
-## 12.Y -0.04872696 -0.124990718 -0.363320979
-## 13.X  0.06508520  0.008195063  0.171732729
-## 13.Y  0.22862671 -0.024294075 -0.108200731
+## 1.X   0.13133953 -0.016017800 -0.027231576
+## 1.Y   0.14787439 -0.064700347  0.002158334
+## 2.X   0.18997240  0.085495097  0.016186956
+## 2.Y   0.21071931  0.041299482  0.160306629
+## 3.X  -0.10497337  0.278032904  0.217025988
+## 3.Y   0.01823770  0.011813496  0.023272786
+## 4.X   0.02175516 -0.014456289 -0.236713711
+## 4.Y  -0.29628475  0.050082411 -0.049278170
+## 5.X  -0.03246685  0.057861386 -0.169413647
+## 5.Y  -0.30786568 -0.049237233 -0.041987632
+## 6.X   0.04097434  0.307022495  0.528304865
+## 6.Y   0.26835518 -0.281134207  0.261101618
+## 7.X   0.08484467  0.072600350 -0.258164600
+## 7.Y   0.10011120 -0.351750512  0.199695532
+## 8.X   0.24257232 -0.199231902 -0.319392449
+## 8.Y  -0.27613187 -0.102491653 -0.029819586
+## 9.X  -0.52125417 -0.365570595  0.248722170
+## 9.Y  -0.29871448  0.283290297 -0.160260576
+## 10.X -0.01313886 -0.341927800 -0.085658889
+## 10.Y  0.13148260  0.225262939  0.076937140
+## 11.X -0.02765115 -0.184773252 -0.070110492
+## 11.Y  0.12231665  0.088280534  0.029395633
+## 12.X -0.07705921  0.329160469 -0.015287345
+## 12.Y -0.04872696  0.124990718 -0.363320979
+## 13.X  0.06508520 -0.008195063  0.171732729
+## 13.Y  0.22862671  0.024294075 -0.108200731
 ```
 ]]
 
@@ -544,7 +545,7 @@ PLS$right.pls.vectors[, 1:3]
 
 .pull-left[.small[
 
-```r
+``` r
 PLS$XScores[,1]
 ```
 
@@ -577,7 +578,7 @@ PLS$XScores[,1]
 ]]
 .pull-right[.small[
 
-```r
+``` r
 PLS$YScores[,1]
 ```
 
@@ -622,7 +623,7 @@ PLS$YScores[,1]
 
 .pull-left[.med[
 
-```r
+``` r
 PLS
 ```
 
@@ -646,7 +647,7 @@ PLS
 ]]
 .pull-right[.small[
 
-```r
+``` r
 plot(PLS, pch = 16)
 ```
 
@@ -663,7 +664,7 @@ These data contain head shape data from 13 landmarks for plethodontid salamander
 
 .pull-left[.med[
 
-```r
+``` r
 PLS$left.pls.vectors[, 1]
 ```
 
@@ -682,7 +683,7 @@ PLS$left.pls.vectors[, 1]
 ]]
 .pull-right[.small[
 
-```r
+``` r
 plot(PLS, pch = 16)
 ```
 
@@ -696,7 +697,7 @@ plot(PLS, pch = 16)
 .pull-left[.small[
 ***Could use*** `picknplot.shape` ***instead of this code below.***
 
-```r
+``` r
 preds &lt;- shape.predictor(A = PLS$A2, 
                          x = PLS$YScores[, 1],
                          Intercept = FALSE,
@@ -719,13 +720,13 @@ title("Shape at max PLS 1")
 ]]
 .pull-right[.small[
 
-```r
+``` r
 plot(PLS, pch = 16)
 ```
 
 ![](06-ShapeStatistics1_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
 
-```r
+``` r
 PLS$left.pls.vectors[, 1]
 ```
 
@@ -744,13 +745,20 @@ PLS$left.pls.vectors[, 1]
 
 ### Partial Least Squares, a few other examples
 
+**Shape allometry**
+
+The covariation between shape and size; i.e., how shape changes as organisms grow or develop.
+---
+
+### Partial Least Squares, a few other examples
+
 .pull-left[.med[
 
-**Allometry**
+**Shape allometry**
 
 `\(\mathbf{Z}_1\)` is a vector of the log of centroid size
 
-```r
+``` r
 Z1 &lt;- log(GPA$Csize)
 PLS &lt;- two.b.pls(Z1, Z2, print.progress = FALSE)
 PLS
@@ -774,7 +782,7 @@ PLS
 ]]
 .pull-right[.small[
 
-```r
+``` r
 plot(PLS, pch = 16)
 ```
 
@@ -782,7 +790,7 @@ plot(PLS, pch = 16)
 
 Notice this:
 
-```r
+``` r
 (log(GPA$Csize) - mean(log(GPA$Csize)))[1:5]
 ```
 
@@ -791,7 +799,7 @@ Notice this:
 ##  0.02675961 -0.05866555  0.23522474  0.16773141 -0.06493891
 ```
 
-```r
+``` r
 PLS$XScores[1:5, 1]
 ```
 
@@ -805,12 +813,20 @@ PLS$XScores[1:5, 1]
 
 ### Partial Least Squares, a few other examples
 
+**Module shape covariation**
+
+The strength of covariation among sub-configurations of a landmark configuration, which are hypothetical genetic/developmental modules.
+
+---
+
+### Partial Least Squares, a few other examples
+
 .pull-left[.med[
 
 **Module shape covariation**
 
 
-```r
+``` r
 Z1 &lt;- GPA$coords[1:5, , ] # Five landmarks of jaw
 Z2 &lt;- GPA$coords[6:13, , ] # 8 landmarks of cranium
 PLS &lt;- two.b.pls(Z1, Z2, print.progress = FALSE)
@@ -836,7 +852,7 @@ PLS
 
 .pull-right[.small[
 
-```r
+``` r
 plot(PLS, pch = 16, asp = 1)
 ```
 
@@ -851,13 +867,13 @@ plot(PLS, pch = 16, asp = 1)
 
 **Module shape covariation**
 
-```r
+``` r
 plot(PLS, pch = 16, asp = 1)
 ```
 
 **Jaw shapes at the extremes**
 
-```r
+``` r
 predsJ &lt;- shape.predictor(A = PLS$A1, 
                          x = PLS$XScores[, 1],
                          Intercept = FALSE,
@@ -870,7 +886,7 @@ RefJ &lt;- mshape(PLS$A1)
 
 **Neurocranium shapes at the extremes**
 
-```r
+``` r
 predsN &lt;- shape.predictor(A = PLS$A2, 
                          x = PLS$YScores[, 1],
                          Intercept = FALSE,
@@ -887,7 +903,7 @@ RefN &lt;- mshape(PLS$A2)
 **Transformation grids**
 
 
-```r
+``` r
 par(mfrow = c(2, 2))
 plotRefToTarget(RefN, predsN$yAxis1min)
 title("Neuro shape at min PLS 1")
@@ -940,7 +956,7 @@ A null hypothesis test is one that tests the independence (no covariation) betwe
 
 Every test of a null hypothesis must have a process of generating randomness under the null hypothesis.  For the case of matrix covariation, the null process is **randomization of the pairs of vectors** among the observations.  This occurs by randomizing the row vectors of either `\(\mathbf{Z}_1\)` or `\(\mathbf{Z}_2\)`.
 
-Because `\(\mathbf{Z}_1\)` and `\(\mathbf{Z}_2\)` are both centered or standardized, they are **residuals** (of the mean).  The process of randomizing residuals in a permutation procedure (**.blue[RRPP]**) is often used with shape data to generate sampling distributions of test statistics.
+Because `\(\mathbf{Z}_1\)` and `\(\mathbf{Z}_2\)` are both centered or standardized, they are **residuals** (of the mean).  Randomizing residuals in a permutation procedure (**.blue[RRPP]**) is used with shape data to generate test-statistic sampling distributions.
 ---
 
 ### Randomization of residuals in a permutation procedure (RRPP) for `\(r_{PLS}\)`
@@ -978,13 +994,13 @@ Because `\(\mathbf{Z}_1\)` and `\(\mathbf{Z}_2\)` are both centered or standardi
 
 .pull-left[.small[
 
-```r
+``` r
 GPA &lt;- gpagen(plethShapeFood$land, print.progress = FALSE) 
 food &lt;- plethShapeFood$food
 rownames(food) &lt;- names(GPA$Csize)
 PLSfood &lt;- two.b.pls(food, GPA$coords, 
                   print.progress = FALSE, iter = 9999)
-PLSallometry &lt;- two.b.pls(GPA$Csize, GPA$coords, 
+PLSallometry &lt;- two.b.pls(log(GPA$Csize), GPA$coords, 
                   print.progress = FALSE, iter = 9999)
 PLSintegration &lt;- two.b.pls(GPA$coords[1:5,, ], GPA$coords[8:13,,], 
                   print.progress = FALSE, iter = 9999)
@@ -1010,28 +1026,28 @@ summary(PLSfood)
 
 .pull-right[.small[
 
-```r
+``` r
 summary(PLSallometry)
 ```
 
 ```
 ## 
 ## Call:
-## two.b.pls(A1 = GPA$Csize, A2 = GPA$coords, iter = 9999, print.progress = FALSE) 
+## two.b.pls(A1 = log(GPA$Csize), A2 = GPA$coords, iter = 9999,  
+##     print.progress = FALSE) 
 ## 
 ## 
 ## 
+## r-PLS: 0.8262
 ## 
-## r-PLS: 0.8293
-## 
-## Effect Size (Z): 5.56658
+## Effect Size (Z): 5.5256
 ## 
 ## P-value: 1e-04
 ## 
 ## Based on 10000 random permutations
 ```
 
-```r
+``` r
 summary(PLSintegration)
 ```
 
@@ -1060,7 +1076,7 @@ We can also perform *two-sample Z-tests* to see if any of these effect sizes dif
 
 .pull-left[.med[
 
-```r
+``` r
 compare.pls(PLSfood, PLSallometry, PLSintegration)
 ```
 
@@ -1069,21 +1085,21 @@ compare.pls(PLSfood, PLSallometry, PLSintegration)
 ## Effect sizes
 ## 
 ##        PLSfood   PLSallometry PLSintegration 
-##       4.315216       5.566575       5.936474 
+##       4.315216       5.525605       5.936474 
 ## 
 ## Effect sizes for pairwise differences in PLS effect size
 ## 
 ##                 PLSfood PLSallometry PLSintegration
-## PLSfood        0.000000    2.3948850      3.0941152
-## PLSallometry   2.394885    0.0000000      0.7911531
-## PLSintegration 3.094115    0.7911531      0.0000000
+## PLSfood        0.000000    2.3754635      3.0941152
+## PLSallometry   2.375463    0.0000000      0.7977631
+## PLSintegration 3.094115    0.7977631      0.0000000
 ## 
 ## P-values
 ## 
 ##                    PLSfood PLSallometry PLSintegration
-## PLSfood        1.000000000   0.01662558    0.001974008
-## PLSallometry   0.016625581   1.00000000    0.428854632
-## PLSintegration 0.001974008   0.42885463    1.000000000
+## PLSfood        1.000000000   0.01752693    0.001974008
+## PLSallometry   0.017526928   1.00000000    0.425007955
+## PLSintegration 0.001974008   0.42500796    1.000000000
 ```
 ]]
 
@@ -1101,7 +1117,7 @@ Note: two-sample `\(Z\)` statistic is found as `\(Z_{12} = \frac{| (\theta_1 - \
   + Parametric statistics (not discussed here) use probability density or mass functions ***as a proxy*** for the *distribution of all possible random outcomes* of a null process, provided assumptions are met.
   + RRPP performs a subset of random permutations ***as a proxy*** for the *distribution of all possible random outcomes* of a null process.
 + Why RRPP rather than parametric statistics?
-  + produces commensurate distributions with parametric density functions, unde appropriate conditions. `\(^1\)`
+  + produces commensurate distributions with parametric density functions, under appropriate conditions. `\(^1\)`
   + No parametric proxy? RRPP can still be used.
   + Fast computers.
 + **.blue[For PLS analyses, RRPP = randomizing the row vectors of only one set of data (sufficient to make random pairs of vectors).  Independent data?  Random] `\(r_{PLS}\)` .blue[values consistently as large as the observed value.  Data sets covary?] `\(r_{PLS}\)` .blue[will be rare (in a large way).]**
@@ -1134,9 +1150,9 @@ Examples include:
 
 `$$\mathbf{A}^T\mathbf{Z} = \mathbf{UDV}^T$$`
 
-Let `\(\mathbf{A} = \mathbf{\Omega}\)`, where `\(\mathbf{\Omega}\)` is an `\(N \times N\)` matrix of phylogenetic covariances, assuming a Brownian motion model of evolutionary divergence, corresponding to the `\(N \times p\)` matrix of centered or standardized data, `\(\mathbf{Z}\)`.  Then,
+Let `\(\mathbf{A} = \boldsymbol{\Omega}\)`, where `\(\boldsymbol{\Omega}\)` is an `\(N \times N\)` matrix of phylogenetic covariances, assuming a Brownian motion model of evolutionary divergence, corresponding to the `\(N \times p\)` matrix of centered or standardized data, `\(\mathbf{Z}\)`.  Then,
 
-`$$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$`
+`$$\boldsymbol{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$`
 
 is an analysis that finds phylogenetically aligned components of the data (most phylogenetic signal in the first few components).
 
@@ -1144,9 +1160,9 @@ is an analysis that finds phylogenetically aligned components of the data (most 
 
 ### Phylogenetically aligned component analysis (PACA) `\(^1\)`
 
-`$$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$`
+`$$\boldsymbol{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$`
 + `\(\mathbf{Z}\)` is an `\(N \times p\)` matrix of centered or standardized data.  (We use `\(N\)` rather than `\(n\)` because these are the `\(N\)` taxonomic observations in the phylogenetic tree considered, rather than `\(n\)` observations sampled from a population of `\(N\)` data.)
-+ `\(\mathbf{\Omega}\)` is an `\(N \times N\)` covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
++ `\(\boldsymbol{\Omega}\)` is an `\(N \times N\)` covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
 + **See next slide for illustration.**
 
 .footnote[1. Collyer &amp; Adams. (2021). *Methods in Ecology and Evolution*.]
@@ -1172,11 +1188,11 @@ is an analysis that finds phylogenetically aligned components of the data (most 
 **Covariance matrix**
 
 ```
-##       t3    t4    t1    t2
-## t3 0.904 0.336 0.000 0.000
-## t4 0.336 0.904 0.000 0.000
-## t1 0.000 0.000 0.903 0.281
-## t2 0.000 0.000 0.281 0.903
+##       t2    t3    t4    t1
+## t2 2.542 0.835 0.835 0.000
+## t3 0.835 2.542 2.428 0.000
+## t4 0.835 2.428 2.542 0.000
+## t1 0.000 0.000 0.000 2.542
 ```
 ]
 
@@ -1185,9 +1201,9 @@ is an analysis that finds phylogenetically aligned components of the data (most 
 
 ### Phylogenetically aligned component analysis (PACA) `\(^1\)`
 
-`$$\mathbf{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$`
+`$$\boldsymbol{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$`
 + `\(\mathbf{Z}\)` is an `\(N \times p\)` matrix of centered or standardized data.  (We use `\(N\)` rather than `\(n\)` because these are the `\(N\)` taxonomic observations in the phylogenetic tree considered, rather than `\(n\)` observations sampled from a population of `\(N\)` data.)
-+ `\(\mathbf{\Omega}\)` is an `\(N \times N\)` covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
++ `\(\boldsymbol{\Omega}\)` is an `\(N \times N\)` covariance matrix, based on a phylogenetic tree, with the depth of an *ultrametric phylogenetic tree* (consistent sum of branch lengths from root to tip) and the off-diagonal elements are phylogenetic covariances (shared branch lengths from root to common ancestors, which can be 0 for taxa in different clades)
 + ** `\(\mathbf{V}\)` is the matrix of phylogenetically aligned components.**  These vectors maximize covariation between data and phylogenetic signal. `\(^2\)`
 + ** `\(\mathbf{D}\)` is the diagonal matrix of singular values.**  These values help to evaluate strength of covariance.
 
@@ -1204,7 +1220,7 @@ is an analysis that finds phylogenetically aligned components of the data (most 
 
 .blue[But singular values can be misleading.  If we measure the strength of covariation as] `\(d^2_i / \sum d^2_i\)`.blue[, we might infer that a vector explains a lot of covariation, even if] `\(\sum d^2_i\)` .blue[is small.]  
 
-`\(\sum d^2_i\)` is maximized as `\(\sum \lambda_{\mathbf{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}\)`, for the eigenvalues found separately for `\(\mathbf{\Omega}\)` and `\(\mathbf{Z}\)`.  Thus, `\(RV_i = \frac{d^2_i}{\sum \lambda_{\mathbf{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}}\)` is an appropriate way to measure the strength of covariance for PAC `\(i\)`.
+`\(\sum d^2_i\)` is maximized as `\(\sum \lambda_{\boldsymbol{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}\)`, for the eigenvalues found separately for `\(\boldsymbol{\Omega}\)` and `\(\mathbf{Z}\)`.  Thus, `\(RV_i = \frac{d^2_i}{\sum \lambda_{\boldsymbol{\Omega}_i}\sum \lambda_{\mathbf{Z}_i}}\)` is an appropriate way to measure the strength of covariance for PAC `\(i\)`.
 
 Each component's `\(RV\)` score can be loosely interpreted like the percentage of variation explained in PCA, but in PACA, it is the percentage of explained **covariation**.
 ---
@@ -1215,7 +1231,7 @@ Each component's `\(RV\)` score can be loosely interpreted like the percentage o
 
 .pull-left[.med[
 
-```r
+``` r
 data("plethspecies")
 GPA &lt;- gpagen(plethspecies$land, print.progress = FALSE)
 tree &lt;- plethspecies$phy
@@ -1228,7 +1244,7 @@ plot(GPA)
 
 .pull-right[.med[
 
-```r
+``` r
 plot(tree)
 edgelabels(round(tree$edge.length, 3))
 ```
@@ -1245,7 +1261,7 @@ edgelabels(round(tree$edge.length, 3))
 
 .pull-left[.med[
 
-```r
+``` r
 plot(tree)
 edgelabels(round(tree$edge.length, 3))
 ```
@@ -1255,7 +1271,7 @@ edgelabels(round(tree$edge.length, 3))
 
 .pull-left[.small[
 
-```r
+``` r
 round(vcv(tree), 3)
 ```
 
@@ -1291,7 +1307,7 @@ round(vcv(tree), 3)
 
 .pull-left[.med[
 
-```r
+``` r
 PCA &lt;- gm.prcomp(GPA$coords, phy = tree, 
                  align.to.phy = FALSE)
 plot(PCA, pch = 16, phylo = TRUE)
@@ -1302,7 +1318,7 @@ plot(PCA, pch = 16, phylo = TRUE)
 
 .pull-right[.med[
 
-```r
+``` r
 PACA &lt;- gm.prcomp(GPA$coords, phy = tree, 
                  align.to.phy = TRUE)
 plot(PACA, pch = 16, phylo = TRUE)
@@ -1319,14 +1335,14 @@ plot(PACA, pch = 16, phylo = TRUE)
 
 .pull-left[.med[
 
-```r
+``` r
 summary(PCA)
 ```
 ]]
 
 .pull-right[.med[
 
-```r
+``` r
 summary(PACA)
 ```
 ]]
@@ -1366,14 +1382,14 @@ Too much output for one slide but we will see more results in lab.
 
 .pull-left[.med[
 
-```r
+``` r
 summary(PCA)
 ```
 ]]
 
 .pull-right[.med[
 
-```r
+``` r
 summary(PACA)
 ```
 ]]
@@ -1430,7 +1446,7 @@ Why use PACA?
 
 
 ### The General Linear Model
-`$$\huge \mathbf{Z}=\mathbf{X}\mathbf{\beta } +\mathbf{E}$$`
+`$$\huge \mathbf{Z}=\mathbf{X}\boldsymbol{\beta } +\mathbf{E}$$`
 
 | Component | Dimension | Description
 |------- | :----------- | :-----------------------------
@@ -1448,20 +1464,20 @@ Like any area of statistics, the coefficients for a linear model (which has para
 **Ordinary least-squares estimation (OLS)**
 
 .pull-left[
-`$$\small{\mathbf{Z}=\mathbf{X}\mathbf{\beta }}$$`
-`$$\small{\mathbf{X}^T\mathbf{Z} = \mathbf{X}^T\mathbf{X}\mathbf{\beta }}$$`
+`$$\small{\mathbf{Z}=\mathbf{X}\boldsymbol{\beta }}$$`
+`$$\small{\mathbf{X}^T\mathbf{Z} = \mathbf{X}^T\mathbf{X}\boldsymbol{\beta }}$$`
 
 `$$\small{\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
-\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{X}\mathbf{\beta }}$$`
+\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{X}\boldsymbol{\beta }}$$`
 `$$\small{\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
-\mathbf{I}\mathbf{\beta }}$$`
+\mathbf{I}\boldsymbol{\beta }}$$`
 
-`$$\small{\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )}$$`
+`$$\small{\hat{\boldsymbol{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )}$$`
 ]
 .pull-right[
 The `\(\hat{ }\)` reminds us that this is a matrix of estimate values.
 
-**Notice that** this resembles something, i.e., `\(\hat{\mathbf{\beta }}= \mathbf{A}^{T} \mathbf{Z}\)`, if `\(\mathbf{A} = \mathbf{X}\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\)`.
+**Notice that** this resembles something, i.e., `\(\hat{\boldsymbol{\beta }}= \mathbf{A}^{T} \mathbf{Z}\)`, if `\(\mathbf{A} = \mathbf{X}\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\)`.
 
 In other words, linear model coefficients are the result of an alignment of data to parameters of a linear model, `\(\mathbf{X}\)`, which have been standardized by the cross-products of the parameters, `\(\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\)`.  The matrix `\(\mathbf{A}\)` in this case is a matrix of standardized model parameters.
 ]
@@ -1472,18 +1488,18 @@ In other words, linear model coefficients are the result of an alignment of data
 **Generalized least-squares estimation (GLS)**
 
 .pull-left[
-`$$\small{\mathbf{Z}=\mathbf{X}\mathbf{\beta }}$$`
-`$$\small{\mathbf{X}^T \mathbf{\Omega}^{-1} \mathbf{Z} = \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X}\mathbf{\beta }}$$`
+`$$\small{\mathbf{Z}=\mathbf{X}\boldsymbol{\beta }}$$`
+`$$\small{\mathbf{X}^T \boldsymbol{\Omega}^{-1} \mathbf{Z} = \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X}\boldsymbol{\beta }}$$`
 
-`$$\small{\left( \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{Z} = 
-\left( \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X}\mathbf{\beta }}$$`
-`$$\small{\left( \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{\Omega}^{-1}\mathbf{Z} = 
-\mathbf{I}\mathbf{\beta }}$$`
+`$$\small{\left( \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{Z} = 
+\left( \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X}\boldsymbol{\beta }}$$`
+`$$\small{\left( \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{X} \right)^{-1} \mathbf{X}^T\boldsymbol{\Omega}^{-1}\mathbf{Z} = 
+\mathbf{I}\boldsymbol{\beta }}$$`
 
-`$$\small{\hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T}\mathbf{\Omega}^{-1} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T}\mathbf{\Omega}^{-1} \mathbf{Z}\right )}$$`
+`$$\small{\hat{\boldsymbol{\beta }}=\left ( \mathbf{X}^{T}\boldsymbol{\Omega}^{-1} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T}\boldsymbol{\Omega}^{-1} \mathbf{Z}\right )}$$`
 ]
 .pull-right[
-`\(\mathbf{\Omega}\)` is an `\(n \times n\)` covariance matrix that explains the non-independence among observations.  If `\(\mathbf{\Omega} = \mathbf{I}\)`, then GLS estimation becomes OLS estimation, meaning **observations are independently sampled**.
+`\(\boldsymbol{\Omega}\)` is an `\(n \times n\)` covariance matrix that explains the non-independence among observations.  If `\(\boldsymbol{\Omega} = \mathbf{I}\)`, then GLS estimation becomes OLS estimation, meaning **observations are independently sampled**.
 
 This is still true: linear model coefficients are the result of an alignment of data to parameters of a linear model, `\(\mathbf{X}\)`, which have been standardized by the cross-products of the parameter.  However, the standardization of parameter includes accounting for the non-independence among data observations.
 ]
@@ -1493,19 +1509,19 @@ This is still true: linear model coefficients are the result of an alignment of 
 
 **Synthetic approach**
 
-Let `\(\mathbf{\Omega}^{1/2}\)` be a matrix square-root of `\(\mathbf{\Omega}\)`, found either via SVD or a Cholesky decomposition `\(^1\)`.
+Let `\(\boldsymbol{\Omega}^{1/2}\)` be a matrix square-root of `\(\boldsymbol{\Omega}\)`, found either via SVD or a Cholesky decomposition `\(^1\)`.
 
-Let `\(\tilde{\mathbf{X}} = \mathbf{\Omega}^{-1/2}\mathbf{X}\)`
+Let `\(\tilde{\mathbf{X}} = \boldsymbol{\Omega}^{-1/2}\mathbf{X}\)`
 
-Let `\(\mathbf{\tilde{Z}} = \mathbf{\Omega}^{-1/2}\mathbf{Z}\)`. `\(^2\)`
+Let `\(\mathbf{\tilde{Z}} = \boldsymbol{\Omega}^{-1/2}\mathbf{Z}\)`. `\(^2\)`
 
 Then,
 
-`$$\hat{\mathbf{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1}\left ( \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}} \right)$$`
+`$$\hat{\boldsymbol{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1}\left ( \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}} \right)$$`
 
 .footnote[
 1. Different ways of obtaining a matrix square-root are presented in the Appendix.
-2. If `\(\mathbf{\Omega} = \mathbf{I}\)`, then `\(\mathbf{\tilde{X}} = \mathbf{X}\)` and `\(\mathbf{\tilde{Z}} = \mathbf{Z}\)`, meaning this approach finds either the GLS or OLS solution to estimation.
+2. If `\(\boldsymbol{\Omega} = \mathbf{I}\)`, then `\(\mathbf{\tilde{X}} = \mathbf{X}\)` and `\(\mathbf{\tilde{Z}} = \mathbf{Z}\)`, meaning this approach finds either the GLS or OLS solution to estimation.
 ]
 
 ---
@@ -1515,24 +1531,27 @@ Then,
 **Regarding coefficients**
 
 1. The coefficients, `\(\hat{\boldsymbol{\beta}}\)`, explain the expected change in data, `\(\mathbf{Z}\)`, associated with the *standardized matrix of parameters*.  (This is different than standardizing each of the parameters, which could also be done.)
-2. Note that the linear model design has `\(k\)` parameters (columns).  `\(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}\)` is a `\(k \times k\)` matrix.  `\(\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\)` is an `\(n \times k\)` matrix, just like `\(\tilde{\mathbf{X}}\)`  Thus, `\(\hat{\boldsymbol{\beta}}\)` is a `\(k \times p\)` matrix, expressing the change in each of `\(p\)` variables in `\(\mathbf{Z}\)` associated with each of `\(k\)` parameters in `\(\tilde{\mathbf{X}}\)`.
-3. **This is beautiful just by itself!**
+2. Note that the linear model design has `\(k\)` parameters (columns).  `\(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}\)` is a `\(k \times k\)` matrix.  `\(\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\)` is an `\(n \times k\)` matrix, just like `\(\tilde{\mathbf{X}}\)`  Thus, 
 
---
+$$ \mathbf{A}^T\mathbf{Z} = \left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1} \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}}  = \hat{\boldsymbol{\beta}}$$
+
+`\(\hat{\boldsymbol{\beta}}\)` is a `\(k \times p\)` matrix, expressing the change in each of `\(p\)` variables in `\(\mathbf{Z}\)` associated with each of `\(k\)` parameters in `\(\tilde{\mathbf{X}}\)`.
+
+**This is beautiful just by itself!**
+
+---
 
 **Regarding fitted values, predicted values, and residuals**
-4. **Fitted values** are found as `\(\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}\)`.  These are made for the full set of data (*training data*) used to estimate coefficients.  **A predicted value** is found as `\(\hat{\mathbf{z}}^T_H = \mathbf{x}^T\hat{\boldsymbol{\beta}}\)` for any possible vector of model parameters, `\(\mathbf{x}^T\)`, which might be different than any row vector found in `\(\mathbf{X}\)`.  The `\(_H\)` subscript is used to indicate a *hypothetical* result.
+4. **Fitted values** are found as `\(\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}\)`.  These are made for the full set of data (*training data*) used to estimate coefficients.  **A predicted value** is found as `\(\hat{\mathbf{z}}^T_H = \mathbf{x}^T\hat{\boldsymbol{\beta}}\)` for any possible vector of model parameters, `\(\mathbf{x}^T\)`, which might be different than any row vector found in `\(\mathbf{X}\)`.  The `\(_H\)` subscript is used to indicate a *hypothetical* result. 
 5. **Residuals** are found as `\(\mathbf{E} = \mathbf{Z} - \hat{\mathbf{Z}}\)`.  If values in `\(\mathbf{E}\)` tend to be small in magnitude, `\(\hat{\mathbf{Z}}\)` is close to perfectly estimating `\(\mathbf{Z}\)`, meaning the model, `\(\mathbf{X}\)` is *good*.  If values are large, there is much **error** in the model's ability to estimate the data.
+
+.remark-code[.blue[Note that **transformed fitted values** are found as]] `\(\hat{\tilde{\mathbf{Z}}} = \tilde{\mathbf{X}}\hat{\boldsymbol{\beta}}\)`.
+
+.remark-code[.blue[Note that **transformed residuals** are found as]] `\(\tilde{\mathbf{E}} = \tilde{\mathbf{Z}} - \hat{\tilde{\mathbf{Z}}}\)`, where $\mathbf{Z}_{trans} = $
+
+Working with transformed fitted values and residuals is important for hypothesis testing.
 ---
 
-### What does a linear model do?
-
-**Regarding model error**
-6. A sums of squares and cross-products (SSCP) matrix, `\((\mathbf{S})\)`, can be used in a comparative way to assess if a model is good or better than alternatives.  This needs to be explored in more detail (next slide).
-7. A statistical assessment of a model requires calculating one or more `\(\mathbf{S}\)` matrices.  A statistical assessment involves associating a probability with an `\(\mathbf{S}\)` matrix, given a null hypothesis.
-8. An SSCP matrix is converted into a covariance matrix, `\(\hat{\boldsymbol{\Sigma}}\)`, as `\(\hat{\boldsymbol{\Sigma}} = df^{-1}\mathbf{S}\)`; i.e., all elements of `\(\mathbf{S}\)` are divided by **degrees of freedom**.  What the degrees of freedom are will make more sense soon.
-
----
 
 ### Let's pause to think about the alignment of data for linear models
 
@@ -1548,7 +1567,7 @@ All statistical steps take the form, `\(\mathbf{A}^T\mathbf{Z}\)`, but what `\(\
 
 ---
 
-### Residual covariance matrices
+### Residual covariance matrices (model error)
 
 + Residual covariance matrices are the engines that drive statistical analyses.  
 + Residual covariance matrices (or SSCP matrices) are used to estimate ANOVA and MANOVA statistics.
@@ -1562,99 +1581,6 @@ Presented this way, the algebra is less encumbered than the alternative way, sho
 + Degrees of freedom `\((df)\)` are typically `\(n-k\)`, where `\(n\)` is the number of observations and `\(k\)` is the number of parameters in the model (columns of `\(\mathbf{X}\)`).
 ---
 
-### A tale of two model alignments -- The same story for almost any linear model application
-
-Humans are intrinsically compelled to compare things.
-
-.pull-left[
-Is my model good?  **This is a horrible question to ask!**
-]
-
-.pull-right[
-Is my model good compared to a null model?  **This is a good question to ask!**
-]
-
---
-
-So what is a null model?  **A null model can take different forms and several null models can be used to entertain the properties of alternative models**  But every model has at least one null model that is estimated the same way: **the mean of the data**.
-
-**What is** ***the*** **null model?**
-
-.pull-left[
-+ `\(\mathbf{X}\)` is an `\(n \times 1\)` vector of 1s.
-+ `\(\hat{\boldsymbol{\beta}}\)` is a `\(1 \times p\)` vector of mean values of the `\(p\)` variables in `\(\mathbf{Z}\)`.
-+ `\(\hat{\mathbf{Z}} =\mathbf{HZ}\)` is the `\(n \times p\)` matrix of fitted values, where each row of this matrix is the vector of mean values.
-]
-.pull-right[
-+ `\(\tilde{\mathbf{E}}\)` is the matrix of transformed residuals, and `\(\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\tilde{\mathbf{E}}^T\tilde{\mathbf{E}}\)`.
-+ Why does `\(df = n-1\)`?  Because this is really `\(n-k\)`, where `\(k = 1\)`, the one parameter being the vector of 1s in `\(\mathbf{X}\)`.
-]
-
----
-
-### A tale of two model alignments -- The same story for almost any linear model application
-
-**What is** ***the*** **null model?**
-
-`\(\tilde{\mathbf{E}}\)` is the matrix of transformed residuals, and `\(\hat{\boldsymbol{\Sigma}} = (n-1)^{-1}\tilde{\mathbf{E}}^T\tilde{\mathbf{E}}\)`.
-
-**.blue[This is very important!!]**
-
-This is the basis for all model comparisons.  This is a model that suggests there are no explanatory parameters, and that estimating the mean is sufficient for predicting what a vector of values `\((\mathbf{z}^T)\)` should be for an entire population of data.  
-
-We can estimate the coefficients and fitted values for an alternative model, and compare covariance matrices.  The table shown next illustrates how this will be done.
-
----
-
-### A tale of two model alignments -- The same story for almost any linear model application
-
-|Null model|Comment|Alternative model|Comment|
-|--|---|--|---|
-| `\(\mathbf{X}_{null}\)` | This is a vector of 1s | `\(\mathbf{X}_{alt}\)` | This is a vector of 1s, plus one or more other parameters. |
-| `\(n-1\)` | The `\(df\)` for estimating the mean | `\(n-k\)` | The `\(df\)` for estimating the coefficients for all `\(k\)` parameters in the alternative model.|
-| `\((n-1)^{-1}\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null}\)` | The residual covariance matrix of null model. | `\((n-k)^{-1}\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt}\)` | The residual covariance matrix of alternative model. |
-
-A model comparison statistic compares these two residual covariance matrices:
-
-`$$\hat{\boldsymbol{\Sigma}}_{effect} = \left((n-1)-(n-k)\right)^{-1}(\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null} -\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt})$$`
-
-which is simplified to
-
-`$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null}  -\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt})$$`
----
-
-
-### A tale of two model alignments -- The same story for almost any linear model application
-
-This is a model comparison:
-
-`$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\tilde{\mathbf{E}}^T_{null}\tilde{\mathbf{E}}_{null}  -\tilde{\mathbf{E}}^T_{alt}\tilde{\mathbf{E}}_{alt})$$`
-
-It compares the residual variation between two models.  If the values are large, it suggests that error can be reduced by including additional parameters in the null model.  Thus, it measures the **effect** of adding additional parameters to the model.
-
-An algebraically equivalent way of obtaining the same result is:
-
-`$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}},$$`
-where `\(\Delta\tilde{\mathbf{H}} = \tilde{\mathbf{H}}_{alt} - \tilde{\mathbf{H}}_{null}\)`.  This looks like a comparison of fitted values, but is, in fact, a comparison of transformed fitted values, since we use `\(\Delta\mathbf{\tilde{H}}\)` rather than `\(\Delta\mathbf{H}\)` and `\(\mathbf{\tilde{Z}}\)` instead of `\(\mathbf{Z}\)`.  
-
-Nevertheless, what this illustrates is we can obtain transformed fitted values or transformed residuals, and the covariance matrix for the effect of adding parameters to a null model is found from the difference between commensurate matrices.
-
----
-### A tale of two model alignments -- The same story for almost any linear model application
-
-This is a model comparison:
-
-`$$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}},$$`
-
-Why go through all this algebra?  **Because a difference in model projections is a projection of model differences!**  Henceforth we can explain what `\(\Delta\mathbf{\tilde{H}}\)` means without having to go through this algebra again.  **We can know that `\(\Delta\mathbf{\tilde{H}}\)` means a difference in alignments of data because of alternative models that if is large in its effect on transformation of `\(\mathbf{Z}\)` suggests that the alternative model is a viable model for explanation of a biological phenomenon.**
-
-.remark-code[.red[
-If the preceding algebraic demonstration is daunting, please realize that `\(\Delta\mathbf{\tilde{H}\tilde{Z}}\)` can be loosely translated as an effect due to differences by model predictions.  In this way, when we talk about more complex models, `\(\Delta\mathbf{\tilde{H}\tilde{Z}}\)` is a prevailing concept.
-]]
-
-** `\(\Delta\mathbf{HZ}\)` .red[is the difference in model predictions and] `\(\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\Delta\mathbf{\tilde{H}\tilde{Z}})^T\Delta\mathbf{\tilde{H}\tilde{Z}}\)` .red[is the covariance matrix for the different predictions, the effect of adding parameters to the null model design.]**
-
----
 
 ### Finally, a linear model example.
 
@@ -1671,7 +1597,7 @@ The `procD.lm` function is a function that finds a linear model (`.lm`) using Pr
 
 .med[
 
-```r
+``` r
 data("plethShapeFood")
 GPA &lt;- gpagen(plethShapeFood$land, print.progress = FALSE)
 fit.null &lt;- procD.lm(coords ~ 1, data = GPA,
@@ -1690,7 +1616,7 @@ fit.alt &lt;- procD.lm(coords ~ log(Csize), data = GPA,
 
 .pull-left[.med[
 
-```r
+``` r
 as.matrix(fit.null$LM$X[1:10,])
 ```
 
@@ -1711,7 +1637,7 @@ as.matrix(fit.null$LM$X[1:10,])
 
 .pull-right[.med[
 
-```r
+``` r
 fit.alt$LM$X[1:10,]
 ```
 
@@ -1738,7 +1664,7 @@ fit.alt$LM$X[1:10,]
 
 .pull-left[.med[
 
-```r
+``` r
 coef(fit.null)
 ```
 
@@ -1758,7 +1684,7 @@ coef(fit.null)
 
 .pull-right[.med[
 
-```r
+``` r
 coef(fit.alt)
 ```
 
@@ -1792,7 +1718,7 @@ coef(fit.alt)
 
 .pull-left[.med[
 
-```r
+``` r
 fitted(fit.null)[1:5,]
 ```
 
@@ -1826,7 +1752,7 @@ fitted(fit.null)[1:5,]
 
 .pull-right[.med[
 
-```r
+``` r
 fitted(fit.alt)[1:5,]
 ```
 
@@ -1865,7 +1791,7 @@ fitted(fit.alt)[1:5,]
 
 .pull-left[.small[
 
-```r
+``` r
 Sigma.null &lt;- crossprod(fit.null$LM$residuals)/ (fit.null$LM$n - 
                                      ncol(fit.null$LM$X))
 Sigma.null
@@ -2039,7 +1965,7 @@ Sigma.null
 
 .pull-right[.small[
 
-```r
+``` r
 Sigma.alt &lt;- crossprod(fit.alt$LM$residuals)/ (fit.alt$LM$n - 
                                      ncol(fit.alt$LM$X))
 Sigma.alt
@@ -2224,7 +2150,7 @@ We can summarize the combined changes between the two matrices with,
 .pull-left[.small[.pre[
 *Constructing the covariance matrix for the effect from the residual covariance matrices*
 
-```r
+``` r
 sum(diag(Sigma.null * (fit.null$LM$n -ncol(fit.null$LM$X)) - 
            Sigma.alt * (fit.alt$LM$n -ncol(fit.alt$LM$X)))) / 
   (ncol(fit.alt$LM$X) - ncol(fit.null$LM$X))
@@ -2238,7 +2164,7 @@ sum(diag(Sigma.null * (fit.null$LM$n -ncol(fit.null$LM$X)) -
 .pull-right[.small[.pre[
 *Constructing the covariance matrix for the effect from the fitted values*
 
-```r
+``` r
 Sigma.effect &lt;- (crossprod(fitted(fit.alt) - fitted(fit.null))) /
   (ncol(fit.alt$LM$X) - ncol(fit.null$LM$X))
 sum(diag(Sigma.effect))
@@ -2256,7 +2182,7 @@ sum(diag(Sigma.effect))
 **Notice something familiar?**
 .pull-left[.small[.pre[
 
-```r
+``` r
 anova(fit.alt)
 ```
 
@@ -2282,21 +2208,21 @@ anova(fit.alt)
 
 .pull-left[.med[.pre[
 
-```r
+``` r
 summary(PLSallometry)
 ```
 
 ```
 ## 
 ## Call:
-## two.b.pls(A1 = GPA$Csize, A2 = GPA$coords, iter = 9999, print.progress = FALSE) 
+## two.b.pls(A1 = log(GPA$Csize), A2 = GPA$coords, iter = 9999,  
+##     print.progress = FALSE) 
 ## 
 ## 
 ## 
+## r-PLS: 0.8262
 ## 
-## r-PLS: 0.8293
-## 
-## Effect Size (Z): 5.56658
+## Effect Size (Z): 5.5256
 ## 
 ## P-value: 1e-04
 ## 
@@ -2327,7 +2253,7 @@ summary(PLSallometry)
 |---|---|---|---|
 |PCA| `\(\mathbf{I}\)` |Decompose|Find the principal vectors of variation in a multivariate data space, to best envision patterns of dispersion|
 |PLS| `\(\mathbf{Z}_{other}\)` |Decompose| Find the principal vectors of covariation between two data sets.  Statistical analysis is also possible by creating random distributions of correlation coefficients between principal scores.|
-|PACA| `\(\mathbf{\Omega}\)` |Decompose|Find the principal vectors of variation in a multivariate data space, constrained to be aligned with phylogenetic signal.  PACs might be similar to PCs if phylogenetic signal pervades shape differences.  PACs could be different if other sources of variation exist.|
+|PACA| `\(\boldsymbol{\Omega}\)` |Decompose|Find the principal vectors of variation in a multivariate data space, constrained to be aligned with phylogenetic signal.  PACs might be similar to PCs if phylogenetic signal pervades shape differences.  PACs could be different if other sources of variation exist.|
 |GLM| `\(\mathbf{H}\)` |Compare|Find the coefficients and fitted values of null and alternative models, and compare the alternative to the null to ascertain whether parameters are meaningful.|
 
 All of these purposes are helpful for inferential statistics, the more prominent theme in **Shape Statistics II**.
