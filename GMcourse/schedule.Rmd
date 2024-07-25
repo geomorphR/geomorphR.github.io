@@ -25,7 +25,7 @@ Daily Schedule of Activities
     + Laboratory Tutorial-Individual Research    
     + RRPP Extensions
     + Integration and Modularity 
-    + Missing Data 
+    + Missing Data and Shape Subcomponents
     + Laboratory Tutorial-Individual Research
     
 * Day 5
