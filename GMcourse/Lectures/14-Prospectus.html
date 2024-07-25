@@ -267,7 +267,7 @@ What about within-species variation that is not random?
 How can we account for it (or compare it across species)?
 ---
 
-## Current 2: Extended Phylogenetic Least Squares (E-PGLS) `\(^1\)`
+### Current 2: Extended Phylogenetic Least Squares (E-PGLS) `\(^1\)`
 
 + E-PGLS provide a bridge between micro- and macroevolutionary patterns
   + Can evaluate cross-species trends of trait covariation (univariate and multivariate) based on multiple individuals per species
@@ -282,7 +282,7 @@ How can we account for it (or compare it across species)?
 .footnote[1. Adams and Collyer (In Review)]
 ---
 
-## Current 2: E-PGLS: Procedure
+### Current 2: E-PGLS: Procedure
 
 + The E-PGLS model: `\(\mathbf{Z} = \mathbf{X}_S \hat{\mathbf{B}}_S + \mathbf{X}_X \hat{\mathbf{B}}_X + \mathbf{X}_{C_{X}}\hat{\mathbf{B}}_{C_{X}} + \mathbf{E}\)`
 
@@ -310,7 +310,7 @@ Adams and Collyer (In Review)
 
 ---
 
-## Current 2: E-PGLS: Simulations
+### Current 2: E-PGLS: Simulations
 
 .pull-left[
 
@@ -333,7 +333,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 
 ---
 
-## Current 2: E-PGLS: Example (pupfish SShD)
+### Current 2: E-PGLS: Example (pupfish SShD)
 
 
 &lt;img src="lectureData/14.prospectus/Fig3.png" width="80%" /&gt;
@@ -352,7 +352,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 &lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-13-1.png" width="35%" style="display: block; margin: auto;" /&gt;
 ---
 
-### 1: An Improved Procrustes Algorithm
+### Future 1: An Improved Procrustes Algorithm
 
 .pull-left[
 + Mathematically, GPA assumes that all landmarks are 'iid' (independent, and identically distributed) in terms of their error distribution
@@ -380,7 +380,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 + Neither of these conditions is considered by GPA, as it is OLS (=unweighted)
 ---
 
-### 1: Towards A Weighted Procrustes Algorithm
+### Future 1: Towards A Weighted Procrustes Algorithm
 
 + To this point (and for the past 25 years), we have conducted superimposition using GPA, which is an unweighted alignment
 
@@ -397,7 +397,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 + The algebra for this is well-established statistically, but the 'weighting' covariance matrix in this case is highly singular, causing mathematical difficulties
 ---
 
-### 1: Towards A Weighted Procrustes Algorithm
+### Future 1: Towards A Weighted Procrustes Algorithm
 
 .pull-left[
 + Some approximations have been proposed (e.g., Theobald and Wuttke 2006)
@@ -411,7 +411,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 ]
 ---
 
-### 2: Integration and Modularity: A Spatial Perspective
+### Future 2: Integration and Modularity: A Spatial Perspective
 
 + The past decade has seen a wonderful resurgence of interest in modularity and integration
 
@@ -430,7 +430,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 + Our perspective is to consider the **spatial** proximity of landmarks in developing a null model for integration and modularity tests
 ---
 
-### 2: Spatial Integration and Modularity
+### Future 2: Spatial Integration and Modularity
 
 .pull-left[
 + In ecology, data obtained from different geographic localities is expected to covary due to their *spatial proximity*
@@ -454,7 +454,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 ---
 
 
-### 2: Spatial Integration and Modularity
+### Future 2: Spatial Integration and Modularity
 
 .pull-left[
 + There are additional challenges with integration and modularity
@@ -477,7 +477,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 ###### Burns et al. (2023) *Evolution*.
 ---
 
-### 2: Spatial Integration and Modularity
+### Future 2: Spatial Integration and Modularity
 
 .pull-left[
 + There are additional challenges with integration and modularity
@@ -497,129 +497,163 @@ Method has appropriate type I error, power and empirical sampling distributions
 
 ---
 
-### 3: Multivariate Model Comparison
+### Future 3: Multivariate Model Comparison
 
 + The goal is to evaluate two or more models with different sets of parameters to determine if one is 'better' based on criteria quantifying the *fit* of the data to those models.
 
-+ Procedurally, model fit is often obtained using likelihood, and models are compared using likelihood ratio tests, or indexing measures of penalized likelihood (e.g., AIC). 
++ Procedurally, model fit is often obtained using likelihood:
 
-+ The following univariate data provides a simple example: 
+`$$\mathcal{L}(\hat{\beta}|\textbf{y}) = \frac{e^{-\frac{1}{2}( \textbf{y} - \mathbf{X}\hat\beta)^T\hat{\boldsymbol{\Sigma}}^{-1} ( \textbf{y} - \mathbf{X}\hat\beta)}}{\sqrt{2\pi^{np}|\hat{\boldsymbol{\Sigma}}|}}$$`
++ Likelihood ratio tests are then performed to compare models
+
+`$$-2\lambda_{LR}= -2*\frac{\mathcal{L}(\hat{\beta}_0|\textbf{y})}{\mathcal{L}(\hat{\beta}_1|\textbf{y})} \sim\chi^2$$`
+
+--
+
++ LRT-based hypothesis testing is what we've used throughout this workshop to evaluate linear models 
+
++ Possible shortcomings include: 
+  + Model overfitting (improper application can lead one to infer that an overly complicated model is best)
+  + LRT is commonly not used for non-nested models (though it can be: Vuong 1989; Lewis et al. 2011)
+
+
+---
+
+### Future 3: Multivariate Model Comparison
+
++ Models are also compared using indexing measures of penalized likelihood (e.g., AIC).
+
+`$$AIC = -2\mathcal{L}(\hat{\beta}|\textbf{y}) + 2[pk+0.5p(p+1)]$$`
+
++ Lower AIC values represent preferred models, with a cut-off typically stated as `\(\small\Delta_{AIC} &gt; 4\)` (for *univariate* data)
+
+--
+
++ AIC (and similar) measures represent a 'balance' between model fit and the number of parameters used
+
++ They are related to Kullback–Leibler information theory, and are a sort of 'distance'
+
++ Note that for multivariate data, the parameter penalty can become quite 'heavy')
+
+
+---
+
+### Model Comparison via RRPP-Based Effect Sizes
+
++ One can combine the strengths of LRT and AIC via RRPP-based effect sizes
+
+  + For each candidate model, `\(\mathcal{L}(\hat{\beta}|\textbf{y})\)` can be obtained
+  + RRPP may be used to generate an empirical sampling distribution of `\(\mathcal{L}(\hat{\beta}|\textbf{y})\)`
+  + An effect size, `\(Z\)`-score, may be calculated for each model
+
+--
+
++ Larger `\(Z\)`-scores imply a stronger strength of signal for that model
+
++ This is akin to a 'distance' of the candidate model relative to an intercept model: `\(Z \sim 1\)`
++ The model with the largest `\(Z\)`-score is the best model
++ NOTE: one can also perform two-sample comparisons of effect sizes (sensu Adams and Collyer 2016; 2019) to compare models
+
+---
+
+### Future 3: Multivariate Model Comparison: Example
+
++ Here is a simple (univariate: snake head size: CS) example using AIC: 
 
 
 
 .pull-left[
 
 ``` r
-fit.0&lt;-lm(Pupfish$logSize~1)
-fit.S&lt;-lm(Pupfish$logSize~Pupfish$Sex)
-fit.P&lt;-lm(Pupfish$logSize~Pupfish$Pop)
-fit.SP&lt;-lm(Pupfish$logSize~Pupfish$Sex+Pupfish$Pop)
-fit.Full&lt;-lm(Pupfish$logSize~Pupfish$Sex*Pupfish$Pop)
+f.0 &lt;- lm.rrpp(hs ~ 1, data = rdf)
+f.svl &lt;- lm.rrpp(hs ~ svl, data = rdf)
+f.sex &lt;- lm.rrpp(hs ~ sex, data = rdf)
+f.reg &lt;- lm.rrpp(hs ~ region, data = rdf)
+f.svl.reg &lt;- lm.rrpp(hs ~ svl + region, data = rdf, SS.type = "II")
+f.svl.by.reg &lt;- lm.rrpp(hs ~ svl * region, data = rdf, SS.type = "II")
 ```
 ]
 
 .pull-right[
 
 ``` r
-AIC(fit.0,fit.S,fit.P,fit.SP,fit.Full)
+model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "logLik")
 ```
 
 ```
-##          df       AIC
-## fit.0     2 -51.19887
-## fit.S     3 -65.17232
-## fit.P     3 -61.25937
-## fit.SP    4 -83.68154
-## fit.Full  5 -82.65729
+##                              logLik residual.pc.no penalty      AIC
+## 1                         -709.5568              1       4 1423.114
+## svl                       -705.0201              1       6 1416.040
+## sex                       -709.5201              1       6 1425.040
+## region                    -706.2789              1       8 1420.558
+## svl + region              -701.5571              1      10 1413.114
+## svl + region + svl:region -700.2760              1      14 1414.552
 ```
 ]
 
-+ Based on AIC, the best model is `\(\small{Size}={Sex}+{Pop}\)` 
++ Based on AIC, the best model is `\(\small{Size}={Sex}+{Region}\)` 
 
 ---
 
-### 3: Multivariate Model Comparison
+### Future 3: Multivariate Model Comparison: Example
 
-+ Note we can confirm this result using likelihood ratio tests (anova), since most of these are nested models.
-
-+ Unfortunately, while the above procedure potentially useful (for univariate data), this over-emphasizes the rank-order component of the process. That is, mentally we tend to think of models in a ranked list.  But is that how they are found in model space? 
++ Using likelihood ratio tests (anova), this model is also preferred
 
 .scrollable[
 
 ``` r
-anova(fit.Full)
+anova(f.svl.by.reg)
 ```
 
 ```
-## Analysis of Variance Table
 ## 
-## Response: Pupfish$logSize
-##                         Df  Sum Sq  Mean Sq F value    Pr(&gt;F)    
-## Pupfish$Sex              1 0.29130 0.291298 25.6202 6.006e-06 ***
-## Pupfish$Pop              1 0.26743 0.267428 23.5208 1.246e-05 ***
-## Pupfish$Sex:Pupfish$Pop  1 0.01037 0.010366  0.9117    0.3443    
-## Residuals               50 0.56849 0.011370                      
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type II 
+## Effect sizes (Z) based on F distributions
+## 
+##             Df      SS     MS     Rsq      F       Z Pr(&gt;F)   
+## svl          1  286392 286392 0.07945 9.5450 2.48962  0.003 **
+## region       2  207559 103779 0.05758 3.4588 1.75000  0.040 * 
+## svl:region   2   73442  36721 0.02038 1.2238 0.52435  0.314   
+## Residuals  101 3030455  30005 0.84074                         
+## Total      106 3604504                                        
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: lm.rrpp(f1 = hs ~ svl * region, SS.type = "II", data = rdf)
 ```
 ]
 
 ---
 
-### An Appeal to Geometry
+### Future 3: Multivariate Model Comparison: Example
 
-+ This week we've emphasized the 'dual' of algebra and geometry.  Typical model comparison focuses on the algebra: the fitting of models, the summarizing of models, and the comparison of those summaries. But what about the geometric side? Can we also visualize model space?
++ And now let's look at the effect sizes of the models:
 
-+ Below are plots for univariate data: first plotted directly along the number line. Then, plotted as a PCoA from the Euclidean distances among points:
 
-&lt;img src="LectureData/14.prospectus/ModelComp.png" width="80%" style="display: block; margin: auto;" /&gt;
+``` r
+model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "Z")
+```
 
-+ Apart from axis reflection, the plots are the same.  Also, only the first axis contains any variation in the data. This is as it should be: the dimensionality of a data space is: `\(\small\min({p,(n-1)})\)`
----
+```
+##                                    Z
+## 1                         -0.2679764
+## svl                        2.3502504
+## sex                       -0.8901494
+## region                     1.7070038
+## svl + region               2.8300695
+## svl + region + svl:region  2.6081491
+```
 
-### Visualizing Model Space
++ Again in this case, the model with the strongest signal is `\(\small{Size}={Sex}+{Region}\)` 
 
-+ We conjecture that **the dimensionality of a model space is: `\(\small\min({p,(m-1)})\)`** where *p* is the dimensionality of the data space and *m* is the number of models under consideration.
++ **Clearly, there is considerable work left to do to verify this new theoretical procedure, but the initial concept of using `\(Z\)`-scores from RRPP for model comparison is promising!** *Stay tuned...*
 
-+ For univariate data, model space is a single axis: models 'live' along the number line.  In this context, rank-ordered comparisons of models make sense: it is analogous to evaluating the distance between models.
 
-+ However, for multivariate data, model space will have higher dimensions. Thus, model differences exist both in the *magnitude* and the *direction* in this space. If correct, it is entirely possible that evaluating only the magnitude of model difference (i.e., the typical notion of model comarison) is at best incomplete.  The question is whether these conjectures of model space are accurate. For that we need a method of visualizing model space.  
 
-+ To arrive at a visualization of model space we need a summary measure comparing model fits, and one that is robust for high-dimensional data. 
-
-+ **That is where RRPP can come in**
----
-
-### Visualizing Model Space with RRPP
-
-+ **CAVEAT**: The following is tentative and is not a fully developed approach! We are exploring the underlying theory and specific implementation of how RRPP and derived `\(\small{z}\)`-scores may be used in multivariate model comparison. Treat this as illustrative only. *MUCH IS YET TO BE DEVELOPED!!!*
-
-+ Procedure
-  + 1: Identify set of potential models (set of H~1~) and the null (H~0~)
-  + 2: Obtain `\(\small{z}\)`-score for each H~1~ relative to H~0~ 
-  + 3: Estimate pairwise `\(\small{z}\)`-tests across models following Adams and Collyer (2016, 2019)
-  + 4: Assemble `\(\small{z}\)`-score matrix from 2 and 3     
-  + 5: Use PCoA to visualize model space 
----
-
-### RRPP Visualization of Model Space
-
-+ Here are two examples: one univariate the other multivariate (both the pupfish data): 
-
-&lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
-
-+ Both plots show model spaces, and each includes the null model (H~0~) against which the models are compared. Models further from H~0~ provide a better fit to the data.  **How that is to be formally evaluated has yet to be determined!!**
----
-
-### Unknowns: RRPP Approach to Model Comparisons
-
-+ Obviously the concept of using `\(\small{z}\)`-scores from RRPP for model comparison is exciting. However, considerable theoretical research is required to verify the approach, and the steps in its implementation. A partial list includes: 
-  +  1: Can we obtain a metric distance measure from `\(\small{z}\)`-scores?  The difference matrix used here is not metric, as there were negative eigenvalues. Having a metric distance for `\(\small{z}\)`-scores would allow one to confirm the conjecture as to the dimensionality of model space. 
-  + 2: What summary measures are used to statistically identify the best model? The `\(\small{z}\)`-test of Adams and Collyer (2016) *Evol.* could be considered, but if appropriate this would capture the magnitude of difference only.
-  + 3: What is the meaning of different directions in model space, and can one devise a summary test measure for comparing model directionality relative to H~0~? Obviously this question depends upon devising a `\(\small{z}\)`-score metric, as interpretation of directions requires a metric space 
-  + 4: Does the method generalize to GLS, or is it OLS specific? 
-
-+ **Clearly, there is considerable work left to do, but the initial concept of using `\(\small{z}\)`-scores from RRPP for model comparison is promising!** *Stay tuned...*
 
 
 

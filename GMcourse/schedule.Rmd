@@ -29,6 +29,7 @@ Daily Schedule of Activities
     + Laboratory Tutorial-Individual Research
     
 * Day 5
+    + Laboratory Tutorial-Individual Research  
     + Recent GMM Advances and Prospectus
     + Student Presentations
     

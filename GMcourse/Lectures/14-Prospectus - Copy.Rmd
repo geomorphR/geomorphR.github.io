@@ -623,36 +623,32 @@ $$AIC = -2\mathcal{L}(\hat{\beta}|\textbf{y}) + 2[pk+0.5p(p+1)]$$
 
 ### Future 3: Multivariate Model Comparison: Example
 
-+ Here is a simple (univariate: snake head size: CS) example using AIC: 
++ Here is a simple (univariate) example using AIC: 
 
 ```{r, echo = FALSE, eval = TRUE, fig.align = "center", out.width="50%"}
-snake<-read.csv("LectureData/14.prospectus/13-snake.csv",header=T)
-site<-as.factor(snake[,1])
-region<-as.factor(snake[,2])
-sex<-as.factor(snake[,3])
-svl<-snake[,4]
-hs<-snake[,5] # hs= head size, calculated as centroid size from lm
-rdf <- data.frame(svl = svl, hs = hs, sex = sex, site = site, region = region)
+data(Pupfish)
+Pupfish$logSize <- log(Pupfish$CS)
+pupfish.pc<-prcomp(Pupfish$coords)$x
+gps<-factor(paste(Pupfish$Sex,Pupfish$Pop))
 ```
 
 .pull-left[
 ```{r, echo = TRUE, eval = TRUE, fig.align = "center", out.width="50%"}
-f.0 <- lm.rrpp(hs ~ 1, data = rdf)
-f.svl <- lm.rrpp(hs ~ svl, data = rdf)
-f.sex <- lm.rrpp(hs ~ sex, data = rdf)
-f.reg <- lm.rrpp(hs ~ region, data = rdf)
-f.svl.reg <- lm.rrpp(hs ~ svl + region, data = rdf, SS.type = "II")
-f.svl.by.reg <- lm.rrpp(hs ~ svl * region, data = rdf, SS.type = "II")
+fit.0<-lm(Pupfish$logSize~1)
+fit.S<-lm(Pupfish$logSize~Pupfish$Sex)
+fit.P<-lm(Pupfish$logSize~Pupfish$Pop)
+fit.SP<-lm(Pupfish$logSize~Pupfish$Sex+Pupfish$Pop)
+fit.Full<-lm(Pupfish$logSize~Pupfish$Sex*Pupfish$Pop)
 ```
 ]
 
 .pull-right[
 ```{r, echo = TRUE, eval = TRUE, fig.align = "center", out.width="50%"}
-model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "logLik")
+AIC(fit.0,fit.S,fit.P,fit.SP,fit.Full)
 ```
 ]
 
-+ Based on AIC, the best model is $\small{Size}={Sex}+{Region}$ 
++ Based on AIC, the best model is $\small{Size}={Sex}+{Pop}$ 
 
 ---
 
@@ -662,7 +658,7 @@ model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "logL
 
 .scrollable[
 ```{r, echo = TRUE, fig.align = "center", out.width="50%"}
-anova(f.svl.by.reg)
+anova(fit.Full)
 ```
 ]
 
@@ -672,11 +668,19 @@ anova(f.svl.by.reg)
 
 + And now let's look at the effect sizes of the models:
 
-```{r, echo = TRUE, eval = TRUE, fig.align = "center", out.width="50%"}
-model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "Z")
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", out.width="50%"}
+fit.0<-lm.rrpp(Pupfish$logSize~1)
+fit.S<-lm.rrpp(Pupfish$logSize~Pupfish$Sex)
+fit.P<-lm.rrpp(Pupfish$logSize~Pupfish$Pop)
+fit.SP<-lm.rrpp(Pupfish$logSize~Pupfish$Sex+Pupfish$Pop)
+fit.Full<-lm.rrpp(Pupfish$logSize~Pupfish$Sex*Pupfish$Pop)
 ```
 
-+ Again in this case, the model with the strongest signal is $\small{Size}={Sex}+{Region}$ 
+
+comp.Z <- model.comparison(fit.0, fit.S, fit.P, fit.SP, fit.Full, type = "Z")
+summary(comp.Z)
+
++ Again in this case, the model with the strongest signal is $\small{Size}={Sex}+{Pop}$ 
 
 + **Clearly, there is considerable work left to do to verify this new theoretical procedure, but the initial concept of using $Z$-scores from RRPP for model comparison is promising!** *Stay tuned...*
 
