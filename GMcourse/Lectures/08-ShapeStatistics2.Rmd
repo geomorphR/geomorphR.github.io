@@ -74,7 +74,36 @@ The best way to to generate random distributions of statistics is to randomize r
 
 ---
 
-### Hypothesis testing for linear model effects
+### Hypothesis testing for linear model effects 
+
+**Some nomenclature**
+
+**Intercept**. A single parameter, as a vector of 1s, to estimate a mean in the absence of other parameters.
+
+**Parameter**.  A linear model parameter is any column of an $\mathbf{X}$ matrix.  
+
+**Coefficient**. An estimate of a population parameter that describes the change in response or dependent variable (in $\mathbf{Z}$) per one-unit change in a linear model parameter.
+
+**Term**.  Terms are collective parameters added to $\mathbf{X}$ that are used to model an effect.  For example, to estimate the *effect of population*, the term, `Population` might be added to a linear model comprising 8 parameters in $\mathbf{X}$, because there are 9 total populations for which to estimate means.
+
+**Effect**. The change in model estimates based on adding a term to a model.  Essentially, this is the change in fitted values (or residuals) as a result of adding parameters associated with a term to a null model.
+
+**Null hypothesis**. The starting position that adding a term to a null model does not change the estimates made by the null model, suggesting, therefore, that the additional parameters are not needed.
+---
+
+### Hypothesis testing for linear model effects (cont.)
+
+**Fitted values**. The estimates a linear model makes for the data from independent variables used to *train* the model.
+
+**Predicated value**. An estimate made with the coefficients from a linear model for data sampled from the same independent variables, but not necessarily the same data used to fit the model.
+
+**Residuals**. Values that express the difference between observed response or dependent variable data and estimates made from the linear model.  If observations are similar to estimates, residuals are small, and the model is considered "good".
+
+**Model comparison**. A technique used to compare the estimates made by competing models, in terms of how precise they are to match observations.  Model comparison is the basis for hypothesis testing.  If one model is much better at matching observations than another, the probability is high that its additional parameters are important, and some biological phenomenon is real.
+
+---
+
+### Hypothesis testing for linear model effects (cont.)
 
 A null hypothesis test is one that tests the independence of alternative model projections.  Null and alternative hypotheses can be thought of as this series of dichotomies (becoming increasingly more technical):
 
@@ -333,7 +362,7 @@ system.time(fit <- procD.lm(coords ~ log(CS), data = pupfish,
 
 ```
 
-Yup, that is 10,000 RRPP permutations in less than 1 second.  We will understand what happened soon.
+Yup, that is 10,000 RRPP permutations in less than 2 seconds.  We will understand what happened soon.
 ---
 
 ### Linear regression example
@@ -567,7 +596,7 @@ plotRefToTarget(ref, largefish)
 ### Linear regression example
 
 **Conclusions**
-+ Allometric shape variation is significant, $P = 0.0001$. Choose any statistic and associated $Z$... Allometric shape variation is also has a large effect size.
++ Allometric shape variation is significant, $P = 0.0001$. Choose any statistic and associated $Z$... Allometric shape variation also has a large effect size.
 + As fish increase in size, they become more deep-bodied, and their eye size increases at a slower rate than their body size.
 
 ---
@@ -1045,8 +1074,8 @@ Ultimately, if we add every possible factor for variation in our data to a model
 ### Multi-model comparisons
 
 + Let $\tilde{\mathbf{H}}_{mean}$ always be THE null model
-+ Let $\tilde{\mathbf{H}}_{reduced}$ be any model that serves as a null model for another alternative model.  It could be the null model or one that is lacking parameters compared to the alternative.
-+ Let $\tilde{\mathbf{H}}_{full}$ be any model that is compared to a reduced model, having some parameters that the reduced model lacks.
++ Let $\tilde{\mathbf{H}}_{reduced}$ be a model that serves as a null model for an alternative model.  It is either the null model or one lacking parameters in the alternative.
++ Let $\tilde{\mathbf{H}}_{full}$ be the alternative model, having some parameters the reduced model lacks.
 + Let the parameters that differ between $\tilde{\mathbf{H}}_{full}$ and $\tilde{\mathbf{H}}_{reduced}$ constitute a **.blue[TERM]** and let the coefficients estimated by the term constitute an **.red[EFFECT]**.
 
 |Term |Type I $\tilde{\mathbf{H}}_{reduced}$ | Type I $\tilde{\mathbf{H}}_{full}$ | Type II $\tilde{\mathbf{H}}_{reduced}$ | Type II $\tilde{\mathbf{H}}_{full}$ | Type III $\tilde{\mathbf{H}}_{reduced}$ | Type III $\tilde{\mathbf{H}}_{full}$ |
