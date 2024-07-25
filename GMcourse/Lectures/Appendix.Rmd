@@ -212,9 +212,13 @@ The following will be a pretty long list/table of possible statistics that can b
 
 The purpose is not to become quickly comfortable with them but to see that there are various statistics that can be used for various purposes.
 
-Examples will indicate statistics used and this list (**also in the appendix**) can be quickly referenced.
+Examples will indicate statistics used and this list can be quickly referenced.
 
-Focus more so on RRPP, what the null model is, how residuals are randomized, and how the opportunity to calculate these statistics is made.
+Focus more so on RRPP, what the null model is, how residuals are randomized, and how the opportunity to calculate these statistics is made.  Recall, a good way to state the null hypothesis is:
+
+$$\boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 } = \boldsymbol{\Theta}_{0},$$
+
+meaning a matrix or vector has an expectation of elements of 0, if estimation from the alternative model is no different than from the null model.  This is an unlikely event but a test can determine the probability that this event is so unlikely that it is unreasonable as a conclusion.
 ---
 
 ### Viable test statistics for evaluating null hypotheses

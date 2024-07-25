@@ -88,6 +88,21 @@ A null hypothesis test is one that tests the independence of alternative model p
 Every test of a null hypothesis must have a process of generating randomness under the null hypothesis.  For the case of linear models, RRPP is a good way to approximate true sampling distributions.
 
 ---
+### Hypothesis testing for linear model effects (cont.)
+
+We will use one general way of stating a null hypothesis.  This is unconventional but it is a simple and powerful approach.
+
+$$\boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 } = \boldsymbol{\Theta}_{0}$$
+
+Let $\boldsymbol{\Theta}$ be a **matrix (or vector) of contrasts between fitted values of two models**.  This is the same as a matrix (or vector) of contrasts between residuals of two models.  Basically, it is a difference of estimation between two models!
+
+Let $\boldsymbol{\Theta}_0$ be the expectation that the difference in estimation between models is a matrix or vector of 0s.  This is a way to say the two models tell us the same thing.  It is unlikely that this could be true, but if values are close to 0, it is likely the models are not that different.
+
+Let $\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0$ represent that the contrast between two models is a null model as the reference and an alternative model as the one with additional parameters.  Recall, $\tilde{\mathbf{H}}$ is the hat matrix that finds (transformed) fitted values of the data, based on a linear model.
+
+
+---
+
 ### Exchangeable units under a null hypothesis
 
 ***Have you ever wondered what parametric distributions are all about?***  You might have a comfort with them but have you thought about the pursuit of them?  They are a good proxy under certain conditions for probability distributions of random outcomes of a process applied to a null model (set of conditions that allow an observed statistics to exist but do not influence it).
@@ -106,7 +121,7 @@ Nevertheless, there is a simple way to consider the appropriateness of resamplin
 
 |Attribute|Meaning|
 |------|-----------|
-|First-moment exchangeability| The mean of the sample is the same with every permutation of the sample|
+|First-moment exchangeability| The mean of the sample is the same with every random permutation of the sample|
 |Second-moment exchangeability| The covariance matrix of the sample is the same in every random permutation of the sample.|
 
 For example, if we have 10 specimens from a phylogenetic clade with two ecotypes, we find the mean specimen shape as a null model and mean ecotype shapes as an alternative model, we might use a randomization procedure that randomly assigns specimens to ecotype and re-estimates the ecotype means many times.  **For OLS estimation, this method has first- and second-moment exchangeability,**  Why?  Because the overall mean and covariance matrix for the null model are the same in every random permutation.
@@ -136,9 +151,11 @@ Henceforth, only RRPP statistical solutions will be presented.
 
 2: Permute, $\small\mathbf{\tilde{E}}_{0}$: obtain pseudo-values as: $\small\mathbf{\mathcal{Z}} = \mathbf{\tilde{H}_{0}{\tilde{Z}}}_{0} + \mathbf{\tilde{E}}_{0}^*$
 
-3: Fit $\small\mathbf{X}_{alt}$ using $\small\mathbf{\mathcal{Z}}$: obtain coefficients, fitted values, residuals, residual covariance matrix, and the covariance matrix for adding parameters to $\small\mathbf{X}_{0}$ to get $\small\mathbf{X}_{alt}$.  We can call this later covariance matrix, $\hat{\boldsymbol{\Sigma}}_{effect}^*$, where the $^*$ superscript indicates this is a random value from a large set of random values.
+3: Fit $\small\mathbf{X}_{alt}$ using $\small\mathbf{\mathcal{Z}}$: obtain coefficients, fitted values, residuals.
 
-4: Calculate some statistic, $S$, consistently from either every  $\hat{\boldsymbol{\Sigma}}_{residuals}^*$ or $\hat{\boldsymbol{\Sigma}}_{effect}^*$ matrix estimated in every RRPP permutation.
+4: Obtain $\boldsymbol{\Theta}^{*}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$ by contrasting either fitted values or residuals between the null and alternative models. .remark-code[.blue[Generally, a covariance matrix is estimated from the cross-product of]] $\boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$ .remark-code[.blue[for linear model effects: $\hat{\boldsymbol{\Sigma}}_{effect}^*$, where the]] $^*$ .remark-code[.blue[superscript indicates this is a random value from a large set of random values.]]
+
+5: Calculate some statistic, $S$, consistently from either every  $\boldsymbol{\Theta}^{*}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$, $\hat{\boldsymbol{\Sigma}}_{residuals}^*$, or $\hat{\boldsymbol{\Sigma}}_{effect}^*$ matrix estimated in every RRPP permutation.
 
 .footnote[
 1: Collyer et al. *Heredity.* (2015); Adams & Collyer. *Evolution.* (2016); Adams & Collyer. *Evolution.* (2018)
@@ -149,9 +166,9 @@ Henceforth, only RRPP statistical solutions will be presented.
 
 **Steps for calculating statistics from RRPP**
 
-5: For $\small{n}$ permutations, $\small{P} = \frac{(S^* \geq S_{obs})}{n}$
+6: For $\small{n}$ permutations, $\small{P} = \frac{(S^* \geq S_{obs})}{n}$
 
-6: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
+7: Calculate *effect size* as a standard deviate of the observed value in a normalized distribution of random values (helps for comparing effects within and between models); i.e.:
 $$\small{Z} = \frac{
 \theta_{obs} - \mu_{\theta}
 } {
@@ -169,21 +186,21 @@ where $\mu$ and $\sigma$ are the expected value and standard deviation from the 
 .center[
 
 # Part II. Common Test Statistics
-
-## This is a reference section.
-
 ]
----
 
-### Viable test statistics for evaluating null hypotheses
+We are not going to go over the following in detail.  This is a snapshot of the same material in the Appendix.  The intention is to reveal how deep the scope of hypothesis testing can be.
 
-The following will be a pretty long list/table of possible statistics that can be estimated with RRPP.  
+Each statistic is used to test the null hypothesis, 
 
-The purpose is not to become quickly comfortable with them but to see that there are various statistics that can be used for various purposes.
+$$H_0: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 } = \boldsymbol{\Theta}_{0}$$
+With the alternative hypothesis,
 
-Examples will indicate statistics used and this list (**also in the appendix**) can be quickly referenced.
+$$H_A: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 } \neq \boldsymbol{\Theta}_{0}$$
+Most can converted to $H_0: S = 0$ and $H_A: S > 0$, respetively, for a statistic, $S$, which summarizes, $\boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$.
 
-Focus more so on RRPP, what the null model is, how residuals are randomized, and how the opportunity to calculate these statistics is made.
+**All of these statistics can be tested with RRPP.**
+
+The purpose is not to become quickly comfortable with them but to see that there are various statistics that can be used for various purposes.  Examples will indicate statistics used and this list (**also in the appendix**) can be quickly referenced.  Focus more so on RRPP, what the null model is, how residuals are randomized, and how the opportunity to calculate these statistics is made.
 ---
 
 ### Viable test statistics for evaluating null hypotheses
@@ -312,7 +329,7 @@ For each example, expect the following:
 library(geomorph)
 data("pupfish")
 system.time(fit <- procD.lm(coords ~ log(CS), data = pupfish,
-                iter = 9999))
+                iter = 9999, verbose = TRUE, turbo = FALSE))
 
 ```
 
@@ -348,7 +365,7 @@ coef(fit)[, 1:4]
 ```
 ]
 
-The coefficient provide an intercept and slope for each shape variable.  Thus, the row vectors of $\hat{\boldsymbol{\beta}}$ are $\mathbf{b}_0^T$, a vector of intercepts, and $\mathbf{b}_1^T$, a vector of slopes.  We can explicitly test their length to ascertain if the multivariate slope -- the change in shape associated with size -- is significant.
+The coefficients provide an intercept and slope for each shape variable.  Thus, the row vectors of $\hat{\boldsymbol{\beta}}$ are $\mathbf{b}_0^T$, a vector of intercepts, and $\mathbf{b}_1^T$, a vector of slopes.  We can explicitly test their length to ascertain if the multivariate slope -- the change in shape associated with size -- is significant.
 
 .med[
 $$H_0:d_{slope} = 0$$
@@ -366,7 +383,7 @@ $$\alpha = 0.05$$
 
 ```{r, echo = FALSE}
 fit <- procD.lm(coords ~ log(CS), data = pupfish,
-                iter = 9999, turbo = FALSE)
+                iter = 9999, verbose = TRUE, turbo = FALSE)
 ```
 
 
@@ -493,7 +510,7 @@ We will just keep doing this until it makes sense.
 .med[.center[
 ```{r, echo = TRUE, fig.height=4}
 plotAllometry(fit, size = pupfish$CS, logsz = TRUE,
-              method = "RegScore")
+              method = "RegScore", xlab = "log(CS)")
 ```
 ]]
 
@@ -853,6 +870,7 @@ The **.red[intercept]** establishes the location of the first group mean.  The t
 
 |Style|Null hypothesis|Alternative hypothesis|
 |---|----|-------|
+|Model contrast| $H_0: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} \vert\tilde{\mathbf{H}}_0 } = \boldsymbol{\Theta}_{0}$ | $H_A: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} \vert\tilde{\mathbf{H}}_0 } \neq \boldsymbol{\Theta}_{0}$ |
 |Statistic| $S = 0$ | $S > 0$ |
 |Concept | $H_0: \mu_1 = \mu_2 = ...$ | $H_A: \mu_1 \neq \mu_2$ or $\mu_1 \neq \mu_3$ or $\mu_2 \neq \mu_2...$|
 |In words | No group means are different | At least one group means differs from one other group mean.|
@@ -865,7 +883,7 @@ We will just do one ANOVA, using $F$ statistics and one MANOVA, using $\lambda_{
 
 ### Shape differences among groups, example
 
-.pull-left[.pre[.med[
+.pull-left[.pre[.small[
 ```{r, echo = TRUE}
 anova(fit)
 
@@ -912,10 +930,10 @@ Every shape mean appears to be unique, as each is significantly different from e
 
 Henceforth to keep things simple, we will present primarily hat matrices, e.g., 
 
-$$\mathbf{H}_{mean},$$
-$$\mathbf{H}_{allometry},$$
-$$\mathbf{H}_{group:means},$$
-recalling the $\mathbf{H}$ matrices find fitted values based on suites of parameters.  To test is group means are divergent, as in the last example, is a test of $\mathbf{H}_{mean}$ versus $\mathbf{H}_{group:means}$.
+$$\tilde{\mathbf{H}}_{mean},$$
+$$\tilde{\mathbf{H}}_{allometry},$$
+$$\tilde{\mathbf{H}}_{group:means},$$
+recalling the $\tilde{\mathbf{H}}$ matrices find (transformed) fitted values based on suites of parameters.  To test is group means are divergent, as in the last example, is a test of $\tilde{\mathbf{H}}_{mean}$ versus $\tilde{\mathbf{H}}_{group:means}$.
 
 
 
@@ -1015,7 +1033,7 @@ anova(fit2)
 
 ### Multi-model comparisons
 
-Biological hypotheses would be boring if they were always $\mathbf{H}_{mean}$ versus $\mathbf{H}_{something}$.
+Biological hypotheses would be boring if they were always $\tilde{\mathbf{H}}_{mean}$ versus $\tilde{\mathbf{H}}_{something}$.
 
 There are often multiple hypotheses for multiple levels of organization or multiple phenomena that could be considered.  Sometimes the organization is hierarchical, like female and male fish that could differ in shape, living in habitats that might impose also difference in shape.  Sometimes separate explanations might be relevant, like fish vary in shape as they vary with size or they vary in shape between habitats.
 
@@ -1026,12 +1044,12 @@ Ultimately, if we add every possible factor for variation in our data to a model
 ---
 ### Multi-model comparisons
 
-+ Let $\mathbf{H}_{mean}$ always be THE null model
-+ Let $\mathbf{H}_{reduced}$ be any model that serves as a null model for another alternative model.  It could be the null model or one that is lacking parameters compared to the alternative.
-+ Let $\mathbf{H}_{full}$ be any model that is compared to a reduced model, having some parameters that the reduced model lacks.
-+ Let the parameters that differ between $\mathbf{H}_{full}$ and $\mathbf{H}_{reduced}$ constitute a **.blue[TERM]** and let the coefficients estimated by the term constitute an **.red[EFFECT]**.
++ Let $\tilde{\mathbf{H}}_{mean}$ always be THE null model
++ Let $\tilde{\mathbf{H}}_{reduced}$ be any model that serves as a null model for another alternative model.  It could be the null model or one that is lacking parameters compared to the alternative.
++ Let $\tilde{\mathbf{H}}_{full}$ be any model that is compared to a reduced model, having some parameters that the reduced model lacks.
++ Let the parameters that differ between $\tilde{\mathbf{H}}_{full}$ and $\tilde{\mathbf{H}}_{reduced}$ constitute a **.blue[TERM]** and let the coefficients estimated by the term constitute an **.red[EFFECT]**.
 
-|Term |Type I $\mathbf{H}_{reduced}$ | Type I $\mathbf{H}_{full}$ | Type II $\mathbf{H}_{reduced}$ | Type II $\mathbf{H}_{full}$ | Type III $\mathbf{H}_{reduced}$ | Type III $\mathbf{H}_{full}$ |
+|Term |Type I $\tilde{\mathbf{H}}_{reduced}$ | Type I $\tilde{\mathbf{H}}_{full}$ | Type II $\tilde{\mathbf{H}}_{reduced}$ | Type II $\tilde{\mathbf{H}}_{full}$ | Type III $\tilde{\mathbf{H}}_{reduced}$ | Type III $\tilde{\mathbf{H}}_{full}$ |
 |---|---|---|---|---|---|---|
 |**Sex**|.blue[Mean]|.blue[Sex]|.red[Pop]|.red[Pop + Sex]|.green[Pop + Pop:Sex]| .green[Sex + Pop + Pop:Sex]|
 |**Pop**|.blue[Sex]|.blue[Pop + Sex]|.red[Sex]|.red[Pop + Sex]|.green[Sex + Pop:Sex]| .green[Sex + Pop + Pop:Sex]|
@@ -1109,7 +1127,7 @@ anova(fit.pop, fit.all)
 + Type III SSCPs might not seem to make a lot of sense on inspection but can be very helpful with linear mixed models (combination of fixed and random effects) $^1$.
 ]
 
-.footnote[1. Mixed effects in a linear model are beyond the scope of this workshop, but we could probably help someone with such needs in lab time.]
+.footnote[1. Mixed effects in a linear model are mostly beyond the scope of this workshop, but we could probably help someone with such needs in lab time.]
 ---
 ### Multi-model comparisons, not involving hypothesis tests
 
@@ -1213,119 +1231,6 @@ Be wary of AIC scores or the likelihoods that generate them when calculated at t
 The trace of a residual covariance matrix will be smaller if the model explains more variation.  Plotting it against the same parameter penalty used in AIC can be helpful for finding a .blue[parsimonious model].
 ---
 
-# RRPP extensions, a preview
-
-The analyses we have mostly done are analyses that are typical, facilitated by RRPP
-
-There are cases where RRPP offers the ability to find new statistical paradigms.  
-
-With the pupfish data, we will briefly explore three such cases before leaving these for a more formal treatment in **Lecture 11 RRPP Extensions**.
-
----
-
-### RRPP extensions: comparing allometric slopes, or other linear regressions, among groups
-
-First we have to fit a model that allows estimating of unique allometric trends.
-
-.med[
-```{r, echo = TRUE}
-fit <- procD.lm(coords ~ log(CS) * group, data = pupfish)
-anova(fit)
-```
-]
-
----
-
-### RRPP extensions: comparing allometric slopes, or other linear regressions, among groups
-
-Test the null hypotheses: $\theta_{12} = \theta_{13}=...$, where $\theta$ is the angle between group allometric vectors.
-
-.med[.scrollable[
-```{r, echo = TRUE}
-PW <- pairwise(fit, groups = group, covariate = log(pupfish$CS))
-summary(PW, test.type = "VC", angle.type = "deg")
-          
-```
-]]
-
----
-
-### RRPP extensions: comparing morphological disparity among groups
-
-First we have to fit a model that allows estimating group means.  ANOVA would just be a distraction
-
-.med[
-```{r, echo = TRUE}
-fit <- procD.lm(coords ~ group, data = pupfish)
-```
-]
-
----
-
-### RRPP extensions: comparing morphological disparity among groups
-Test the null hypotheses: $\sigma^2_{1} = \sigma^2_{2}=...$, where $\sigma^2$ is variance of points scattered around a group mean.  This is a measure of how variable in shape each group is.
-
-.pull-left[.med[.pre[
-```{r, echo = TRUE}
-PW <- pairwise(fit, groups = group) 
-summary(PW, test.type = "var")
-          
-```
-]]]
-
-.pull-right[
-The statistic used is $\lvert \hat{\sigma}^2_{1} - \hat{\sigma}^2_{2} \rvert$.
-
-**RRPP allows calculation of secondary statistics like these in every random permutation.**
-
-The residuals are residuals of the group means, not the overall mean.
-]
-
----
-
-### RRPP extensions: trajectory analysis
-
-Test the null hypothesis: $\lvert (\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2}) - (\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2})| = 0$
-
-Test the null hypothesis: $\theta_{(\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2}) : (\boldsymbol{\mu}_{A_1} - \boldsymbol{\mu}_{A_2})} = 0$
-
-For the pupfish data, this is a test for whether sexual dimorphism vectors -- vectors between male and female means -- differ in length and direction, respectively.  In other words, do the two populations have different patterns of sexual dimorphism?
-
----
-
-### RRPP extensions: trajectory analysis
-
-.pull-left[.med[
-```{r, echo = TRUE}
-fit <- procD.lm(coords ~ Pop * Sex, data = pupfish)
-TA <- trajectory.analysis(fit, groups = pupfish$Pop, 
-                          traj.pts = pupfish$Sex)
-summary(TA, attribute = "MD")
-```
-]]
-
-.pull-right[
-.med[
-```{r, echo = TRUE}
-
-summary(TA, attribute = "TC", angle.type = "deg")
-```
-]]
-
----
-
-### RRPP extensions: trajectory analysis
-
-**Comments**
-
-+ Sexual dimorphism can be thought of as a trajectory in the data space for two or more groups.  It is a trajectory with two points, in this case.  Other trajectories (e.g., developmental stages) can have more than two points.
-+ When there are more than two points, the attribute, shape, is also viable and can be tested for differences among groups.
-+ **RRPP allows calculation of secondary statistics like these in every random permutation.**
-+ The residuals are residuals of a model with main effect (Pop and Sex) but lacking interactions.  Trajectory analysis focuses only on the interactions.
-
-Trajectory analysis and analysis of disparity will be discussed in more detail in **Lecture 11: RRPP Extensions**. 
-
----
 
 ### The common threads in statistical analysis of shape
 
@@ -1342,5 +1247,13 @@ There have been a few common threads that pervade the analysis of GM data
 + **In all cases, $\mathbf{A}^T\mathbf{Z}$ is the starting point.  $\mathbf{Z}$ is the matrix of shape data.  Understanding what $\mathbf{A}$ is helps inform what the analysis intends to do.**
 + **In all cases that a $P$-value or $Z$-score is needed, RRPP is the workhorse for that.**
 
+---
 
+### Three parting comments
+
+1. Many lecture topics in this workshop are sort of an applied view of this one.  Lecture 11 (RRPP Extensions) is especially a "cool stuff we can do with linear models and RRPP" topic.
+
+2. It's okay if this is overwhelming.  *It gets easier by playing with real data, performing tests, interpreting results, and referring back to this lecture to "connect dots".*  This lecture is not intended as a pre-requisite of comprehension before entertaining any other topic.  It is intended as an oft-referenced source to help make other topics clear.
+
+3. If you can appreciate that every statistical analysis is a permutation of $\mathbf{A}^T\mathbf{Z}$ and every statistical test is an application of RRPP, using an appropriate null model, you are on your way to taking ownership of your data!
 
