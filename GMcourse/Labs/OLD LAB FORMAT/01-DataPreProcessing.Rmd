@@ -1,0 +1,83 @@
+---
+title: "Day-01: Data Pre-Processing"
+author: ""
+output: html_document
+---
+
+```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
+library(knitr)
+library(geomorph)
+opts_chunk$set(echo = TRUE)
+```
+
+## **Content Description**
+
+As with any quantitative data analysis, there are numerous 'pre-processing' steps that improve our morphometric analysis. Simply put, ensuring that one's data are of the highest quality provides the best chance of arriving at meaningful, and interpretable, biological patterns.  At all costs one wishes to avoid **GIGO**: 'garbage in-garbage out!
+
+While there are many considerations for ensuring high-quality data are obtained, many of these occur prior to data collection: selecting appropriate, well-preserved specimens, ensuring that images are taken in standard format, limiting parallax, etc.  However, once the data are collected, several additional steps may be necessary, or are advisable. Here we discuss two: estimating the positions of missing landmarks, and examining for potential outliers. 
+
+## **1: Missing Landmarks**
+
+#### NOTE: we will discuss this topic at length in our *Missing Data* lecture on Thursday!
+
+Sometimes, specimens are not fully intact, and are missing landmarks. Because geometric morphometric methods requires objects containing a complete set of landmarks, one must first estimate those landmarks prior to downstream analyses. 
+
+In `geomorph` the function `estimate.missing` allows for two approaches: estimating the locations of missing landmarks based on the thin-plate spline, and based on multivariate regression (for details see **Missing Data Lecture**). In `geomorph` missing landmarks should be designated using `NA` in place of their x,y,(z) coordinates.
+
+### Missing Landmarks: Simple example
+
+To illustrate the approaches, here we will create some missing data and estimate their landmark locations using `estimate.missing`: 
+
+```{r eval=TRUE,out.width="70%"}
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
+plethland<-Y.gpa$coords
+  plethland[3,,2]<-plethland[8,,2]<-NA  #create missing landmarks
+  plethland[3,,5]<-plethland[8,,5]<-plethland[9,,5]<-NA  
+  plethland[3,,10]<-NA  
+```
+
+Here, specimens #3, #8, and #10 are missing one or more landmarks. Now let's estimate them using both the TPS and regression procedures:
+
+```{r eval=TRUE,out.width="70%"}
+new.tps <- estimate.missing(plethland,method="TPS")
+new.reg <- estimate.missing(plethland,method="Reg")
+```
+
+Finally, let's visually compare one of these to the original, and see how 'far' they are using $D_{Proc}$. 
+
+```{r eval=TRUE,out.width="90%"}
+#plots
+par(mfrow=c(1,2))
+plotRefToTarget(Y.gpa$coords[,,3],new.tps[,,3],links=plethodon$links)
+mtext("TPS: Original #3 --> Estimated TPS")
+plotRefToTarget(Y.gpa$coords[,,3],new.reg[,,3],links=plethodon$links)
+mtext("TPS: Original #3--> Estimated Regression")
+par(mfrow=c(1,1)) 
+
+dist(rbind(as.vector(Y.gpa$coords[,,3]),as.vector(new.tps[,,3])))
+dist(rbind(as.vector(Y.gpa$coords[,,3]),as.vector(new.reg[,,3])))
+```
+
+## **2: Identifying Outliers**
+
+Another important pre-processing step is the identification of potential outliers. While some extreme shapes in a sample may be biological, others are due to digitizing errors. The function `plotOutliers` provides a means of quickly identifying outliers for further inspection.
+
+As a simple example, here we generate some outliers and subsequently identify them: 
+
+```{r eval=TRUE}
+# Let's first make some outliers
+newland <- plethodon$land
+newland[c(1,8),,2] <- newland[c(8,1),,2]  #landmarks digitized 'out of order'
+newland[c(3,11),,26] <- newland[c(11,3),,2] #ditto
+Y <- gpagen(newland, print.progress = FALSE) 
+```
+
+Now we inspect for outliers
+```{r eval=TRUE}
+plotOutliers(Y$coords, inspect.outliers = T)
+``` 
+
+As seen above, the function plots Procrustes distances ($\small{D}_{Proc}$) of all specimens relative to the mean. Large values are flagged as potential outliers, which can be subsequently inspected. 
+
+Notice that landmark plots of the outliers relative to the mean show the problem. Several landmarks were digitized out of order. We can now go back and correct our data prior to downstream analyses. 

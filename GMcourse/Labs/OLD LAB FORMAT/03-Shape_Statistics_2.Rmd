@@ -1,0 +1,199 @@
+---
+title: "Day-03. Shape Statistics II"
+subtitle: "GLM, ANOVA, MANOVA, Model Comparisons"
+author: ""
+output: html_document
+---
+
+## **Content Description**
+
+In `geomorph`, the main function for linear models. is `procD.lm`.  This module focuses less on most of the results `procD.lm` produces, but focuses more on model comparisons made available by `anova`, `maonova.update`, and `comprae.models`.
+
+### Set up
+
+```{r eval=TRUE}
+library(geomorph)
+data(pupfish) # GPA already performed
+```
+
+As a preliminary step, let's fit 10 different models with these data.
+
+```{r}
+
+fit0 <- procD.lm(coords ~ 1, 
+                 data = pupfish, iter = 999)
+fit1 <- procD.lm(coords ~ log(CS), 
+                 data = pupfish, iter = 999)
+fit2 <- procD.lm(coords ~ Sex, 
+                 data = pupfish, iter = 999)
+fit3 <- procD.lm(coords ~ Pop, 
+                 data = pupfish, iter = 999)
+fit4 <- procD.lm(coords ~ log(CS) + Sex, 
+                 data = pupfish, iter = 999)
+fit5 <- procD.lm(coords ~ log(CS) + Pop, 
+                 data = pupfish, iter = 999)
+fit6 <- procD.lm(coords ~ log(CS) * Sex, 
+                 data = pupfish, iter = 999)
+fit7 <- procD.lm(coords ~ log(CS) * Pop, 
+                 data = pupfish, iter = 999)
+fit8 <- procD.lm(coords ~ Sex * Pop, 
+                 data = pupfish, iter = 999)
+fit9 <- procD.lm(coords ~ log(CS) + Sex*Pop, 
+                 data = pupfish, iter = 999)
+fit10 <- procD.lm(coords ~ log(CS) * Sex*Pop, 
+                  data = pupfish, iter = 999)
+
+```
+
+## Review model parts
+
+
+Model that estimates a mean.  $\mathbf{X}$ is a vector of 1s and $\hat{\boldsymbol{\beta}}$ is a vector of mean values for each variable.
+
+```{r}
+# Model with just a mean
+
+model.matrix(fit0)
+coef(fit0)
+```
+
+Model that estimates an intercept and a slope.  $\mathbf{X}$ comprises a vector of 1s and a vector of $\log CS$.  The coefficients comprise a (row) vector of intercept values and a (row) vector of slopes.
+
+```{r}
+# Linear regression model
+
+model.matrix(fit1)
+coef(fit1)
+```
+
+Models that estimates group means.  $\mathbf{X}$ comprises a vector of 1s and a vector of a dummy variable.  The coefficients comprise a (row) vector of intercept values and a (row) vector of slopes.  However, the intercept is one group mean and the slopes are the changes from mean to another, by variable.
+
+```{r}
+# Simple single-factor models
+
+model.matrix(fit2)
+coef(fit2)
+model.matrix(fit3)
+coef(fit3)
+```
+
+
+## How fitted values are obtained.
+
+Let's look at this in with just the first 4 variables, so it is easy to visualize
+
+What the unique value of a model matrix look like:
+
+```{r}
+unique(model.matrix(fit2))
+```
+
+Multiply just these unique states by the coefficients.
+```{r}
+unique(model.matrix(fit2)) %*% coef(fit2)[,1:4]
+```
+
+Now see how that is replicated for every of $n$ observations
+
+```{r}
+model.matrix(fit2) %*% coef(fit2)[,1:4]
+```
+
+Should be the same as what `R` gives us if we just ask.
+
+```{r}
+fitted(fit2)[, 1:4]
+```
+
+# ANOVA
+
+The following is a reminder of how ANOVA can do multiple model comparisons, using $R^2$ and $F$ as statistics for RRPP.
+
+```{r}
+anova(fit8, effect.type = "Rsq")
+anova(fit8, effect.type = "F")
+```
+
+In case there is some confusion on the model comparisons performed.
+
+```{r}
+reveal.model.designs(fit8)
+```
+
+
+# MANOVA
+
+
+The following is how MANOVA stats can be calculated, by updating the previous model.
+
+```{r}
+fitm <- manova.update(fit8, print.progress = FALSE)
+```
+
+Note that MANOVA statistics were simply appended to previous results.
+
+```{r}
+attributes(fit8)
+attributes(fitm)
+```
+
+MANOVA summaries are provided with the `summary` function.
+
+```{r}
+summary(fitm)
+summary(fitm, test = "Pillai")
+```
+
+
+# Pairwise comparisons, group means
+
+Knowing means are different from ANOVA and MANOVA, it might be advisable to entertain which are different.
+
+```{r}
+group <- interaction(pupfish$Pop, pupfish$Sex)
+PW <- pairwise(fit8, groups = group)
+
+```
+
+Two ways to view the same results:
+```{r}
+summary(PW)
+summary(PW, stat.table = FALSE)
+```
+
+It is difficult to recommend how to use `summary.pairwise` until you get into the weeds with your own data.  `?pairwise` and `?summary.pairwise` will be helpful for finding ways to get into trouble, but getting out of trouble is elucidative for how to handle your data.
+
+The next example shows how to compare slope vectors, which is more involved.
+
+# Pairwise comparisons, group slopes
+
+This example uses a model that allows for unique slopes among groups.  See if it makes sense how to estimate group-specific shape change  For example, which group would this vector, predict?  $\mathbf{x}^T = \begin{bmatrix} 1 & \log \bar{CS} &1 &0 & \log \bar{CS} & 0 & 0 & 0\\ \end{bmatrix}$
+
+```{r}
+coef(fit10)[, 1:2]
+```
+
+Notice below how we set up the pairwise object differently.
+
+```{R, eval = FALSE}
+group <- interaction(pupfish$Pop, pupfish$Sex)
+PW <- pairwise(fit10, groups = group, 
+               covariate = log(pupfish$CS))
+```
+
+We have to be very careful with the summary.  This summary probably does not make much sense:
+```{r}
+summary(PW)
+```
+
+These find the angle difference between the slopes of the groups.
+```{r}
+summary(PW, test.type = "VC")
+summary(PW, test.type = "VC", angle.type = "deg")
+```
+
+These find the difference between the length of the slope vectors (difference in the amount of shape change).
+```{r}
+summary(PW, test.type = "DL")
+
+```

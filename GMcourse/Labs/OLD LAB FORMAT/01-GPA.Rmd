@@ -1,0 +1,34 @@
+---
+title: "Day-01: GPA: Generalized Procrustes Analysis"
+author: ""
+output: html_document
+---
+
+## **Content Description**
+
+Generalized Procrustes Analysis (GPA) aligns our landmark configurations to a common coordinate system, and allows us to extract shape (and size) data from them. The function `gpagen` performs this procedure. Here we demonstrate its use for landmark data: 
+
+## **Performing GPA Superimposition**
+
+```{r eval=TRUE}
+library(geomorph)
+data(plethodon)
+pleth.gpa <- gpagen(plethodon$land, print.progress = F)
+summary(pleth.gpa)
+```
+
+Using `summary` provides us with a general description of the analysis we performed. Additionally, there are quite a few components to our GPA object: the most important of which are `$coords` and `$Csize`$
+
+```{r eval=TRUE}
+attributes(pleth.gpa)
+```
+
+
+## **Plotting GPA-Aligned Specimens**
+
+```{r eval=TRUE}
+plot(pleth.gpa)
+plotAllSpecimens(pleth.gpa$coords, links = plethodon$links)
+```
+
+Use of `plot.param` can facilitate additional flexibility (change point or link colors, thickness, etc.)

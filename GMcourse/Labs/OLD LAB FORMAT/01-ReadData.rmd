@@ -1,0 +1,98 @@
+---
+title: "Day-01: Reading Data"
+author: ""
+output: html_document
+---
+
+## **Content Description**
+
+In addition to reading in data digitized in `StereoMorph` (see 01.1-Digitizing-Stereomorph) you may need to read in other types of GM-related files, or other files containing information about your specimens. Below are some basic instructions on how to do that.
+
+`Geomorph` has several built-in functions to read landmark data files. Additionally, one can use standard IO functions in R to read in a text file. `Geomorph` also has the ability to digitize 2D or 3D data. For 3D, one can read in a 3D image in the form of a PLY file. 
+
+## **Read in Data from StereoMorph Files**
+
+In the previous lab, we learned how to digitize using `StereoMorph`. Here we take those datafiles and read them into geomorph using the `readShapes` function in `StereoMorph` combined with the `readland.shapes` function in `geomorph`. The result is an geomorphShapes object which may be used in downstream GM analyses. 
+
+```{r eval=TRUE}
+library(geomorph)
+library(StereoMorph)
+myShapes <- readShapes("Data/Fish-Shapes-ex")
+mydata <- readland.shapes(myShapes)
+
+mydata$landmarks$Fish1
+
+```
+
+---
+
+#### **Important detail!** Specimens with missing data can still be read using the procedure above. In these cases, the landmark values will be replaced with `NA`, and can be estimated in subsequent data-processing steps using `estimate.missing`.
+
+---
+
+## **Read Landmark Data from Other Files**
+
+In addition to StereoMorph files, several other standard file formats are used to store GM data. Two of the more common file types are tps and nts files. These are text files that succinctly store landmark data in various types of matrices (open them in a text editor to gain simple understanding of the files). These were originally developed for the TPS series of software, and the statistics package NTSYS: hence their extension names. Geomorph provides functions to read in these type of files. 
+
+tps files have an inherent structure similar to the 3d-array data structure used in geomorph; whereas nts files correspond to a structure similar to two.d.arrays in geomorph. In both cases, data are read-in as a 3d-array. You can open both types of files in a text editor to get familiar with their structure. To read them into geomorph, use the corresponding functions: `readland.tps` and `readland.nts`.
+
+## **Read Landmark Data from tps Files**
+
+```{r eval=TRUE}
+mydata <- readland.tps("Data/salamanders.tps")
+str(mydata)
+dim(mydata)  # file contains 287 specimens with 12 landmarks each of 2D data
+mydata[,,1]
+
+mydata <- readland.tps("Data/salamanders.tps", specID="imageID") # Specify specimen labels
+str(mydata)
+mydata[,,1:2]
+```
+
+#### **Important detail!** With tps files, missing data may be coded by using negative numbers for the landmarks. In these cases, `readland.tps` will prompt the user to determine whether the negative values are actual landmark coordinates, or whether they represent missing data. In the latter case, the landmark values will be replaced with `NA`, and can be estimated in subsequent data-processing steps using `estimate.missing`.
+
+## **Read Landmark Data from nts Files**
+
+```{r eval=TRUE}
+mydata <- readland.nts("Data/RATS.nts")
+str(mydata)
+mydata[,,1]
+```
+
+## **Read Landmark Data from Morphologika Files**
+
+Another file type that is sometimes encountered is a Morphologika file; developed for the Morphologika package. One can read these files using `geomorph` also, using the function `read.morphologika`:
+
+```{r eval=TRUE}
+mydata <- read.morphologika("Data/mophologikaexample.txt")
+str(mydata)
+dim(mydata$coords)
+mydata$coords[,,1]
+```
+
+## **Read 3D image (PLY file)**
+
+Sometimes, we may wish to digitize directly from 3D images. These come in the form of ply files, and `geomorph` has the ability to read, and then digitize such images.
+
+```{r eval=TRUE}
+new <- read.ply("Data/Mandible.ply")
+str(new)
+```
+
+## **Read in text file (for landmarks or other variables)**
+
+Finally, one may have additional data, covariates, or other specimen information that one wishes to read into R for downstream analyses. As we are working in the R environment, one is free to do so using a variety of `read` functions. Below we provide an example for a data matrix, and a phylogeny:
+
+```{r eval=TRUE, fig.height=10, fig.width=10}
+food <- read.csv("Data/food.csv", header=TRUE, row.names=1)
+str(food)
+food[1:2,]
+
+library(ape)
+mytree <- read.tree("Data/plethtree.tre")
+plot(mytree)
+```
+
+
+
+

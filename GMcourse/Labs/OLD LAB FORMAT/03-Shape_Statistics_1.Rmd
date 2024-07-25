@@ -1,0 +1,266 @@
+---
+title: "Day-03.  Shape Statistics I"
+subtitle: "PCA, PLS, PACA"
+author: ""
+output: html_document
+---
+
+## **Content Description**
+
+In `geomorph`, several functions allow analysis of shape covariation with other matrices, which contain data or parameters.  The table below indicate functions that are frequently used, plus what the types of analysis they tend to perform.
+
+|Function|Alignment|Notes|
+|---|-------|---------|
+|`gm.prcomp`|Identity matrix or phylogenetic covariance matrix| This function is a wrapper for the `RRPP::ordinate` function, which allows alignment to any kind of matrix.  `gm.prcomp` only aligns data to an identity matrix (PCA) or phylogenetic covariance matrix (PACA), but has options for transforming data or choosing between GLS or OLS estimation.|
+|`two.b.pls`|Any alternative matrix|  This is a basic function that allows any two data matrices (or vectors) to be input, but a covariance matrix or matrix of model parameters could also be used.|
+|`integration.test`|A portion of shape data| This is basically the same as `two.b.pls` used for comparison of two subsets of shape data.  It will perform the partitioning of data. **This function is deferred to the module on integration and modularity.**|
+|`phylo.integration`|A portion of shape data| This is basically the same as `integration.test` but transforms data based on phylogenetic covariances. **This function is deferred to the module on integration and modularity.**|
+
+### Set up
+
+```{r eval=TRUE}
+library(geomorph)
+data(plethspecies)
+Y.gpa <- gpagen(plethspecies$land, print.progress = FALSE)
+plot(Y.gpa)
+```
+
+# Principal component analysis (PCA)
+
+PCA is the same as an alignment of data to an identity matrix (independence).  This is an unconstrained alignment.  SVD finds principal components (eigenvectors) and singular values that can be transformed into eigenvalues.  In `gm.prcomp`, the set-up is pretty straightforward.
+
+```{r}
+PCA <- gm.prcomp(Y.gpa$coords, phy = plethspecies$phy,
+                 align.to.phy = FALSE,
+                 GLS = FALSE)
+```
+
+A summary will provide basic information about the strength of components.
+
+```{r}
+summary(PCA)
+```
+
+The loadings are found in the rotation matrix.
+
+```{r}
+
+PCA$rot 
+```
+
+Centered data are inherently projected onto PCs, which can be plotted as scores.
+
+```{r}
+PCAplot <- plot(PCA, pch = 16, phylo = TRUE)
+
+```
+
+This can be done for interactive plotting:
+```{r, eval = FALSE}
+# Explore shape change in the plot
+picknplot.shape(PCAplot)
+picknplot.shape(PCAplot, mag = 3)
+```
+
+In case one wishes to use results for other reasons:
+```{r}
+attributes(PCA)
+```
+
+Note that the result provide `d`, not "eigenvalues".  These are the singular values, which `gm.prcomp` transforms to eigenvalues.  This is verified below.
+
+```{r}
+PCA$d
+
+eigen(var(PCA$x), only.values = TRUE)$values
+
+```
+
+Note also that some results won't be available, e.g.,
+```{r}
+PCA$RV
+```
+
+# Phylogenetically aligned component analysis (PACA)
+
+PACA aligned data with a phylogenetic covariance matrix rather than an identity matrix.  
+
+```{r}
+PACA <- gm.prcomp(Y.gpa$coords, phy = plethspecies$phy,
+                 align.to.phy = TRUE,
+                 GLS = FALSE)
+summary(PACA)
+```
+
+In the summary above, the dispersion statistics can be compared to PCA.  It should be clear that the tips dispersion (which for PCA is the same as portion of eigenvalue sum) is larger for PCA but the dispersion of estimate ancestral values is large for PACA, in the first component.
+
+Some other typical steps:
+
+```{r}
+PACA$rot # loadings
+PACAplot <- plot(PACA, pch = 16, phylo = TRUE)
+```
+
+And how to do interactive plotting:
+```{r, eval = FALSE}
+# Explore shape change in the plot
+picknplot.shape(PACAplot)
+picknplot.shape(PACAplot, mag = 3)
+```
+
+# phylo-PCA
+
+Phylo-PCA is a little interesting in that it aligns data to an identity matrix that has been transformed.  The data are transformed for alignment but not projection.  Therefore, the ordination looks like a rotation of the data space, specifically to minimize alignment to phylogeny in the first component.
+
+```{r}
+
+pPCA <- gm.prcomp(Y.gpa$coords, phy = plethspecies$phy,
+                  align.to.phy = FALSE,
+                  GLS = TRUE)
+summary(pPCA)
+pPCA$rot # loadings
+pPCAplot <- plot(pPCA, pch = 16, phylo = TRUE)
+```
+
+Notice the difference in dispersion of ancestral points in the summary above, compared to PACA.  Interactive plotting can be done as follows:
+
+```{r, eval=FALSE}
+# Explore shape change in the plot
+picknplot.shape(pPCAplot)
+picknplot.shape(pPCAplot, mag = 3)
+```
+
+**To summarize**: PCA, performed with OLS estimation and no adjustment for phylogeny, find the maximum dispersion of tip taxa along the first component.  PACA finds the maximum dispersion of ancestor values along the first component.  pPCA finds a first component most independent of phylogeny.
+
+# Partial least-squares (PLS)
+
+PLS aligns shape data or a portion of it to alternative data sets, or alternative portions of the data.  We will consider three examples, with the `plethShapeFood` example data.
+
+```{r}
+data("plethShapeFood")
+Y.gpa <- gpagen(plethShapeFood$land,
+                print.progress = FALSE,)
+food <- plethShapeFood$food
+rownames(food) <- names(Y.gpa$Csize) # just to assure match
+
+PLSfood <- two.b.pls(food, Y.gpa$coords, 
+                     print.progress = FALSE,
+                     iter = 9999)
+PLSallometry <- two.b.pls(Y.gpa$Csize, Y.gpa$coords,
+                          print.progress = FALSE,
+                          iter = 9999)
+PLSintegration <- two.b.pls(Y.gpa$coords[1:5,, ], 
+                            Y.gpa$coords[8:13,,], 
+                            print.progress = FALSE,
+                            iter = 9999)
+```
+
+It is a good idea to look at the results that are available, at least using one example:
+
+```{r}
+attributes(PLSfood)
+```
+
+Loadings:
+```{r}
+PLSfood$left.pls.vectors
+PLSfood$right.pls.vectors
+```
+
+Now let's summarize the statistical results.
+
+```{r}
+summary(PLSfood)
+summary(PLSallometry)
+summary(PLSintegration)
+```
+
+
+As an example, if we wished to look at the distribution made by RRPP, we could so something like the following.
+
+```{r}
+hist(PLSfood$random.r, breaks = 50, 
+     col = "olivedrab1", 
+     main = "Sampling distribution of r")
+abline(v = PLSfood$r.pls, lwd = 2, col = "skyblue4")
+```
+
+Or we might make scatter plots between first PLS scores
+
+```{r}
+foodPlot <- plot(PLSfood)
+allomPlot <- plot(PLSallometry)
+integPlot <- plot(PLSintegration)
+```
+
+Each plot above can be explored interactively with `picknplot.shape`.
+
+Finally, we can compare statistically the three PLS effect sizes.
+
+```{r}
+compare.pls(PLSfood,
+            PLSallometry,
+            PLSintegration)
+```
+
+# Generalized Linear Model (GLM)
+
+GLM is discussed in more detail in **Shape Statistics II**.  In this module we become a little acquainted with it.  The `procD.lm` function wraps the `RRPP::lm.rrpp` function, making sure to format 3D arrays of coordinates in the process.
+
+We will fit two simple models with the same data use in the PLS analyses.
+
+```{r}
+fit.null <- procD.lm(coords ~ 1, data = Y.gpa,
+                     iter = 9999)
+fit.alt <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    turbo = FALSE, iter = 9999)
+```
+
+Note that there are some options for speeding up analysis with large data sets.
+
+```{r}
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = FALSE, Parallel = FALSE))
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = TRUE, Parallel = FALSE))
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = FALSE, Parallel = TRUE))
+system.time(fit <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    iter = 9999, turbo = FALSE, Parallel = TRUE))
+```
+
+We will need coefficients in every RRPP permutation (`turbo=FALSE`), so the previous results will suffice.
+
+Let's look at some of the linear model parts
+
+```{r}
+model.matrix(fit.null)
+coef(fit.null)
+fitted(fit.null)
+resid(fit.null)
+
+model.matrix(fit.alt)
+coef(fit.alt)
+fitted(fit.alt)
+resid(fit.alt)
+```
+
+The coefficients in the alternative model could be tested with the following code.
+
+```{r}
+coef(fit.alt, test = TRUE)
+```
+
+We can also perform ANOVA, e.g., 
+
+```{r}
+anova(fit.null, fit.alt, print.progress = FALSE)
+anova(fit.alt)
+```
+
+
+Looking at the attributes below, what might also be work exploring?
+```{r}
+attributes(fit.alt)
+```
+
