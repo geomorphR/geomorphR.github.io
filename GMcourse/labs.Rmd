@@ -19,5 +19,8 @@
 
 ### Day 5: Tutorial
 
+- [R-Based Review of Day 4 Material](https://geomorphR.github.io/GMcourse/Labs/04-Day4Material.html)
+- [Day 4 R-script](https://geomorphR.github.io/GMcourse/Labs/04-Day04-RCode.R)
+
 ### Example data for Workshop (can be cloned, pulled, or files downloaded)
 [Link to Data Repository](https://github.com/geomorphR/geomorphR.github.io/tree/main/GMcourse/Labs/Data)
