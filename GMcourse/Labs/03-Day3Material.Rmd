@@ -1,0 +1,192 @@
+---
+title: "03: Day 3 Material"
+author: ""
+output: html_document
+---
+
+```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
+library(knitr)
+library(geomorph)
+opts_chunk$set(echo = TRUE)
+```
+
+## General Introduction
+
+Today we will briefly introduce some `geomorph` functions for performing the analyses described yesterday. **Note:** You should be able to read in your data and perform the analyses from earlier this week! 
+
+**IMPORTANT NOTE!!! With GLM and pairwise comparisons via RRPP, one's world of GM analyses really opens up!** Be sure to go through the help files in detail to see all of the myriad ways these components of the toolkit may be applied. Here is probably the place where one's sophistication catapults when using the RRPP Permutational Paradigm we advocate.
+
+
+## 1: GLM: ANOVA
+
+Here is a simple example of ANOVA using a linear model: 
+
+```{r eval=TRUE}
+data(pupfish) # GPA already performed
+
+fit <- procD.lm(coords ~ Sex * Pop, 
+                 data = pupfish, iter = 999)
+anova(fit)
+fitm <- manova.update(fit, print.progress = FALSE)
+summary(fitm, test = "Pillai")
+```
+
+#### Pairwise Comparisons: SIMPLE EXAMPLE
+
+```{r eval = TRUE}
+group <- interaction(pupfish$Pop, pupfish$Sex)
+PW <- pairwise(fit, groups = group)
+summary(PW)
+```
+
+## 2: PCMS
+
+Here is a simple example of some common phylogenetic comparative analyses.
+
+##### **IMPORTANT: Recall that one must have a strict 1:1 match between the data and the phylogeny. The first bit of this code is 'pre-processing' to ensure that match (the function `treedata` is one way to accomplish this, as shown below).
+
+```{r eval=TRUE, fig.height=10, fig.width=10}
+library(geiger)
+plethtree <- read.tree('Data/plethtree.tre')
+
+plethtree <- read.tree('Data/plethtree.tre')
+plethland <- readland.tps('Data/PlethodonLand.tps',specID = "ID",
+                          warnmsg = FALSE)
+gps <- read.csv('Data/PlethGps.csv', header=TRUE, row.names=1)
+Y.gpa <- gpagen(plethland, print.progress = FALSE)
+M <- mshape(Y.gpa$coords)
+svl <- Y.gpa$Csize
+
+shape <- Y.gpa$coords
+shape.test <- treedata(phy = plethtree, data = two.d.array(shape), warnings = TRUE)
+  #no warnings. Everthing matches in this case
+
+data.matched <- treedata(phy = plethtree, data = gps, warnings=FALSE)
+elev <- as.factor(data.matched$data); names(elev) <- row.names(data.matched$data)
+
+gdf <- geomorph.data.frame(shape=shape, svl=svl,elev = elev, plethtree=plethtree)
+
+links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
+                ncol=2,byrow=FALSE)
+plot(ladderize(plethtree),edge.width=3)
+axisPhylo(1)
+```
+
+### Phylogenetic Generalized Least Squares (PLGS): Linear Models
+
+One example: 
+
+```{r eval=TRUE}
+pgls.reg <- procD.pgls(f1 = shape~svl, phy=plethtree, data=gdf, print.progress = FALSE)
+summary(pgls.reg)
+
+allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$svl,
+                   reg.type ="RegScore", pch=19, cex=1.5, xlab = "SVL") # make sure to have a predictor 
+fit.line <- lm(allom.plot$RegScore~gdf$svl)
+abline(fit.line,col = "red")
+
+```
+
+### Phylogenetic Signal
+
+```{r eval=TRUE}
+PS.shape <- physignal(A=shape,phy=plethtree,iter=999, print.progress = FALSE)
+summary(PS.shape)
+plot(PS.shape)
+```
+
+### Phylogenetic Ordination
+
+#### Phylomorphospace
+
+```{r eval=TRUE}
+plot.pca <- gm.prcomp(shape,phy=plethtree)
+plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+```
+
+#### Phylogenetic PCA (pPCA)
+```{r eval=TRUE}
+plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
+plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+```
+
+#### Phylogenetically-Aligned Components Analysis (PACA)
+```{r eval=TRUE}
+plot.paca <- gm.prcomp(shape,phy=plethtree, align.to.phy = TRUE)
+plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+```
+
+### Comparing Evolutionary Rate Models
+
+```{r eval=TRUE}
+ER<-compare.evol.rates(A=gdf$shape, phy=plethtree,gp=gdf$elev,iter=999, method = 'permutation',print.progress = FALSE)
+summary(ER)
+plot(ER)
+
+EMR <- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=c(rep(1,5),rep(2,6)), print.progress = FALSE)
+summary(EMR)
+plot(EMR)
+```
+
+
+## 3: Analysis of Symmetry
+
+Here is a simple example of an analysis of symmetry: 
+
+#### Matching Symmetry
+
+```{r eval=TRUE}
+data(mosquito)
+Y.gpa <- gpagen(mosquito$wingshape, print.progress = FALSE)
+plot(Y.gpa)
+mosquito.sym <- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, 
+                           object.sym = FALSE, print.progress = FALSE)
+summary(mosquito.sym)
+```
+
+#### Object Symmetry
+
+```{r eval=TRUE}
+data('lizards')
+Y.gpa <- gpagen(lizards$coords, print.progress = FALSE)
+plot(Y.gpa)
+
+lizard.sym <- bilat.symmetry(A = Y.gpa, ind = lizards$ind, replicate = lizards$rep,
+                           object.sym = TRUE, land.pairs = lizards$lm.pairs, print.progress = FALSE)
+summary(lizard.sym)
+plot(lizard.sym, warpgrids = TRUE)
+```
+
+
+## 4: Measurement Error
+
+Here is a simple example of the analysis of measurement error: 
+
+```{r eval=TRUE}
+data(fishy)
+ME2 <- measurement.error(
+  Y = "coords",
+  subjects = "subj",
+  replicates = "reps",
+  groups = "groups",
+  data = fishy)
+
+anova(ME2)
+ICCstats(ME2, subjects = "Subjects", 
+  with_in = "Systematic ME", groups = "groups")
+P <- plot(ME2)
+focusMEonSubjects(P, subjects = 18:20, shadow = TRUE)
+```
+
+
+## 5: Things to Explore on Your Own
+
+1. Remember Days 1 - 3
+2. Perform phylogenetic ANOVA, phylogenetic PLS, and other PCMs. 
+3. Visualize shapes from everything!
+4. Plot summaries from these analyses to accompany the statistical findings
+5. **Explore function options and output** (there are many!)
+

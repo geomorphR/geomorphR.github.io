@@ -2,20 +2,22 @@
   title: "Lab Tutorials and Data"
 ---
 
-### Day 2 Tutorials
+### Day 2: Tutorial
 
 - [R-Based Review of Day 1 Material](https://geomorphR.github.io/GMcourse/Labs/01-Day1Material.html)
 - [Day 1 R-script](https://geomorphR.github.io/GMcourse/Labs/01-Day01-RCode.R)
 
-### Day 3 Tutorial
+### Day 3: Tutorial
 
-- [R-Based Review of Day 2 Material](https://geomorphR.github.io/GMcourse/Labs/02-Day1Material.html)
+- [R-Based Review of Day 2 Material](https://geomorphR.github.io/GMcourse/Labs/02-Day2Material.html)
 - [Day 2 R-script](https://geomorphR.github.io/GMcourse/Labs/02-Day02-RCode.R)
 
+### Day 4: Tutorial
 
-### Day 4 Tutorial
+- [R-Based Review of Day 3 Material](https://geomorphR.github.io/GMcourse/Labs/03-Day3Material.html)
+- [Day 3 R-script](https://geomorphR.github.io/GMcourse/Labs/03-Day03-RCode.R)
 
-### Day 5 Tutorial
+### Day 5: Tutorial
 
 ### Example data for Workshop (can be cloned, pulled, or files downloaded)
 [Link to Data Repository](https://github.com/geomorphR/geomorphR.github.io/tree/main/GMcourse/Labs/Data)
