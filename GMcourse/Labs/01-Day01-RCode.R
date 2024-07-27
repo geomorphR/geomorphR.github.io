@@ -14,6 +14,9 @@ Y.gpa <- gpagen(plethodon$land, print.progress = F)
 plotAllSpecimens(plethodon$land, links = plethodon$links)
 plotAllSpecimens(Y.gpa$coords, links = plethodon$links)
 
+## Check outliers
+plotOutliers(Y.gpa$coords, inspect.outliers = T)
+
 # PCA
 PCA <- gm.prcomp(Y.gpa$coords)
 plot(PCA)

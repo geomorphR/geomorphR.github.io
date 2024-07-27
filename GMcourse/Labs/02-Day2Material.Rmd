@@ -1,0 +1,124 @@
+---
+title: "02: Day 2 Material"
+author: ""
+output: html_document
+---
+
+```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
+library(knitr)
+library(geomorph)
+opts_chunk$set(echo = TRUE)
+```
+
+## General Introduction
+
+Today we will briefly introduce some `geomorph` functions for performing the analyses described yesterday. **Note:** You should be able to read in your data and perform the analyses from yesterday! Thus this tutorial augments the 'next steps' of a morphometric analysis (i.e., we are beginning to flesh out the steps of the Procrustes Paradigm for geometric morphometric analyses).
+
+## 1: Generalized Procrustes Analysis (GPA) with Sliding Semilandmarks
+
+Below is a simple 2D example containing points and curves. For 3D we could add curves and/or surfaces (see help file)
+
+```{r eval=TRUE}
+data(hummingbirds)
+hummingbirds$curvepts   
+
+gpa.BE <- gpagen(hummingbirds$land, curves=hummingbirds$curvepts, ProcD=FALSE, print.progress = F)
+plot(gpa.BE)
+
+gpa.procD <- gpagen(hummingbirds$land, curves=hummingbirds$curvepts, ProcD=TRUE, print.progress = F)
+plot(gpa.procD)
+```
+
+##### NOTE: For StereoMorph users, the notation is slightly different for specifying curves (see help file):
+
+```{r eval=TRUE}
+shapes <- StereoMorph::readShapes("Data/example.digitized")
+shapesGM <- readland.shapes(shapes, 
+  nCurvePts = c(12, 12, 12, 8, 6, 6, 6, 12, 10))
+
+Y.gpa <- gpagen(shapesGM, print.progress = FALSE)
+plot(Y.gpa)
+```
+
+## 2: Partial Least Squares (PLS)
+
+Here is a simple example of partial least squares: 
+
+```{r eval=TRUE}
+data("plethShapeFood")
+Y.gpa <- gpagen(plethShapeFood$land,
+                print.progress = FALSE,)
+food <- plethShapeFood$food
+rownames(food) <- names(Y.gpa$Csize) # just to assure match
+
+PLSfood <- two.b.pls(food, Y.gpa$coords, 
+                     print.progress = FALSE,
+                     iter = 9999)
+plot(PLSfood)
+
+```
+
+## 3: GLM: Regression
+
+Here is a simple example of regression from a linear model:
+
+```{r eval=TRUE}
+fit.null <- procD.lm(coords ~ 1, data = Y.gpa,
+                     iter = 9999)
+fit.alt <- procD.lm(coords ~ log(Csize), data = Y.gpa,
+                    turbo = FALSE, iter = 9999)
+anova(fit.alt)
+plot(fit.alt, type = "regression", reg.type = "RegScore", predictor = Y.gpa$Csize)
+```
+
+## 4: Allometry
+
+Here is a simple example of examining allometry: 
+
+```{r eval=TRUE}
+data(pupfish)
+plotAllSpecimens(pupfish$coords)  #NOTE: already GPA-aligned
+  #Y.gpa <- gpagen(pupfish$coords, print.progress = FALSE)    #GPA-alignment  
+pupfish$logSize <- log(pupfish$CS)
+pupfish$Group <- interaction(pupfish$Pop, pupfish$Sex)
+
+fit <- procD.lm(coords ~ logSize, data = pupfish, print.progress = FALSE) 
+anova(fit)
+
+plot(fit, type = "regression", reg.type = "RegScore", predictor = pupfish$logSize, pch = 19)
+  #NOTE: Try also: reg.type = "PredLine"
+```
+   
+#### Comparing Allometric Trajectories
+
+```{r eval=TRUE}
+fit.common <- procD.lm(coords ~ logSize + Group, 
+                           data = pupfish, print.progress = FALSE) 
+fit.unique <- procD.lm(coords ~ logSize * Group, 
+                           data = pupfish, print.progress = FALSE)  
+anova(fit.unique)
+
+par(mfcol = c(1,2))
+plot(fit.common, type = "regression", predictor = pupfish$logSize, 
+     reg.type = "PredLine", pch=19, col = pupfish$Group)
+legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+mtext("Common Slopes")
+plot(fit.unique, type = "regression", predictor = pupfish$logSize, 
+     reg.type = "PredLine", pch=19, col = pupfish$Group)
+legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+mtext("Unique Slopes")
+par(mfcol = c(1,1))
+```
+
+**Conclusion:** Not much going on for this example (**illustration purposes only**). 
+
+## 5: Things to Explore on Your Own
+
+1. Remember Day 1 (read in your data, GPA, PCa, TPS)
+2. Perform GPA + sliders
+3. 3D data: Perform GPA with points, curves, surfaces, or some combination
+4. Perform PLS: visualize shapes along PLS
+5. Perform regression: visualize shapes along regression
+6. Generate shapes for small and large specimens in an allometry analysis 
+7. **Explore function options and output** (there are many!)
+

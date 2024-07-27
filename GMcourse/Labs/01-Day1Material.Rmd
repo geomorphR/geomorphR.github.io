@@ -38,6 +38,10 @@ mydata[,,1]
 
 ##### NOTE: reading in landmarks and curves may be accomplished in several ways, including `readland.shapes`
 
+### Data Prep Components
+
+At this step of the pipeline, one has some additional data 'clean up' to perform. For instance, if there are missing landamrks, one needs to estimate these (see **Day 4 Materials**). Likewise if there are positional differences due to articulations, or if one wishes to combine landmark configurations in a single analysis (e.g., heads and tails), one does that now (see **Day 4 Materials**). 
+
 ## 2: Generalized Procrustes Analysis (GPA)
 
 Here is a simple example of GPA superimposition
@@ -54,6 +58,16 @@ View the data before and after GPA:
 plotAllSpecimens(plethodon$land, links = plethodon$links)
 plotAllSpecimens(Y.gpa$coords, links = plethodon$links)
 ```
+
+#### Data Checking: Outliers
+
+At this point, it is a good idea to check for outliers. If they are identified then one should go back to the original data and resolve any issues. Here is a simple example of how to check for these: 
+
+```{r eval=TRUE}
+plotOutliers(Y.gpa$coords, inspect.outliers = T)
+```
+
+
 
 ## 3: Principal Components Analysis (PCA)
 
