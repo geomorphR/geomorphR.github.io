@@ -1,0 +1,130 @@
+---
+title: "01: Day 1 Material"
+author: ""
+output: html_document
+---
+
+```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
+library(knitr)
+library(geomorph)
+opts_chunk$set(echo = TRUE)
+```
+
+## General Introduction
+
+In this lab session, and those to follow, we review the basics of how to conduct analyses in `geomorph` using `RRPP`.  These tutorials may seem 'thin', but this is by design. We feel that R-coding is best learned by actually coding, and by a bit of directed trial and error. Thus our intention is to provide the direction, and you need to provide the initiative to make the analysis happen.  
+
+**RECALL THAT ALL FUNCTIONS IN GEOMORPH AND RRPP HAVE RATHER EXTENSIVE HELP FILES. READ THEM!!!!** They provide important details regarding the analysis, the input data, and most importantly, the various options of the function. There is considerable flexibility in one's analysis when using `geomorph` and `RRPP`, so feel free to explore!
+
+## 1: Reading Data
+
+Before conducting any analysis one must first read one's data into R. Base-R has many functions for reading datafiles of various types (e.g., `read.csv`, `read.table`, etc.) and `geomorph` adds to these by allowing morphometric-specific files to be read.  
+
+### Important Functions
+- `readland.nts`
+- `readland.tps`
+- `readland.shapes`
+
+
+### Reading Data: Example
+
+Here is a simple example for reading a tps style file:
+
+```{r eval=TRUE}
+mydata <- readland.tps("Data/salamanders.tps", specID="imageID") # Specify specimen labels
+dim(mydata)
+mydata[,,1]
+```
+
+##### NOTE: reading in landmarks and curves may be accomplished in several ways, including `readland.shapes`
+
+## 2: Generalized Procrustes Analysis (GPA)
+
+Here is a simple example of GPA superimposition
+
+```{r eval=TRUE}
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = F)
+```
+
+### Plotting  Specimens
+View the data before and after GPA: 
+
+```{r eval=TRUE}
+plotAllSpecimens(plethodon$land, links = plethodon$links)
+plotAllSpecimens(Y.gpa$coords, links = plethodon$links)
+```
+
+## 3: Principal Components Analysis (PCA)
+
+Here is a simple example of PCA
+
+```{r eval=TRUE}
+PCA <- gm.prcomp(Y.gpa$coords)
+plot(PCA)
+```
+
+
+### Maybe color some groups...
+
+```{r eval=TRUE}
+gps <- as.factor(paste(plethodon$species, plethodon$site))  #define some groups for plotting
+plot(PCA, pch=22, cex = 1.5, bg = gps) 
+legend("topleft", pch=22, pt.bg = unique(gps), legend = levels(gps))
+```
+
+## 4: Thin-Plate Spline (TPS) Shape Visualization
+
+Let's visualize some shapes. First let's look at a single specimen relative to the mean: 
+
+```{r eval=TRUE}
+M <- mshape(Y.gpa$coords)
+
+par(mfrow=c(1,2))
+plotRefToTarget(M,Y.gpa$coords[,,39], links=plethodon$links, method="vector", mag=3)
+mtext("Vector Displacements")
+plotRefToTarget(M,Y.gpa$coords[,,39], links=plethodon$links, 
+                gridPars=gridPar(pt.bg="red", link.col="green", pt.size = 1), method="vector", mag=3)
+mtext("Vector Displacements: Other Options")
+par(mfrow=c(1,1))
+```
+
+Another option (if one has an outline)
+
+```{r eval=TRUE}
+par(mfrow=c(1,2))
+plotRefToTarget(M,Y.gpa$coords[,,39], mag=2, outline=plethodon$outline)  
+mtext("Outline Deformation")
+plotRefToTarget(M,Y.gpa$coords[,,39], method="points", outline=plethodon$outline)
+mtext("Outline Deformations Ref (gray) & and Tar (black)")
+par(mfrow=c(1,1))
+```
+
+##### Advanced Shape Plotting: Shape Prediction
+
+Predict a shape and plot this using `shape.predictor` (very useful!). This time along PC1:
+
+```{r eval=TRUE}
+PC <- PCA$x[,1]
+preds <- shape.predictor(Y.gpa$coords, x= PC, Intercept = FALSE, 
+                         pred1 = min(PC), pred2 = max(PC)) # PC 1 extremes, more technically
+par(mfrow=c(1,2))
+plotRefToTarget(M, preds$pred1, links = plethodon$links)
+mtext("PC1 - Min.")
+plotRefToTarget(M, preds$pred2, links = plethodon$links)
+mtext("PC1 - Max.")
+par(mfrow=c(1,1))
+```
+
+
+
+## 5: Things to Explore on Your Own
+
+1. Read in your own data
+2. Check data for outliers (and fix challenging specimens)
+3. Perform GPA: visualize
+4. Perform PCA: visualize
+5. Obtain TPS visualizations
+6. Can you generate shapes for group means? For any specimen location in PC-space?
+7. **Explore function options and output** (there are many!)
+
