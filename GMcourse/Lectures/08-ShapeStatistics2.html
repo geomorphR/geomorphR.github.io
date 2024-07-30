@@ -369,7 +369,7 @@ system.time(fit &lt;- procD.lm(coords ~ log(CS), data = pupfish,
 
 ```
 ##    user  system elapsed 
-##   1.517   0.072   1.608
+##   1.652   0.105   1.808
 ```
 
 Yup, that is 10,000 RRPP permutations in less than 2 seconds.  We will understand what happened soon.
@@ -387,8 +387,8 @@ Yup, that is 10,000 RRPP permutations in less than 2 seconds.  We will understan
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-1c637c5e5a5ea59f978c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-1c637c5e5a5ea59f978c">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.154712050168091,4.189849189837124,4.17818521858998,4.228929090228176,4.231914077040708,4.288119788840106,4.299237108220593,4.267155934215303,4.255943497483591,4.254116925946718,4.268744177216895,4.304088623802781,4.34419937613886,4.303966958378949,4.278804924382317,4.349534085323845,4.291257574298024,4.185562871097685,4.417932073890084,4.408861867368364,4.440260147175235,4.424408275115046,4.494542370765232,4.524389870169178,4.504465433321196,4.507662008771238,4.500063779375087,4.538889877930062,4.551578648908867,3.848472644595059,4.005188768852854,4.054256441217978,4.094385199123493,4.106701447193694,4.155868784111912,4.132023279485728,4.267254315553023,4.217073820340977,4.300585864276341,4.291635837703824,4.302187294669891,4.058998149139583,4.201192121808671,4.236339293041278,4.145056598492526,4.191391519392461,4.156158225214411,4.279115448740547,4.352770789266516,4.305489247699621,4.422569878871744,4.456126374118534,4.407285883295178,4.365958378903484]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"log(CS)","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-cea627198a52434f3486" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-cea627198a52434f3486">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.154712050168091,4.189849189837124,4.17818521858998,4.228929090228176,4.231914077040708,4.288119788840106,4.299237108220593,4.267155934215303,4.255943497483591,4.254116925946718,4.268744177216895,4.304088623802781,4.34419937613886,4.303966958378949,4.278804924382317,4.349534085323845,4.291257574298024,4.185562871097685,4.417932073890084,4.408861867368364,4.440260147175235,4.424408275115046,4.494542370765232,4.524389870169178,4.504465433321196,4.507662008771238,4.500063779375087,4.538889877930062,4.551578648908867,3.848472644595059,4.005188768852854,4.054256441217978,4.094385199123493,4.106701447193694,4.155868784111912,4.132023279485728,4.267254315553023,4.217073820340977,4.300585864276341,4.291635837703824,4.302187294669891,4.058998149139583,4.201192121808671,4.236339293041278,4.145056598492526,4.191391519392461,4.156158225214411,4.279115448740547,4.352770789266516,4.305489247699621,4.422569878871744,4.456126374118534,4.407285883295178,4.365958378903484]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"log(CS)","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 ### Linear regression example
@@ -987,7 +987,7 @@ system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
 
 ```
 ##    user  system elapsed 
-##   1.132   0.053   1.193
+##   1.163   0.056   1.230
 ```
 ]
 
@@ -1002,8 +1002,8 @@ system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-84461ad76ec0111d10ee" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-84461ad76ec0111d10ee">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"groupM.Marsh","targets":2},{"name":"groupF.Sinkhole","targets":3},{"name":"groupM.Sinkhole","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-5efc2b4ce10f8b208c13" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-5efc2b4ce10f8b208c13">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"groupM.Marsh","targets":2},{"name":"groupF.Sinkhole","targets":3},{"name":"groupM.Sinkhole","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 
@@ -1856,6 +1856,9 @@ There have been a few common threads that pervade the analysis of GM data
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
+"navigation": {
+"scroll": false
+},
 "highlightStyle": "solarized-light",
 "highlightLines": true,
 "countIncrementalSlides": true,

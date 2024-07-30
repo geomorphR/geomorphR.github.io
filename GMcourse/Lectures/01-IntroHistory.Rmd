@@ -6,6 +6,10 @@ output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
     nature:
+      navigation:
+# Disable scrolling through slides to
+# allow scrolling in slides
+        scroll: false
       highlightStyle: solarized-light
       highlightLines: true
       countIncrementalSlides: false

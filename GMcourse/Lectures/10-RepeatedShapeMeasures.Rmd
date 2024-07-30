@@ -589,7 +589,7 @@ Comments:
 
 + Background:The original study was conducted to examine the effects of combining landmark data from multiple observers and scanning devices. 
 
-+ 3D landmark data obtained from the crania of 23 marsupial species. \
++ 3D landmark data obtained from the crania of 23 marsupial species. 
 + Three types of surface scans, each by two observers
 + 23 species, two clades and an outgroup, 24 landmarks digitized on each, six replicates.
 ---
