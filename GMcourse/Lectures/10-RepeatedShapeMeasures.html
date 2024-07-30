@@ -98,7 +98,7 @@ pre {
 
 --
 
-+ However, these other cases really just are different reasons for similar data analysis, using a **within-subject RRPP** pohilosophy.
++ However, these other cases really just are different reasons for similar data analysis, using a **within-subject RRPP** philosophy.
 
 ---
 
@@ -579,7 +579,7 @@ The following is a simplified summary:
   
   + The former is like a relative risk, varying between 0 and 1; the latter is like an odds ratio, expressing how many more times prevalent is systematic ME than random ME.
   
-  + Intraclass correlation coefficient `\((ICC)\)`; e.g., `\(ICC = \frac{MS_S-MS_W}{MS_S + (r-1)MS_W}\)`, for variance `\((MS)\)` among subjects `\((S)\)` and within subjects `\((W)\)`, for `\(r\)` replicates, **should be avoided!**.  `\(ICC\)` measures how reliable subjects are for measurement and can be inflated by sampling more diverse subjects; it does not measure any sysematic pattern among replicates.
+  + Intraclass correlation coefficient `\((ICC)\)`; e.g., `\(ICC = \frac{MS_S-MS_W}{MS_S + (r-1)MS_W}\)`, for variance `\((MS)\)` among subjects `\((S)\)` and within subjects `\((W)\)`, for `\(r\)` replicates, **should be avoided!**.  `\(ICC\)` measures how reliable subjects are for measurement and can be inflated by sampling more diverse subjects; it does not measure any systematic pattern among replicates.
   
 ---
 
@@ -740,13 +740,84 @@ Comments:
 
 ### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017)
 
-+ Background:The original study was conducted to examine the effects of combining landmark data from multiple observers and scanning devices. 
++ Background: The original study was conducted to examine the effects of combining landmark data from multiple observers and scanning devices. 
 
 + 3D landmark data obtained from the crania of 23 marsupial species. 
 + Three types of surface scans, each by two observers
 + 23 species, two clades and an outgroup, 24 landmarks digitized on each, six replicates.
+
+
+&lt;img src="LectureData/10.asymmetry/fruciano_fig7ab.png" width="70%" style="display: block; margin: auto;" /&gt;
+
 ---
 
+### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017) (Cont.)
+
++ Performed ANOVA with ME protocol
++ Performed MAONVA with ME Protocol
++ Visualized patterns
++ Reconcile results and new conclusions with previous conclusions.
+
+.pull-left[
+
+**ANOVA**
+
+&lt;img src="LectureData/10.asymmetry/fruciano_tab4.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+**MANOVA**
+
+&lt;img src="LectureData/10.asymmetry/fruciano_tab5.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017) (Cont.)
+
+.pull-left[
+&lt;img src="LectureData/10.asymmetry/fruciano_fig7cd.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+&lt;img src="LectureData/10.asymmetry/fruciano_fig7ef.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017) (Cont.)
+
+**Results that were consistently found from both analyses (Fruciano et al. 2017 and Collyer &amp; Adams 2024):**
+
++ Operators has some digitizing differences.
++ Scanners had some digitizing differences.
++ Results could not be interpreted independently of phylogeny.
+
+**Results that were only found with new ME approach by Collyer &amp; Adams (2024):**
+
++ Systematic ME was a large effect (not small) when accounting for variation among species (subjects).
++ A systematic ME:clade effect was also significant and a strong effect.  The divergence in estimates because of the combination of operator and scanner was not consistent between clades.
++ The `PH` method of scanning was especially prone to operator prejudices, but the prejudice varied among subjects.
++ ***Results helped pinpoint areas where issues could be addressed!***
+
+
+---
+
+### Measurement Error: Summary
+
++ Replicated shape measures cause redundancy in shape data, but in the case of ME, it is not an artifact to confront but potential patterns to explore.
++ ANOVA/MANOVA not really new, but **within-subject RRPP** is a new essential step.
++ Better statistics in terms of conveying useful and interpretable information.
++ Visualization tools can help identify areas of concern that could be fixed.
+
+---
+
+### Repeated Shape Measures: Summary
+
++ This is probably still a nascent field and one that will grow fast.
++ Within-subject RRPP opens the door for so many more analytical possibilities
++ One possibility will be discussed in Lecture 14: Expanded-PGLS
++ Mixed-model RRPP is a new frontier.
++ This is a fast-evolving sub-discipline!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
