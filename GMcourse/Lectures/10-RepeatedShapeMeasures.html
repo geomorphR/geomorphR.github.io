@@ -4,7 +4,7 @@
     <title>10: Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="10-RepeatedShapeMeasures_files/header-attrs-2.27/header-attrs.js"></script>
+    <script src="10-RepeatedShapeMeasures_files/header-attrs-2.27.1/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -13,6 +13,9 @@ class: center, middle, inverse, title-slide
 
 .title[
 # 10: Repeated Shape Measures: Symmetry, Asymmetry and Measurement Error
+]
+.subtitle[
+## Multiple shape observations performed on the same research subjects
 ]
 .author[
 ### 
@@ -29,10 +32,76 @@ pre {
   overflow-x: scroll;
 }
 .scrollable {
-  height: 80%;
-  overflow-y: auto;
+  height: 80% !important;
+  overflow-y: auto !important;
+
 } 
+
+.remark-slide-content {
+  font-size: 20px;
+  padding: 20px 80px 20px 80px;
+}
+.remark-code, .remark-inline-code {
+  background: #f0f0f0;
+}
+.remark-code {
+  font-size: 20px;
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+
+.med .remark-code { /*Change made here*/
+  font-size: 75% !important;
+}
+
+.small .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+
+.small2 .remark-code { /*Change made here*/
+  font-size: 45% !important;
+}
+
+.tiny .remark-code { /*Change made here*/
+  font-size: 35% !important;
+}
 &lt;/style&gt;
+
+
+### Within-subject shape variation
+
++ For most statistical applications, an assumption of **independent observations** is implicit.  This generally means that a research subject (specimen, organism, species) has a single landmark configuration from which its shape can be compared to others.
+
++ Some studies (usually experimental in nature) require multiple measurements (digitizations) per subject.  If multiple measurements are made, they cannot be treated as independent observations.
+
++ The *Phylogenetic Comparative Methods* lecture addressed non-independent observations one way (generalized least squares estimation, GLS).  This lecture will focus on (some of) the cases where non-independence is more so because of **repeated shape measures**.
+
++ A simple but not universal way to remember the subtle difference is that non-independence because of inherit relatedness among subjects is a challenge for **estimation** (requires GLS estimation).  Non-independence because of repeated measures is a challenge for **evaluation** (requires alteration of inferential methods).  Both challenges can arise in the same data set.
+
+---
+
+### Within-subject shape variation (cont.) and Overview
+
++ There are particularly two cases for which repeated shape measures on the same research subjects are common:
+  + Shape analysis on (typically) bilaterally symmetric organisms, requiring two landmark configurations of left and right structures, or one configuration that could be divided into left and right sub-configurations.  Analyses typically assess the **symmetry** found between left and right pairs of configurations, and evaluate whether there is a pattern of **asymmetry**.
+--
+
+  + Shape analysis concerned with the precision of shape estimation, and whether there are inherent tendencies to digitize configurations in different way on the same research subjects.  Such experimental designs and their analyses seek to understand the propensity for **measurement error**.
+  
+--
+
++ Other cases that require repeated shape measurements could be imagined:
+   + Ontogenetic shape variation (if the same landmark configuration could be digitized on the same organisms over developmental time).  This would be a special case of allometry.
+   + Dose-response experiments that evaluate shape change over time after an experimental treatment.
+   + Hierarchical analyses that involve, e.g., multiple individuals within species, as well as many species, with the subject level equal to species.
+
+--
+
++ However, these other cases really just are different reasons for similar data analysis, using a **within-subject RRPP** pohilosophy.
+
+---
+
 
 ### Symmetry and Asymmetry
 
@@ -92,14 +161,21 @@ pre {
 
 + Note the large number of shape dimensions with no variation. Much of this is due to bilateral symmetry!
 
-.scrollable[
+.pull-left[
 
 ```
 ## 
 ## No curves detected; all points appear to be fixed landmarks.
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-4-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[.small[
+
+``` r
+res &lt;- prcomp(two.d.array(Y.gpa$coords))
+summary(res)
+```
 
 ```
 ## Importance of components:
@@ -119,36 +195,32 @@ pre {
 ## Standard deviation     0.00354 0.003408 0.003317 0.003162 0.003013 0.002664
 ## Proportion of Variance 0.00733 0.006800 0.006440 0.005850 0.005310 0.004150
 ## Cumulative Proportion  0.96652 0.973310 0.979750 0.985600 0.990910 0.995070
-##                           PC25     PC26      PC27      PC28     PC29      PC30
-## Standard deviation     0.00242 0.001605 3.613e-15 3.489e-15 3.46e-15 3.285e-15
-## Proportion of Variance 0.00343 0.001510 0.000e+00 0.000e+00 0.00e+00 0.000e+00
-## Cumulative Proportion  0.99849 1.000000 1.000e+00 1.000e+00 1.00e+00 1.000e+00
-##                             PC31      PC32      PC33      PC34      PC35
-## Standard deviation     3.235e-15 3.172e-15 3.103e-15 3.041e-15 3.018e-15
+##                           PC25     PC26      PC27     PC28      PC29      PC30
+## Standard deviation     0.00242 0.001605 3.622e-15 3.49e-15 3.463e-15 3.294e-15
+## Proportion of Variance 0.00343 0.001510 0.000e+00 0.00e+00 0.000e+00 0.000e+00
+## Cumulative Proportion  0.99849 1.000000 1.000e+00 1.00e+00 1.000e+00 1.000e+00
+##                             PC31      PC32     PC33      PC34     PC35     PC36
+## Standard deviation     3.232e-15 3.173e-15 3.11e-15 3.042e-15 3.02e-15 2.99e-15
+## Proportion of Variance 0.000e+00 0.000e+00 0.00e+00 0.000e+00 0.00e+00 0.00e+00
+## Cumulative Proportion  1.000e+00 1.000e+00 1.00e+00 1.000e+00 1.00e+00 1.00e+00
+##                             PC37      PC38      PC39      PC40      PC41
+## Standard deviation     2.919e-15 2.871e-15 2.797e-15 2.747e-15 2.724e-15
 ## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
 ## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
-##                             PC36      PC37      PC38      PC39      PC40
-## Standard deviation     2.983e-15 2.915e-15 2.868e-15 2.799e-15 2.747e-15
+##                             PC42     PC43      PC44      PC45     PC46
+## Standard deviation     2.697e-15 2.64e-15 2.616e-15 2.565e-15 2.55e-15
+## Proportion of Variance 0.000e+00 0.00e+00 0.000e+00 0.000e+00 0.00e+00
+## Cumulative Proportion  1.000e+00 1.00e+00 1.000e+00 1.000e+00 1.00e+00
+##                             PC47      PC48      PC49      PC50      PC51
+## Standard deviation     2.494e-15 2.418e-15 2.386e-15 2.281e-15 2.204e-15
 ## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
 ## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
-##                            PC41      PC42      PC43      PC44      PC45
-## Standard deviation     2.72e-15 2.696e-15 2.639e-15 2.612e-15 2.565e-15
-## Proportion of Variance 0.00e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
-## Cumulative Proportion  1.00e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
-##                             PC46      PC47      PC48      PC49     PC50
-## Standard deviation     2.546e-15 2.492e-15 2.414e-15 2.385e-15 2.28e-15
-## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.00e+00
-## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.00e+00
-##                             PC51      PC52      PC53      PC54      PC55
-## Standard deviation     2.195e-15 2.144e-15 4.521e-16 4.253e-16 2.846e-17
+##                             PC52      PC53      PC54      PC55      PC56
+## Standard deviation     2.163e-15 1.439e-15 1.364e-15 1.753e-16 1.932e-17
 ## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
 ## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
-##                             PC56
-## Standard deviation     1.574e-17
-## Proportion of Variance 0.000e+00
-## Cumulative Proportion  1.000e+00
 ```
-]
+]]
 
 ---
 
@@ -232,11 +304,11 @@ pre {
 
 ### Matching Symmetry: Example
 
-&lt;img src="LectureData/10.asymmetry/MatchExWings.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/10.asymmetry/MatchExWings.png" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Matching Symmetry: Example 2
-.scrollable[
+.med[
 
 ``` r
 data(mosquito)
@@ -244,16 +316,18 @@ Y.gpa &lt;- gpagen(mosquito$wingshape, print.progress = FALSE)
 plot(Y.gpa)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
 ### Matching Symmetry: Example 2 (Cont.)
-.scrollable[
+
+.scrollable[.med[
 
 ``` r
 mosquito.sym &lt;- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, 
                            object.sym = FALSE, print.progress = FALSE)
+
 summary(mosquito.sym)
 ```
 
@@ -283,11 +357,12 @@ summary(mosquito.sym)
 ## Centroid Size ANOVA
 ##          Df         SS         MS     Rsq      F        Z Pr(&gt;F)
 ## ind       9 4.1496e-09 4.6107e-10 0.18555 0.7484 -0.42684  0.665
-## side      1 3.4740e-10 3.4738e-10 0.01553 0.5638  0.15784  0.471
+## side      1 3.4740e-10 3.4738e-10 0.01553 0.5638  0.15779  0.471
 ## ind:side 29 1.7867e-08 6.1609e-10 0.79891                       
 ## Total    39 2.2364e-08
 ```
-]
+]]
+
 ---
 
 ### Matching Symmetry: Example 2 (Cont.)
@@ -297,7 +372,7 @@ summary(mosquito.sym)
 plot(mosquito.sym, warpgrids = TRUE)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -307,7 +382,7 @@ plot(mosquito.sym, warpgrids = TRUE)
 ---
 
 ### Object Symmetry: Example 2
-.scrollable[
+.scrollable[.med[
 
 ``` r
 data('lizards')
@@ -315,8 +390,8 @@ Y.gpa &lt;- gpagen(lizards$coords, print.progress = FALSE)
 plot(Y.gpa)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-]
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]]
 ---
 
 ### Object Symmetry: Example 2 (Cont.)
@@ -362,7 +437,7 @@ summary(lizard.sym)
 plot(lizard.sym, warpgrids = TRUE)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-16-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -425,11 +500,260 @@ plot(lizard.sym, warpgrids = TRUE)
 + Use ANOVA procedures to separate variation within (asymmetry) and among individuals
 + Extensions to different types of symmetry
 
+---
+
+### Important Notes!
+
++ An implicit (but not required) assumption in the previous analyses was that Type I SSCP was appropriate.  This is a good idea because analysis first accounts for variation at the subject level, then at the side level after accounting for individual variation, then at the individual:side level after accounting for both individual and side variation.
+
+--
+
++ This might make sense for symmetry analyses.  The experimental design (all symmetry analyses are experiments in the sense that fixed treatments are applied to each subject for left and right measurements, even if the study is observational) seeks to understand **the amount and nature of asymmetry in comparison to measurement error (ME)**.  
+
+--
+
++ For such analyses, ME is noise.  It helps to have a basis for asymmetry between left and right sides by having an understanding of how variable the left or right side would be if digitized twice or more; i.e., a baseline for expected digitizing noise.
+
+---
+
+### Important Notes!
+
++ But what if the replicated measures for ME also have a pattern?  
+  + Digitizations between two different people
+  + Digitizations using different scanners
+  + Digitizations made without a random ordering of observations; e.g., all left sides digitized first then all right sides.
+
+--
+
++ Sometimes a pattern of shape change within subjects should be analyzed.
++ Maybe a preliminary experiment to ascertain whether multiple researchers, devices, or digitizing protocol introduces a bias or prejudice.
+
+---
+
+### Measurement Error (ME): An example of within-subject shape analysis
+
+.pull-left[
++ ME first discussed for shape analysis in 1998. `\(^1\)`
++ ME revisited 2016-2017, but no new developments were made (just an emphasis for why it is important and how it could be done).  `\(^{2-3}\)`
++ There was a "spirited" debate on Morphmet in November, 2022, about measurement error (some of you might recall) and it became clear that the topic needed to be modernized.
++ The prevailing issue (as we see it) was that most people were using techniques that basically measured: replicate variation / subject variation.  (More specifically, statistics like intraclass correlations.)
+]
+.pull-right[
++ **This is a problem because if one samples diversely shaped subjects (e.g., many species rather than many individuals within one species), one could labor under the delusion that ME is small, simply because between-subject variation is large.**
++ **This is also a problem because it treats all ME as random (noise), even if systematic digitizing prejudices are inherent in the data.**
+
++ The following is our fixing of these problems, just published this year.  `\(^4\)`.
+]
+
+.footnote[
+
+`\(^1\)` Arnqvist, G., &amp; Mårtensson, T. (1998); `\(^2\)` Fruciano, C. (2016); `\(^3\)` Fruciano, C., et al. (2017); `\(^4\)` Collyer, M.L., &amp; Adams, D.C. (2024).
+]
+
+---
+
+### Measurement Error (ME) via within-subject RRPP
+
++ ANOVA/MANOVA components (can be done with either an ANOVA or MANOVA framework):
+
+| Source | Based on | Comment
+|:------- | :----------- | :-----------------------------
+|Subjects| Sampling of different research subjects| Choosing diverse subjects is a good thing, and cannot arbitrarily influence analysis of ME.|
+|Systematic ME|Replicates|This is variation that is **systematic**, perhaps because of digitizer, timing, or some other method that could introduce a **digitizing prejudice**.|
+|Systematic ME:Groups|Strata for subject sampling|*An optional* component if it is known that subjects are sampled from different groups that might have different shapes.  This allows one to evaluate if systematic ME is associated with certain groups or differs among groups.|
+|Random ME|Residual variation|Differences between replicates but do not have a replicated pattern.  This is **noise**.  Total ME (systematic + random) is not noise.|
+
++ This might look like a symmetry/asymmetry analysis (subjects = individuals, systematic ME = side), but that is not quite right.  Rather, Groups = side would be more appropriate and in symmetry/asymmetry, ME = systematic + random ME.  Also, the inferential methods are different (more in a moment).
+
+---
+
+### Measurement Error (ME) via within-subject RRPP (Cont.)
+
+The following is a simplified summary:
+
++ Statistics and statistics to avoid:
+
+  + `\(\eta^2\)`; e.g., `\(\eta^2_{Syst.ME} = \frac{SS_{Syst.ME}}{SS_{Total.ME}}\)` but not `\(R^2_{Syst.ME} = \frac{SS_{Syst.ME}}{SS_{Total}}\)`.  The latter can be really small just because subject variation is large.  **This has been historically evaluated, but is misleading.**
+  
+  + Signal (Systematic ME) to Noise (Random ME) ratio `\((SNR)\)`; e.g., `\(SNR = \frac{SS_{Syst.ME}}{SS_{Random.ME}}\)`.
+  
+  + The former is like a relative risk, varying between 0 and 1; the latter is like an odds ratio, expressing how many more times prevalent is systematic ME than random ME.
+  
+  + Intraclass correlation coefficient `\((ICC)\)`; e.g., `\(ICC = \frac{MS_S-MS_W}{MS_S + (r-1)MS_W}\)`, for variance `\((MS)\)` among subjects `\((S)\)` and within subjects `\((W)\)`, for `\(r\)` replicates, **should be avoided!**.  `\(ICC\)` measures how reliable subjects are for measurement and can be inflated by sampling more diverse subjects; it does not measure any sysematic pattern among replicates.
+  
+---
+
+### Measurement Error (ME) via within-subject RRPP (Cont.)
+
++ The important aspect of ME analysis is how RRPP is utilized.  Analysis of ME components is performed by restricting RRPP to be within subjects.  **This means that inter-subject variation is held constant over every RRPP permutation!**  No confounding of subject and ME effects.
+
++ Type II SSCP is used for ME effects (accounts for inter-subject variation, but does not conflate it with ME effects.)
++ Type III SSCP is used for subjects test.  This is not really a focus of the analysis, but it can be done to know how variable subject shapes were.
+
++ `\(SNR\)` eigenvectors (eigenvectors of the inverse of the random ME SSCP times the systematic ME SSCP) can be used to visualize ME issues.
+
++ All statistical properties are vetted in detail in Collyer and Adams (2024).
+
+---
+
+### Measurement Error (ME) Example: how to do it in `geomorph`
+
+Using simulated data from Collyer and Adams (2024)
+
+.scrollable[
+
+
+``` r
+data(fishy)
+fishy$coordsarray &lt;- arrayspecs(fishy$coords, p = 11, k = 2)  #make 3D array
+
+# Example two digitization replicates of the same research subjects
+rep1 &lt;- matrix(fishy$coords[1,], 11, 2, byrow = TRUE)
+rep2 &lt;- matrix(fishy$coords[61,], 11, 2, byrow = TRUE)
+plot(rep1, pch = 16, 
+     col = gray(0.5, alpha = 0.5), cex = 2, asp = 1,
+     xlab = "x", ylab = "y")
+points(rep2, pch = 16, col = gray(0.2, alpha = 0.5), cex = 2, asp = 1)
+```
+
+![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+]
+
+---
+
+### Measurement Error (ME) Example: how to do it in `geomorph` (Cont.)
+
+**Analysis unconcerned with groups from which subjects are sampled**
+
+.scrollable[
+
+``` r
+ME1 &lt;- gm.measurement.error(
+  coords = "coordsarray",
+  subjects = "subj",
+  replicates = "reps",
+  data = fishy)
+
+anova(ME1)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type Within-subject II 
+## Effect sizes (Z) based on SNR distributions
+## 
+##                Df      SS        MS     Rsq EtaSq.ME    SNR       Z Pr(&gt;SNR)
+## Subjects       59 1.20209 0.0203744 0.96941          34.453 20.6317    0.001
+## Systematic ME   1 0.00303 0.0030348 0.00245  0.08002  0.087  4.5374    0.001
+## Random ME      59 0.03489 0.0005914 0.02814  0.91998                        
+## Total         119 1.24002                                                   
+##                  
+## Subjects      ***
+## Systematic ME ***
+## Random ME        
+## Total            
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: Y ~ subjects + replicates
+```
+
+``` r
+plot(ME1)
+```
+
+![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+]
+---
+
+
+### Measurement Error (ME) Example: how to do it in `geomorph` (Cont.)
+
+**Analysis concerned with groups from which subjects are sampled**.  Some groups have longer tails.
+
+.scrollable[
+
+``` r
+ME2 &lt;- gm.measurement.error(
+  coords = "coordsarray",
+  subjects = "subj",
+  replicates = "reps",
+  groups = "groups",
+  data = fishy)
+  
+anova(ME2)
+```
+
+```
+## 
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type Within-subject II 
+## Effect sizes (Z) based on SNR distributions
+## 
+##                       Df      SS        MS     Rsq EtaSq.ME    SNR       Z
+## Subjects              59 1.18779 0.0201320 0.95788          39.534 17.7458
+## Systematic ME          1 0.00303 0.0030348 0.00245  0.08002  0.101  4.6930
+## Systematic ME:Groups   2 0.00485 0.0024231 0.00391  0.12778  0.161  6.5764
+## Random ME             57 0.03004 0.0005271 0.02423  0.79220               
+## Total                119 1.24002                                          
+##                      Pr(&gt;SNR)    
+## Subjects                0.001 ***
+## Systematic ME           0.001 ***
+## Systematic ME:Groups    0.001 ***
+## Random ME                        
+## Total                            
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Call: Y ~ subjects + groups * replicates
+```
+
+``` r
+plot(ME2)
+```
+
+![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-24-2.png)&lt;!-- --&gt;![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-24-3.png)&lt;!-- --&gt;
+]
+---
+### Measurement Error (ME) Example: how to do it in `geomorph`
+
+Comments:
+
++ Data were simulated to have a *digitizing prejudice* such that longer-tailed fish were digitized in a way that exacerbates their tail lengths (as if a person might tend to make longer-tailed fish have long tails as an instinct).
+
++ The analysis was able to determine that not only was there a significant systmatic ME, but it was differently pronounced among groups from which fish were sampled.
+
++ Perhaps not obvious in this example (but explored in Collyer and Adams 2024) is that the same digitizing prejudice applied to specimens from different groups can produce a significant `Systematic ME:Groups` effect.
+  + A systematic digitizing prejudice `\(\neq\)` a systematic shape difference!
+  + For example, a digitizer that tends to make tails longer, both for short- and long-tailed species, will induce larger relative tail growth for the short-tailed species than the long-tailed species.
+
++ The analysis is able to reveal both a magnitude and directional shape change for specific subjects.  See next example.
+
+---
+
+### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017)
+
++ Background:The original study was conducted to examine the effects of combining landmark data from multiple observers and scanning devices. 
+
++ 3D landmark data obtained from the crania of 23 marsupial species. \
++ Three types of surface scans, each by two observers
++ 23 species, two clades and an outgroup, 24 landmarks digitized on each, six replicates.
+---
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
+"navigation": {
+"scroll": false
+},
 "highlightStyle": "solarized-light",
 "highlightLines": true,
 "countIncrementalSlides": false,
