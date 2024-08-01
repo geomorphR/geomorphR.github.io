@@ -146,7 +146,7 @@ class(shapesGM)
 
 attributes(shapesGM)
 
-shapesGM$fixed # which landmakrs are fixed
+shapesGM$fixed # which landmarks are fixed
 shapesGM$curves # a curves matrix for gpagen - can be modified
 shapesGM$landmarks[[1]] # specimen 1
 names(shapesGM$landmarks) # all specimen names
