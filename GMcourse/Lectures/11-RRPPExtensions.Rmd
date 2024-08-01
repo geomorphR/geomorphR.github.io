@@ -843,20 +843,31 @@ Additionally, these statistics are likely rather sample size-dependent.  None of
 ```{r, echo = FALSE, out.width="80%"}
 include_graphics("LectureData//11.RRPPExtensions/eccentricity.png")  
 ``` 
+
 ---
 ### Disparity: Other descriptive statistics (Cont.)
 
-However, even as descriptive statistics, they can be sometimes useful.  Here is a figure that appears in Adams and Collyer (2018) $^1$, after receiving harsh criticism from a reviewer (in early rounds), stating that RRPP does not produce appropriate covariance matrices, as expected from a Wishart distribution
+However, even as descriptive statistics, they can be sometimes useful.  Here is a figure that appears in Adams and Collyer (2018) $^1$, after receiving harsh criticism from a reviewer (in early rounds), stating that RRPP does not produce appropriate covariance matrices, as expected from a Wishart distribution.
 
 .center[
-```{r, echo = FALSE, out.width="60%"}
+```{r, echo = FALSE, out.width="70%"}
 include_graphics("LectureData/07.groupdifferences/wishart.png")  
 ``` 
+
 ]
 
+.footnote[1. Adams and Collyer. *Syst Biol.* (2018)]
+---
+### Disparity: Other descriptive statistics (Cont.)
+
+.center[
+```{r, echo = FALSE, out.width="70%"}
+include_graphics("LectureData/07.groupdifferences/wishart.png")  
+``` 
+
+]
 Measuring eccentricity for 100 experiments of 1,000 RRPP generation of covariance matrices, each, we actually found that RRPP generated a more spherical distribution (disparity) of covariance matrices than sampling from a Wishart distribution (a multivariate sampling distribution for covariance matrices).  It exceeded theoretical expectation!
 
-.footnote[1. Adams and Collyer. *Syst Biol.* (2018)]
 ---
 
 ### Morphological Disparity: Summary and Other Comments
