@@ -407,26 +407,41 @@ Shape | *NA* | $D_P = \left(\left( \mathbf{\gamma}_1 -  \mathbf{\gamma}_2 \right
 
 ---
 ### Generalized Procrustes Analysis
-.center[
-```{r, echo = FALSE, out.width="65%"}
-include_graphics("LectureData/11.RRPPExtensions/pta/Slide05.png")  
-```
-]
----
-### Generalized Procrustes Analysis (Cont.)
-.center[
-```{r, echo = FALSE, out.width="65%"}
-include_graphics("LectureData/11.RRPPExtensions/pta/Slide06.png")  
-```
-]
----
 
-### Generalized Procrustes Analysis (Cont.)
+**Using trajectories as shapes, which in fact they are.**
+
 .center[
-```{r, echo = FALSE, out.width="70%"}
-include_graphics("LectureData/11.RRPPExtensions/pta/Slide07.Png")  
+```{r, echo = FALSE, fig.height=6, fig.width=11}
+
+
+traj1 <- matrix(c(1, 1, 4, 2, 4, 5, 8, 8), , 2, byrow = T)
+traj2 <- matrix(c(10, 4, 16, 4, 18, 18, 20, 22), , 2, byrow = T)
+
+coords <- rbind(traj1, traj2)
+par(mfrow = c(1, 2))
+plot(coords, asp = 1, main = "Trajectories before GPA", 
+     xaxt = "n", yaxt = "n", xlab = "", ylab = "",
+     pch = 16, col = c(rep(4,4), rep(7, 4)),
+     cex = rep(seq(2, 3.2, 0.4), 2))
+
+lines(traj1)
+lines(traj2)
+
+coords <- arrayspecs(rbind(as.vector(t(traj1)), 
+                           as.vector(t(traj2))), 4, 2)
+
+GPA <- gpagen(coords, print.progress = F)
+plot(GPA$coords[,,1], asp = 1, pch = 16, col = 4,
+     main = "Trajectories after GPA", 
+     xaxt = "n", yaxt = "n", xlab = "", ylab = "",
+     cex = seq(2, 3.2, 0.4))
+points(GPA$coords[,,2], pch = 16, col =7,
+       cex = seq(2, 3.2, 0.4))
+lines(GPA$coords[,,1])
+lines(GPA$coords[,,2])
 
 ```
+
 ]
 ---
 
