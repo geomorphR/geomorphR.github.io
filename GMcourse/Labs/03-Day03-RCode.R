@@ -49,13 +49,13 @@ axisPhylo(1)
 
 ### Phylogenetic Generalized Least Squares (PLGS): Linear Models
 
-pgls.reg <- procD.pgls(f1 = shape~svl, phy=plethtree, data=gdf, print.progress = FALSE)
+pgls.reg <- procD.pgls(f1 = shape ~ svl, phy = plethtree, data = gdf, print.progress = FALSE)
 summary(pgls.reg)
 
 allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$svl,
                    reg.type ="RegScore", pch=19, cex=1.5, xlab = "SVL") # make sure to have a predictor 
-fit.line <- lm(allom.plot$RegScore~gdf$svl)
-abline(fit.line,col = "red")
+fit.line <- lm(allom.plot$RegScore ~ gdf$svl)
+abline(fit.line, col = "red")
 
 ### Phylogenetic Signal
 

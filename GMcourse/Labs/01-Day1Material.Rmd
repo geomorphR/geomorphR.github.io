@@ -31,7 +31,7 @@ Before conducting any analysis one must first read one's data into R. Base-R has
 Here is a simple example for reading a tps style file:
 
 ```{r eval=TRUE}
-mydata <- readland.tps("Data/salamanders.tps", specID="imageID") # Specify specimen labels
+mydata <- readland.tps("Data/salamanders.tps", specID ="imageID") # Specify specimen labels
 dim(mydata)
 mydata[,,1]
 ```
@@ -84,7 +84,9 @@ plot(PCA)
 ```{r eval=TRUE}
 gps <- as.factor(paste(plethodon$species, plethodon$site))  #define some groups for plotting
 plot(PCA, pch=22, cex = 1.5, bg = gps) 
-legend("topleft", pch=22, pt.bg = unique(gps), legend = levels(gps))
+legend("topleft", pch = 22, 
+       pt.bg = unique(gps), 
+       legend = levels(gps))
 ```
 
 ## 4: Thin-Plate Spline (TPS) Shape Visualization
@@ -95,23 +97,31 @@ Let's visualize some shapes. First let's look at a single specimen relative to t
 M <- mshape(Y.gpa$coords)
 
 par(mfrow=c(1,2))
-plotRefToTarget(M,Y.gpa$coords[,,39], links=plethodon$links, method="vector", mag=3)
+plotRefToTarget(M,Y.gpa$coords[,,39], 
+                links = plethodon$links, 
+                method="vector", mag=3)
 mtext("Vector Displacements")
-plotRefToTarget(M,Y.gpa$coords[,,39], links=plethodon$links, 
-                gridPars=gridPar(pt.bg="red", link.col="green", pt.size = 1), method="vector", mag=3)
+plotRefToTarget(M, Y.gpa$coords[,,39], 
+                links = plethodon$links, 
+                gridPars = gridPar(pt.bg="red", 
+                                   link.col="green", 
+                                   pt.size = 1), 
+                method="vector", mag=3)
 mtext("Vector Displacements: Other Options")
-par(mfrow=c(1,1))
+par(mfrow=c(1, 1))
 ```
 
 Another option (if one has an outline)
 
 ```{r eval=TRUE}
-par(mfrow=c(1,2))
-plotRefToTarget(M,Y.gpa$coords[,,39], mag=2, outline=plethodon$outline)  
+par(mfrow=c(1, 2))
+plotRefToTarget(M, Y.gpa$coords[,,39], mag=2, 
+                outline = plethodon$outline)  
 mtext("Outline Deformation")
-plotRefToTarget(M,Y.gpa$coords[,,39], method="points", outline=plethodon$outline)
+plotRefToTarget(M,Y.gpa$coords[,,39], method="points",  
+                outline = plethodon$outline)
 mtext("Outline Deformations Ref (gray) & and Tar (black)")
-par(mfrow=c(1,1))
+par(mfrow=c(1, 1))
 ```
 
 ##### Advanced Shape Plotting: Shape Prediction
@@ -121,13 +131,14 @@ Predict a shape and plot this using `shape.predictor` (very useful!). This time 
 ```{r eval=TRUE}
 PC <- PCA$x[,1]
 preds <- shape.predictor(Y.gpa$coords, x= PC, Intercept = FALSE, 
-                         pred1 = min(PC), pred2 = max(PC)) # PC 1 extremes, more technically
-par(mfrow=c(1,2))
+                         pred1 = min(PC),  
+                         pred2 = max(PC)) # PC 1 extremes, more technically
+par(mfrow=c(1, 2))
 plotRefToTarget(M, preds$pred1, links = plethodon$links)
 mtext("PC1 - Min.")
 plotRefToTarget(M, preds$pred2, links = plethodon$links)
 mtext("PC1 - Max.")
-par(mfrow=c(1,1))
+par(mfrow=c(1, 1))
 ```
 
 

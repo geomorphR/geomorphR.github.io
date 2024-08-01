@@ -22,10 +22,15 @@ Below is a simple 2D example containing points and curves. For 3D we could add c
 data(hummingbirds)
 hummingbirds$curvepts   
 
-gpa.BE <- gpagen(hummingbirds$land, curves=hummingbirds$curvepts, ProcD=FALSE, print.progress = F)
+gpa.BE <- gpagen(hummingbirds$land, 
+                 curves = hummingbirds$curvepts, 
+                 ProcD=FALSE, 
+                 print.progress = F)
 plot(gpa.BE)
 
-gpa.procD <- gpagen(hummingbirds$land, curves=hummingbirds$curvepts, ProcD=TRUE, print.progress = F)
+gpa.procD <- gpagen(hummingbirds$land, 
+                    curves = hummingbirds$curvepts, 
+                    ProcD=TRUE, print.progress = F)
 plot(gpa.procD)
 ```
 
@@ -36,7 +41,8 @@ shapes <- StereoMorph::readShapes("Data/example.digitized")
 shapesGM <- readland.shapes(shapes, 
   nCurvePts = c(12, 12, 12, 8, 6, 6, 6, 12, 10))
 
-Y.gpa <- gpagen(shapesGM, print.progress = FALSE)
+Y.gpa <- gpagen(shapesGM, 
+                print.progress = FALSE)
 plot(Y.gpa)
 ```
 
@@ -47,8 +53,10 @@ Here is a simple example of partial least squares:
 ```{r eval=TRUE}
 data("plethShapeFood")
 Y.gpa <- gpagen(plethShapeFood$land,
-                print.progress = FALSE,)
+                print.progress = FALSE)
+
 food <- plethShapeFood$food
+
 rownames(food) <- names(Y.gpa$Csize) # just to assure match
 
 PLSfood <- two.b.pls(food, Y.gpa$coords, 
@@ -68,7 +76,9 @@ fit.null <- procD.lm(coords ~ 1, data = Y.gpa,
 fit.alt <- procD.lm(coords ~ log(Csize), data = Y.gpa,
                     turbo = FALSE, iter = 9999)
 anova(fit.alt)
-plot(fit.alt, type = "regression", reg.type = "RegScore", predictor = Y.gpa$Csize)
+plot(fit.alt, type = "regression", 
+     reg.type = "RegScore", 
+     predictor = Y.gpa$Csize)
 ```
 
 ## 4: Allometry
@@ -82,10 +92,15 @@ plotAllSpecimens(pupfish$coords)  #NOTE: already GPA-aligned
 pupfish$logSize <- log(pupfish$CS)
 pupfish$Group <- interaction(pupfish$Pop, pupfish$Sex)
 
-fit <- procD.lm(coords ~ logSize, data = pupfish, print.progress = FALSE) 
+fit <- procD.lm(coords ~ logSize, 
+                data = pupfish, 
+                print.progress = FALSE) 
 anova(fit)
 
-plot(fit, type = "regression", reg.type = "RegScore", predictor = pupfish$logSize, pch = 19)
+plot(fit, type = "regression", 
+     reg.type = "RegScore", 
+     predictor = pupfish$logSize, 
+     pch = 19)
   #NOTE: Try also: reg.type = "PredLine"
 ```
    
@@ -98,23 +113,42 @@ fit.unique <- procD.lm(coords ~ logSize * Group,
                            data = pupfish, print.progress = FALSE)  
 anova(fit.unique)
 
-par(mfcol = c(1,2))
-plot(fit.common, type = "regression", predictor = pupfish$logSize, 
-     reg.type = "PredLine", pch=19, col = pupfish$Group)
-legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+par(mfcol = c(1, 2))
+
+plot(fit.common, type = "regression", 
+     predictor = pupfish$logSize, 
+     reg.type = "PredLine", 
+     pch=19, 
+     col = pupfish$Group)
+
+legend("topleft", 
+       legend = unique(pupfish$Group), 
+       pch = 21, 
+       pt.bg = unique(pupfish$Group))
+
 mtext("Common Slopes")
-plot(fit.unique, type = "regression", predictor = pupfish$logSize, 
-     reg.type = "PredLine", pch=19, col = pupfish$Group)
-legend("topleft", legend = unique(pupfish$Group), pch = 21, pt.bg = unique(pupfish$Group))
+
+plot(fit.unique, 
+     type = "regression", 
+     predictor = pupfish$logSize, 
+     reg.type = "PredLine", 
+     pch=19, 
+     col = pupfish$Group)
+
+legend("topleft", 
+       legend = unique(pupfish$Group), 
+       pch = 21, 
+       pt.bg = unique(pupfish$Group))
+
 mtext("Unique Slopes")
-par(mfcol = c(1,1))
+par(mfcol = c(1, 1))
 ```
 
 **Conclusion:** Not much going on for this example (**illustration purposes only**). 
 
 ## 5: Things to Explore on Your Own
 
-1. Remember Day 1 (read in your data, GPA, PCa, TPS)
+1. Remember Day 1 (read in your data, GPA, PCA, TPS)
 2. Perform GPA + sliders
 3. 3D data: Perform GPA with points, curves, surfaces, or some combination
 4. Perform PLS: visualize shapes along PLS

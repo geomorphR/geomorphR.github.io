@@ -64,7 +64,7 @@ shape.test <- treedata(phy = plethtree, data = two.d.array(shape), warnings = TR
 data.matched <- treedata(phy = plethtree, data = gps, warnings=FALSE)
 elev <- as.factor(data.matched$data); names(elev) <- row.names(data.matched$data)
 
-gdf <- geomorph.data.frame(shape=shape, svl=svl,elev = elev, plethtree=plethtree)
+gdf <- geomorph.data.frame(shape = shape, svl = svl, elev = elev, plethtree = plethtree)
 
 links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
                 ncol=2,byrow=FALSE)
@@ -82,8 +82,8 @@ summary(pgls.reg)
 
 allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$svl,
                    reg.type ="RegScore", pch=19, cex=1.5, xlab = "SVL") # make sure to have a predictor 
-fit.line <- lm(allom.plot$RegScore~gdf$svl)
-abline(fit.line,col = "red")
+fit.line <- lm(allom.plot$RegScore ~ gdf$svl)
+abline(fit.line, col = "red")
 
 ```
 
@@ -162,6 +162,8 @@ plot(lizard.sym, warpgrids = TRUE)
 
 
 ## 4: Measurement Error
+
+Note that the function, `measurement.error` is a general function in the `RRPP` package.  It assumes data are in the form of a matrix.  One could use the function, `gm.measurement.error`, in `geomorph`, which assumes data are in the form of a 3D array, as shape data usually are.  The functions do the same analyses.  The example below uses `measurement.error` but the help file for `gm.measurement.error` shows how the same example could be run with shape data in a 3D array.
 
 Here is a simple example of the analysis of measurement error: 
 
