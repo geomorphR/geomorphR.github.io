@@ -161,7 +161,7 @@ pre {
 
 + Note the large number of shape dimensions with no variation. Much of this is due to bilateral symmetry!
 
-.pull-left[
+.scrollable[
 
 ```
 ## 
@@ -169,13 +169,6 @@ pre {
 ```
 
 &lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-]
-.pull-right[.small[
-
-``` r
-res &lt;- prcomp(two.d.array(Y.gpa$coords))
-summary(res)
-```
 
 ```
 ## Importance of components:
@@ -220,7 +213,7 @@ summary(res)
 ## Proportion of Variance 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
 ## Cumulative Proportion  1.000e+00 1.000e+00 1.000e+00 1.000e+00 1.000e+00
 ```
-]]
+]
 
 ---
 
@@ -308,7 +301,7 @@ summary(res)
 ---
 
 ### Matching Symmetry: Example 2
-.med[
+.scrollable[
 
 ``` r
 data(mosquito)
@@ -316,7 +309,7 @@ Y.gpa &lt;- gpagen(mosquito$wingshape, print.progress = FALSE)
 plot(Y.gpa)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-10-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -372,7 +365,7 @@ summary(mosquito.sym)
 plot(mosquito.sym, warpgrids = TRUE)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -390,7 +383,7 @@ Y.gpa &lt;- gpagen(lizards$coords, print.progress = FALSE)
 plot(Y.gpa)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]]
 ---
 
@@ -437,7 +430,7 @@ summary(lizard.sym)
 plot(lizard.sym, warpgrids = TRUE)
 ```
 
-&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-16-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -616,7 +609,7 @@ plot(rep1, pch = 16,
 points(rep2, pch = 16, col = gray(0.2, alpha = 0.5), cex = 2, asp = 1)
 ```
 
-![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -666,7 +659,7 @@ anova(ME1)
 plot(ME1)
 ```
 
-![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 ]
 ---
 
@@ -719,7 +712,7 @@ anova(ME2)
 plot(ME2)
 ```
 
-![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-24-2.png)&lt;!-- --&gt;![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-24-3.png)&lt;!-- --&gt;
+![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-23-2.png)&lt;!-- --&gt;![](10-RepeatedShapeMeasures_files/figure-html/unnamed-chunk-23-3.png)&lt;!-- --&gt;
 ]
 ---
 ### Measurement Error (ME) Example: how to do it in `geomorph`
@@ -782,6 +775,13 @@ Comments:
 &lt;img src="LectureData/10.asymmetry/fruciano_fig7ef.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
+---
+
+### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017) (Cont.)
+
+.scrollable[
+&lt;img src="LectureData/10.asymmetry/fruciano_fig7ef.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
 ---
 
 ### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017) (Cont.)

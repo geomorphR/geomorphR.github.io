@@ -165,7 +165,7 @@ include_graphics("LectureData/10.asymmetry/SymmLizard.png")
 
 + Note the large number of shape dimensions with no variation. Much of this is due to bilateral symmetry!
 
-.pull-left[
+.scrollable[
 ```{r echo=FALSE, fig.align = "center", eval=TRUE, out.width="80%"}
 lizards <- readland.tps('LectureData/07.allometry/symm.shape2.tps', warnmsg = FALSE)
 liz.lab <- read.csv('LectureData/07.allometry/ind.info.txt',header=TRUE, sep=",")
@@ -174,14 +174,11 @@ CS <- liz.lab$cs
 type <- liz.lab$type
 gdf <- geomorph.data.frame(Y.gpa, CS = CS, type = type)
 plotAllSpecimens(Y.gpa$coords)
-```
-]
-.pull-right[.small[
-```{r}
+
 res <- prcomp(two.d.array(Y.gpa$coords))
 summary(res)
 ```
-]]
+]
 
 ---
 
@@ -279,7 +276,7 @@ include_graphics("LectureData/10.asymmetry/MatchExWings.png")
 ---
 
 ### Matching Symmetry: Example 2
-.med[
+.scrollable[
 ```{r, echo = TRUE, fig.align = "center", out.width="60%"}
 data(mosquito)
 Y.gpa <- gpagen(mosquito$wingshape, print.progress = FALSE)
@@ -639,6 +636,15 @@ include_graphics("LectureData/10.asymmetry/fruciano_fig7ef.png")
 ```
 ]
 
+---
+
+### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017) (Cont.)
+
+.scrollable[
+```{r, echo = FALSE, fig.align = "center", out.width="100%"}
+include_graphics("LectureData/10.asymmetry/fruciano_fig7ef.png")  
+```
+]
 ---
 
 ### Measurement Error (ME) Example: Re-evaluating Fruciano et al. (2017) (Cont.)
