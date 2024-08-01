@@ -194,7 +194,7 @@ The question then is: do these vectors differ, and if so how?
 
 Once we have defined the change vectors for each group, we require summary measures of them. In any dimension, vectors have two attributes: a **length** and a **direction**. 
 
-First, the length of each change vector is found as: $\small\Vert{d}_1\Vert=\left( \mathbf{\Delta \hat{z}}_1^T \mathbf{\Delta \hat{z}_1} \right)^{1/2}$.  Where: $\small{\mathbf{\Delta \hat{z}}_1}=\mathbf{\hat{z}}_{1,2}^T - \mathbf{\hat{z}}_{1,1}^T$. This is the length of $\small{d}_1$. Vector lengths are obtained for all vectors.
+First, the length of each change vector is found as: $\small d_1 = \Vert \mathbf{\Delta \hat{z}}_1\Vert=\left( \mathbf{\Delta \hat{z}}_1^T \mathbf{\Delta \hat{z}_1} \right)^{1/2}$.  Where: $\small{\mathbf{\Delta \hat{z}}_1}=\mathbf{\hat{z}}_{1,2}^T - \mathbf{\hat{z}}_{1,1}^T$. This is the length of $\small{d}_1$. Vector lengths are obtained for all vectors.
 
 Next, we calculate two test statistics: one that describes the difference in vector magnitudes, and another the difference in their angular direction: 
 
@@ -262,12 +262,18 @@ Summaries of $\small{MD}$ and $\small\theta$
 
 .pull-left[.med[
 ```{r, echo = TRUE, include = TRUE}
-summary(TA, attribute = "MD") 
+summary(TA, 
+        attribute = "MD") 
 ```
 ]]
 .pull-right[.med[
 ```{r, echo = TRUE, include = TRUE}
-summary(TA, attribute = "TC", angle.type = "deg") ### Correlations (angles) between trajectories
+
+### Correlations (angles) between trajectories
+summary(TA, 
+        attribute = "TC", 
+        angle.type = "deg") 
+
 ```
 ]]
 ---
@@ -396,7 +402,7 @@ Trajectory Statistics
 Attribute Compared | 2-point Statistic | >2-point Statistic
 :-------- | :----------- | :------------------------------------
 Length | $MD = \mid {d}_1 - {d}_2 \mid$ | $MD = \mid \sum d_1 - \sum d_2 \mid$
-Angle | $\theta = \cos^{-1}\left(\frac{\mathbf{\Delta \hat{z}}_1^T \mathbf{\Delta \hat{z}}_2 }{d_1d_2}\right)$ | $\theta = \cos^{-1}\left(\mathbf{v}_{1,1}^T \mathbf{v}_{2,1}\right)$, where $\mathbf{u}_{i,1}$ refers to the first eigenvector of the $i^{th}$ group, which happens to already be unit size.
+Angle | $\theta = \cos^{-1}\left(\frac{\mathbf{\Delta \hat{z}}_1^T \mathbf{\Delta \hat{z}}_2 }{d_1d_2}\right)$ | $\theta = \cos^{-1}\left(\mathbf{v}_{1,1}^T \mathbf{v}_{2,1}\right)$, where $\mathbf{v}_{i,1}$ refers to the first eigenvector of the $i^{th}$ group, which happens to already be unit size.
 Shape | *NA* | $D_P = \left(\left( \mathbf{\gamma}_1 -  \mathbf{\gamma}_2 \right)^T \left( \mathbf{\gamma}_1 - \mathbf{\gamma}_2 \right) \right)^{1/2}$, where $\mathbf{\gamma}$ is a vectorized form of the matrix of trajectory points, which has been centered, "standardized" by matrix size, and rotated.  $D_P$ is Procrustes distance.
 
 ---
