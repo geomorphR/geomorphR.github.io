@@ -408,14 +408,14 @@ Shape | *NA* | $D_P = \left(\left( \mathbf{\gamma}_1 -  \mathbf{\gamma}_2 \right
 ---
 ### Generalized Procrustes Analysis
 .center[
-```{r, echo = FALSE, out.width="50%"}
+```{r, echo = FALSE, out.width="65%"}
 include_graphics("LectureData/11.RRPPExtensions/pta/Slide05.png")  
 ```
 ]
 ---
 ### Generalized Procrustes Analysis (Cont.)
 .center[
-```{r, echo = FALSE, out.width="50%"}
+```{r, echo = FALSE, out.width="65%"}
 include_graphics("LectureData/11.RRPPExtensions/pta/Slide06.png")  
 ```
 ]
@@ -423,7 +423,7 @@ include_graphics("LectureData/11.RRPPExtensions/pta/Slide06.png")
 
 ### Generalized Procrustes Analysis (Cont.)
 .center[
-```{r, echo = FALSE, out.width="50%"}
+```{r, echo = FALSE, out.width="70%"}
 include_graphics("LectureData/11.RRPPExtensions/pta/Slide07.Png")  
 
 ```
