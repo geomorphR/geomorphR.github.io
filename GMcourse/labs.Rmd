@@ -2,24 +2,26 @@
   title: "Lab Tutorials and Data"
 ---
 
-### Day 2: Tutorial
+Note that the days correspond to days of lectures, which may differ from the days in the workshop (especially if the first day of the workshop is dedicated to digitizing practices).
 
-- [R-Based Review of Day 1 Material](https://geomorphR.github.io/GMcourse/Labs/01-Day1Material.html)
+### Tutorial on GPA and Visualization
+
+- [R-Based Review of Day 1 Material: ](https://geomorphR.github.io/GMcourse/Labs/01-Day1Material.html)
 - [Day 1 R-script](https://geomorphR.github.io/GMcourse/Labs/01-Day01-RCode.R)
 
-### Day 3: Tutorial
+### Tutorial on GPA with semilandmarks, PLS, and Linear Regression
 
-- [R-Based Review of Day 2 Material](https://geomorphR.github.io/GMcourse/Labs/02-Day2Material.html)
+- [R-Based Review of Day 2 Material:](https://geomorphR.github.io/GMcourse/Labs/02-Day2Material.html)
 - [Day 2 R-script](https://geomorphR.github.io/GMcourse/Labs/02-Day02-RCode.R)
 
-### Day 4: Tutorial
+### Tutorial on GLM analyses, phylogenetic comparative methods, symmetry, and measurement error
 
-- [R-Based Review of Day 3 Material](https://geomorphR.github.io/GMcourse/Labs/03-Day3Material.html)
-- [Day 3 R-script](https://geomorphR.github.io/GMcourse/Labs/03-Day03-RCode.R)
+- [R-Based Review of Day 3 Material:](https://geomorphR.github.io/GMcourse/Labs/03-Day3Material.html)
+- [Day 3 R-script:](https://geomorphR.github.io/GMcourse/Labs/03-Day03-RCode.R)
 
-### Day 5: Tutorial
+### Tutorial on trajectory analysis, morphological disparity, modularity, and integration
 
-- [R-Based Review of Day 4 Material](https://geomorphR.github.io/GMcourse/Labs/04-Day4Material.html)
+- [R-Based Review of Day 4 Material:](https://geomorphR.github.io/GMcourse/Labs/04-Day4Material.html)
 - [Day 4 R-script](https://geomorphR.github.io/GMcourse/Labs/04-Day04-RCode.R)
 
 ### Additional Material
