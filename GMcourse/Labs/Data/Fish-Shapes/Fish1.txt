@@ -1,4 +1,11 @@
 <shapes type=list>
-	<scaling type=logical names=FALSE length=1 as.numeric=FALSE >NA</scaling>
+	<ruler.pixel type=vector names=FALSE length=1 as.numeric=TRUE >969.101129913695</ruler.pixel>
+	<ruler.interval type=vector names=FALSE length=1 as.numeric=TRUE >25.4</ruler.interval>
+	<scaling.units type=vector names=FALSE length=1 as.numeric=FALSE >mm</scaling.units>
+	<scaling type=vector names=FALSE length=1 as.numeric=TRUE >0.026209854901585</scaling>
+	<ruler.points type=matrix rownames=TRUE colnames=FALSE nrow=2 ncol=2 as.numeric=TRUE >
+		Ruler point 1	3607	438
+		Ruler point 2	3621	1407
+	</ruler.points>
 </shapes>
 

@@ -28,3 +28,5 @@
 
 ### Example data for Workshop (can be cloned, pulled, or files downloaded)
 [Link to Data Repository](https://github.com/geomorphR/geomorphR.github.io/tree/main/GMcourse/Labs/Data)
+
+[Tool for downloading all data or just subfolders](https://download-directory.github.io/)  Requires entering url.
