@@ -14,12 +14,12 @@ Note that the days correspond to days of lectures, which may differ from the day
 - [R-Based Review of Day 2 Material:](https://geomorphR.github.io/GMcourse/Labs/02-Day2Material.html)
 - [Day 2 R-script](https://geomorphR.github.io/GMcourse/Labs/02-Day02-RCode.R)
 
-### Tutorial on GLM analyses, phylogenetic comparative methods, symmetry, and measurement error
+### Tutorial on GLM analyses, Phylogenetic comparative methods, Symmetry, and Measurement error
 
 - [R-Based Review of Day 3 Material:](https://geomorphR.github.io/GMcourse/Labs/03-Day3Material.html)
 - [Day 3 R-script:](https://geomorphR.github.io/GMcourse/Labs/03-Day03-RCode.R)
 
-### Tutorial on trajectory analysis, morphological disparity, modularity, and integration
+### Tutorial on Trajectory analysis, Morphological disparity, Modularity, and Morphological integration
 
 - [R-Based Review of Day 4 Material:](https://geomorphR.github.io/GMcourse/Labs/04-Day4Material.html)
 - [Day 4 R-script](https://geomorphR.github.io/GMcourse/Labs/04-Day04-RCode.R)
