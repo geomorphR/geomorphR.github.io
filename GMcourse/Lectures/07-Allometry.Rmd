@@ -45,13 +45,6 @@ include_graphics("LectureData/07.allometry/AllomIntro.png")
 ```
 ---
 
-### Allometry: Basic Concepts
-   
-```{r, echo = FALSE, fig.align = "center", out.width="60%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_z.png")  
-```
-
----
 
 ### Allometry: Basic Concepts
 
@@ -67,8 +60,49 @@ $$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
 ]
 
 .pull-right[    
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
+```{r, echo = FALSE}
+layout(matrix(c(1,1,2,3,1,1,4,5,6,6, 7,8),3, 4,
+              byrow = TRUE))
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "log(Width)", ylab = "log(Height)",
+     main = "Relative depth",
+     xlim = c(0.5, 9), ylim = c(2,9))
+lines(matrix(c(6, 0, 6, 6), 2, 2, byrow = TRUE), lty = 3)
+lines(matrix(c(0, 6, 6, 6), 2, 2, byrow = TRUE), lty = 3)
+abline(0, 1, col = 4)
+abline(0, 2, col = 2)
+abline(0, 0.5, col = 6)
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 2)
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 10, 10), col = 2)
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 4)
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 10, 10, 0), c(0, 0, 10, 10), col = 4)
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+legend("topleft", 
+       c(expression(paste(alpha, " > ", 1)),
+                              expression(paste(alpha, " = ", 1)),
+                              expression(paste(alpha, " < ", 1))),  
+       lty = 1, col = c(2,4,6), cex = 2, bty = "n")
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 6)
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 10, 10, 0), c(0, 0, 5, 5), col = 6)
+
+
 ```
 ]
 
@@ -83,8 +117,49 @@ include_graphics("LectureData/07.allometry/PosnegAllom_b.png")
 ]
 
 .pull-right[    
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
+```{r, echo = FALSE}
+layout(matrix(c(1,1,2,3,1,1,4,5,6,6, 7,8),3, 4,
+              byrow = TRUE))
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "log(Width)", ylab = "log(Height)",
+     main = "Relative depth",
+     xlim = c(0.5, 9), ylim = c(2,9))
+lines(matrix(c(6, 0, 6, 6), 2, 2, byrow = TRUE), lty = 3)
+lines(matrix(c(0, 6, 6, 6), 2, 2, byrow = TRUE), lty = 3)
+abline(0, 1, col = 4)
+abline(0, 2, col = 2)
+abline(0, 0.5, col = 6)
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 2)
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 10, 10), col = 2)
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 4)
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 10, 10, 0), c(0, 0, 10, 10), col = 4)
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+legend("topleft", 
+       c(expression(paste(alpha, " > ", 1)),
+                              expression(paste(alpha, " = ", 1)),
+                              expression(paste(alpha, " < ", 1))),  
+       lty = 1, col = c(2,4,6), cex = 2, bty = "n")
+
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 6)
+plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
+     asp = 1, xlab = "", ylab = "", axes = FALSE)
+polygon(c(0, 10, 10, 0), c(0, 0, 5, 5), col = 6)
+
+
 ```
 ]
 
