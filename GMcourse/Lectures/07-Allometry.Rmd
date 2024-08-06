@@ -58,7 +58,7 @@ $$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
 
 ]
 .pull-right[    
-```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+```{r, echo = FALSE, fig.align = "center", out.width="100%"}
 include_graphics("LectureData/07.allometry/PosnegAllom.png")  
 ```
 ]

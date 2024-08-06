@@ -1232,7 +1232,7 @@ $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in ea
 
 .remark-code[.blue[Note that **transformed fitted values** are found as]] $\hat{\tilde{\mathbf{Z}}} = \tilde{\mathbf{X}}\hat{\boldsymbol{\beta}}$.
 
-.remark-code[.blue[Note that **transformed residuals** are found as]] $\tilde{\mathbf{E}} = \tilde{\mathbf{Z}} - \hat{\tilde{\mathbf{Z}}}$, where $\mathbf{Z}_{trans} = $
+.remark-code[.blue[Note that **transformed residuals** are found as]] $\tilde{\mathbf{E}} = \tilde{\mathbf{Z}} - \hat{\tilde{\mathbf{Z}}}$.
 
 Working with transformed fitted values and residuals is important for hypothesis testing.
 ---
