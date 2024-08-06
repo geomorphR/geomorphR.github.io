@@ -58,8 +58,8 @@ $$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
 
 ]
 .pull-right[    
-```{r, echo = FALSE, fig.align = "center", out.width="100%"}
-include_graphics("LectureData/07.allometry/PosnegAllom.png")  
+```{r, echo = FALSE, fig.align = "center", out.width="60%"}
+include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
 ```
 ]
 
