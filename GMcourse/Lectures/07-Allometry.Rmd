@@ -46,6 +46,14 @@ include_graphics("LectureData/07.allometry/AllomIntro.png")
 ---
 
 ### Allometry: Basic Concepts
+   
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
+```
+
+---
+
+### Allometry: Basic Concepts
 
 .pull-left[
 + What is allometry, and compared to what?
@@ -60,7 +68,7 @@ $$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
 
 .pull-right[    
 ```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_d.png")  
+include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
 ```
 ]
 
@@ -76,7 +84,7 @@ include_graphics("LectureData/07.allometry/PosnegAllom_d.png")
 
 .pull-right[    
 ```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_d.png")  
+include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
 ```
 ]
 
