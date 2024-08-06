@@ -60,7 +60,7 @@ $$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
 
 .pull-right[    
 ```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_c.png")  
+include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
 ```
 ]
 
@@ -76,7 +76,7 @@ include_graphics("LectureData/07.allometry/PosnegAllom_c.png")
 
 .pull-right[    
 ```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_c.png")  
+include_graphics("LectureData/07.allometry/PosnegAllom_b.png")  
 ```
 ]
 
