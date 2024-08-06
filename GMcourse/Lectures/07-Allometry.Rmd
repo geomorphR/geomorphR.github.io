@@ -57,17 +57,29 @@ include_graphics("LectureData/07.allometry/AllomIntro.png")
 $$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$
 
 ]
+
 .pull-right[    
-```{r, echo = FALSE, fig.align = "center", out.width="60%"}
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
 include_graphics("LectureData/07.allometry/PosnegAllom_c.png")  
 ```
 ]
 
---
+---
 
-+ #### note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (for multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning)
+### Allometry: Basic Concepts
 
-+ #### Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size
+.pull-left[
++ **Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (For multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning).**
+
++ **Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size.**
+]
+
+.pull-right[    
+```{r, echo = FALSE, fig.align = "center", out.width="80%"}
+include_graphics("LectureData/07.allometry/PosnegAllom_c.png")  
+```
+]
+
 ---
 
 ### Types of Allometry

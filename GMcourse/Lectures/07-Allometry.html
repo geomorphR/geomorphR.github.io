@@ -58,15 +58,25 @@ class: center, middle, inverse, title-slide
 `$$\small{log(Y)}=log(\beta)+\alpha{log(x)}$$`
 
 ]
+
 .pull-right[    
-&lt;img src="LectureData/07.allometry/PosnegAllom_c.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/PosnegAllom_c.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
---
+---
 
-+ #### note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (for multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning)
+### Allometry: Basic Concepts
 
-+ #### Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size
+.pull-left[
++ **Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (For multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning).**
+
++ **Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size.**
+]
+
+.pull-right[    
+&lt;img src="LectureData/07.allometry/PosnegAllom_c.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
 ---
 
 ### Types of Allometry
@@ -237,7 +247,7 @@ plotRefToTarget(M, preds$predmax, mag=1)
 mtext("Regression Max")
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ``` r
 par(mfrow=c(1,1))
@@ -268,7 +278,7 @@ par(mfrow=c(1,1))
 ## No curves detected; all points appear to be fixed landmarks.
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -292,11 +302,11 @@ anova(fit)$table
 
 ### Allometry Example: *Podarcis* (Cont.)
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### *Podarcis* Allometry: Visualization 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### *Podarcis* Allometry: Visualization (Cont.)
@@ -320,7 +330,7 @@ M &lt;- mshape(Y.gpa$coords)
 
 ]
 .pull-right[
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -458,7 +468,7 @@ data(pupfish)
 plotAllSpecimens(pupfish$coords)
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-24-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-25-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
@@ -510,7 +520,7 @@ anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 + Allometric plots 
   + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-28-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-29-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
