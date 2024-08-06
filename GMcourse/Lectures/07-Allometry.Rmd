@@ -48,7 +48,7 @@ include_graphics("LectureData/07.allometry/AllomIntro.png")
 ### Allometry: Basic Concepts
    
 ```{r, echo = FALSE, fig.align = "center", out.width="80%"}
-include_graphics("LectureData/07.allometry/PosnegAllom_x.png")  
+include_graphics("LectureData/07.allometry/PosnegAllom_x.jpg")  
 ```
 
 ---
