@@ -175,7 +175,7 @@ $\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}$
 
 + Perform OPA in iterative fashion
 
-1. Translate and rotate all specimens
+1. Translate and scale all specimens
 2. Rotate all objects to the $1^{st}$ specimen
 3. Find the mean ( $\mathbf{\overline{Y}}$) 
 4. Estimate the total variation ( $TSS$)

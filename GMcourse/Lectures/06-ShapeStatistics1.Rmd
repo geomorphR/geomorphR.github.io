@@ -292,7 +292,7 @@ plot(PCA,
 + PCA is the most basic way to look at a high-dimensional data space in discernible dimensions.
 + Alignment of data to its inherent, principal axes.
 + A rigid rotation of the data space (orthogonal projection)
-+ The distances among observed shapes in all PC dimensions is the same as the distances in original dimensions, so long as $\sum\lambda_i = trace(\hat{\boldsymbol{\Sigma}})$.  In other words, the diagonals of $\mathbf{ZZ}^T$ and $\mathbf{PP}^T$ have the same sum.
++ The distances among observed shapes in all PC dimensions is the same as the distances in original dimensions, so long as $\sum\lambda_i = trace(\hat{\boldsymbol{\Sigma}})$.  In other words, the diagonals of $(n-1)^{-1}\mathbf{ZZ}^T$ and $\mathbf{PP}^T$ have the same sum.
 + .remark-code[.red[Some sources discuss PCA performed on either covariance or correlation matrices.  **This is unnecessary.**  If $\mathbf{Z}$ is a matrix of centered data, then $\hat{\boldsymbol{\Sigma}}$ is a covariance matrix; if $\mathbf{Z}$ is a matrix of standardized data, then $\hat{\boldsymbol{\Sigma}}$ is a correlation matrix.  Performing PCA on a correlation matrix is simply making the *a priori* decision to standardize data $^1$.
 ]]
 
