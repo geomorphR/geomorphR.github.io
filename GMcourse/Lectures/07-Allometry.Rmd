@@ -597,12 +597,12 @@ fit.unique <- procD.lm(coords ~ logSize * Group,
 + now let's do a homogeneity of slopes test
 ]
 
-.pull-right[
+.med[.pull-right[
 ```{r, echo = TRUE, fig.align = "center",  out.width = "50%"}
-anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
+anova(fit.common, fit.unique, print.progress = FALSE)
 ```
 + Suggests allometric slopes are parallel 
-]
+]]
 
 ---
 
