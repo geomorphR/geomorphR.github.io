@@ -1,5 +1,7 @@
 For Next time:
 
+SOMEWHERE IN LAB. Show 3D Mesh WARPING
+
 3 - GPA: remove animated gifs (don't work on all platforms). Replace with multi-figures
 
 Some images don't work: 

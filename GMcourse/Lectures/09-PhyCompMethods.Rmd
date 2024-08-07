@@ -68,14 +68,14 @@ include_graphics("LectureData/09.pcm/MammalBS-HR.png")
 
 .pull-left[
 ```{r, echo = FALSE, fig.align = "center", out.width="90%"}
-include_graphics("lectureData/09.pcm/PCM-Metab.png")
+include_graphics("LectureData/09.pcm/PCM-Metab.png")
 
 ```
 ]
 
 .pull-right[
 ```{r, echo = FALSE, fig.align = "center",  out.width="90%"}
-include_graphics("lectureData/09.pcm/PCM-PrimateCoev.png")
+include_graphics("LectureData/09.pcm/PCM-PrimateCoev.png")
 
 ```
 ]
@@ -399,7 +399,7 @@ include_graphics("LectureData/09.pcm/ModelTypes.png")
 + The conceptual development of PCMs
 
 ```{r, echo = FALSE, fig.align = "center", out.width="85%"}
-include_graphics("lectureData/09.pcm/PCM-MethodRoad.png")  
+include_graphics("LectureData/09.pcm/PCM-MethodRoad.png")  
 ```
 ---
 
@@ -417,7 +417,7 @@ include_graphics("LectureData/09.pcm/PCMToolkit.png")
 + The workhorse of PCMs
       
 ```{r, echo = FALSE, fig.align = "center", out.width="90%"}
-include_graphics("lectureData/09.pcm/PCM-PhyloRegGarland.png")  
+include_graphics("LectureData/09.pcm/PCM-PhyloRegGarland.png")  
 ```
 ---
 
@@ -616,7 +616,7 @@ mtext("High Elevation: 1X")
 + How groups are distributed on the phylogeny can make a difference: Adams and Collyer. *Evol.* (2018)
 
 ```{r, echo = FALSE, fig.align = "center", out.width = "70%"}
-include_graphics("lectureData/09.pcm/PCM-PhyANOVA-Groups.png")
+include_graphics("LectureData/09.pcm/PCM-PhyANOVA-Groups.png")
 ```
 
 + Too few group 'state' changes across phylogeny results in lower power
@@ -627,7 +627,7 @@ include_graphics("lectureData/09.pcm/PCM-PhyANOVA-Groups.png")
 + Three implementations are found in the literature
 
 ```{r, echo = FALSE, fig.align = "center", out.width = "90%"}
-include_graphics("lectureData/09.pcm/PGLS-Implementations.png")
+include_graphics("LectureData/09.pcm/PGLS-Implementations.png")
 ```
 
 + All yield equivalent results if performed properly
@@ -691,7 +691,7 @@ plot(PLS.Y)
 + The degree to which phenotypic similarity associates with phylogenetic relatedness
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="70%"}
-include_graphics("lectureData/09.pcm/PCM-PhySigFels85.png")
+include_graphics("LectureData/09.pcm/PCM-PhySigFels85.png")
 ```
 ---
 
@@ -779,12 +779,12 @@ $$\small{Z_{12}=\frac{(\theta_{obs_1}-\mu_{\theta_1})-(\theta_{obs_2}-\mu_{\thet
 ### 2: Comparing Phylogenetic Signal: Example
 .pull-left[
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
-include_graphics("lectureData/09.pcm/ComparePhySignal.png")
+include_graphics("LectureData/09.pcm/ComparePhySignal.png")
 ```
 ]
 .pull-right[
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
-include_graphics("lectureData/09.pcm/ComparePhySignal2.png")
+include_graphics("LectureData/09.pcm/ComparePhySignal2.png")
 ```
 
 Greater phylogenetic signal in SA:V ratios!
@@ -921,7 +921,7 @@ par(mfrow=c(1,1))
   + pPCA and PACA rotate relative to the phylogeny (albeit differently)
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="60%"}
-include_graphics("lectureData/09.pcm/pPCA-PACA.png")
+include_graphics("LectureData/09.pcm/pPCA-PACA.png")
 ```
 
 + Utilizing several may be helpful
@@ -983,7 +983,7 @@ par(mfrow=c(1,1))
 Is there evidence for multiple evolutionary rates on the phylogeny? 
 
 ```{r echo = FALSE, eval=TRUE,out.width="40%", fig.align = "center"}
-include_graphics("lectureData/09.pcm/PCM-BM1BMM.png")
+include_graphics("LectureData/09.pcm/PCM-BM1BMM.png")
 ```
 
 + Fit data to phylogeny under single-rate and multi-rate models, where 
@@ -1045,7 +1045,7 @@ $$\small\mathbf{R}_C=\left( \begin{array}{ccc} \sigma^2_{p} &  &  \\ \sigma^2_{2
 ### 4: Comparing Evolutionary Rates Among Traits: Example
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="80%"}
-include_graphics("lectureData/09.pcm/Hydromantes.png")
+include_graphics("LectureData/09.pcm/Hydromantes.png")
 ```
 ---
 
@@ -1113,7 +1113,7 @@ plot(EMR)
   + 5 models: BM, $\small{OU}_1$, $\small{OU}_3$ $\small{OU}_4$ (3 group+anc), $\small{OU}_{LP}$ (3 gp + history of colonization)
 
 ```{r echo = FALSE, eval=TRUE, fig.align = "center", out.width="80%"}
-include_graphics("lectureData/09.pcm/AnoleBSEvol.png")
+include_graphics("LectureData/09.pcm/AnoleBSEvol.png")
 ```
 
 + $\small{OU}_{LP}$ (3 gp + col. hist.) best explains body size evolution
@@ -1126,7 +1126,7 @@ include_graphics("lectureData/09.pcm/AnoleBSEvol.png")
 + Unfortunately, *nearly all* current implementations for multivariate OU models display high misspecification rates
 
 ```{r echo = FALSE, eval=TRUE,fig.align = "center", out.width="80%"}
-include_graphics("lectureData/09.pcm/MultiOUProblems.png")
+include_graphics("LectureData/09.pcm/MultiOUProblems.png")
 ```
 
 + More analytical development needed here
@@ -1138,7 +1138,7 @@ include_graphics("lectureData/09.pcm/MultiOUProblems.png")
 + Bartoszek et al. (2024) updated algorithms in *mvSlouch* $^1$
 
 ```{r echo = FALSE, eval=TRUE,fig.align = "center", out.width="40%"}
-include_graphics("lectureData/09.pcm/2024-MvSlouch.png")
+include_graphics("LectureData/09.pcm/2024-MvSlouch.png")
 ```
 
 + Misspecification levels now appropriate, and method rotation invariant
