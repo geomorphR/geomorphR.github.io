@@ -86,7 +86,7 @@ gps <- as.factor(paste(plethodon$species, plethodon$site))  #define some groups 
 plot(PCA, pch=22, cex = 1.5, bg = gps) 
 legend("topleft", pch = 22, 
        pt.bg = unique(gps), 
-       legend = levels(gps))
+       legend = unique(gps))
 ```
 
 ## 4: Thin-Plate Spline (TPS) Shape Visualization

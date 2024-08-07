@@ -23,7 +23,7 @@ plot(PCA)
 
 gps <- as.factor(paste(plethodon$species, plethodon$site))  #define some groups for plotting
 plot(PCA, pch=22, cex = 1.5, bg = gps) 
-legend("topleft", pch=22, pt.bg = unique(gps), legend = levels(gps))
+legend("topleft", pch=22, pt.bg = unique(gps), legend = unique(gps))
 
 # TPS
 M <- mshape(Y.gpa$coords)
