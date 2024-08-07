@@ -1,0 +1,8 @@
+For Next time:
+
+3 - GPA: remove animated gifs (don't work on all platforms). Replace with multi-figures
+
+Some images don't work: 
+9 - PCMs
+13 - Missing data 
+14 Future  (curious, these are new and worked before. The change of 'scrolling'?)
