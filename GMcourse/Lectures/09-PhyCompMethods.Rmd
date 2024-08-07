@@ -45,7 +45,7 @@ style_mono_light()
 
 .pull-left[
 ```{r, echo = FALSE, out.width="90%", fig.align='center'}
-include_graphics("LectureData/09.pcm/MammalBS-HR.png")  
+include_graphics("LectureData/09.pcm/MammalBS-HR.png", dpi = 300)  
 ```
 ]
 .pull-right[
@@ -68,14 +68,14 @@ include_graphics("LectureData/09.pcm/MammalBS-HR.png")
 
 .pull-left[
 ```{r, echo = FALSE, fig.align = "center", out.width="90%"}
-include_graphics("lectureData/09.pcm/PCM-Metab.png")
+include_graphics("lectureData/09.pcm/PCM-Metab.png", dpi = 300)
 
 ```
 ]
 
 .pull-right[
 ```{r, echo = FALSE, fig.align = "center",  out.width="90%"}
-include_graphics("lectureData/09.pcm/PCM-PrimateCoev.png")
+include_graphics("lectureData/09.pcm/PCM-PrimateCoev.png", dpi = 300)
 
 ```
 ]
