@@ -45,7 +45,7 @@ style_mono_light()
 
 .pull-left[
 ```{r, echo = FALSE, out.width="90%", fig.align='center'}
-include_graphics("LectureData/09.pcm/MammalBS-HR.png", dpi = 100)  
+include_graphics("LectureData/09.pcm/MammalBS-HR.png")  
 ```
 ]
 .pull-right[
@@ -68,14 +68,14 @@ include_graphics("LectureData/09.pcm/MammalBS-HR.png", dpi = 100)
 
 .pull-left[
 ```{r, echo = FALSE, fig.align = "center", out.width="90%"}
-include_graphics("lectureData/09.pcm/PCM-Metab.png", dpi = 100)
+include_graphics("lectureData/09.pcm/PCM-Metab.png")
 
 ```
 ]
 
 .pull-right[
 ```{r, echo = FALSE, fig.align = "center",  out.width="90%"}
-include_graphics("lectureData/09.pcm/PCM-PrimateCoev.png", dpi = 100)
+include_graphics("lectureData/09.pcm/PCM-PrimateCoev.png")
 
 ```
 ]
@@ -93,7 +93,7 @@ include_graphics("lectureData/09.pcm/PCM-PrimateCoev.png", dpi = 100)
 + Empirical Goal: Evaluate evolutionary hypotheses while accounting for (phylogenetic) non-independence
 
 ```{r, echo = FALSE, out.width="30%", fig.align = "center"}
-include_graphics("LectureData/09.pcm/PhyloMorphoSpace.png", dpi = 100)  
+include_graphics("LectureData/09.pcm/PhyloMorphoSpace.png")  
 ```
 
 + This requires a phylogeny, and an evolutionary model of how trait variation is expected to accumulate
