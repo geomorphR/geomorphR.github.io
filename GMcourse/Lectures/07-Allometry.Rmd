@@ -78,7 +78,7 @@ plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
 polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 2)
 plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
      asp = 1, xlab = "", ylab = "", axes = FALSE)
-polygon(c(0, 5, 5, 0), c(0, 0, 10, 10), col = 2)
+polygon(c(0, 7, 7, 0), c(0, 0, 10, 10), col = 2)
 
 plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
      asp = 1, xlab = "", ylab = "", axes = FALSE)
@@ -100,7 +100,7 @@ plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
 polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 6)
 plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
      asp = 1, xlab = "", ylab = "", axes = FALSE)
-polygon(c(0, 10, 10, 0), c(0, 0, 5, 5), col = 6)
+polygon(c(0, 10, 10, 0), c(0, 0, 7, 7), col = 6)
 
 
 ```
@@ -135,7 +135,7 @@ plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
 polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 2)
 plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
      asp = 1, xlab = "", ylab = "", axes = FALSE)
-polygon(c(0, 5, 5, 0), c(0, 0, 10, 10), col = 2)
+polygon(c(0, 7, 7, 0), c(0, 0, 10, 10), col = 2)
 
 plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
      asp = 1, xlab = "", ylab = "", axes = FALSE)
@@ -157,7 +157,7 @@ plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
 polygon(c(0, 5, 5, 0), c(0, 0, 5, 5), col = 6)
 plot(0:10, 0:10, type = "n", xaxt = "n", yaxt = "n",
      asp = 1, xlab = "", ylab = "", axes = FALSE)
-polygon(c(0, 10, 10, 0), c(0, 0, 5, 5), col = 6)
+polygon(c(0, 10, 10, 0), c(0, 0, 7, 7), col = 6)
 
 
 ```
