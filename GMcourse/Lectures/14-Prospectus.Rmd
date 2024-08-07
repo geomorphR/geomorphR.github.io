@@ -135,7 +135,7 @@ What we learned this week: Procrustes + RRPP with effect sizes ( $Z$-scores) pro
 + The degree to which phenotypic similarity associates with phylogenetic relatedness
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-include_graphics("lectureData/14.prospectus/PhySigConcept.png")
+include_graphics("LectureData/14.prospectus/PhySigConcept.png")
 ```
 
 + For multivariate data, we have $K_{mult}=\frac{\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}^{T}\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}}{\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^{T}\mathbf{\Omega1})^{-1}}{N-1}$
@@ -148,7 +148,7 @@ include_graphics("lectureData/14.prospectus/PhySigConcept.png")
 
 .pull-left[
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-include_graphics("lectureData/14.prospectus/PhySigWeakHist.png")
+include_graphics("LectureData/14.prospectus/PhySigWeakHist.png")
 ```
 
 + Such patterns often interpreted as "Significant, but weak phylogenetic signal"
@@ -159,7 +159,7 @@ include_graphics("lectureData/14.prospectus/PhySigWeakHist.png")
 .pull-right[
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
-include_graphics("lectureData/14.prospectus/PhySigSimul.png")
+include_graphics("LectureData/14.prospectus/PhySigSimul.png")
 ```
 
 + But phylogenetic signal could be "concentrated" in a few dimensions
@@ -211,7 +211,7 @@ $$K= \frac{SSCP_0}{SSCP_{\Omega}} = SSCP_{\Omega}^{-1}SSCP_0$$
 + Papionins display strong and concentrated phylogenetic signal 
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="60%"}
-include_graphics("lectureData/14.prospectus/PhySigHomin.png")
+include_graphics("LectureData/14.prospectus/PhySigHomin.png")
 ```
 
 .footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
@@ -223,7 +223,7 @@ include_graphics("lectureData/14.prospectus/PhySigHomin.png")
 + Crocodylians display strong and concentrated phylogenetic signal 
 
 ```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="60%"}
-include_graphics("lectureData/14.prospectus/PhySigCroc.png")
+include_graphics("LectureData/14.prospectus/PhySigCroc.png")
 ```
 
 .footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
@@ -235,7 +235,7 @@ include_graphics("lectureData/14.prospectus/PhySigCroc.png")
 Contemporary timescales: evaluate trends within species (microevolution)
 
 ```{r, echo=FALSE, out.width="95%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Micro.png")
+include_graphics("LectureData/14.prospectus/Micro.png")
 ```
 
 Evaluated via standard (OLS) linear models
@@ -247,7 +247,7 @@ Evaluated via standard (OLS) linear models
 Macroevolutionary timescales: evaluate trends across the phylogeny
 
 ```{r, echo=FALSE, out.width="95%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Macro.png")
+include_graphics("LectureData/14.prospectus/Macro.png")
 ```
 
 Evaluated via phylogenetic comparative methods
@@ -314,7 +314,7 @@ How can we account for it (or compare it across species)?
 $\boldsymbol{\Omega}_n = \mathbf{X}_S\boldsymbol{\Omega}\mathbf{X}_S^T$
 
 ```{r, echo=FALSE, out.width="90%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/ExpandedOmegaMatrix.png")
+include_graphics("LectureData/14.prospectus/ExpandedOmegaMatrix.png")
 ```
 ]
 
@@ -335,7 +335,7 @@ Adams and Collyer (In Review)
 .pull-left[
 
 ```{r, echo=FALSE, out.width="90%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Fig1.png")
+include_graphics("LectureData/14.prospectus/Fig1.png")
 ```
 
 Method emulates existing approaches when within-species variation is random 
@@ -346,8 +346,8 @@ Method emulates existing approaches when within-species variation is random
 
 .pull-right[
 ```{r, echo=FALSE, out.width="65%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Fig2a.png")
-include_graphics("lectureData/14.prospectus/Fig2b.png")
+include_graphics("LectureData/14.prospectus/Fig2a.png")
+include_graphics("LectureData/14.prospectus/Fig2b.png")
 ```
 
 Method has appropriate type I error, power and empirical sampling distributions
@@ -362,7 +362,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 
 
 ```{r, echo=FALSE, out.width="80%", fig.cap= ""}
-include_graphics("lectureData/14.prospectus/Fig3.png")
+include_graphics("LectureData/14.prospectus/Fig3.png")
 ```
 
 .footnote[1. Adams and Collyer (In Review)]

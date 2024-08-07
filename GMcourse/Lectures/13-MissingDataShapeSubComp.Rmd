@@ -79,7 +79,7 @@ par(mfrow=c(1,1))
   + Specimens are incomplete, or lack structures entirely
 
 ```{r, echo = FALSE,  fig.align = "center", out.width="70%"}
-include_graphics("lectureData/13.missing/MissingAnthro.png")
+include_graphics("LectureData/13.missing/MissingAnthro.png")
 ```
 ---
 
@@ -88,7 +88,7 @@ include_graphics("lectureData/13.missing/MissingAnthro.png")
 + Simplest solution is to remove specimens with missing data
 
 ```{r, echo = FALSE,  fig.align = "center", out.width="90%"}
-include_graphics("lectureData/13.missing/FishDelSpec.png")
+include_graphics("LectureData/13.missing/FishDelSpec.png")
 ```
 
 --
@@ -104,7 +104,7 @@ include_graphics("lectureData/13.missing/FishDelSpec.png")
 + Another option is to delete landmarks that are missing from some specimens
 
 ```{r, echo = FALSE,  fig.align = "center", out.width="90%"}
-include_graphics("lectureData/13.missing/FishDelLand.png")
+include_graphics("LectureData/13.missing/FishDelLand.png")
 ```
 
 --
@@ -137,7 +137,7 @@ include_graphics("lectureData/13.missing/FishDelLand.png")
 ]
 .pull-right[
 ```{r, echo = FALSE,  fig.align = "center", out.width="80%"}
-include_graphics("lectureData/13.missing/Skull1.png")
+include_graphics("LectureData/13.missing/Skull1.png")
 ```
 ]
 
@@ -150,11 +150,11 @@ include_graphics("lectureData/13.missing/Skull1.png")
 + Take one specimen (in red) and eliminate some landmarks
 
 ```{r echo=FALSE, fig.align = "center",  eval=TRUE,out.width="95%"}
-mydat<-readland.tps("lectureData/13.missing/LizardShape.tps",warnmsg = FALSE)
+mydat<-readland.tps("LectureData/13.missing/LizardShape.tps",warnmsg = FALSE)
 shape <- gpagen(mydat,print.progress = FALSE)$coords
 land.prs<-matrix(c(13, 14,2,11,15, 16,27, 28,3,10,17,19,4, 9,20, 21,22, 24,25, 26,5, 8, 6 ,7),ncol=2,byrow=T)
 
-links<-read.table("lectureData/13.missing/lizardlinks.txt",header=T)
+links<-read.table("LectureData/13.missing/lizardlinks.txt",header=T)
 ref<-mshape(shape)
 shape.pca <- gm.prcomp(shape)
 col.spec <- rep("black",dim(shape)[[3]]); col.spec[62] ="red"
@@ -170,7 +170,7 @@ par(mfrow=c(1,1))
 - Let's delete some landmarks then estimate by exploiting symmetry
 
 ```{r, echo = FALSE, fig.align = "center",  out.width="90%"}
-include_graphics("lectureData/13.missing/LizardMissing.png")
+include_graphics("LectureData/13.missing/LizardMissing.png")
 ```
 ]
 ---
@@ -230,9 +230,9 @@ $\small{D}_{Proc}= 0.009$. Pretty good!
 + Here we have some (simulated) fish data:
 
 ```{r echo=FALSE,  fig.align = "center", eval=TRUE,out.width="45%"}
-spec <- readland.tps('lectureData/13.missing/fish.tps', specID = "imageID", warnmsg = FALSE)
+spec <- readland.tps('LectureData/13.missing/fish.tps', specID = "imageID", warnmsg = FALSE)
 spec <- geomorph:::center.scale(spec[,,1])$coords
-links <- read.table("lectureData/13.missing/links.txt")
+links <- read.table("LectureData/13.missing/links.txt")
 #Simulate specimens with large allometry effect
 CS <- seq(.5,1.5, by =.01)  #size
 Dil <- seq(.5,1.5, by =.01)  #size
@@ -281,7 +281,7 @@ plot(PCA,pch=21, bg=fish.colmin, cex=fish.szmin)
 
 .pull-left[
 ```{r, echo = FALSE,  fig.align = "center", out.width="80%"}
-include_graphics("lectureData/13.missing/FishMinMissing.png")
+include_graphics("LectureData/13.missing/FishMinMissing.png")
 ```
 
 Test Procedure
@@ -341,7 +341,7 @@ plot(PCA,pch=21, bg=fish.colmax, cex=fish.szmax)
 + Now let's delete some landmarks then estimate by mean substitution
 
 ```{r, echo = FALSE, fig.align = "center",  out.width="80%"}
-include_graphics("lectureData/13.missing/FishMaxMissing.png")
+include_graphics("LectureData/13.missing/FishMaxMissing.png")
 ```
 
 Test Procedure
