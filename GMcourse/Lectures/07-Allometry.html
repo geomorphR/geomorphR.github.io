@@ -488,10 +488,10 @@ fit.unique &lt;- procD.lm(coords ~ logSize * Group,
 + now let's do a homogeneity of slopes test
 ]
 
-.pull-right[
+.med[.pull-right[
 
 ``` r
-anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
+anova(fit.common, fit.unique, print.progress = FALSE)
 ```
 
 ```
@@ -502,17 +502,17 @@ anova(fit.unique, fit.null = fit.common, print.progress = FALSE)
 ## Estimation method: Ordinary Least Squares 
 ## Effect sizes (Z) based on F distributions
 ## 
-##                                 ResDf Df      RSS         SS         MS
-## coords ~ logSize * Group (Null)    46  1 0.022079                      
-## coords ~ logSize + Group           49 -3 0.024084 -0.0020045 0.00066816
-## Total                              53    0.056333                      
-##                                       Rsq      F       Z     P Pr(&gt;F)
-## coords ~ logSize * Group (Null)  0.000000                            
-## coords ~ logSize + Group        -0.035583 1.3594 -2.0933 0.982       
+##                                 ResDf Df      RSS        SS         MS      Rsq
+## coords ~ logSize + Group (Null)    49  1 0.024084                      0.000000
+## coords ~ logSize * Group           46  3 0.022079 0.0020045 0.00066816 0.035583
+## Total                              53    0.056333                              
+##                                      F      Z     P Pr(&gt;F)
+## coords ~ logSize + Group (Null)                           
+## coords ~ logSize * Group        1.3921 1.1451 0.136       
 ## Total
 ```
 + Suggests allometric slopes are parallel 
-]
+]]
 
 ---
 
