@@ -442,8 +442,8 @@ include_graphics("LectureData/09.pcm/PCM-PhyloRegGarland.png")
 
 $\hat{\mathbf\beta}$ | $\hat{\mathbf{Z}}$ | Residuals | Transformed Residuals| $RSS$ 
 :----- | :----- | :----- | :----- | :----- 
-$\small\hat{\mathbf\beta_F}$ | $\small\mathbf{X}_F\hat{\mathbf\beta}_F$ | $\small(\mathbf{Z}-\hat{\mathbf{Z}}_F)$ | $\small(\tilde{\mathbf{Z}} - \tilde{\mathbf{X}}_F\boldsymbol{\hat{\beta}}_F)$ | $\tilde{\mathbf{E}}_F^T \tilde{\mathbf{E}_F}$ 
-$\small\hat{\mathbf\beta_R}$ | $\small\mathbf{X}_R\hat{\mathbf\beta}_R$ | $\small(\mathbf{Z}-\hat{\mathbf{Z}}_R)$ | $\small(\tilde{\mathbf{Z}} - \tilde{\mathbf{X}}_R\boldsymbol{\hat{\beta}}_R)$ | $\tilde{\mathbf{E}}_R^T \tilde{\mathbf{E}_R}$ 
+$\small\hat{\mathbf{\beta}}_F$ | $\small\mathbf{X}_F\hat{\mathbf\beta}_F$ | $\small(\mathbf{Z}-\hat{\mathbf{Z}}_F)$ | $\small(\tilde{\mathbf{Z}} - \tilde{\mathbf{X}}_F\boldsymbol{\hat{\beta}}_F)$ | $\tilde{\mathbf{E}}_F^T \tilde{\mathbf{E}}_F$ 
+$\small\hat{\mathbf{\beta}}_R$ | $\small\mathbf{X}_R\hat{\mathbf\beta}_R$ | $\small(\mathbf{Z}-\hat{\mathbf{Z}}_R)$ | $\small(\tilde{\mathbf{Z}} - \tilde{\mathbf{X}}_R\boldsymbol{\hat{\beta}}_R)$ | $\tilde{\mathbf{E}}_R^T \tilde{\mathbf{E}}_R$ 
 
 + Obtain $F$ and compare to RRPP empirical sampling distribution to assess significance
 ]
