@@ -290,7 +290,7 @@ plot(Y.gpa)
 .scrollable[.med[
 ```{r, echo = TRUE, fig.align = "center", out.width="80%"}
 
-mosquito.sym <- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, 
+mosquito.sym <- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, replicate = mosquito$replicate,
                            object.sym = FALSE, print.progress = FALSE)
 
 summary(mosquito.sym)

@@ -318,7 +318,7 @@ plot(Y.gpa)
 .scrollable[.med[
 
 ``` r
-mosquito.sym &lt;- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, 
+mosquito.sym &lt;- bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side=mosquito$side, replicate = mosquito$replicate,
                            object.sym = FALSE, print.progress = FALSE)
 
 summary(mosquito.sym)
@@ -328,7 +328,8 @@ summary(mosquito.sym)
 ## 
 ## Call:
 ## bilat.symmetry(A = Y.gpa, ind = mosquito$ind, side = mosquito$side,  
-##     object.sym = FALSE, print.progress = FALSE) 
+##     replicate = mosquito$replicate, object.sym = FALSE, print.progress = FALSE) 
+## 
 ## 
 ## 
 ## Symmetry (data) type: Matching 
@@ -338,21 +339,23 @@ summary(mosquito.sym)
 ## 1000 Permutations
 ## 
 ## Shape ANOVA
-##          Df       SS        MS     Rsq      F       Z Pr(&gt;F)    
-## ind       9 0.104888 0.0116542 0.45533 2.7646  4.7037  0.001 ***
-## side      1 0.003221 0.0032209 0.01398 0.7641 -0.3558  0.635    
-## ind:side 29 0.122249 0.0042155 0.53069                          
-## Total    39 0.230358                                            
+##                    Df       SS        MS     Rsq      F        Z Pr(&gt;F)  
+## ind                 9 0.104888 0.0116542 0.45533 2.6901  1.53968  0.061 .
+## side                1 0.003221 0.0032209 0.01398 0.7435 -0.47265  0.681  
+## ind:side            9 0.038990 0.0043323 0.16926 1.0407  0.27074  0.390  
+## ind:side:replicate 20 0.083259 0.0041629 0.36143                         
+## Total              39 0.230358                                           
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## 
 ## Centroid Size ANOVA
-##          Df         SS         MS     Rsq      F        Z Pr(&gt;F)
-## ind       9 4.1496e-09 4.6107e-10 0.18555 0.7484 -0.42684  0.665
-## side      1 3.4740e-10 3.4738e-10 0.01553 0.5638  0.15779  0.471
-## ind:side 29 1.7867e-08 6.1609e-10 0.79891                       
-## Total    39 2.2364e-08
+##                    Df         SS         MS     Rsq      F        Z Pr(&gt;F)
+## ind                 9 4.1496e-09 4.6107e-10 0.18555 0.8452 -0.21501  0.592
+## side                1 3.4740e-10 3.4738e-10 0.01553 0.6368  0.22428  0.437
+## ind:side            9 6.9569e-09 7.7299e-10 0.31108 1.4170  0.70241  0.237
+## ind:side:replicate 20 1.0910e-08 5.4549e-10 0.48784                       
+## Total              39 2.2364e-08
 ```
 ]]
 
