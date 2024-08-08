@@ -832,7 +832,7 @@ But what if we do:
 
 $$\mathbf{T^T_\Omega}\mathbf{Z} =\mathbf{UDV}^T$$
 
-where: $\mathbf{A}=\mathbf{T_\Omega}$ and $\mathbf\Omega=\mathbf{TT^T}$. Data is aligned to directions independent of phylogenetic signal (the least phylogenetic signal in the first component).
+where: $\mathbf{A}=\mathbf{T_\Omega}$ and $\mathbf\Omega^{-1}=\mathbf{TT^T}$. Data is aligned to directions independent of phylogenetic signal (the least phylogenetic signal in the first component).
 
 ]]
 
