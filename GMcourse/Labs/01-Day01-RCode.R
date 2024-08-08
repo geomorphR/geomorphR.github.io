@@ -64,3 +64,9 @@ sc.preds <- shape.predictor(scallops, x= PC.sc, Intercept = FALSE,
 
 plotRefToTarget(ref, sc.preds$pred1, mesh = refmesh, method = "surface", mag = 1)
 plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = "surface", mag = 1)
+
+
+# Saving deformed PLY
+PC.example <- plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = "surface", mag = 1)
+library(Rvcg)
+vcgPlyWrite(PC.example, filename= "PC.example.ply", writeCol = FALSE)

@@ -525,7 +525,12 @@ sc.preds &lt;- shape.predictor(scallops, x= PC.sc, Intercept = FALSE,
                          pred1 = min(PC.sc), pred2 = max(PC.sc)) # PC 1 extremes
 
 plotRefToTarget(ref, sc.preds$pred1, mesh = refmesh, method = &quot;surface&quot;, mag = 1)
-plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = &quot;surface&quot;, mag = 1)</code></pre>
+plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = &quot;surface&quot;, mag = 1)
+
+# Saving deformed PLY
+PC.example &lt;- plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = &quot;surface&quot;, mag = 1)
+library(Rvcg)
+vcgPlyWrite(PC.example, filename= &quot;PC.example.ply&quot;, writeCol = FALSE)</code></pre>
 </div>
 </div>
 <div id="things-to-explore-on-your-own" class="section level2">
