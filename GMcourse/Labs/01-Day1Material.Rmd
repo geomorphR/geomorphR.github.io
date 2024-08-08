@@ -141,7 +141,25 @@ mtext("PC1 - Max.")
 par(mfrow=c(1, 1))
 ```
 
+#### Visualizing 3D Shapes
 
+One can deform a mesh along PC axes (or anything)
+
+```{r eval=FALSE}
+# (NOT RUN)
+scallops <- readland.tps("Data/scallops for viz.tps", specID = "ID")
+ref <- mshape(scallops)
+refmesh <- warpRefMesh(read.ply("Data/glyp02L.ply"), 
+                       scallops[,,1], ref, color=NULL, centered=T)
+PCA.scallop <- gm.prcomp(scallops)
+plot(PCA.scallop, pch = 21, bg = "black", cex = 2)
+PC.sc <- PCA.scallop$x[,1]
+sc.preds <- shape.predictor(scallops, x= PC.sc, Intercept = FALSE, 
+                         pred1 = min(PC.sc), pred2 = max(PC.sc)) # PC 1 extremes
+
+plotRefToTarget(ref, sc.preds$pred1, mesh = refmesh, method = "surface", mag = 1)
+plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = "surface", mag = 1)
+```
 
 ## 5: Things to Explore on Your Own
 
