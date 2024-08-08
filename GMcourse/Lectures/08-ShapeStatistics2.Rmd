@@ -184,7 +184,7 @@ Henceforth, only RRPP statistical solutions will be presented.
 
 3: Fit $\small\mathbf{X}_{alt}$ using $\small\mathbf{\mathcal{Z}}$: obtain coefficients, fitted values, residuals.
 
-4: Obtain $\boldsymbol{\Theta}^{*}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$ by contrasting either fitted values or residuals between the null and alternative models. .remark-code[.blue[Generally, a covariance matrix is estimated from the cross-product of]] $\boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$ .remark-code[.blue[for linear model effects: $\hat{\boldsymbol{\Sigma}}_{effect}^*$, where the]] $^*$ .remark-code[.blue[superscript indicates this is a random value from a large set of random values.]]
+4: Obtain $\boldsymbol{\Theta}^{*}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$ by contrasting either fitted values or residuals between the null and alternative models. .remark-code[.blue[Generally, a covariance matrix is estimated from the cross-product of]] $\boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$ .remark-code[.blue[for linear model effects:]] $\hat{\boldsymbol{\Sigma}}_{effect}^*$.remark-code[.blue[, where the]] $^*$ .remark-code[.blue[superscript indicates this is a random value from a large set of random values.]]
 
 5: Calculate some statistic, $S$, consistently from either every  $\boldsymbol{\Theta}^{*}_{\tilde{\mathbf{H}}_{alt} |\tilde{\mathbf{H}}_0 }$, $\hat{\boldsymbol{\Sigma}}_{residuals}^*$, or $\hat{\boldsymbol{\Sigma}}_{effect}^*$ matrix estimated in every RRPP permutation.
 
@@ -863,7 +863,7 @@ There are four levels in $\mathbf{X}_{alt}$:
 |Females, Marsh | $1 0 0 0$|
 |Males, Marsh | $1 1 0 0$|
 |Females, Sinkhole | $1 0 1 0$|
-|Females, Sinkhole | $1 0 0 1$|
+|Males, Sinkhole | $1 0 0 1$|
 ---
 
 ### Shape differences among groups, example
@@ -1185,8 +1185,8 @@ Let's start by considering a panoply of possible models for the pupfish data.  O
 
 |Model|Terms|Purpose|
 |---|------|------------|
-|`fit6`| $\log CS$ + Sex + $\log CS$:Sex| Sexual dimorphism in allometry allometry.|
-|`fit7`| $\log CS$ + Pop + $\log CS$:Pop| Ecological allometric divergence.|
+|`fit6`| $\log CS$ + Sex + $\log CS$:Sex| Sexual dimorphism, unique allometry.|
+|`fit7`| $\log CS$ + Pop + $\log CS$:Pop| Ecological divergence, unique allometry.|
 |`fit8`|Pop + Sex + Pop:Sex | Interacting sexual dimorphism and ecological divergence.|
 |`fit9`| $\log CS$ + Pop + Sex + Pop:Sex | Interacting sexual dimorphism and ecological divergence, accounting for allometry.|
 |`fit10`| $\log CS$ + (Pop + Sex + Pop:Sex): $\log CS$| Interacting sexual dimorphism and ecological divergence in allometries.|
