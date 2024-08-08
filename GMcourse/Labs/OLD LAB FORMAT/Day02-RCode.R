@@ -148,6 +148,7 @@ ref <- mshape(scallops)
 refmesh <- warpRefMesh(read.ply("Data/glyp02L.ply"), 
                        scallops[,,1], ref, color=NULL, centered=T)
 PCA.scallop <- gm.prcomp(scallops)
+plot(PCA.scallop, pch = 21, bg = "black", cex = 2)
 PC.sc <- PCA.scallop$x[,1]
 sc.preds <- shape.predictor(scallops, x= PC.sc, Intercept = FALSE, 
                          pred1 = min(PC.sc), pred2 = max(PC.sc)) # PC 1 extremes, more technically
