@@ -66,23 +66,23 @@ plot(PS.shape)
 ### Phylogenetic Ordination
 
 #### Phylomorphospace
-plot.pca <- gm.prcomp(shape,phy=plethtree)
-plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+PCA <- gm.prcomp(shape, phy=plethtree)
+plot(PCA, phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 #### Phylogenetic PCA (pPCA): With GLS-centered residuals
-plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
-plot(plot.ppca,phylo = FALSE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+pPCA <- gm.prcomp(shape, phy=plethtree, GLS = TRUE, transform = TRUE)
+plot(pPCA, phylo = FALSE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 #### Phylogenetic PCA (pPCA): With GLS-transformed residuals
-plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
-plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+pPCA2 <- gm.prcomp(shape, phy=plethtree, GLS = TRUE, transform = TRUE)
+plot(pPCA2, phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 #### Phylogenetically-Aligned Components Analysis (PACA)
-plot.paca <- gm.prcomp(shape,phy=plethtree, align.to.phy = TRUE)
-plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+PACA <- gm.prcomp(shape, phy=plethtree, align.to.phy = TRUE)
+plot(PACA, phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 ### Comparing Evolutionary Rate Models
