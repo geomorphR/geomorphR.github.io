@@ -30,16 +30,16 @@ plethland <- readland.tps('Data/PlethodonLand.tps',specID = "ID",
 gps <- read.csv('Data/PlethGps.csv', header=TRUE, row.names=1)
 Y.gpa <- gpagen(plethland, print.progress = FALSE)
 M <- mshape(Y.gpa$coords)
-svl <- Y.gpa$Csize
+size <- Y.gpa$Csize
 
 shape <- Y.gpa$coords
 shape.test <- treedata(phy = plethtree, data = two.d.array(shape), warnings = TRUE)
-#no warnings. Everthing matches in this case
+#no warnings. Everything matches in this case
 
 data.matched <- treedata(phy = plethtree, data = gps, warnings=FALSE)
 elev <- as.factor(data.matched$data); names(elev) <- row.names(data.matched$data)
 
-gdf <- geomorph.data.frame(shape=shape, svl=svl,elev = elev, plethtree=plethtree)
+gdf <- geomorph.data.frame(shape=shape, size=size,elev = elev, plethtree=plethtree)
 
 links <- matrix(c(4,3,2,1,1,6,7,8,9,10,1,1,11,5,5,4,2,3,7,8,9,10,11,9,10,1),
                 ncol=2,byrow=FALSE)
@@ -49,12 +49,12 @@ axisPhylo(1)
 
 ### Phylogenetic Generalized Least Squares (PLGS): Linear Models
 
-pgls.reg <- procD.pgls(f1 = shape ~ svl, phy = plethtree, data = gdf, print.progress = FALSE)
+pgls.reg <- procD.pgls(f1 = shape ~ size, phy = plethtree, data = gdf, print.progress = FALSE)
 summary(pgls.reg)
 
-allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$svl,
-                   reg.type ="RegScore", pch=19, cex=1.5, xlab = "SVL") # make sure to have a predictor 
-fit.line <- lm(allom.plot$RegScore ~ gdf$svl)
+allom.plot <- plot(pgls.reg, type = "regression", predictor = gdf$size,
+                   reg.type ="RegScore", pch=19, cex=1.5, xlab = "size") # make sure to have a predictor 
+fit.line <- lm(allom.plot$RegScore ~ gdf$size)
 abline(fit.line, col = "red")
 
 ### Phylogenetic Signal
@@ -70,7 +70,12 @@ plot.pca <- gm.prcomp(shape,phy=plethtree)
 plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
-#### Phylogenetic PCA (pPCA)
+#### Phylogenetic PCA (pPCA): With GLS-centered residuals
+plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
+plot(plot.ppca,phylo = FALSE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
+legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
+
+#### Phylogenetic PCA (pPCA): With GLS-transformed residuals
 plot.ppca <- gm.prcomp(shape,phy=plethtree, GLS = TRUE, transform = TRUE)
 plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.labels = FALSE, node.labels = FALSE) )
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
