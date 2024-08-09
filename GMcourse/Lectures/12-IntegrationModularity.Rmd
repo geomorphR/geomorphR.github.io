@@ -314,37 +314,6 @@ compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
 
 ---
 
-### 1B: Overall Integration Across Spatial Scales $^1$
-
-+ One can also examine the integration across geometric scales
-
-+ Because landmarks are spatially related, one possible 'null' for integration could be whether the same pattern is observed across spatial scales 
-
-+ Examining shape variance relative to spatial scale provides some guidance (i.e., regression of $\sigma^2_{PW}$ vs. Bending Energy)
-
-+ Self-similarity of integration across scales is found when: $\small\beta= -1$
-
-+ Deviations in slope from this value provide useful heuristics regarding global integration
-  + $\small\beta= -1$: self-similarity
-  + $\small\beta> -1$: global integration
-  + $\small\beta< -1$: "disintegration"
-
-.footnote[1: Bookstein (2015) *Evol. Biol.*]
----
-
-### 1B: Overall Spatial Integration: Example
-
-.scrollable[
-```{r echo=TRUE, fig.align = "center", out.width="80%"}
-data(plethodon) 
-Y.gpa<-gpagen(plethodon$land, print.progress = FALSE)    #GPA-alignment    
-
-globalIntegration(Y.gpa$coords) #not spatially integrated
-```
-]
-
----
-
 ### 2: Integration Among Subsets of Traits
 
 + Sometimes, we wish to know whether there there are associations among *sets* of traits (e.g., between limb traits and head traits)

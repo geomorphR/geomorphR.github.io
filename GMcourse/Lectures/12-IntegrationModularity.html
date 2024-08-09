@@ -4,7 +4,7 @@
     <title>12: Integration and Modularity</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="12-IntegrationModularity_files/header-attrs-2.27.1/header-attrs.js"></script>
+    <script src="12-IntegrationModularity_files/header-attrs-2.27/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -258,45 +258,6 @@ compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
 
 ---
 
-### 1B: Overall Integration Across Spatial Scales `\(^1\)`
-
-+ One can also examine the integration across geometric scales
-
-+ Because landmarks are spatially related, one possible 'null' for integration could be whether the same pattern is observed across spatial scales 
-
-+ Examining shape variance relative to spatial scale provides some guidance (i.e., regression of `\(\sigma^2_{PW}\)` vs. Bending Energy)
-
-+ Self-similarity of integration across scales is found when: `\(\small\beta= -1\)`
-
-+ Deviations in slope from this value provide useful heuristics regarding global integration
-  + `\(\small\beta= -1\)`: self-similarity
-  + `\(\small\beta&gt; -1\)`: global integration
-  + `\(\small\beta&lt; -1\)`: "disintegration"
-
-.footnote[1: Bookstein (2015) *Evol. Biol.*]
----
-
-### 1B: Overall Spatial Integration: Example
-
-.scrollable[
-
-``` r
-data(plethodon) 
-Y.gpa&lt;-gpagen(plethodon$land, print.progress = FALSE)    #GPA-alignment    
-
-globalIntegration(Y.gpa$coords) #not spatially integrated
-```
-
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-
-```
-##      BEval 
-## -0.6369198
-```
-]
-
----
-
 ### 2: Integration Among Subsets of Traits
 
 + Sometimes, we wish to know whether there there are associations among *sets* of traits (e.g., between limb traits and head traits)
@@ -442,7 +403,7 @@ summary(PLS)
 plot(PLS)
 ```
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-16-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 ---
@@ -467,7 +428,7 @@ plot(PLS)
 
 
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-19-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-18-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 + For the pupfish dataset, both are significant at p = 0.001
 ---
@@ -476,7 +437,7 @@ plot(PLS)
 
 Compare permutation distributions with one another (minus observed in this case)
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-20-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-19-1.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 + All things considered, *r~PLS~* performs better 
 ---
