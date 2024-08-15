@@ -1,3 +1,5 @@
 For Next time:
 
 3 - GPA: remove animated gifs (don't work on all platforms). Replace with multi-figures
+
+14 - future directions: too many words; reduce and simplify (maybe not so many examples also)
