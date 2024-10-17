@@ -1,5 +1,5 @@
 ---
-  title: "Previous GM Workshops"
+  title: "Previous Workshops"
 ---
 **Previous Geometric Morphometrics in R Workshops**
 
@@ -10,16 +10,20 @@
 * 2018. PR Statistics, Wales
 * 2016. Univ. of Lund, Sweden
 * 2015. CIBIO, Portugal
-* 2015. Univ. MOntreal at Quebec, Canada
+* 2015. Univ. Montreal at Quebec, Canada
 * 2015. Am. Museum Natural History, USA
 * 2014. Univ. of Tromsø, Norway
 
 
-**Other GM Workshops by members of the Geomorph Team**
+**Other Workshops taught by members of the Geomorph Team**
 
-* 2022 Geomorph R Short Course. Inst. Biol. Evol., Spain
+* 2023 Geomorph R Short Course. Inst. Biol. Evol., Spain
+* 2022 Biostatistics R Short Course. Inst. Biol. Evol., Spain
+* 2018 High-DImensional Data Analysis in Ecology and Evolution. Univ. of Lund, Sweden
+* 2016 Multivariate Data Analysis for Ecology and Evolution. Transmitting Science, Spain
 * 2013 Geometric Morphometrics Course. Univ. of Iowa, USA
 * 2013 Geometric Morphometrics Course. Boston Univ. USA
+* 2012 Multivariate Data Analysis for Ecology and Evolution. CIBIO, Portugal
 * 2010 Advanced Geometric Morphometrics Workshop in Evolution. Univ. of Molise, Italy
 * 2010 Geometric Morphometrics Short Course. Univ. of Firenze, Italy
 * 2010 Geometric Morphometrics Short Course. Univ. of Genova, Italy
