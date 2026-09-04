@@ -29,52 +29,19 @@ library(xaringanthemer)
 style_mono_light()
 ```
 
-### Revisiting Linear Algebra Goals
-
-Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
-
-$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
-
-Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
-
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
-
-Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
-
-$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
----
-
-### Revisiting Linear Algebra Goals
-.pull-left[.med[
-
-$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
-
-**Should be more obvious now, although it probably looks more obvious as $\small\mathbf{Z}=CS^{-1}\mathbf{(Y-\overline{Y})H}$**.
-
-Procrustes coordinates: linear transformation of coordinate data.
-
-----
-
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
-
-**Estimation of linear model coefficients for transformed data, $\mathbf{Z}$, which Procrustes coordinates are.** 
-
-Coefficients:  transformation of the data, based on model parameters.
-
-----
-]]
-
-.pull-right[.med[
+### Revisiting Linear Algebra Goal
 
 
-$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+$$\mathbf{AZ}=\mathbf{UDV}^T$$
+or
 
-***This one might not seem familiar.***
+$$\mathbf{ZA}=\mathbf{VDU}^T$$
 
-This is actually a basic equation.  Compare the left side to the equation before.  If $\mathbf{A}= \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}$, then the the left side of the equation is the same format.
+The left describes either multivariate data (like GM data) or am alignment of the multivariate data, say to a linear model or other set of data.  The right describes a process for finding major vectors in a multivariate space, plus interpreting how important the vectors are.
 
-We will explore the latter two equations in detail in this lecture.
-]]
+**Everything else we do is some permutation of this!**
+
+
 ---
 .pull-left[
 ### Overview:
@@ -125,11 +92,11 @@ We will explore the latter two equations in detail in this lecture.
 
 ### The most basic equation
 
-$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+$$\mathbf{A}\mathbf{Z} =\mathbf{UDV}^T$$
 
 Let's look at just the first part
 
-$$\mathbf{A}^T\mathbf{Z}$$
+$$\mathbf{A}\mathbf{Z}$$
 
 What does this say to us?  First, let's adopt the tendency to see  $\mathbf{Z}$ and assume its a transformation of data, $\mathbf{Y}$; i.e.,
 
@@ -137,7 +104,7 @@ $$\mathbf{Z}= f(\mathbf{Y})$$
 
 For example, Procrustes coordinates are obtained through a transformation of coordinate data.
 
-Second, let's develop the tendency to see $\mathbf{A}$ and think of *.blue[association]* or *.blue[alignment]* or *.blue[adjustment]*.  A transformation of (already transformed) data either adjusts those data in some way, or aligns them to some other matrix, or maximizes some association with some other matrix.  **Thus, $\mathbf{A}^T\mathbf{Z}$ is a transformation of data based on some idea represented by $\mathbf{A}$**
+Second, let's develop the tendency to see $\mathbf{A}$ and think of *.blue[association]* or *.blue[alignment]* or *.blue[adjustment]*.  A transformation of (already transformed) data either adjusts those data in some way, or aligns them to some other matrix, or maximizes some association with some other matrix.  **Thus, $\mathbf{A}\mathbf{Z}$ is a transformation of data based on some idea represented by $\mathbf{A}$**
 
 *Note, transformations of transformations might seem confusing, but think of basic algebra: $ay = e(d(c(by)))$, meaning $a = edcb$.*
 
@@ -145,9 +112,9 @@ Second, let's develop the tendency to see $\mathbf{A}$ and think of *.blue[assoc
 
 ### The most basic equation
 
-$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
+$$\mathbf{A}\mathbf{Z} =\mathbf{UDV}^T$$
 
-Although it is useful to think of $\mathbf{A}^T\mathbf{Z}$ as a data transformation, **some caution is advised!**  Generally speaking, a ***transformation*** of data in an $n\times p$ matrix produces an $n\times p$ matrix.  This is possible only if $\mathbf{A}$ is an $n \times n$ matrix!
+Although it is useful to think of $\mathbf{A}\mathbf{Z}$ as a data transformation, **some caution is advised!**  Generally speaking, a ***transformation*** of data in an $n\times p$ matrix produces an $n\times p$ matrix.  This is possible only if $\mathbf{A}$ is an $n \times n$ matrix!
 
 It is better to use the term, ***.red[association]*** or ***.red[alignment]***, as this does not convey any notion of required matrix dimensions as a result.
 
@@ -157,31 +124,31 @@ The next slide has some examples of what $\mathbf{A}$ could be.
 ### Examples of $\mathbf{A}$ matrices
 
 .pull-left[
-Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A}^T = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T$.  
+Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A} = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T$.  
 ]
 .pull-right[
-Then $\mathbf{A}^T\mathbf{Z}$ **is the vector of $p$ mean values for the $n \times p$ matrix of data, $\mathbf{Z}$; i.e., $\mathbf{A}^T\mathbf{Z} = \mathbf{\overline{z}}^T$**
+Then $\mathbf{A}\mathbf{Z}$ **is the vector of $p$ mean values for the $n \times p$ matrix of data, $\mathbf{Z}$; i.e., $\mathbf{A}\mathbf{Z} = \mathbf{\overline{z}}^T$**
 ]
 
 .pull-left[
-Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A}^T = \mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T$.
+Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A} = \mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T$.
 ]
 .pull-right[
-Then $\mathbf{A}^T\mathbf{Z}$ **is an $n \times p$ matrix where every row is $\mathbf{\overline{z}}^T$.**
+Then $\mathbf{A}\mathbf{Z}$ **is an $n \times p$ matrix where every row is $\mathbf{\overline{z}}^T$.**
 ]
 
 .pull-left[
-Let $\mathbf{X}$ be an $n \times 2$ matrix with one column the vector, $\mathbf{1}$, and the other column is $x = CS$, an $n \times 1$ vector of centroid size for $n$ specimens.  Let $\mathbf{A}^T = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T$.  
+Let $\mathbf{X}$ be an $n \times 2$ matrix with one column the vector, $\mathbf{1}$, and the other column is $x = CS$, an $n \times 1$ vector of centroid size for $n$ specimens.  Let $\mathbf{A} = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T$.  
 ]
 .pull-right[
-Then $\mathbf{A}^T\mathbf{Z}$ **is the matrix of regression coefficients for an analysis of allometry**
+Then $\mathbf{A}\mathbf{Z}$ **is the matrix of regression coefficients for an analysis of allometry**
 ]
 
 
 .remark-code[.blue[
-The point is that on the left, we have $\mathbf{A}^T$, which is some way to align or associate our data and on the right, we have our data $\mathbf{Z}$.  Finding the association -- like coefficients for allometry -- might be the goal or alignment might be a step for another purpose.
+The point is that on the left, we have $\mathbf{A}$, which is some way to align or associate our data and on the right, we have our data $\mathbf{Z}$.  Finding the association -- like coefficients for allometry -- might be the goal or alignment might be a step for another purpose.
 
-Statistical analysis of shape can be thought of as a process that finds one or alternative $\mathbf{A}^T$ solutions, decomposes them, or compares them.
+Statistical analysis of shape can be thought of as a process that finds one or alternative $\mathbf{A}$ solutions, decomposes them, or compares them.
 ]]
 ---
 
@@ -211,16 +178,16 @@ This presentation requires understanding how to calculate a covariance matrix (w
 
 #### How PCA can be presented:
 
-$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T,$$
+$$\mathbf{A}\mathbf{Z} =\mathbf{UDV}^T,$$
 where $\mathbf{A}$ = $\mathbf{I}_{n \times n}$, thus 
 
-$$\mathbf{I}^T_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$
+$$\mathbf{I}_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$
 
 + The right singular vectors (from singular value decomposition) are the same as the eigenvectors calculated in the classic way.
 + $\mathbf{Z}$ are data that have been .red[centered] or .red[standardized], and as such, $\hat{\boldsymbol{\Sigma}} = (n-1)^{-1} \mathbf{Z}^T\mathbf{Z}$.
 + $\mathbf{D}$ is the diagonal matrix of singular values ( $d$ ), which can be transformed to eigenvalues as $\lambda_i = d_i^2(n-1)^{-1}$.
 
-***How is this easier?***  It might not seem easier yet, but when presented as $\mathbf{A}^T\mathbf{Z}$, one can think of how data are aligned.  In this case, they are aligned to $\mathbf{I}_{n \times n}$, which is like saying **independence** of alignment.
+***How is this easier?***  It might not seem easier yet, but when presented as $\mathbf{A}\mathbf{Z}$, one can think of how data are aligned.  In this case, they are aligned to $\mathbf{I}_{n \times n}$, which is like saying **independence** of alignment.
 
 .remark-code[.blue[
 In other words, PCA finds the principal vectors of variation in the data, $\mathbf{V}$, independent of any other association.
@@ -230,7 +197,7 @@ In other words, PCA finds the principal vectors of variation in the data, $\math
 ### Principal component analysis (PCA)
 
 PCA finds vectors, $\mathbf{V}$, from the solution,
-$$\mathbf{I}^T_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$
+$$\mathbf{I}_{n \times n} \mathbf{Z} =\mathbf{UDV}^T.$$
 + The relative weight of each vector (.red[*importance*]) of each vector is determined as $\lambda_i / \sum(\lambda_i)$, which is the same as $d_i^2 / \sum d_i^2$.
 + Each PC (vectors of $\mathbf{V}$) is a linear combination of the variables in $\mathbf{Z}$, called .red[*loadings*].
 + Projection of the centered or standardized data onto the PCs is done as
@@ -311,9 +278,9 @@ plot(PCA,
 ### Partial Least Squares
 
 .blue[**Partial least squares (PLS)**] is the basis for finding the association between two matrices, taking the form of
-$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T,$$
+$$\mathbf{A}\mathbf{Z} =\mathbf{UDV}^T,$$
 
-where $\mathbf{A}$ is an alternative set of data, like $\mathbf{Z}$.  Therefore, we can update the equation above to be:
+where $\mathbf{A}$ is an alternative set of data, transposed, like $\mathbf{Z}^T$.  Therefore, we can update the equation above to be:
 
 $$\mathbf{Z}_1^T\mathbf{Z}_2 =\mathbf{UDV}^T,$$
 where $\mathbf{Z}_1$ and $\mathbf{Z}_2$ are both sets of data that have been .red[centered] or .red[standardized].
@@ -799,7 +766,7 @@ Because $\mathbf{Z}_1$ and $\mathbf{Z}_2$ are both centered or standardized, the
 
 .pull-right[.footnote[
 1. Could also use first singular value or sum of first few singular values, if considering multiple axes. 
-2. Using, e.g., a Box-Cox transformation; 
+2. Using, e.g., a power-transformation; 
 3. Adams & Collyer. (2016). *Evolution*.
 ]]
 
@@ -887,9 +854,9 @@ Examples include:
 
 .blue[Because GM analyses tend to focus on comparative data, we present this with phylogenetic covariances, but the concepts can be applied to other data types.]
 
-$$\mathbf{A}^T\mathbf{Z} = \mathbf{UDV}^T$$
+$$\mathbf{A}\mathbf{Z} = \mathbf{UDV}^T$$
 
-Let $\mathbf{A} = \boldsymbol{\Omega}$, where $\boldsymbol{\Omega}$ is an $N \times N$ matrix of phylogenetic covariances, assuming a Brownian motion model of evolutionary divergence, corresponding to the $N \times p$ matrix of centered or standardized data, $\mathbf{Z}$.  Then,
+Let $\mathbf{A} = \boldsymbol{\Omega}^T$, where $\boldsymbol{\Omega}$ is an $N \times N$ matrix of phylogenetic covariances, assuming a Brownian motion model of evolutionary divergence, corresponding to the $N \times p$ matrix of centered or standardized data, $\mathbf{Z}$.  Then,
 
 $$\boldsymbol{\Omega}^T\mathbf{Z} = \mathbf{UDV}^T$$
 
@@ -1137,10 +1104,10 @@ $$\huge \mathbf{Z}=\mathbf{X}\boldsymbol{\beta } +\mathbf{E}$$
 |------- | :----------- | :-----------------------------
 | $\mathbf{Z}$ | $n \times p$ | Transformation of a data matrix $(\mathbf{Y})$ with $n$ observations for $p$ variables.  The transformation ***could be*** matrix centering or standardization, but it is also feasible that $\mathbf{Z} = \mathbf{Y}$.  **.red[Procrustes coordinates are inherently transformed.]**
 | $\mathbf{X}$ | $n \times k$ | Linear model design matrix with $n$ observations for $k$ parameters
-| $\boldsymbol{\beta}$ | $k \times p$ | Matrix of coefficients expressing change in values for the $k$ model parameters for each of $p$ variables
+| $\boldsymbol{\beta}$ | $k \times p$ | Matrix of parameters expressing change in values for the $k$ model parameters for each of $p$ variables
 | $\mathbf{E}$ | $n \times p$ | Matrix of residuals (error) for $n$ observations for $p$ variables
 
-Like any area of statistics, the coefficients for a linear model (which has parameters for variable change associated with some hypothetical process) are generally unknown but exist in a population, and are, therefore, estimated from a sample.  We can solve this algebraically as the solution that would be true if there was no error in the model (i.e., $\mathbf{E}$ = 0).  The goal is to solve for $\boldsymbol{\beta}$.
+Like any area of statistics, $\boldsymbol{\beta}$ are generally unknown but exist in a population, and are, therefore, estimated from a sample.  We can solve this algebraically as the solution that would be true if there was no error in the model (i.e., $\mathbf{E}$ = 0).  The goal is to solve for $\boldsymbol{\beta}$.
 ---
 
 
@@ -1160,11 +1127,13 @@ $$\small{\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} =
 $$\small{\hat{\boldsymbol{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )}$$
 ]
 .pull-right[
-The $\hat{ }$ reminds us that this is a matrix of estimate values.
+The $\hat{ }$ reminds us that this is a matrix of estimated values.  **Notice that** this resembles something, i.e., $\hat{\boldsymbol{\beta }}= \mathbf{A} \mathbf{Z}$, if $\mathbf{A} = \left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\mathbf{X}^T$.
 
-**Notice that** this resembles something, i.e., $\hat{\boldsymbol{\beta }}= \mathbf{A}^{T} \mathbf{Z}$, if $\mathbf{A} = \mathbf{X}\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.
+In other words, **.blue[linear model coefficients]**${^1}$ are the result of an alignment of data to parameters of a linear model, $\mathbf{X}$, which have been standardized by the cross-products of the parameters, $\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.  The matrix $\mathbf{A}$ in this case is a matrix of standardized model parameters.
+]
 
-In other words, linear model coefficients are the result of an alignment of data to parameters of a linear model, $\mathbf{X}$, which have been standardized by the cross-products of the parameters, $\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.  The matrix $\mathbf{A}$ in this case is a matrix of standardized model parameters.
+.footnote[
+1. Population have parameters; samples have statistics.  Coefficients are sample statistics that estimate population parameters.
 ]
 ---
 
@@ -1218,7 +1187,7 @@ $$\hat{\boldsymbol{\beta }}=\left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\ri
 1. The coefficients, $\hat{\boldsymbol{\beta}}$, explain the expected change in data, $\mathbf{Z}$, associated with the *standardized matrix of parameters*.  (This is different than standardizing each of the parameters, which could also be done.)
 2. Note that the linear model design has $k$ parameters (columns).  $\tilde{\mathbf{X}}^T\tilde{\mathbf{X}}$ is a $k \times k$ matrix.  $\mathbf{A} = \tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$ is an $n \times k$ matrix, just like $\tilde{\mathbf{X}}$  Thus, 
 
-$$ \mathbf{A}^T\mathbf{Z} = \left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1} \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}}  = \hat{\boldsymbol{\beta}}$$
+$$ \mathbf{A}\mathbf{Z} = \left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\right )^{-1} \tilde{\mathbf{X}}^{T} \mathbf{\tilde{Z}}  = \hat{\boldsymbol{\beta}}$$
 
 $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in each of $p$ variables in $\mathbf{Z}$ associated with each of $k$ parameters in $\tilde{\mathbf{X}}$.
 
@@ -1240,13 +1209,13 @@ Working with transformed fitted values and residuals is important for hypothesis
 
 ### Let's pause to think about the alignment of data for linear models
 
-All statistical steps take the form, $\mathbf{A}^T\mathbf{Z}$, but what $\mathbf{A}$ comprises changes based on the purpose of the step.
+All statistical steps take the form, $\mathbf{A}\mathbf{Z}$, but what $\mathbf{A}$ comprises changes based on the purpose of the step.
 
-| Step | $\mathbf{A}$ | $\mathbf{A}^T$ | Purpose |
-|:--|---|---|-----|
-|1.| $\tilde{\mathbf{X}}(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}$| $(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | Obtain coefficients that estimate expected change in $\mathbf{Z}$ associated with the parameters of $\mathbf{X}$, also accounting for the non-independence of observations.|
-|2.| $\mathbf{H} = \mathbf{\tilde{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\mathbf{X}^T$ | $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain fitted values.  We can also obtain **.blue[GLS-centered] residuals** as $\mathbf{E} = \mathbf{Z} -\mathbf{HZ} = (\mathbf{I} - \mathbf{H})\mathbf{Z}$.|
-|3.| $\tilde{\mathbf{H}} = \mathbf{\mathbf{\tilde{X}}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | $\tilde{\mathbf{H}} = \tilde{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain **.blue[GLS-transformed] residuals** as $\tilde{\mathbf{E}} = \mathbf{\tilde{Z}} -\mathbf{\tilde{H}\tilde{Z}} = (\mathbf{ I} - \mathbf{\tilde{H}})\mathbf{\tilde{Z}}$. .red[The importance of this step is to simply make sure that residuals are transformed for calculating covariance matrices.  This is a bit esoteric, but it will hopefully make some algebraic sense in a moment.] $^1$.  
+| Step | $\mathbf{A}$ | Purpose |
+|:--|---|-----|
+|1.| $(\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$ | Obtain coefficients that estimate expected change in $\mathbf{Z}$ associated with the parameters of $\mathbf{X}$, also accounting for the non-independence of observations.|
+|2.| $\mathbf{H} = \mathbf{X} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain fitted values.  We can also obtain **.blue[GLS-centered] residuals** as $\mathbf{E} = \mathbf{Z} -\mathbf{HZ} = (\mathbf{I} - \mathbf{H})\mathbf{Z}$.|
+|3.| $\tilde{\mathbf{H}} = \tilde{\mathbf{X}} (\tilde{\mathbf{X}}^T\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^T$| Obtain **.blue[GLS-transformed] residuals** as $\tilde{\mathbf{E}} = \mathbf{\tilde{Z}} -\mathbf{\tilde{H}\tilde{Z}} = (\mathbf{ I} - \mathbf{\tilde{H}})\mathbf{\tilde{Z}}$. .red[The importance of this step is to simply make sure that residuals are transformed for calculating covariance matrices.  This is a bit esoteric, but it will hopefully make some algebraic sense in a moment.] $^1$.  
 
 .footnote[1. A more extensive explanation of the calculation of GLS-estimated covariance matrices is provided in the Appendix.]
 
@@ -1416,7 +1385,7 @@ summary(PLSallometry)
 ---
 ### General linear model summary
 
-+ If we follow the paradigm that $\mathbf{A}^T\mathbf{Z}$ is the general method of alignment of data for a specific statistical purpose,
++ If we follow the paradigm that $\mathbf{A}\mathbf{Z}$ is the general method of alignment of data for a specific statistical purpose,
   + If $\mathbf{A}$ is a matrix of standardized model parameters, linear model coefficients are produced.
   + If $\mathbf{A}$ is a hat matrix $(\mathbf{H})$, fitted values are produced.
   + If $\mathbf{A}$ is a transformed hat matrix $(\mathbf{\tilde{H}})$, transformed fitted values are produced and can be used to estimate covariance matrices.
@@ -1428,47 +1397,30 @@ summary(PLSallometry)
 + Here's a hint: RRPP means we can estimate many (thousands) of random covariance matrices and derive from them sampling distributions of statistics.  We saw one example: $MS = trace(\hat{\boldsymbol{\Sigma}})$.
 ---
 
-### A more general summary, for what $\mathbf{A}^T\mathbf{Z}$ means
+### A more general summary, for what $\mathbf{A}\mathbf{Z}$ means
 
-$\mathbf{A}^T\mathbf{Z}$ describes the alignment of data $(\mathbf{Z})$ to something $(\mathbf{A})$.  The product above can be either (1) decomposed or (2) compared to alternative alignments.  The table below summarizes the analyses we have covered, whether decomposition or comparison is prominent, and their purpose.
+$\mathbf{A}\mathbf{Z}$ describes the alignment of data $(\mathbf{Z})$ to something $(\mathbf{A})$.  The product above can be either (1) decomposed or (2) compared to alternative alignments.  The table below summarizes the analyses we have covered, whether decomposition or comparison is prominent, and their purpose.
 
 |Analysis| $(\mathbf{A})$ |Treatment|Purpose|
 |---|---|---|---|
-|PCA| $\mathbf{I}$ |Decompose|Find the principal vectors of variation in a multivariate data space, to best envision patterns of dispersion|
+|PCA| $\mathbf{I}$ |Decompose|Find the principal vectors of variation in a multivariate data space, to best envision patterns of dispersion.|
 |PLS| $\mathbf{Z}_{other}$ |Decompose| Find the principal vectors of covariation between two data sets.  Statistical analysis is also possible by creating random distributions of correlation coefficients between principal scores.|
 |PACA| $\boldsymbol{\Omega}$ |Decompose|Find the principal vectors of variation in a multivariate data space, constrained to be aligned with phylogenetic signal.  PACs might be similar to PCs if phylogenetic signal pervades shape differences.  PACs could be different if other sources of variation exist.|
 |GLM| $\mathbf{H}$ |Compare|Find the coefficients and fitted values of null and alternative models, and compare the alternative to the null to ascertain whether parameters are meaningful.|
 
-All of these purposes are helpful for inferential statistics, the more prominent theme in **Shape Statistics II**.
-
 ---
 
-### Revisiting Linear Algebra Goals
-.pull-left[.med[
+### A more general summary, for what $\mathbf{A}\mathbf{Z}$ means
 
-$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$
+$\mathbf{A}\mathbf{Z}$ describes the alignment of data $(\mathbf{Z})$ to something $(\mathbf{A})$.  The product above can be either (1) decomposed or (2) compared to alternative alignments.  The table below summarizes the analyses we have covered, whether decomposition or comparison is prominent, and their purpose.
 
-**Should be more obvious now, although it probably looks more obvious as $\small\mathbf{Z}=CS^{-1}\mathbf{(Y-\overline{Y})H}$**.
+|Analysis| $(\mathbf{A})$ |Treatment|Purpose|
+|---|---|---|---|
+|PCA| $\mathbf{I}$ |Decompose|PCA|
+|PLS| $\mathbf{Z}_{other}$ |Decompose| PLS|
+|PACA| $\boldsymbol{\Omega}$ |Decompose|PACA|
+|GLM| $\mathbf{H}$ |Compare|Linear model estimates|
 
-Procrustes coordinates: linear transformation of coordinate data.
+All of these purposes are helpful for inferential statistics, the more prominent theme in **Shape Statistics II**.
 
-----
-
-$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$
-
-**Estimation of linear model coefficients for transformed data, $\mathbf{Z}$, which Procrustes coordinates are.** 
-
-Coefficients:  transformation of the data, based on model parameters.
-
-----
-]]
-
-.pull-right[.med[
-
-
-$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$
-
-The decomposition of some form of data alignment: hopefully this makes sense now!
-
-]]
 

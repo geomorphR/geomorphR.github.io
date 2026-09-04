@@ -4,17 +4,17 @@
     <title>8. Shape Statistics II</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="08-ShapeStatistics2_files/header-attrs-2.27/header-attrs.js"></script>
-    <link href="08-ShapeStatistics2_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+    <script src="08-ShapeStatistics2_files/header-attrs-2.31/header-attrs.js"></script>
+    <link href="08-ShapeStatistics2_files/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
     <script src="08-ShapeStatistics2_files/htmlwidgets-1.6.4/htmlwidgets.js"></script>
     <link href="08-ShapeStatistics2_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-    <script src="08-ShapeStatistics2_files/datatables-binding-0.33/datatables.js"></script>
+    <script src="08-ShapeStatistics2_files/datatables-binding-0.34.0/datatables.js"></script>
     <script src="08-ShapeStatistics2_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
     <link href="08-ShapeStatistics2_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="08-ShapeStatistics2_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
     <script src="08-ShapeStatistics2_files/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
-    <link href="08-ShapeStatistics2_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
-    <script src="08-ShapeStatistics2_files/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+    <link href="08-ShapeStatistics2_files/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+    <script src="08-ShapeStatistics2_files/crosstalk-1.2.2/js/crosstalk.min.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -60,7 +60,8 @@ class: center, middle, inverse, title-slide
 ### Recall, the general linear model provides
 
 + Estimation of coefficients, `\(\hat{\boldsymbol{\beta}}\)`
-+ Fitted values, based on estimate coefficients, `\(\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}\)`.  (Residuals can also be found as `\(\mathbf{E} =\mathbf{Z} - \hat{\mathbf{Z}}\)`.)
++ Fitted values (transformed, if GLS), based on coefficients, `\(\hat{\mathbf{Z}} = \tilde{\mathbf{X}}\hat{\boldsymbol{\beta}} = \tilde{\mathbf{H}}\tilde{\mathbf{Z}}\)`.  
++ Residuals (transformed) can also be found as `\(\tilde{\mathbf{E}} = \tilde{\mathbf{Z}} - \hat{\mathbf{Z}} = \left(\tilde{\mathbf{I}} - \tilde{\mathbf{H}} \right) \tilde{\mathbf{Z}}\)`.)
 + Covariance matrices for residual variation:
 
 `$$\hat{\boldsymbol{\Sigma}}_{residuals} = (n-k)^{-1}\mathbf{\tilde{E}}^T\mathbf{\tilde{E}}$$`
@@ -73,6 +74,20 @@ class: center, middle, inverse, title-slide
 The best way to to generate random distributions of statistics is to randomize residuals (from null models) in a permutation procedure (RRPP).
 
 ---
+
+### Let's simplify things before going forward!
+
++ `\(\mathbf{Z}\)` represents the data (`\(\mathbf{Y}\)` or `\(f(\mathbf{Y})\)`)
++ `\(\mathbf{X}\)` represents a linear model
++ `\(\mathbf{H}\)` also represents a linear model, but specifically for estimating values from the model.  (`\(\boldsymbol{\hat{\beta}}\)` is embedded within `\(\mathbf{H}\)`.)
++ `\(\tilde{}\)` is used to remind us if GLS estimation was used (can be ignored if OLS estimation).
++ The subscripts `\(_{alt}\)` or `\(_{full}\)` represent models with more parameters then `\(_{null}\)` or `\(_{reduced}\)`.  The parameters of the latter are also found within the former.
++ A **term** represents one or more parameters added to `\(\mathbf{X}_{null}\)` to achieve `\(\mathbf{X}_{alt}\)`.  For example, adding a `\(Group\)` as a term might require adding many parameters to define different group levels.
+
++ **Hypothesis tests compare estimates made by `\(\mathbf{H}_{alt}\)` and `\(\mathbf{H}_{null}\)`.  If estimates are similar, the models are similar.  If estimates are different, the additional parameters in `\(\mathbf{H}_{alt}\)` are important (significant).**
+
+
+---
 .center[
 
 # Part I. Hypothesis testing with RRPP 
@@ -83,36 +98,7 @@ The best way to to generate random distributions of statistics is to randomize r
 
 ---
 
-### Hypothesis testing for linear model effects 
-
-**Some nomenclature**
-
-**Intercept**. A single parameter, as a vector of 1s, to estimate a mean in the absence of other parameters.
-
-**Parameter**.  A linear model parameter is any column of an `\(\mathbf{X}\)` matrix.  
-
-**Coefficient**. An estimate of a population parameter that describes the change in response or dependent variable (in `\(\mathbf{Z}\)`) per one-unit change in a linear model parameter.
-
-**Term**.  Terms are collective parameters added to `\(\mathbf{X}\)` that are used to model an effect.  For example, to estimate the *effect of population*, the term, `Population` might be added to a linear model comprising 8 parameters in `\(\mathbf{X}\)`, because there are 9 total populations for which to estimate means.
-
-**Effect**. The change in model estimates based on adding a term to a model.  Essentially, this is the change in fitted values (or residuals) as a result of adding parameters associated with a term to a null model.
-
-**Null hypothesis**. The starting position that adding a term to a null model does not change the estimates made by the null model, suggesting, therefore, that the additional parameters are not needed.
----
-
-### Hypothesis testing for linear model effects (cont.)
-
-**Fitted values**. The estimates a linear model makes for the data from independent variables used to *train* the model.
-
-**Predicated value**. An estimate made with the coefficients from a linear model for data sampled from the same independent variables, but not necessarily the same data used to fit the model.
-
-**Residuals**. Values that express the difference between observed response or dependent variable data and estimates made from the linear model.  If observations are similar to estimates, residuals are small, and the model is considered "good".
-
-**Model comparison**. A technique used to compare the estimates made by competing models, in terms of how precise they are to match observations.  Model comparison is the basis for hypothesis testing.  If one model is much better at matching observations than another, the probability is high that its additional parameters are important, and some biological phenomenon is real.
-
----
-
-### Hypothesis testing for linear model effects (cont.)
+### Hypothesis testing for linear model effects
 
 A null hypothesis test is one that tests the independence of alternative model projections.  Null and alternative hypotheses can be thought of as this series of dichotomies (becoming increasingly more technical):
 
@@ -317,7 +303,7 @@ The purpose is not to become quickly comfortable with them but to see that there
 
 ### RRPP Statistical Properties (a small glance)
 
-&lt;img src="LectureData/08.statistics2/rrpp.curves.png" width="3608" /&gt;
+![](LectureData/08.statistics2/rrpp.curves.png)&lt;!-- --&gt;
 ---
 
 
@@ -337,7 +323,7 @@ A series of linear model examples will be presented, first using `geomorph::pupf
 
 .pull-left[
 
-&lt;img src="LectureData/07.groupdifferences/pupfish.example.png" width="100%" /&gt;
+&lt;img src="LectureData/07.groupdifferences/pupfish.example.png" alt="" width="100%" /&gt;
 ]
 .pull-right[
 For each example, expect the following:
@@ -364,15 +350,16 @@ For each example, expect the following:
 library(geomorph)
 data("pupfish")
 system.time(fit &lt;- procD.lm(coords ~ log(CS), data = pupfish,
-                iter = 9999, verbose = TRUE, turbo = FALSE))
+                iter = 9999, verbose = TRUE, turbo = FALSE, 
+                Parallel = 16))
 ```
 
 ```
 ##    user  system elapsed 
-##    1.63    0.31    1.95
+##   3.867   5.216   1.484
 ```
 
-Yup, that is 10,000 RRPP permutations in less than 2 seconds.  We will understand what happened soon.
+Yup, that is 10,000 RRPP permutations in a few seconds.  We will understand what happened soon.
 ---
 
 ### Linear regression example
@@ -387,8 +374,8 @@ Yup, that is 10,000 RRPP permutations in less than 2 seconds.  We will understan
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e460075128e388fd5359" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e460075128e388fd5359">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.154712050168091,4.189849189837124,4.17818521858998,4.228929090228176,4.231914077040708,4.288119788840106,4.299237108220593,4.267155934215303,4.255943497483591,4.254116925946718,4.268744177216895,4.304088623802781,4.34419937613886,4.303966958378949,4.278804924382317,4.349534085323845,4.291257574298024,4.185562871097685,4.417932073890084,4.408861867368364,4.440260147175235,4.424408275115046,4.494542370765232,4.524389870169178,4.504465433321196,4.507662008771238,4.500063779375087,4.538889877930062,4.551578648908867,3.848472644595059,4.005188768852854,4.054256441217978,4.094385199123493,4.106701447193694,4.155868784111912,4.132023279485728,4.267254315553023,4.217073820340977,4.300585864276341,4.291635837703824,4.302187294669891,4.058998149139583,4.201192121808671,4.236339293041278,4.145056598492526,4.191391519392461,4.156158225214411,4.279115448740547,4.352770789266516,4.305489247699621,4.422569878871744,4.456126374118534,4.407285883295178,4.365958378903484]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"log(CS)","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ba2e43346dae560f7c20" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ba2e43346dae560f7c20">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[4.154712050168091,4.189849189837124,4.17818521858998,4.228929090228176,4.231914077040708,4.288119788840106,4.299237108220593,4.267155934215303,4.255943497483591,4.254116925946718,4.268744177216895,4.304088623802781,4.34419937613886,4.303966958378949,4.278804924382317,4.349534085323845,4.291257574298024,4.185562871097685,4.417932073890084,4.408861867368364,4.440260147175235,4.424408275115046,4.494542370765232,4.524389870169178,4.504465433321196,4.507662008771238,4.500063779375087,4.538889877930062,4.551578648908867,3.848472644595059,4.005188768852854,4.054256441217978,4.094385199123493,4.106701447193694,4.155868784111912,4.132023279485728,4.267254315553023,4.217073820340977,4.300585864276341,4.291635837703824,4.302187294669891,4.058998149139583,4.201192121808671,4.236339293041278,4.145056598492526,4.191391519392461,4.156158225214411,4.279115448740547,4.352770789266516,4.305489247699621,4.422569878871744,4.456126374118534,4.407285883295178,4.365958378903484]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>log(CS)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"log(CS)","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 ### Linear regression example
@@ -434,6 +421,10 @@ coef(fit, test = TRUE)
 
 ```
 ## 
+## Please be aware that the test of coefficients will be deprecated.
+## Use betaTest, which is more flexible;
+## e.g., betaTest(fit, null.method = 'terms')
+## 
 ## Linear Model fit with lm.rrpp
 ## 
 ## Number of observations: 54
@@ -442,13 +433,13 @@ coef(fit, test = TRUE)
 ## Sums of Squares and Cross-products: Type I
 ## Number of permutations: 10000
 ## 
-## Statistics (distances) of coefficients with 95 percent confidence intervals,
-## effect sizes, and probabilities of exceeding observed values 
-##           based on
-## 10000 random permutations using RRPP 
+## Statistics (distances) of coefficients with 
+## 95 percent confidence intervals, effect sizes,
+## and probabilities of exceeding observed values,
+## based on 10000 random permutations, using RRPP 
 ## 
 ##             d.obs  UCL (95%)       Zd Pr(&gt;d)
-## log(CS) 0.1110123 0.04705452 4.141986  1e-04
+## log(CS) 0.1110123 0.04705452 4.141992  1e-04
 ```
 ]
 
@@ -484,8 +475,9 @@ anova(fit, effect.type = "SS")
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ log(CS), iter = 9999, turbo = FALSE, data = pupfish,  
-##     verbose = TRUE)
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 
+## 9999, turbo = FALSE, data = pupfish, 
+## verbose = TRUE)
 ```
 ]
 
@@ -521,8 +513,9 @@ anova(fit, effect.type = "Rsq")
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ log(CS), iter = 9999, turbo = FALSE, data = pupfish,  
-##     verbose = TRUE)
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 
+## 9999, turbo = FALSE, data = pupfish, 
+## verbose = TRUE)
 ```
 ]
 
@@ -558,8 +551,9 @@ anova(fit, effect.type = "MS")
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ log(CS), iter = 9999, turbo = FALSE, data = pupfish,  
-##     verbose = TRUE)
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 
+## 9999, turbo = FALSE, data = pupfish, 
+## verbose = TRUE)
 ```
 ]
 
@@ -593,8 +587,9 @@ anova(fit, effect.type = "F")
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ log(CS), iter = 9999, turbo = FALSE, data = pupfish,  
-##     verbose = TRUE)
+## Call: procD.lm(f1 = coords ~ log(CS), iter = 
+## 9999, turbo = FALSE, data = pupfish, 
+## verbose = TRUE)
 ```
 ]
 
@@ -626,8 +621,8 @@ summary(fitm, test = "Roy")
 ## Number of permutations: 10000 
 ## 
 ##            Df Rand      Roy      Z        Pr(&gt;Roy)
-## log(CS)     1 Residuals 25.61999 7.742706 1e-04   
-## Full.Model  1 Residuals 25.61999 7.742706 1e-04   
+## log(CS)     1 Residuals 25.61999 7.742715 1e-04   
+## Full.Model  1 Residuals 25.61999 7.742715 1e-04   
 ## Residuals  52
 ```
 ]
@@ -658,9 +653,9 @@ summary(fitm, test = "Pillai")
 ## Sums of Squares and Cross-products: Type I
 ## Number of permutations: 10000 
 ## 
-##            Df Rand      Pillai    Z        Pr(&gt;Pillai)
-## log(CS)     1 Residuals 0.9624342 5.175161 1e-04      
-## Full.Model  1 Residuals 0.9624342 5.175161 1e-04      
+##            Df Rand      Pillai    Z       Pr(&gt;Pillai)
+## log(CS)     1 Residuals 0.9624342 4.84909 1e-04      
+## Full.Model  1 Residuals 0.9624342 4.84909 1e-04      
 ## Residuals  52
 ```
 ]
@@ -876,7 +871,7 @@ coef(fit.ols)[,1:4]
 ```
 ##                   1.X         1.Y       2.X          2.Y
 ## (Intercept) 0.2113671 -0.02012406 0.2472026  -0.07425798
-## log(Csize)  6.7444759 -3.40630890 1.7950267 -22.68683304
+## log(Csize)  6.7444759 -3.40630890 1.7950267 -22.68683303
 ```
 ]]
 
@@ -889,7 +884,7 @@ coef(fit.gls)[,1:4]
 ```
 ##                   1.X         1.Y       2.X          2.Y
 ## (Intercept) 0.2101804 -0.01795206 0.2456539  -0.07236235
-## log(Csize)  7.8985758 -4.18637762 5.0637004 -21.60283401
+## log(Csize)  7.8985758 -4.18637763 5.0637004 -21.60283406
 ```
 ]]
 
@@ -915,7 +910,8 @@ anova(fit.ols)
 ## Residuals   7 0.0041315 0.00059022 0.86642                      
 ## Total       8 0.0047685                                         
 ## 
-## Call: procD.lm(f1 = coords ~ log(Csize), data = GPA)
+## Call: procD.lm(f1 = coords ~ log(Csize), data 
+## = GPA)
 ```
 ]]]
 
@@ -934,12 +930,13 @@ anova(fit.gls)
 ## Sums of Squares and Cross-products: Type I 
 ## Effect sizes (Z) based on F distributions
 ## 
-##            Df       SS        MS     Rsq      F       Z Pr(&gt;F)
-## log(Csize)  1 0.006813 0.0068125 0.15733 1.3069 0.55593  0.299
-## Residuals   7 0.036490 0.0052128 0.84267                      
-## Total       8 0.043302                                        
+##            Df         SS         MS     Rsq      F       Z Pr(&gt;F)
+## log(Csize)  1 0.00006868 6.8679e-05 0.15096 1.2446 0.55145  0.277
+## Residuals   7 0.00038627 5.5182e-05 0.84904                      
+## Total       8 0.00045495                                         
 ## 
-## Call: procD.lm(f1 = coords ~ log(Csize), Cov = Omega, data = GPA)
+## Call: procD.lm(f1 = coords ~ log(Csize), Cov 
+## = Omega, data = GPA)
 ```
 ]]]
 ---
@@ -982,12 +979,12 @@ group
 
 ``` r
 system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
-                iter = 9999))
+                iter = 9999, Parallel = 16))
 ```
 
 ```
 ##    user  system elapsed 
-##    8.92    0.00    8.93
+##   4.353   4.542   1.177
 ```
 ]
 
@@ -1002,8 +999,8 @@ system.time(fit &lt;- procD.lm(coords ~ group, data = pupfish,
 model.matrix(fit)
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-f080b1246d35639afff3" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-f080b1246d35639afff3">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"groupM.Marsh","targets":2},{"name":"groupF.Sinkhole","targets":3},{"name":"groupM.Sinkhole","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-c6769c4f9396b375698b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c6769c4f9396b375698b">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>(Intercept)<\/th>\n      <th>groupM.Marsh<\/th>\n      <th>groupF.Sinkhole<\/th>\n      <th>groupM.Sinkhole<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"width":200,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"(Intercept)","targets":1},{"name":"groupM.Marsh","targets":2},{"name":"groupF.Sinkhole","targets":3},{"name":"groupM.Sinkhole","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ---
 
 
@@ -1188,7 +1185,7 @@ The **.red[intercept]** establishes the location of the first group mean.  The t
 |Model contrast| `\(H_0: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} \vert\tilde{\mathbf{H}}_0 } = \boldsymbol{\Theta}_{0}\)` | `\(H_A: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} \vert\tilde{\mathbf{H}}_0 } \neq \boldsymbol{\Theta}_{0}\)` |
 |Statistic| `\(S = 0\)` | `\(S &gt; 0\)` |
 |Concept | `\(H_0: \mu_1 = \mu_2 = ...\)` | `\(H_A: \mu_1 \neq \mu_2\)` or `\(\mu_1 \neq \mu_3\)` or `\(\mu_2 \neq \mu_2...\)`|
-|In words | No group means are different | At least one group means differs from one other group mean.|
+|In words | No group means are different | At least one group mean differs from one other group mean.|
 
 The statistic, `\(S\)`, can be one of `\(SS\)`, `\(R^2\)`, `\(MS\)`, `\(F\)`, `\(\lambda_{Roy}\)`, `\(\lambda_{Wilks}\)`, etc.  Note, however, that with ANOVA statistics, `\(=\)` or `\(\neq\)` considers .red[difference between locations in multivariate data space].  With MANOVA statistics, `\(=\)` or `\(\neq\)` considers .blue[differences between the covariance structures of residual covariance matrices].
 
@@ -1220,7 +1217,8 @@ anova(fit)
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ group, iter = 9999, data = pupfish)
+## Call: procD.lm(f1 = coords ~ group, iter = 
+## 9999, Parallel = 16, data = pupfish)
 ```
 ]]]
 
@@ -1243,8 +1241,8 @@ summary(fitm)
 ## Number of permutations: 10000 
 ## 
 ##            Df Rand      Roy      Z        Pr(&gt;Roy)
-## group       3 Residuals 54.35676 7.997433 1e-04   
-## Full.Model  3 Residuals 54.35676 7.997433 1e-04   
+## group       3 Residuals 54.35676 7.997239 1e-04   
+## Full.Model  3 Residuals 54.35676 7.997239 1e-04   
 ## Residuals  50
 ```
 ]]]
@@ -1281,12 +1279,12 @@ summary(PW)
 ## 
 ## Pairwise distances between means, plus statistics
 ##                                d  UCL (95%)        Z Pr &gt; d
-## F.Marsh:M.Marsh       0.04611590 0.01888901 4.143340 0.0001
-## F.Marsh:F.Sinkhole    0.03302552 0.01899883 3.294930 0.0001
-## F.Marsh:M.Sinkhole    0.03881514 0.01860189 3.743723 0.0001
-## M.Marsh:F.Sinkhole    0.04605211 0.02036203 3.908128 0.0001
-## M.Marsh:M.Sinkhole    0.02802087 0.01986883 2.666597 0.0013
-## F.Sinkhole:M.Sinkhole 0.02568508 0.02019960 2.366005 0.0062
+## F.Marsh:M.Marsh       0.04611590 0.01888901 4.143354 0.0001
+## F.Marsh:F.Sinkhole    0.03302552 0.01899883 3.294941 0.0001
+## F.Marsh:M.Sinkhole    0.03881514 0.01860189 3.743737 0.0001
+## M.Marsh:F.Sinkhole    0.04605211 0.02036203 3.908135 0.0001
+## M.Marsh:M.Sinkhole    0.02802087 0.01986883 2.666604 0.0013
+## F.Sinkhole:M.Sinkhole 0.02568508 0.02019960 2.366007 0.0062
 ```
 ]
 
@@ -1350,14 +1348,15 @@ anova(fit1)
 ## Sums of Squares and Cross-products: Type I 
 ## Effect sizes (Z) based on F distributions
 ## 
-##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)    
-## group      3 0.028363 0.0094543 0.50349 16.901 6.1979  0.001 ***
-## Residuals 50 0.027970 0.0005594 0.49651                         
-## Total     53 0.056333                                           
+##           Df       SS        MS     Rsq      F     Z Pr(&gt;F)    
+## group      3 0.028363 0.0094543 0.50349 16.901 6.198  0.001 ***
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ group, data = pupfish)
+## Call: procD.lm(f1 = coords ~ group, data = 
+## pupfish)
 ```
 ]]
 
@@ -1375,14 +1374,16 @@ anova(fit.null, fit1, print.progress = FALSE)
 ## Estimation method: Ordinary Least Squares 
 ## Effect sizes (Z) based on F distributions
 ## 
-##                   ResDf Df      RSS       SS        MS     Rsq      F      Z
-## coords ~ 1 (Null)    53  1 0.056333                    0.00000              
-## coords ~ group       50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.1979
-## Total                53    0.056333                                         
-##                       P Pr(&gt;F)
-## coords ~ 1 (Null)             
-## coords ~ group    0.001       
-## Total
+##                   ResDf Df      RSS       SS        MS     Rsq      F     Z
+## coords ~ 1 (Null)    53  1 0.056333                    0.00000             
+## coords ~ group       50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.198
+## Total                53    0.056333                                        
+##                   Pr(&gt;F)    
+## coords ~ 1 (Null)           
+## coords ~ group     0.001 ***
+## Total                       
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 ]]
 
@@ -1417,14 +1418,16 @@ anova(fit.null, fit1, print.progress = FALSE)
 ## Estimation method: Ordinary Least Squares 
 ## Effect sizes (Z) based on F distributions
 ## 
-##                   ResDf Df      RSS       SS        MS     Rsq      F      Z
-## coords ~ 1 (Null)    53  1 0.056333                    0.00000              
-## coords ~ group       50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.1979
-## Total                53    0.056333                                         
-##                       P Pr(&gt;F)
-## coords ~ 1 (Null)             
-## coords ~ group    0.001       
-## Total
+##                   ResDf Df      RSS       SS        MS     Rsq      F     Z
+## coords ~ 1 (Null)    53  1 0.056333                    0.00000             
+## coords ~ group       50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.198
+## Total                53    0.056333                                        
+##                   Pr(&gt;F)    
+## coords ~ 1 (Null)           
+## coords ~ group     0.001 ***
+## Total                       
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 ]]
 
@@ -1442,14 +1445,16 @@ anova(fit.null, fit2, print.progress = FALSE)
 ## Estimation method: Ordinary Least Squares 
 ## Effect sizes (Z) based on F distributions
 ## 
-##                    ResDf Df      RSS       SS        MS     Rsq      F      Z
-## coords ~ 1 (Null)     53  1 0.056333                    0.00000              
-## coords ~ Sex * Pop    50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.1979
-## Total                 53    0.056333                                         
-##                        P Pr(&gt;F)
-## coords ~ 1 (Null)              
-## coords ~ Sex * Pop 0.001       
-## Total
+##                    ResDf Df      RSS       SS        MS     Rsq      F     Z
+## coords ~ 1 (Null)     53  1 0.056333                    0.00000             
+## coords ~ Sex * Pop    50  3 0.027970 0.028363 0.0094543 0.50349 16.901 6.198
+## Total                 53    0.056333                                        
+##                    Pr(&gt;F)    
+## coords ~ 1 (Null)            
+## coords ~ Sex * Pop  0.001 ***
+## Total                        
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 ]]
 
@@ -1485,14 +1490,15 @@ anova(fit1)
 ## Sums of Squares and Cross-products: Type I 
 ## Effect sizes (Z) based on F distributions
 ## 
-##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)    
-## group      3 0.028363 0.0094543 0.50349 16.901 6.1979  0.001 ***
-## Residuals 50 0.027970 0.0005594 0.49651                         
-## Total     53 0.056333                                           
+##           Df       SS        MS     Rsq      F     Z Pr(&gt;F)    
+## group      3 0.028363 0.0094543 0.50349 16.901 6.198  0.001 ***
+## Residuals 50 0.027970 0.0005594 0.49651                        
+## Total     53 0.056333                                          
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ group, data = pupfish)
+## Call: procD.lm(f1 = coords ~ group, data = 
+## pupfish)
 ```
 ]]
 
@@ -1512,7 +1518,7 @@ anova(fit2)
 ## Effect sizes (Z) based on F distributions
 ## 
 ##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)    
-## Sex        1 0.015780 0.0157802 0.28012 28.209 4.7773  0.001 ***
+## Sex        1 0.015780 0.0157802 0.28012 28.209 4.7774  0.001 ***
 ## Pop        1 0.009129 0.0091294 0.16206 16.320 4.7097  0.001 ***
 ## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 ***
 ## Residuals 50 0.027970 0.0005594 0.49651                         
@@ -1520,7 +1526,8 @@ anova(fit2)
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ Sex * Pop, data = pupfish)
+## Call: procD.lm(f1 = coords ~ Sex * Pop, data 
+## = pupfish)
 ```
 ]]
 
@@ -1579,7 +1586,7 @@ anova(fit1)
 ## Effect sizes (Z) based on F distributions
 ## 
 ##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)    
-## Sex        1 0.015780 0.0157802 0.28012 28.209 4.7773  0.001 ***
+## Sex        1 0.015780 0.0157802 0.28012 28.209 4.7774  0.001 ***
 ## Pop        1 0.009129 0.0091294 0.16206 16.320 4.7097  0.001 ***
 ## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 ***
 ## Residuals 50 0.027970 0.0005594 0.49651                         
@@ -1587,7 +1594,8 @@ anova(fit1)
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ Sex * Pop, SS.type = "I", data = pupfish)
+## Call: procD.lm(f1 = coords ~ Sex * Pop, 
+## SS.type = "I", data = pupfish)
 ```
 ]
 
@@ -1615,7 +1623,7 @@ anova(fit2)
 ## Effect sizes (Z) based on F distributions
 ## 
 ##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)    
-## Sex        1 0.015917 0.0159169 0.28255 28.453 4.1103  0.001 ***
+## Sex        1 0.015917 0.0159169 0.28255 28.453 4.1104  0.001 ***
 ## Pop        1 0.009129 0.0091294 0.16206 16.320 4.7097  0.001 ***
 ## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 ***
 ## Residuals 50 0.027970 0.0005594 0.49651                         
@@ -1623,7 +1631,8 @@ anova(fit2)
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ Sex * Pop, SS.type = "II", data = pupfish)
+## Call: procD.lm(f1 = coords ~ Sex * Pop, 
+## SS.type = "II", data = pupfish)
 ```
 
 ]
@@ -1651,15 +1660,16 @@ anova(fit3)
 ## Effect sizes (Z) based on F distributions
 ## 
 ##           Df       SS        MS     Rsq      F      Z Pr(&gt;F)    
-## Sex        1 0.015253 0.0152534 0.27077 27.267 4.5358  0.001 ***
-## Pop        1 0.007479 0.0074790 0.13276 13.370 4.7007  0.001 ***
+## Sex        1 0.015253 0.0152534 0.27077 27.267 4.5359  0.001 ***
+## Pop        1 0.007479 0.0074790 0.13276 13.370 4.7009  0.001 ***
 ## Sex:Pop    1 0.003453 0.0034532 0.06130  6.173 3.7015  0.001 ***
 ## Residuals 50 0.027970 0.0005594 0.49651                         
 ## Total     53 0.056333                                           
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = coords ~ Sex * Pop, SS.type = "III", data = pupfish)
+## Call: procD.lm(f1 = coords ~ Sex * Pop, 
+## SS.type = "III", data = pupfish)
 ```
 ]
 
@@ -1754,16 +1764,16 @@ summary(modComp1)
 ## 10 Models compared.
 ## 
 ##          cov.trace penalty
-## fit1  1.283775e-07    3074
-## fit2  1.114099e-07    3074
-## fit3  2.313976e-07    3074
-## fit4  7.943160e-08    3180
-## fit5  6.708767e-08    3180
-## fit6  7.320295e-08    3286
-## fit7  5.853806e-08    3286
-## fit8  4.732530e-08    3286
-## fit9  3.488754e-08    3392
-## fit10 2.786243e-08    3710
+## fit1  1.283775e-07   14098
+## fit2  1.114099e-07   14098
+## fit3  2.313976e-07   14098
+## fit4  7.943160e-08   19716
+## fit5  6.708767e-08   19716
+## fit6  7.320295e-08   25334
+## fit7  5.853806e-08   25334
+## fit8  4.732530e-08   25334
+## fit9  3.488754e-08   30952
+## fit10 2.786243e-08   47806
 ```
 ]]
 
@@ -1780,17 +1790,17 @@ summary(modComp2)
 ## 
 ## 10 Models compared.
 ## 
-##         logLik residual.pc.no penalty       AIC
-## fit1  16397.21             52    3074 -29720.42
-## fit2  16392.51             52    3074 -29711.02
-## fit3  15998.66             51    3074 -28923.31
-## fit4  16082.75             51    3180 -28985.51
-## fit5  16106.04             51    3180 -29032.09
-## fit6  15745.78             50    3286 -28205.57
-## fit7  15773.07             50    3286 -28260.14
-## fit8  15792.57             50    3286 -28299.14
-## fit9  15481.89             49    3392 -27571.77
-## fit10 14444.10             46    3710 -25178.20
+##         logLik estimation residual.pc.no penalty        AIC
+## fit1  15020.21     LM-OLS             52   13572 -16468.425
+## fit2  15015.51     LM-OLS             52   13572 -16459.016
+## fit3  14648.66     LM-OLS             51   13056 -16241.314
+## fit4  14732.75     LM-OLS             51   18258 -11207.509
+## fit5  14756.04     LM-OLS             51   18258 -11254.087
+## fit6  14422.78     LM-OLS             50   22550  -6295.569
+## fit7  14450.07     LM-OLS             50   22550  -6350.138
+## fit8  14469.57     LM-OLS             50   22550  -6389.143
+## fit9  14185.89     LM-OLS             49   26460  -1911.775
+## fit10 13229.10     LM-OLS             46   36018   9559.796
 ```
 ]]
 
@@ -1815,6 +1825,11 @@ plot(modComp2)
 ```
 
 ![](08-ShapeStatistics2_files/figure-html/unnamed-chunk-64-1.png)&lt;!-- --&gt;
+
+```
+## max logLik found at AIC = 5072.172
+## min logLik found at AIC = 9559.796
+```
 ]]
 ---
 ### Multi-model comparisons, not involving hypothesis tests
@@ -1831,7 +1846,7 @@ The trace of a residual covariance matrix will be smaller if the model explains 
 
 There have been a few common threads that pervade the analysis of GM data
 1. GM data are always multivariate and can be highly multivariate.  (An exception might be analysis of differences in centroid size among groups).
-2. Shape analyses involve aligning data to some kind of matrix or vector, `\(\mathbf{A}^T\mathbf{Z}\)`.
+2. Shape analyses involve aligning data to some kind of matrix or vector, `\(\mathbf{A}\mathbf{Z}\)`.
   + That alignment can be decomposed with SVD: PCA, PLS, PACA
   + That alignment can be compared to alternative alignments: GLM
 3. Statistical analysis means attaining a distribution of random alignments
@@ -1839,7 +1854,7 @@ There have been a few common threads that pervade the analysis of GM data
   + The analysis might ascertain the location of an alignment comparison in the distribution: GLM (ANOVA, MANOVA)
   + The analysis might ascertain the location of a comparison of predictions made by the alignment (pairwise comparisons)
 
-+ **In all cases, `\(\mathbf{A}^T\mathbf{Z}\)` is the starting point.  `\(\mathbf{Z}\)` is the matrix of shape data.  Understanding what `\(\mathbf{A}\)` is helps inform what the analysis intends to do.**
++ **In all cases, `\(\mathbf{A}\mathbf{Z}\)` is the starting point.  `\(\mathbf{Z}\)` is the matrix of shape data.  Understanding what `\(\mathbf{A}\)` is helps inform what the analysis intends to do.**
 + **In all cases that a `\(P\)`-value or `\(Z\)`-score is needed, RRPP is the workhorse for that.**
 
 ---
@@ -1850,20 +1865,20 @@ There have been a few common threads that pervade the analysis of GM data
 
 2. It's okay if this is overwhelming.  *It gets easier by playing with real data, performing tests, interpreting results, and referring back to this lecture to "connect dots".*  This lecture is not intended as a pre-requisite of comprehension before entertaining any other topic.  It is intended as an oft-referenced source to help make other topics clear.
 
-3. If you can appreciate that every statistical analysis is a permutation of `\(\mathbf{A}^T\mathbf{Z}\)` and every statistical test is an application of RRPP, using an appropriate null model, you are on your way to taking ownership of your data!
+3. If you can appreciate that every statistical analysis is a permutation of `\(\mathbf{A}\mathbf{Z}\)` and every statistical test is an application of RRPP, using an appropriate null model, you are on your way to taking ownership of your data!
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": true,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": true,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

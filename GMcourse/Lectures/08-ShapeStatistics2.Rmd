@@ -53,7 +53,8 @@ style_mono_light()
 ### Recall, the general linear model provides
 
 + Estimation of coefficients, $\hat{\boldsymbol{\beta}}$
-+ Fitted values, based on estimate coefficients, $\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}$.  (Residuals can also be found as $\mathbf{E} =\mathbf{Z} - \hat{\mathbf{Z}}$.)
++ Fitted values (transformed, if GLS), based on coefficients, $\hat{\mathbf{Z}} = \tilde{\mathbf{X}}\hat{\boldsymbol{\beta}} = \tilde{\mathbf{H}}\tilde{\mathbf{Z}}$.  
++ Residuals (transformed) can also be found as $\tilde{\mathbf{E}} = \tilde{\mathbf{Z}} - \hat{\mathbf{Z}} = \left(\tilde{\mathbf{I}} - \tilde{\mathbf{H}} \right) \tilde{\mathbf{Z}}$.)
 + Covariance matrices for residual variation:
 
 $$\hat{\boldsymbol{\Sigma}}_{residuals} = (n-k)^{-1}\mathbf{\tilde{E}}^T\mathbf{\tilde{E}}$$
@@ -66,6 +67,20 @@ $$\hat{\boldsymbol{\Sigma}}_{effect} = (k-1)^{-1}(\hat{\mathbf{Z}}_{alt}-\hat{\m
 The best way to to generate random distributions of statistics is to randomize residuals (from null models) in a permutation procedure (RRPP).
 
 ---
+
+### Let's simplify things before going forward!
+
++ $\mathbf{Z}$ represents the data ($\mathbf{Y}$ or $f(\mathbf{Y})$)
++ $\mathbf{X}$ represents a linear model
++ $\mathbf{H}$ also represents a linear model, but specifically for estimating values from the model.  ($\boldsymbol{\hat{\beta}}$ is embedded within $\mathbf{H}$.)
++ $\tilde{}$ is used to remind us if GLS estimation was used (can be ignored if OLS estimation).
++ The subscripts $_{alt}$ or $_{full}$ represent models with more parameters then $_{null}$ or $_{reduced}$.  The parameters of the latter are also found within the former.
++ A **term** represents one or more parameters added to $\mathbf{X}_{null}$ to achieve $\mathbf{X}_{alt}$.  For example, adding a $Group$ as a term might require adding many parameters to define different group levels.
+
++ **Hypothesis tests compare estimates made by $\mathbf{H}_{alt}$ and $\mathbf{H}_{null}$.  If estimates are similar, the models are similar.  If estimates are different, the additional parameters in $\mathbf{H}_{alt}$ are important (significant).**
+
+
+---
 .center[
 
 # Part I. Hypothesis testing with RRPP 
@@ -76,36 +91,7 @@ The best way to to generate random distributions of statistics is to randomize r
 
 ---
 
-### Hypothesis testing for linear model effects 
-
-**Some nomenclature**
-
-**Intercept**. A single parameter, as a vector of 1s, to estimate a mean in the absence of other parameters.
-
-**Parameter**.  A linear model parameter is any column of an $\mathbf{X}$ matrix.  
-
-**Coefficient**. An estimate of a population parameter that describes the change in response or dependent variable (in $\mathbf{Z}$) per one-unit change in a linear model parameter.
-
-**Term**.  Terms are collective parameters added to $\mathbf{X}$ that are used to model an effect.  For example, to estimate the *effect of population*, the term, `Population` might be added to a linear model comprising 8 parameters in $\mathbf{X}$, because there are 9 total populations for which to estimate means.
-
-**Effect**. The change in model estimates based on adding a term to a model.  Essentially, this is the change in fitted values (or residuals) as a result of adding parameters associated with a term to a null model.
-
-**Null hypothesis**. The starting position that adding a term to a null model does not change the estimates made by the null model, suggesting, therefore, that the additional parameters are not needed.
----
-
-### Hypothesis testing for linear model effects (cont.)
-
-**Fitted values**. The estimates a linear model makes for the data from independent variables used to *train* the model.
-
-**Predicated value**. An estimate made with the coefficients from a linear model for data sampled from the same independent variables, but not necessarily the same data used to fit the model.
-
-**Residuals**. Values that express the difference between observed response or dependent variable data and estimates made from the linear model.  If observations are similar to estimates, residuals are small, and the model is considered "good".
-
-**Model comparison**. A technique used to compare the estimates made by competing models, in terms of how precise they are to match observations.  Model comparison is the basis for hypothesis testing.  If one model is much better at matching observations than another, the probability is high that its additional parameters are important, and some biological phenomenon is real.
-
----
-
-### Hypothesis testing for linear model effects (cont.)
+### Hypothesis testing for linear model effects
 
 A null hypothesis test is one that tests the independence of alternative model projections.  Null and alternative hypotheses can be thought of as this series of dichotomies (becoming increasingly more technical):
 
@@ -360,11 +346,12 @@ For each example, expect the following:
 library(geomorph)
 data("pupfish")
 system.time(fit <- procD.lm(coords ~ log(CS), data = pupfish,
-                iter = 9999, verbose = TRUE, turbo = FALSE))
+                iter = 9999, verbose = TRUE, turbo = FALSE, 
+                Parallel = 16))
 
 ```
 
-Yup, that is 10,000 RRPP permutations in less than 2 seconds.  We will understand what happened soon.
+Yup, that is 10,000 RRPP permutations in a few seconds.  We will understand what happened soon.
 ---
 
 ### Linear regression example
@@ -678,7 +665,7 @@ Now let's move onto different types of effects.
 group <- interaction(pupfish$Sex, pupfish$Pop)
 group
 system.time(fit <- procD.lm(coords ~ group, data = pupfish,
-                iter = 9999))
+                iter = 9999, Parallel = 16))
 
 ```
 ]
@@ -904,7 +891,7 @@ The **.red[intercept]** establishes the location of the first group mean.  The t
 |Model contrast| $H_0: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} \vert\tilde{\mathbf{H}}_0 } = \boldsymbol{\Theta}_{0}$ | $H_A: \boldsymbol{\Theta}_{\tilde{\mathbf{H}}_{alt} \vert\tilde{\mathbf{H}}_0 } \neq \boldsymbol{\Theta}_{0}$ |
 |Statistic| $S = 0$ | $S > 0$ |
 |Concept | $H_0: \mu_1 = \mu_2 = ...$ | $H_A: \mu_1 \neq \mu_2$ or $\mu_1 \neq \mu_3$ or $\mu_2 \neq \mu_2...$|
-|In words | No group means are different | At least one group means differs from one other group mean.|
+|In words | No group means are different | At least one group mean differs from one other group mean.|
 
 The statistic, $S$, can be one of $SS$, $R^2$, $MS$, $F$, $\lambda_{Roy}$, $\lambda_{Wilks}$, etc.  Note, however, that with ANOVA statistics, $=$ or $\neq$ considers .red[difference between locations in multivariate data space].  With MANOVA statistics, $=$ or $\neq$ considers .blue[differences between the covariance structures of residual covariance matrices].
 
@@ -1267,7 +1254,7 @@ The trace of a residual covariance matrix will be smaller if the model explains 
 
 There have been a few common threads that pervade the analysis of GM data
 1. GM data are always multivariate and can be highly multivariate.  (An exception might be analysis of differences in centroid size among groups).
-2. Shape analyses involve aligning data to some kind of matrix or vector, $\mathbf{A}^T\mathbf{Z}$.
+2. Shape analyses involve aligning data to some kind of matrix or vector, $\mathbf{A}\mathbf{Z}$.
   + That alignment can be decomposed with SVD: PCA, PLS, PACA
   + That alignment can be compared to alternative alignments: GLM
 3. Statistical analysis means attaining a distribution of random alignments
@@ -1275,7 +1262,7 @@ There have been a few common threads that pervade the analysis of GM data
   + The analysis might ascertain the location of an alignment comparison in the distribution: GLM (ANOVA, MANOVA)
   + The analysis might ascertain the location of a comparison of predictions made by the alignment (pairwise comparisons)
 
-+ **In all cases, $\mathbf{A}^T\mathbf{Z}$ is the starting point.  $\mathbf{Z}$ is the matrix of shape data.  Understanding what $\mathbf{A}$ is helps inform what the analysis intends to do.**
++ **In all cases, $\mathbf{A}\mathbf{Z}$ is the starting point.  $\mathbf{Z}$ is the matrix of shape data.  Understanding what $\mathbf{A}$ is helps inform what the analysis intends to do.**
 + **In all cases that a $P$-value or $Z$-score is needed, RRPP is the workhorse for that.**
 
 ---
@@ -1286,5 +1273,5 @@ There have been a few common threads that pervade the analysis of GM data
 
 2. It's okay if this is overwhelming.  *It gets easier by playing with real data, performing tests, interpreting results, and referring back to this lecture to "connect dots".*  This lecture is not intended as a pre-requisite of comprehension before entertaining any other topic.  It is intended as an oft-referenced source to help make other topics clear.
 
-3. If you can appreciate that every statistical analysis is a permutation of $\mathbf{A}^T\mathbf{Z}$ and every statistical test is an application of RRPP, using an appropriate null model, you are on your way to taking ownership of your data!
+3. If you can appreciate that every statistical analysis is a permutation of $\mathbf{A}\mathbf{Z}$ and every statistical test is an application of RRPP, using an appropriate null model, you are on your way to taking ownership of your data!
 

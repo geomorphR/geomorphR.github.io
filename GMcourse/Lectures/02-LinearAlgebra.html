@@ -4,17 +4,17 @@
     <title>2. Linear Algebra</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="02-LinearAlgebra_files/header-attrs-2.27.1/header-attrs.js"></script>
-    <link href="02-LinearAlgebra_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+    <script src="02-LinearAlgebra_files/header-attrs-2.31/header-attrs.js"></script>
+    <link href="02-LinearAlgebra_files/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
     <script src="02-LinearAlgebra_files/htmlwidgets-1.6.4/htmlwidgets.js"></script>
     <link href="02-LinearAlgebra_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-    <script src="02-LinearAlgebra_files/datatables-binding-0.33/datatables.js"></script>
+    <script src="02-LinearAlgebra_files/datatables-binding-0.34.0/datatables.js"></script>
     <script src="02-LinearAlgebra_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
     <link href="02-LinearAlgebra_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="02-LinearAlgebra_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
     <script src="02-LinearAlgebra_files/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
-    <link href="02-LinearAlgebra_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
-    <script src="02-LinearAlgebra_files/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+    <link href="02-LinearAlgebra_files/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+    <script src="02-LinearAlgebra_files/crosstalk-1.2.2/js/crosstalk.min.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -37,21 +37,15 @@ class: center, middle, inverse, title-slide
 
 
 
-### Linear Algebra: Goals
+### Linear Algebra: Single Goal (maybe not realized in this lecture, but in this week)
 
-Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
+Understand why these equations are foundational, and used in geometric morphometrics (GM) and multivariate statistics:
 
-`$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
---
+`$$\mathbf{AZ}=\mathbf{UDV}^T$$`
+or
 
-Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
+`$$\mathbf{ZA}=\mathbf{VDU}^T$$`
 
-`$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$`
---
-
-Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
-
-`$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$`
 ---
 
 ### Overview:
@@ -251,6 +245,13 @@ a_nb_1 &amp; a_nb_2 &amp; a_nb_3 &amp; \cdots &amp; a_nb_n\\
 ---
 
 
+### Mike's simple definition of a matrix
+
+### *A matrix is a template for algorithms used on vectors.*
+
+---
+
+
 ### Matrices
 A matrix is more than a vector outer-product (more precisely, a vector outer-product is merely one type of matrix).  A matrix is a collection of vectors, arranged in a specific way, such that linear algebra operations can be carried out, systematically.  For example, the arrangement of vectors in a matrix indicates how to find a series of inner-products and display their results.
 
@@ -377,7 +378,9 @@ and
 \mathbf{x}_k^T\mathbf{y}_1 &amp; \mathbf{x}_k^T\mathbf{y}_2 &amp; \cdots &amp; \mathbf{x}_k^T\mathbf{y}_p\\
 \end{pmatrix}$$`
 
-The matrix product is a matrix with `\(k \times p\)` inner-products
+The matrix product is a matrix with `\(k \times p\)` inner-products.
+
+For the product to work, both matrices must have the same numer of rows, `\(n\)`.
 ---
 ### Matrix Multiplication (Cont.)
 
@@ -460,18 +463,20 @@ crossprod(X, Y)
 ### ~~Matrix Division~~
 This is not something we can do.  We can invert some matrices, but we will come back to this in a moment.
 
+---
+
 ### Important Matrix and Vector Multiplication Properties
 - Any matrix or vector multiplied by a scalar multiplies every element by the scalar.  The name, "scalar," means that every element is scaled.
 - Like vectors that have inner-products (dot products) or outer-products, sometimes matrices can be similar.  The tendency though is to call these cross-product matrices.  
 - A vector inner-product of the form, `\(\mathbf{x}^T\mathbf{x}\)` is a generalized method of squaring.  It is precisely the sum of squared values, rather than just a squared value.
-- A matrix **cross-product** of the form, `\(\mathbf{X}^T\mathbf{X}\)` is a generalized method of squaring.  This matrix has summed squared values of column vectors of `\(\mathbf{X}\)` on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
-- A matrix **outer-product** of the form, `\(\mathbf{X}\mathbf{X}^T\)` can also be considered a generalized method of squaring.  This matrix has summed squared values of row vectors of `\(\mathbf{X}\)` on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
-- The **trace** of a symmetric matrix is the sum of diagonal elements.  One convenience is `\(trace(\mathbf{X}^T\mathbf{X}) = trace(\mathbf{X}\mathbf{X}^T)\)`.
+- A matrix **.blue[cross-product]** of the form, `\(\mathbf{X}^T\mathbf{X}\)` is a generalized method of squaring.  This matrix has summed squared values of column vectors of `\(\mathbf{X}\)` on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+- A matrix **.blue[outer-product]** of the form, `\(\mathbf{X}\mathbf{X}^T\)` can also be considered a generalized method of squaring.  This matrix has summed squared values of row vectors of `\(\mathbf{X}\)` on a diagonal vector and summed cross-products between vectors in the off-diagonal elements.
+- The **.blue[trace]** of a symmetric matrix is the sum of diagonal elements.  One convenience is `\(trace(\mathbf{X}^T\mathbf{X}) = trace(\mathbf{X}\mathbf{X}^T)\)`.
 ---
 
 ### Important Matrix and Vector Multiplication Properties (cont.)
 
-- A matrix is **square** when it has equal rows and columns, e.g., `\(n \times n\)`.
+- A matrix is **.blue[square]** when it has equal rows and columns, e.g., `\(n \times n\)`.
 - If `\(\mathbf{XY}\)` is possible and `\(\mathbf{YX}\)` is possible, they will not have the same product unless both matrices are square and `\(\mathbf{X} = \mathbf{Y}\)`.  The dimensions of matrix products are also likely different.
 - The next slide will describe some special matrices.
 ---
@@ -533,6 +538,25 @@ It should be clear that matrices can have several properties.  For example, a *p
 
 ]
 ---
+Let's revisit this, focusing on the left sides:
+
+### Linear Algebra: Single Goal (maybe not realized in this lecture, but in this week)
+
+Understand why these equations are foundational, and used in geometric morphometrics (GM) and multivariate statistics:
+
+`$$\mathbf{AZ}=\mathbf{UDV}^T$$`
+or
+
+`$$\mathbf{ZA}=\mathbf{VDU}^T$$`
+
+Let the matrix, `\(\mathbf{A}\)`, suggest ***association*** or ***alignmnet***.
+
+Let the matrix, `\(\mathbf{Z}\)`, be a manipulated form of the data matrix, `\(\mathbf{Y}\)`.  (It might be unmanipulated)
+
+** `\(\mathbf{AZ}\)` or `\(\mathbf{ZA}\)` could represent projection.** So, let `\(\mathbf{A} = \mathbf{H}\)`, a **projection matrix**.  (A projection matrix is often called a "Hat" matrix.)
+---
+
+
 
 
 ### Matrix Projection
@@ -575,21 +599,7 @@ for a rotational angle, `\(\theta\)`, in a plane.
 ---
 
 ### Matrix Projection: Geometric Interpretations (Cont.)
-&lt;img src="LectureData/02.matrices/projections.png" width="90%" /&gt;
-
----
-
-### Matrix Projection: Statistics
-
-Statistical analysis can largely be thought of as the comparison of alternate projections (transformations) of data, based on linear models.  For example, we might compare the projections between two models:
-
-`$$\mathbf{H}_{alternative}\mathbf{Y} - \mathbf{H}_{null}\mathbf{Y} = \Delta\mathbf{H}\mathbf{Y}$$`
-using, perhaps, a statistic like
-
-`$$MS= trace \left((\Delta\mathbf{H}\mathbf{Y})^T \Delta\mathbf{H}\mathbf{Y}\right)/ (k_{alternative} - k_{null})$$`
-Note that `\(trace\)` means the sum of diagonal elements.
-
-We will learn more about statistical methods, but nearly each method will be either a comparison of projections or a decomposition of a matrix obtained from a projection.
+&lt;img src="LectureData/02.matrices/projections.png" alt="" width="90%" /&gt;
 ---
 
 .center[
@@ -985,6 +995,10 @@ If we examine `\(\mathbf{Y}\)` again, you might notice something
 One more step!  Let's find the result of two things:
 
 `\(\left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)` and `\(\mathbf{X}_0 \left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)`
+
+Note, the second one *.blue[can be written]*
+
+`\(\mathbf{H}_0\mathbf{Y}\)`
 ---
 
 ### Putting Our Current Knowledge to Good Use! (Cont.)
@@ -995,6 +1009,9 @@ One more step!  Let's find the result of two things:
 
 `\(\left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)` and `\(\mathbf{X}_0 \left( \mathbf{X}_0^T\mathbf{X}_0 \right)^{-1}\mathbf{X}_0^T\mathbf{Y}\)`
 
+Note, the second one *.blue[can be written]*
+
+`\(\mathbf{H}_{0}\mathbf{Y}\)`
 .pull-left[.med[
 
 ``` r
@@ -1032,7 +1049,7 @@ Although it might not yet be obvious, we just used the general linear model to f
 ### Putting Our Current Knowledge to Good Use! (Cont.)
 
 #### An Example (recalling an earlier example) using R scripts
-If we now substitute `\(\mathbf{X}\)` for `\(\mathbf{X}_0\)`, this is the result
+If we now substitute `\(\mathbf{X}\)` for `\(\mathbf{X}_0\)`, this is the result (`\(\mathbf{H}_A\mathbf{Y}\)`)
 .pull-left[
 .med[
 
@@ -1078,6 +1095,19 @@ Recall
 One can see that the second variable is an indicator variable with 0 for one group and 1 for the other (two groups each with three observations).  This approach allows one to estimate two group means and create a matrix of fitted values that has two means instead of one.
 ---
 
+### Call back to Matrix Projections!
+
+Statistical analysis can largely be thought of as the comparison of alternate projections (transformations) of data, based on linear models.  For example, we might compare the projections between two models:
+
+`$$\mathbf{H}_{A}\mathbf{Y} - \mathbf{H}_{0}\mathbf{Y} = \Delta\mathbf{H}\mathbf{Y}$$`
+using, perhaps, a statistic like
+
+`$$MS= trace \left((\Delta\mathbf{H}\mathbf{Y})^T \Delta\mathbf{H}\mathbf{Y}\right)/ (k_{alternative} - k_{null})$$`
+Note that `\(trace\)` means the sum of diagonal elements.
+
+We will learn more about statistical methods, but nearly each method will be either a comparison of projections or a decomposition of a matrix obtained from a projection.
+---
+
 .center[
 
 # Part VI. The General Linear Model
@@ -1087,65 +1117,19 @@ One can see that the second variable is an indicator variable with 0 for one gro
 ]
 ---
 
+.center[
 
-### The General Linear Model
-`$$\huge \mathbf{Z}=\mathbf{X}\boldsymbol{\beta } +\mathbf{E}$$`
+# Part VI. The General Linear Model
 
-| Component | Dimension | Description
-|------- | :----------- | :-----------------------------
-| `\(\mathbf{Z}\)` | `\(n \times p\)` | Transformation of a data matrix `\((\mathbf{Y})\)` with `\(n\)` observations for `\(p\)` variables.  The transformation ***could be*** matrix centering or standardization, but it is also feasible that `\(\mathbf{Z} = \mathbf{Y}\)`.  **.red[Procrustes coordinates are inherently transformed.]**
-| `\(\mathbf{X}\)` | `\(n \times k\)` | Linear model design matrix with `\(n\)` observations for `\(k\)` parameters
-| `\(\boldsymbol{\beta}\)` | `\(k \times p\)` | Matrix of coefficients expressing change in values for the `\(k\)` model parameters for each of `\(p\)` variables
-| `\(\mathbf{E}\)` | `\(n \times p\)` | Matrix of residuals (error) for `\(n\)` observations for `\(p\)` variables
+## Only briefly
 
-Like any area of statistics, the coefficients for a linear model (which has parameters for variable change associated with some hypothetical process) are generally unknown but exist in a population, and are, therefore, estimated from a sample.  We can solve this algebraically as the solution that would be true if there was no error in the model (i.e., `\(\mathbf{E}\)` = 0).  The goal is to solve for `\(\boldsymbol{\beta}\)`.
----
+]
 
-### The General Linear Model (Cont.)
-$$\small \mathbf{Z}=\mathbf{X}\mathbf{\beta } $$
-$$\small \mathbf{X}^T\mathbf{Z} = \mathbf{X}^T\mathbf{X}\mathbf{\beta } $$
+Let `\(\mathbf{Z}\)` be a transformation of the data matrix, `\(\mathbf{Y}\)`.  (Could be mean-centering of the data, scaling of the data, or normalizing the data.)
 
-`$$\small \left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
-\left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{X}\mathbf{\beta } $$
-`$$\small \left( \mathbf{X}^T\mathbf{X} \right)^{-1} \mathbf{X}^T\mathbf{Z} = 
-\mathbf{I}\mathbf{\beta } $$
+Let `\(\mathbf{H} = \mathbf{X} \left( \mathbf{X}^T\mathbf{X} \right)^{-1}\mathbf{X}^T\)` be a **projection** matrix for a linear model design, `\(\mathbf{X}\)`.  This matrix projects (predicts) what values of `\(\mathbf{Z}\)` should be, based on `\(\mathbf{X}\)`.
 
-`$$\small \hat{\mathbf{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\left ( \mathbf{X}^{T} \mathbf{Z}\right )$$`
-The `\(\hat{ }\)` reminds us that this is a matrix of estimate values.
-
-Notice that this resembles what we did before, 
-.pull-left[.med[
-
-``` r
-Z &lt;- Y
-solve(crossprod(X0)) %*% crossprod(X0, Z)
-```
-
-```
-##            y1   y2
-## [1,] 4.333333 -0.5
-```
-]]
-.pull-left[.med[
-
-``` r
-solve(crossprod(X)) %*% crossprod(X, Z)
-```
-
-```
-##          y1 y2
-## x1 2.333333 -1
-## x2 4.000000  1
-```
-]]
-
----
-
-### The General Linear Model (Cont.)
-
-***The General Linear Model will be discussed in great detail in the Shape Statistics I lecture.***
-
-Suffice to say that the general linear model is a set of linear algebra operations, applied to a set of data, `\(\mathbf{Z}\)`, based on a model, `\(\mathbf{X}\)`.
+Then, `\(\mathbf{HZ}\)` are the estimates a linear model makes!
 
 ---
 
@@ -1195,7 +1179,7 @@ Computers can solve characteristic polynomials easily via numerical approximatio
 
 ### Singular Value decomposition of a Rectangular Matrix
 
-`$$\mathbf{Y}_{n \times p} =\mathbf{U}_{n \times p'} \mathbf{D}_{p' \times p'} \mathbf{V}_{p' \times p'}^T$$`
+`$$\mathbf{Z}_{n \times p} =\mathbf{U}_{n \times p'} \mathbf{D}_{p' \times p'} \mathbf{V}_{p' \times p'}^T$$`
 
 `\(\mathbf{U}\)` (left singular values) and `\(\mathbf{V}\)` (right singular values) are solved via numerical approximation algorithms.  The number of singular values is `\(p'= \min(n - 1,p)\)`. If `\(\mathbf{Y}\)` is not full-rank, some of the singular values in `\(\mathbf{D}\)` will be 0.  The singular values decrease from largest to smallest.
 
@@ -1227,7 +1211,48 @@ No need for a lot of detail here but just realize that Cholesky decompositions a
 
 + Matrix decompositions provide mechanisms for many multivariate methods, including ordinations, linear model coefficient calculations, and matrix covariation analyses.  Those presented here will show up again later.  One can return to this lecture to review.
 ---
+Let's revisit this, focusing on the right sides:
 
+### Linear Algebra: Single Goal (maybe not realized in this lecture, but in this week)
+
+Understand why these equations are foundational, and used in geometric morphometrics (GM) and multivariate statistics:
+
+`$$\mathbf{AZ}=\mathbf{UDV}^T$$`
+or
+
+`$$\mathbf{ZA}=\mathbf{VDU}^T$$`
+
+Let the matrix, `\(\mathbf{U}\)`, be a set of orthogonal vectors, related to `\(\mathbf{A}\)`, found via SVD.
+
+Let the matrix, `\(\mathbf{V}\)`, be a set of orthogonal vectors, related to `\(\mathbf{Z}\)`, found via SVD.
+
+Let the matrix, `\(\mathbf{D}\)`, be a diagonal matrix with scalars describing the strength of association between `\(\mathbf{U}\)` and `\(\mathbf{V}\)` (and thus, `\(\mathbf{A}\)` and `\(\mathbf{Z}\)`), found via SVD.
+
+**So, for example, the left-hand side might be estimated values from a liner model and the right hand side might find the principal components of the estimated values.**
+
+---
+
+Let's revisit this, focusing on the right sides:
+
+### Linear Algebra: Single Goal (maybe not realized in this lecture, but in this week)
+
+Understand why these equations are foundational, and used in geometric morphometrics (GM) and multivariate statistics:
+
+`$$\mathbf{AZ}=\mathbf{UDV}^T$$`
+or
+
+`$$\mathbf{ZA}=\mathbf{VDU}^T$$`
+
+Let the matrix, `\(\mathbf{U}\)`, be a set of orthogonal vectors, related to `\(\mathbf{A}\)`, found via SVD.
+
+Let the matrix, `\(\mathbf{V}\)`, be a set of orthogonal vectors, related to `\(\mathbf{Z}\)`, found via SVD.
+
+Let the matrix, `\(\mathbf{D}\)`, be a diagonal matrix with scalars describing the strength of association between `\(\mathbf{U}\)` and `\(\mathbf{V}\)` (and thus, `\(\mathbf{A}\)` and `\(\mathbf{Z}\)`), found via SVD.
+
+
+**So, for example, the left-hand side might be alignment of two separate data matrices and the right hand side might describe the strength of association (via the singular values, `\(\mathbf{D}\)`).**
+
+---
 
 ### Summary/Important Points
 
@@ -1240,32 +1265,29 @@ No need for a lot of detail here but just realize that Cholesky decompositions a
 
 ---
 
-### Revisit Goals
+### Revisit Goal
 
-Understand why this equation is a foundational equation used in geometric morphometrics (GM) 
+Understand why these equations are foundational, and used in geometric morphometrics (GM) and multivariate statistics:
 
-`$$\small\mathbf{Z}=[trace[\mathbf{(Y-\overline{Y})(Y-\overline{Y})^T}]]^{-1/2}\mathbf{(Y-\overline{Y})H}$$`
+`$$\mathbf{AZ}=\mathbf{UDV}^T$$`
+or
 
+`$$\mathbf{ZA}=\mathbf{VDU}^T$$`
 
-Understand why this equation is a foundational equation in multivariate statistics (and burn it into your memory)
+The left describes either multivariate data (like GM data) or an alignment of the multivariate data, say to a linear model or other set of data.  The right describes a process for finding major vectors in a multivariate space, plus interpreting how important the vectors are.
 
-`$$\hat{\boldsymbol{\beta}}=\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{X}}\right )^{-1}\left ( \mathbf{\tilde{X}}^{T} \mathbf{\tilde{Z}}\right )$$`
-
-Understand why this equation is a universal equation for describing the alignment of shape data (or any multivariate data) to an alternative set of data, covariance structure, or model
-
-`$$\mathbf{A}^T\mathbf{Z} =\mathbf{UDV}^T$$`
-***We will revisit these some more after a couple of other lectures.***
+**Everything else we do is some permutation of this!**
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightLines": true,
-"countIncrementalSlides": true,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightLines": true,
+  "countIncrementalSlides": true,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
