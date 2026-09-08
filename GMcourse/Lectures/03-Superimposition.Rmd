@@ -42,10 +42,11 @@ We must mathematically partial out these components to estimate shape $^{1}$ .le
 
 ### Scale and Size
 .pull-left[
-+ Position and orientation are due to digitizing procedures, and are not biologically relevant for most applications
++ Position and orientation are due to digitizing procedures, and are (typically) not biologically relevant
 + **Scale** includes the combined effects of focal distance during digitizing and “real” size variation
 + Digitizing scale is calibrated during data acquisition
-+ **Size** is of biological interest. So, we standardize for it to obtain shape variables, but record it for subsequent analyses $^{1}$ .left[.footnote[1: One can perform GM analyses without recording digitizing 'scale', but in this case one has no inherent size estimate, and no notion of its effect on shape]
++ **Size** is of biological interest. 
+  + We standardize for size to obtain shape variables, but record it for subsequent analyses $^{1}$ .left[.footnote[1: One can perform GM analyses without recording digitizing 'scale', but in this case one has no inherent size estimate, and no notion of its effect on shape]
 ]]
 
 .pull-right[
@@ -260,7 +261,7 @@ matrix(prcomp(two.d.array(Y.gpa$coords))$sdev,ncol=3, byrow=T)
 
 ### GPA: Data Dimensionality
 
-+ 2D data initially contain $2p$ variables: $2$ coordinates for $p$ landmarks
++ 2D data initially contain $2p$ variables: $p$ landmarks in $k=2$ dimensions
 + GPA standardized $4$ dimensions:
   + Translation in X
   + Translation in Y
@@ -268,9 +269,9 @@ matrix(prcomp(two.d.array(Y.gpa$coords))$sdev,ncol=3, byrow=T)
   + Rotation
 
 + Therefore, the shape space for GPA-aligned specimens has $2p-4$ dimensions for 2D data
-+ For 3D data, dimensionality is $3p-7$ (general form is: $pk – k – k(k – 1)/2 – 1$
++ For 3D data, dimensionality is $3p-7$ (general equation: $pk – k – k(k – 1)/2 – 1$
 
-+ Because these dimensions are redundant, standard parametric statistical hypothesis testing will not work (singular covariance matrix... means divide by zero)
++ These dimensions are redundant, so standard parametric statistics will not work (singular covariance matrix... means divide by zero)
 
 + One can eliminate these dimensions via **Orthogonal Projection** or the **thin-plate spline** $^1$ .left[.footnote[1: As we'll see later, use of permutation methods (RRPP) alleviates this issue.]]
 ---

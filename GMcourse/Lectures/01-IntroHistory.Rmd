@@ -74,30 +74,26 @@ include_graphics("LectureData/01.Intro/MeasuringMorphology.png")
 
 ### Morphometrics, Evolution, and Statistics
 
-+ The development of morphometrics is intertwined with that of evolutionary biology and statistics
++ Development of morphometrics, evolutionary biology, and statistics are  intertwined
 
-+ Based on observations of linear measurements, the **Biometric Tradition** of the late 1800s viewed most biological variation as continuous
-  + Galton, Pearson, Fisher, etc. espoused this view and simultaneously developed biostatistical methods for summarizing patterns of biological variation: $\sigma^2$, $\rho$, $\chi^2$, $\beta$, etc.
-
---
-
-+ In the $20^{th}$ century, statistics and evolutionary biology continued to develop together
-  + Fisher, Wright, Rao, Spearman and others derived statistical approaches to summarize patterns in biological data
-  + ANOVA, variance partitioning, Discriminant Analysis, Principal Components, multivariate T-tests, Path Analysis, etc.  
++ **Biometric Tradition** (late 1800s): viewed most biological variation as continuous
+  + Galton, Pearson, Fisher, etc.: $\sigma^2$, $\rho$, $\chi^2$, $\beta$, etc.
 
 --
 
-+ These analytical advances paved the way for multivariate morphometric methods
-  + However, analytical advances alone were not sufficient to advance our understanding of organismal form
-  + Like any quantitative discipline, understanding *WHAT* one is characterizing (and how) is equally important, but was far from clear. This hampered meaningful biological inference!
++ $20^{th}$ century: development continued
+  + Fisher, Wright, Rao, Spearman etc.: ANOVA, variance partitioning, Discriminant Analysis, Principal Components, multivariate T-tests, Path Analysis, etc.  
+
+--
+
++ Analytical tools paved the way for multivariate morphometrics
+  + Understanding *WHAT* to measure (and how) was less clear. This hampered meaningful biological inference!
   
 ---
 
 ### Form and Shape
 
 + Historically, form and shape were used interchangeably, but there is a distinction:
-
-  + Over the past 50 years, a more formal distinction has emerged: 
 
   + `Form = size + shape`
 
@@ -107,7 +103,7 @@ include_graphics("LectureData/01.Intro/MeasuringMorphology.png")
 
   + Shape: The geometric properties of an object that are invariant to changes in translation, rotation, and scale (Bookstein 1991); Dryden and Mardia (1998)
 
-  + or Shape: The variation that remains once position, orientation, and scale have been mathematically held constant
+  + or: The variation that remains once position, orientation, and scale have been mathematically held constant
 
 + That is all fine and dandy, but how do we make this operational?
 

@@ -57,7 +57,7 @@ par(mfrow=c(1,1))
 .pull-left[
 + After GPA, each landmark configuration is a point in shape space
   + Each shape occupies a unique point in shape space
-  + The of distribution of points in shape space is the consensus (the mean shape)
+  + The center of the distribution of points in shape space is the consensus (the mean shape)
   + The metric defining shape space is  Procrustes distance $D_{Proc}$
 
 $$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Z}_{1.ij}-\mathbf{Z}_{2.ij}\right)^2}$$
@@ -108,9 +108,9 @@ include_graphics("LectureData/04.shape.vars/OrthProj.png")
 --
 
 + Specimen scores from projection are Kendall’s tangent space coordinates (Dryden and Mardia, 1993; Kent 1994)
-+ Perform PCA and retain only 2p-4 (3D: 3p-7) shape variables with variation if desired $^1$
++ Permutation via RRPP $^1$
 
-.footnote[1: Permutation via RRPP is now standard practice, so this step is not strictly necessary!]
+.footnote[1: PCA and retaining 2p-4 (3D: 3p-7) dimensions with variation is also possible, but unnecessary with RRPP]
 ---
 
 ### Kendall's Tangent Space Coordinates
@@ -127,7 +127,7 @@ plot(pc.tri[,1:2], asp=1, pch=21, bg="red")
 
 ### Shape Differences as Deformations
 
-+ With Tangent Space we can view patterns of shape variation; what about visualizing individual shape differences? 
++ Tangent Space displays patterns of shape variation, but what about visualizing individual shape differences? 
 + D'Arcy Thompson, in *On Growth and Form* (1917) visualized shape differences using transformation grids  
 + Simple mathematical models to represent complex morphological changes 
 
@@ -140,7 +140,7 @@ include_graphics("LectureData/04.shape.vars/ThompsonBook.png")
 
 ### Shape Deformations: the Thin-Plate Spline
 
-+ Based on D'Arcy Thompson's, Bookstein (1989) proposed using the thin-plate spline for providing a mathematically accurate representation of shape change (math was borrowed from engineering methods from 1980s)
++ Bookstein (1989) proposed using the thin-plate spline for providing a mathematically accurate representation of shape change ala Thompson's goal (math was borrowed from engineering methods from 1980s)
 + Deformation of a *reference* to a *target* specimen
 + The coefficients of the fitted TPS model describe shape changes
 
@@ -176,7 +176,7 @@ where $\tiny{A}\begin{bmatrix}1\\x\\y\end{bmatrix}$ represents the affine (unifo
 
 --
 
-+ Here, $\small\mathbf{Q}$ contains the coordinates of the reference and $\small\mathbf{P}$ is found as:  $\small{U(r_{ij})}=r_{ij}^2ln(r_{ij})$ with $\small{r_{ij}}$ as the distance between the $\small{i^{th}}$ and $\small{j^{th}}$ landmarks 
++ $\small\mathbf{Q}$ contains the coordinates of the reference and $\small\mathbf{P}$ is found as:  $\small{U(r_{ij})}=r_{ij}^2ln(r_{ij})$ with $\small{r_{ij}}$ as the distance between the $\small{i^{th}}$ and $\small{j^{th}}$ landmarks 
   + For 3D data, $\small{0}$ is $\small{4 \times 4}$. Also, for 3D data: $\small{U(r_{ij})}=|{r_{ij}}|$ 
 ---
 
@@ -200,7 +200,7 @@ where $\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}$ with $\small\mathbf{\math
 
 --
 
-+ Note, one can weight partial warp scores inversely by spatial scale as: 
++ Can weight partial warp scores inversely by spatial scale as: 
 $\small\mathbf{W}=\mathbf{\mathcal{V}(I_2\otimes{E\Lambda^{-\alpha/2}})}$
 
   + There are $2p-6$ partial warp scores ( $3p-12$ for 3D data)
@@ -336,9 +336,9 @@ plot(GPA.d,Kendall.d)
 
 + PCA attempts to summarize the variation in high-dimensional data in as few dimensions as is possible
 + Mathematically consists of a rigid rotation of the data based on directions of variation, followed by projection to those new summary axes
-+ First one finds the set of axes the describe progressively less variation in the data
-+ Next, the data are rotated so that the main axis of variation (PC1) is horizontal
-+ Subsequent axes are orthogonal to PC1
+  + First, one finds the set of axes that describe progressively less variation in the data
+  + Next, the data are rotated so that the main axis of variation (PC1) is horizontal
+  + Subsequent axes are orthogonal to PC1
 ---
 
 ### PCA: Conceptual Visualization
@@ -384,7 +384,7 @@ $$\small\mathbf{P} = \mathbf{Z}\mathbf{V}$$
 $\frac{\lambda_i}{tr\mathbf{\Lambda}}$
 ]
 .footnote[
-1: In some fields, the correlation matrix is used; particularly if variables are in different units or scale. (see Shape Statistics I lecture for details). 
+1: In some fields, the correlation matrix is used; particularly if variables are in different units or scale (see Shape Statistics I lecture for details). 
 ]
 ---
 
@@ -491,11 +491,10 @@ par(mfcol=c(1,1))
 
 ### Visualizing Shape Differences
 
-+ A major advantage of GMM over multivariate morphometrics is that the geometry of shape is retained throughout the analysis
-+ Therefore, one should be able to visualize exactly how shapes differ from one another
++ A major advantage of GMM over multivariate morphometrics is that the geometry of shape is retained
++ Thus, one should be able to visualize how shapes differ from one another
 
-+ As an interpolation function, TPS allows us to precisely map all points of one shape
-to those of another shape, and visualize how they differ
++ As an interpolation function, TPS allows us to precisely map all points of one shape to those of another shape, and visualize how they differ
 
 + With it one may visualize:
   + Differences between groups

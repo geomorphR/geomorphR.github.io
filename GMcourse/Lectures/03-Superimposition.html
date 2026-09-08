@@ -4,7 +4,7 @@
     <title>3: Superimposition</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="03-Superimposition_files/header-attrs-2.27.1/header-attrs.js"></script>
+    <script src="03-Superimposition_files/header-attrs-2.31/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -34,7 +34,7 @@ class: center, middle, inverse, title-slide
 just shape
 + Digitized specimens also differ in **Location, Scale, and Orientation**
 
-&lt;img src="LectureData/03.superimposition/SuperIdea.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/SuperIdea.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 We must mathematically partial out these components to estimate shape `\(^{1}\)` .left[.footnote[1: scale is clearly biological, so we will sequester it for further analysis]]
 
@@ -42,14 +42,15 @@ We must mathematically partial out these components to estimate shape `\(^{1}\)`
 
 ### Scale and Size
 .pull-left[
-+ Position and orientation are due to digitizing procedures, and are not biologically relevant for most applications
++ Position and orientation are due to digitizing procedures, and are (typically) not biologically relevant
 + **Scale** includes the combined effects of focal distance during digitizing and “real” size variation
 + Digitizing scale is calibrated during data acquisition
-+ **Size** is of biological interest. So, we standardize for it to obtain shape variables, but record it for subsequent analyses `\(^{1}\)` .left[.footnote[1: One can perform GM analyses without recording digitizing 'scale', but in this case one has no inherent size estimate, and no notion of its effect on shape]
++ **Size** is of biological interest. 
+  + We standardize for size to obtain shape variables, but record it for subsequent analyses `\(^{1}\)` .left[.footnote[1: One can perform GM analyses without recording digitizing 'scale', but in this case one has no inherent size estimate, and no notion of its effect on shape]
 ]]
 
 .pull-right[
-&lt;img src="LectureData/03.superimposition/scale.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/scale.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -68,7 +69,7 @@ where `\(p\)` is the number of landmarks and `\(k\)` is the number of coordinate
 ]
 
 .pull-right[
-&lt;img src="LectureData/03.superimposition/CSize.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/CSize.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -89,7 +90,7 @@ where `\(p\)` is the number of landmarks and `\(k\)` is the number of coordinate
 + The most robust for most situations, and the main tool of morphometrics is:
 + *Least-squares superimposition* aka **Procrustes Superimposition**
 
-&lt;img src="LectureData/03.superimposition/ProcImage.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/ProcImage.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Procrustes Superimposition
@@ -100,7 +101,7 @@ Generalized Procrustes Analysis (GPA) removes non-shape information from landmar
   + Scales all specimens to unit centroid size
   + Rotates all specimens to minimize differences
   
-&lt;img src="LectureData/03.superimposition/GPAEquationNote.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/GPAEquationNote.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Procrustes Superimposition: Translation
@@ -116,7 +117,7 @@ Generalized Procrustes Analysis (GPA) removes non-shape information from landmar
 
 + Scale object to unit centroid size:  `\(CS=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Y}_{ij}-\mathbf{Y}_{ic}\right)^2}=1\)`
 
-&lt;img src="LectureData/03.superimposition/GPA-scale.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/GPA-scale.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -152,7 +153,7 @@ Generalized Procrustes Analysis (GPA) removes non-shape information from landmar
 
 `\(\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}\)`
 
-&lt;img src="LectureData/03.superimposition/OPA-steps.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/OPA-steps.png" alt="" width="45%" style="display: block; margin: auto;" /&gt;
 
 + `\(\mathbf{Z}\)` are Procrustes residuals (aligned shape)
 + Optimal LS rotation, distributing the displacement among all landmarks
@@ -169,7 +170,7 @@ Generalized Procrustes Analysis (GPA) removes non-shape information from landmar
 4. Estimate the total variation ( `\(TSS\)`)
 5. Repeat steps 2 - 4, rotating to `\(\mathbf{\overline{Y}}\)` until convergence ( `\(TSS\)` will `\(\downarrow\)` each iteration)
     
-&lt;img src="LectureData/03.superimposition/GPAEquationNote.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/GPAEquationNote.png" alt="" width="55%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### GPA: Example
@@ -179,7 +180,7 @@ Generalized Procrustes Analysis (GPA) removes non-shape information from landmar
   + Later we will visualize shape variation (PCA)
   + Later we will test for shape differences (MANOVA)
 
-&lt;img src="LectureData/03.superimposition/LizardLand.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/LizardLand.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### GPA: Example (Cont.)
@@ -192,14 +193,14 @@ Y.gpa &lt;- gpagen(lizards, print.progress = FALSE)
 plotAllSpecimens(Y.gpa$coords, links=links)
 ```
 
-&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-11-1.png" alt="" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 ### GPA: Step By Step
 
-&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-13-1.png" alt="" style="display: block; margin: auto;" /&gt;
 
 + GPA-aligned coordinates now used as shape variables
 ---
@@ -213,7 +214,7 @@ PCA &lt;- gm.prcomp(Y.gpa$coords)
 plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ```
 
-&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-14-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 + And the eigenvalues:
@@ -226,8 +227,8 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ## [4,] 7.586907e-03 6.831716e-03 6.049213e-03
 ## [5,] 5.992073e-03 5.275534e-03 4.900721e-03
 ## [6,] 4.129789e-03 3.339428e-03 3.200212e-03
-## [7,] 2.954954e-03 2.591265e-03 2.397075e-16
-## [8,] 1.118874e-16 6.035209e-17 2.236291e-17
+## [7,] 2.954954e-03 2.591265e-03 9.576652e-17
+## [8,] 4.741959e-17 3.014605e-17 2.208305e-17
 ```
 
 + Why are 4 exactly = 0?
@@ -236,7 +237,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 
 ### GPA: Data Dimensionality
 
-+ 2D data initially contain `\(2p\)` variables: `\(2\)` coordinates for `\(p\)` landmarks
++ 2D data initially contain `\(2p\)` variables: `\(p\)` landmarks in `\(k=2\)` dimensions
 + GPA standardized `\(4\)` dimensions:
   + Translation in X
   + Translation in Y
@@ -244,9 +245,9 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
   + Rotation
 
 + Therefore, the shape space for GPA-aligned specimens has `\(2p-4\)` dimensions for 2D data
-+ For 3D data, dimensionality is `\(3p-7\)` (general form is: `\(pk – k – k(k – 1)/2 – 1\)`
++ For 3D data, dimensionality is `\(3p-7\)` (general equation: `\(pk – k – k(k – 1)/2 – 1\)`
 
-+ Because these dimensions are redundant, standard parametric statistical hypothesis testing will not work (singular covariance matrix... means divide by zero)
++ These dimensions are redundant, so standard parametric statistics will not work (singular covariance matrix... means divide by zero)
 
 + One can eliminate these dimensions via **Orthogonal Projection** or the **thin-plate spline** `\(^1\)` .left[.footnote[1: As we'll see later, use of permutation methods (RRPP) alleviates this issue.]]
 ---
@@ -255,7 +256,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 
 + GPA works the same with 3D data (matrices simply have `\(\small{3}^{rd}\)` column)
 .pull-left[
-&lt;img src="LectureData/03.superimposition/GorillaSkull.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/GorillaSkull.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 `$${Y}=\begin{bmatrix} X_1 &amp; Y_1 &amp; Z_1 \\ X_2 &amp; Y_2 &amp; Z_2 \\ \vdots &amp; \vdots &amp; \vdots \\ X_p &amp; Y_p &amp; Z_p \\ \end{bmatrix}$$`
 ]
@@ -290,7 +291,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
   + Standardize Orientation: Rotate so landmark `\(2\)` on X-axis (X,0)
   + Standardize Size: Scale object so `\(Baseline_{1,2}\)` = 1 (i.e., landmark `\(2\)` at (1,0)
     
-&lt;img src="LectureData/03.superimposition/BookShapeCoords.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/BookShapeCoords.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Bookstein's Shape Coordinates: Comments
@@ -312,7 +313,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 + If shape variation is localized in a few landmarks this can be a problem: The 'Pinocchio effect'
 + One may desire methods resistant to this effect
 
-&lt;img src="LectureData/03.superimposition/Pinoccio.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/Pinoccio.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Resistant-Fit Superimposition
@@ -321,7 +322,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 
 + Example: two shapes that differ only in the front triangle
 
-&lt;img src="LectureData/03.superimposition/GRF-Example.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/GRF-Example.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Resistant-Fit: Comments
@@ -355,7 +356,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 + No difference in shape: landmark coordinates completely coincident
 + **Difference** in shape: difference in landmark coordinates
 
-&lt;img src="LectureData/03.superimposition/TwoShapes.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/TwoShapes.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 + **Procrustes distance**: measures the amount of shape difference between two objects
 
@@ -378,7 +379,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ]
 .pull-right[
 
-&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-Superimposition_files/figure-html/unnamed-chunk-21-1.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -387,7 +388,7 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 + Statistics in curved spaces become tricky
 + Solution: project to a linear space *tangent* to shape space (tangent to the mean shape, to minimize distortion)
 
-&lt;img src="LectureData/03.superimposition/ShapeTang.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/ShapeTang.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 + How do we accomplish this? 
   + Orthogonal Projection (via Burnaby's equation)
@@ -398,14 +399,14 @@ plot(PCA,pch = 21, bg=col.gp,cex = 2)
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

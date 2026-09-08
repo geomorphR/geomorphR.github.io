@@ -4,7 +4,7 @@
     <title>4: Shape Variables and Shape Spaces</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="04-ShapeVariablesSpaces_files/header-attrs-2.27.1/header-attrs.js"></script>
+    <script src="04-ShapeVariablesSpaces_files/header-attrs-2.31/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ### From GPA to Shape Data
 
 .pull-left[
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-1-1.png" height="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-1-1.png" alt="" height="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -45,7 +45,7 @@ class: center, middle, inverse, title-slide
 .pull-left[
 + After GPA, each landmark configuration is a point in shape space
   + Each shape occupies a unique point in shape space
-  + The of distribution of points in shape space is the consensus (the mean shape)
+  + The center of the distribution of points in shape space is the consensus (the mean shape)
   + The metric defining shape space is  Procrustes distance `\(D_{Proc}\)`
 
 `$$D_{Proc}=\sqrt{\sum_{i,j}^{k,p}\left(\mathbf{Z}_{1.ij}-\mathbf{Z}_{2.ij}\right)^2}$$`
@@ -53,7 +53,7 @@ class: center, middle, inverse, title-slide
 ]
 .pull-right[
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-2-1.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -79,13 +79,13 @@ class: center, middle, inverse, title-slide
 
 `$$\mathbf{Z}'=\mathbf{Z\left(I_{kp}-Z_c^T(Z_cZ_c^T)^{-1}Z_c\right)}$$`
 
-&lt;img src="LectureData/04.shape.vars/OrthProj.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/OrthProj.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 --
 
 + Specimen scores from projection are Kendall’s tangent space coordinates (Dryden and Mardia, 1993; Kent 1994)
-+ Perform PCA and retain only 2p-4 (3D: 3p-7) shape variables with variation if desired `\(^1\)`
++ Permutation via RRPP `\(^1\)`
 
-.footnote[1: Permutation via RRPP is now standard practice, so this step is not strictly necessary!]
+.footnote[1: PCA and retaining 2p-4 (3D: 3p-7) dimensions with variation is also possible, but unnecessary with RRPP]
 ---
 
 ### Kendall's Tangent Space Coordinates
@@ -94,27 +94,27 @@ class: center, middle, inverse, title-slide
 
 .footnote[1: Same set of 2,000 randomly generated triangles.]
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-4-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-4-1.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Shape Differences as Deformations
 
-+ With Tangent Space we can view patterns of shape variation; what about visualizing individual shape differences? 
++ Tangent Space displays patterns of shape variation, but what about visualizing individual shape differences? 
 + D'Arcy Thompson, in *On Growth and Form* (1917) visualized shape differences using transformation grids  
 + Simple mathematical models to represent complex morphological changes 
 
-&lt;img src="LectureData/04.shape.vars/ThompsonBook.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/ThompsonBook.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 
 + Today we use the *Thin-Plate Spline* to generate such visualizations
 ---
 
 ### Shape Deformations: the Thin-Plate Spline
 
-+ Based on D'Arcy Thompson's, Bookstein (1989) proposed using the thin-plate spline for providing a mathematically accurate representation of shape change (math was borrowed from engineering methods from 1980s)
++ Bookstein (1989) proposed using the thin-plate spline for providing a mathematically accurate representation of shape change ala Thompson's goal (math was borrowed from engineering methods from 1980s)
 + Deformation of a *reference* to a *target* specimen
 + The coefficients of the fitted TPS model describe shape changes
 
-&lt;img src="LectureData/04.shape.vars/GorillaHuman.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/GorillaHuman.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 
 + The TPS is an alternative way of projecting aligned shape coordinates to tangent space (different math, but same result: shown later)
 ---
@@ -124,7 +124,7 @@ class: center, middle, inverse, title-slide
 + TPS is a smooth interpolation function (i.e., a doubly-differentiated equation)
 + It models the differences in landmark locations between the reference and target specimen for each coordinate dimension separately (x,y)
 
-&lt;img src="LectureData/04.shape.vars/TPSConcept.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/TPSConcept.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 
 + General TPS Model for `\(1\)` landmark: 
 `$$\tiny\begin{bmatrix} x^1\\y^1\end{bmatrix}=A\begin{bmatrix}1\\x\\y\end{bmatrix}+\sum_{i=1}^pw_iU(r_i)$$`
@@ -142,7 +142,7 @@ where `\(\tiny{A}\begin{bmatrix}1\\x\\y\end{bmatrix}\)` represents the affine (u
 
 --
 
-+ Here, `\(\small\mathbf{Q}\)` contains the coordinates of the reference and `\(\small\mathbf{P}\)` is found as:  `\(\small{U(r_{ij})}=r_{ij}^2ln(r_{ij})\)` with `\(\small{r_{ij}}\)` as the distance between the `\(\small{i^{th}}\)` and `\(\small{j^{th}}\)` landmarks 
++ `\(\small\mathbf{Q}\)` contains the coordinates of the reference and `\(\small\mathbf{P}\)` is found as:  `\(\small{U(r_{ij})}=r_{ij}^2ln(r_{ij})\)` with `\(\small{r_{ij}}\)` as the distance between the `\(\small{i^{th}}\)` and `\(\small{j^{th}}\)` landmarks 
   + For 3D data, `\(\small{0}\)` is `\(\small{4 \times 4}\)`. Also, for 3D data: `\(\small{U(r_{ij})}=|{r_{ij}}|\)` 
 ---
 
@@ -166,7 +166,7 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 
 --
 
-+ Note, one can weight partial warp scores inversely by spatial scale as: 
++ Can weight partial warp scores inversely by spatial scale as: 
 `\(\small\mathbf{W}=\mathbf{\mathcal{V}(I_2\otimes{E\Lambda^{-\alpha/2}})}\)`
 
   + There are `\(2p-6\)` partial warp scores ( `\(3p-12\)` for 3D data)
@@ -192,7 +192,7 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 
 + Shape variation includes **BOTH** uniform and non-uniform components
 
-&lt;img src="LectureData/04.shape.vars/TotalShapeVar.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/TotalShapeVar.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 + Together, the  Partial Warps + Uniform component scores comprise the total set of shape variables: `\(\small\mathbf{W}=\mathbf{V(I_2\otimes{E})|U}\)`
   + There are `\(2p-4\)` shape variables for 2D data and `\(3p-7\)` for 3D data
@@ -202,7 +202,7 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 
 + Model shape differences from a square to a kite (only non-uniform shape differences present)
 
-&lt;img src="LectureData/04.shape.vars/SquareKite.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/SquareKite.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 `\(\small\mathbf{Z}_{sqr}=\begin{bmatrix} 0 &amp; 0.5\\ -0.5 &amp; 0\\ 0 &amp; -0.5\\ 0.5 &amp; 0 \end{bmatrix}\)` and `\(\small\mathbf{Z}_{kite}=\begin{bmatrix} 0 &amp; 0.375\\ -0.5 &amp; 0.125\\ 0 &amp; -0.625\\ 0.5 &amp; 0.125 \end{bmatrix}\)`
 ---
@@ -251,7 +251,7 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 --
 
 .pull-left[
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-10-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 + Plot of shape distances for *Podarcis* data obtained from GPA-shape space and Kendall's Tangent space.      + Correlation of 1.0 in this case (usually very, very high)
@@ -292,9 +292,9 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 
 + PCA attempts to summarize the variation in high-dimensional data in as few dimensions as is possible
 + Mathematically consists of a rigid rotation of the data based on directions of variation, followed by projection to those new summary axes
-+ First one finds the set of axes the describe progressively less variation in the data
-+ Next, the data are rotated so that the main axis of variation (PC1) is horizontal
-+ Subsequent axes are orthogonal to PC1
+  + First, one finds the set of axes that describe progressively less variation in the data
+  + Next, the data are rotated so that the main axis of variation (PC1) is horizontal
+  + Subsequent axes are orthogonal to PC1
 ---
 
 ### PCA: Conceptual Visualization
@@ -302,10 +302,10 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 + This is what PCA does:
 
 .pull-left[
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-11-1.png" width="70%" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-11-1.png" alt="" width="70%" /&gt;
 ]
 .pull-right[
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-12-1.png" width="70%" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-12-1.png" alt="" width="70%" /&gt;
 ]
 + PCA has performed a rigid rotation of the original data, so that variation is aligned with the new (PC) axes
 
@@ -333,7 +333,7 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 `\(\frac{\lambda_i}{tr\mathbf{\Lambda}}\)`
 ]
 .footnote[
-1: In some fields, the correlation matrix is used; particularly if variables are in different units or scale. (see Shape Statistics I lecture for details). 
+1: In some fields, the correlation matrix is used; particularly if variables are in different units or scale (see Shape Statistics I lecture for details). 
 ]
 ---
 
@@ -387,7 +387,7 @@ where `\(\small\mathbf{\mathcal{V}=\mathcal{[V_x|V_y]}}\)` with `\(\small\mathbf
 + PCA of *Podarcis* data 
 
 .pull-left[
-&lt;img src="LectureData/04.shape.vars/LizardHead.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/LizardHead.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -398,7 +398,7 @@ PCA &lt;- gm.prcomp(Y.gpa$coords)
 plot(PCA,pch = 21, bg=col.gp,cex = 2)
 ```
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-14-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 ``` r
 par(mfcol=c(1,1))
@@ -408,7 +408,7 @@ par(mfcol=c(1,1))
 
 ### RWA: Example (Cont.)
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-15-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### RWA: Thoughts
@@ -425,11 +425,10 @@ par(mfcol=c(1,1))
 
 ### Visualizing Shape Differences
 
-+ A major advantage of GMM over multivariate morphometrics is that the geometry of shape is retained throughout the analysis
-+ Therefore, one should be able to visualize exactly how shapes differ from one another
++ A major advantage of GMM over multivariate morphometrics is that the geometry of shape is retained
++ Thus, one should be able to visualize how shapes differ from one another
 
-+ As an interpolation function, TPS allows us to precisely map all points of one shape
-to those of another shape, and visualize how they differ
++ As an interpolation function, TPS allows us to precisely map all points of one shape to those of another shape, and visualize how they differ
 
 + With it one may visualize:
   + Differences between groups
@@ -450,7 +449,7 @@ to those of another shape, and visualize how they differ
 plotRefToTarget(male,female,links = links)
 ```
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-17-1.png" width="80%" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-17-1.png" alt="" width="80%" /&gt;
 ]
 .pull-right[
 
@@ -458,7 +457,7 @@ plotRefToTarget(male,female,links = links)
 plotRefToTarget(female,male,links = links)
 ```
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-18-1.png" width="80%" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-18-1.png" alt="" width="80%" /&gt;
 ]
 ---
 
@@ -467,7 +466,7 @@ plotRefToTarget(female,male,links = links)
 + One can also magnify shape differences to aid biological interpretation 
 + The TPS is just a vector in shape space ( `\(Ref \rightarrow Target\)`), which can be extended in length
 
-&lt;img src="LectureData/04.shape.vars/3XTPS.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/3XTPS.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -481,7 +480,7 @@ plotRefToTarget(female,male,links = links)
 plotRefToTarget(male,female, mag = 5, links = links)
 ```
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-20-1.png" width="80%" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-20-1.png" alt="" width="80%" /&gt;
 ]
 .pull-right[
 
@@ -489,7 +488,7 @@ plotRefToTarget(male,female, mag = 5, links = links)
 plotRefToTarget(female,male, mag = 5, links = links)
 ```
 
-&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-21-1.png" width="80%" /&gt;
+&lt;img src="04-ShapeVariablesSpaces_files/figure-html/unnamed-chunk-21-1.png" alt="" width="80%" /&gt;
 ]
 
 ---
@@ -508,14 +507,14 @@ plotRefToTarget(female,male, mag = 5, links = links)
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
