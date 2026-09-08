@@ -111,9 +111,9 @@ polygon(c(0, 10, 10, 0), c(0, 0, 7, 7), col = 6)
 ### Allometry: Basic Concepts
 
 .pull-left[
-+ **Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (For multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning).**
-
-+ **Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size.**
++ **Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait!** 
+  + For multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning.
+  + It is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size.
 ]
 
 .pull-right[    
@@ -249,7 +249,7 @@ $$\small{z} = \frac{
 } {
  \sigma_{\log\left(F\right)}
 }$$
-where $\small\mu_{\log\left(F\right)}$ and $\sigma_{\log\left(F\right)}$ are the expected value and standard deviation from the sampling distribution, respectively.
+where $\small\mu_{\log\left(F\right)}$ and $\sigma_{\log\left(F\right)}$ are the expected value and standard deviation from the normalized sampling distribution, respectively.
 ]
 
 .footnote[
@@ -496,27 +496,23 @@ $$\small\mathbf{s}=\mathbf{Z\beta^T(\beta^T\beta)^{-1/2}}$$
 
 ### Allometry: Other Tests $^1$
 
-+ Many biological hypotheses are related to the comparison of ontogenetic allometries
-
-+ Allometric trajectories are not only about their slope, or variation around it
++ Many biological hypotheses are related to the comparison of allometries
 
 .footnote[1: See Shape Statistics II lecture for discussion of PTA as a general method for comparing all types of trajectories, including ontogenetic/allometric trajectories (i.e. Collyer and Adams 2007; Adams and Collyer 2009; Collyer and Adams 2013)]
 
 --
 
-+ Do they have similar starting points or ending points?
++ Do allometries have similar starting points or ending points?
 
-+ Are ontogenetic trajectories similar? (parallelism)
++ Are allometric trajectories similar? (parallelism)
 
-+ Do ontogenetic trajectories converge?
++ Do allometric trajectories converge or diverge?
 
-+ Do ontogenetic trajectories diverge?
++ Does the slope of the trajectory correspond with some *a priori* value?
 
 --
 
-+ We need quantitative methods to test such hypotheses
-
-+ Take advantage of the toolkit of resampling methods
++ Hypothesis-specific quantitative summary measures plus RRPP can be used to address these hypotheses
 
 ---
 
@@ -660,26 +656,6 @@ PW.c <- pairwise(fit.common, groups = pupfish$Group,
 summary(PW.c, test = "dist") 
 ```
 ]
----
-
-### Empirical Example: Cranial Ontogeny in Crocodilians
-
-+ Phylogenetic relationships have long been under debate
-+ What information can we extract from cranial ontogeny?
-
-```{r, echo = FALSE, fig.align = "center",out.width="75%"}
-include_graphics("LectureData/07.allometry/CrocRes1.png")  
-```
----
-
-### Empirical Example: Cranial Ontogeny in Crocodilians (Cont.)
-
-+ Some groups follow different ontogenetic paths
-+ There is ontogenetic convergence, where adults are more similar than juveniles
-
-```{r, echo = FALSE, fig.align = "center",out.width="75%"}
-include_graphics("LectureData/07.allometry/CrocRes2.png")  
-```
 ---
 
 ### A Comment on Heterochrony

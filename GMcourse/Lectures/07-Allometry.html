@@ -4,7 +4,7 @@
     <title>7: Allometry</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="07-Allometry_files/header-attrs-2.27.1/header-attrs.js"></script>
+    <script src="07-Allometry_files/header-attrs-2.31/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -43,7 +43,7 @@ class: center, middle, inverse, title-slide
   + Biomechanical/functional
   + Selection (e.g. sexual selection and male ornaments)
 
-&lt;img src="LectureData/07.allometry/AllomIntro.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/AllomIntro.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 
@@ -69,9 +69,9 @@ class: center, middle, inverse, title-slide
 ### Allometry: Basic Concepts
 
 .pull-left[
-+ **Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait! (For multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning).**
-
-+ **Also, it is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size.**
++ **Note: concepts of positive and negative allometry are only applicable to univariate traits relative to another trait!** 
+  + For multivariate traits, allometry is a vector in multi-dimensional space where 'positive' and 'negative' as directions are not defined and have no meaning.
+  + It is mathematically impossible for all body parts to grow simultaneously faster (positive) or slower (negative) than total body size.
 ]
 
 .pull-right[    
@@ -87,7 +87,7 @@ class: center, middle, inverse, title-slide
   + **Static allometry** : Variation across individuals in a single ontogenetic stage within a population or species
   + **Evolutionary allometry**: Variation across species
 
-&lt;img src="LectureData/07.allometry/AllometryTypes.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/AllometryTypes.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Allometry in GM Data
@@ -98,7 +98,7 @@ class: center, middle, inverse, title-slide
 .pull-left[
 + Here is isometry...
 
-&lt;img src="LectureData/07.allometry/IsometryPlot.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/IsometryPlot.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -106,7 +106,7 @@ class: center, middle, inverse, title-slide
 .pull-right[
 + and here is allometry
 
-&lt;img src="LectureData/07.allometry/AllometryPlot.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/AllometryPlot.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -158,7 +158,7 @@ Model Residual Error    `\((\small{SSE})\)` | `\(\small\mathbf{S}_R=\hat{\mathbf
 } {
  \sigma_{\log\left(F\right)}
 }$$`
-where `\(\small\mu_{\log\left(F\right)}\)` and `\(\sigma_{\log\left(F\right)}\)` are the expected value and standard deviation from the sampling distribution, respectively.
+where `\(\small\mu_{\log\left(F\right)}\)` and `\(\sigma_{\log\left(F\right)}\)` are the expected value and standard deviation from the normalized sampling distribution, respectively.
 ]
 
 .footnote[
@@ -173,7 +173,7 @@ where `\(\small\mu_{\log\left(F\right)}\)` and `\(\sigma_{\log\left(F\right)}\)`
 .pull-left[
 Does body shape covary with size in *Pecos* pupfish? 
 
-&lt;img src="LectureData/07.allometry/Pupfish Motivation.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/Pupfish Motivation.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 This is a hypothesis of *Allometry* (shape~size covariation)
 ]
@@ -207,7 +207,7 @@ Great, but how does one visualize this multivariate allometry??
 + need to summarize size-related variation in shape
 + Use some rotation/projection method
 
-&lt;img src="LectureData/07.allometry/MultiAllomPlot.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/MultiAllomPlot.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -248,7 +248,7 @@ plotRefToTarget(M, preds$predmax, mag=1)
 mtext("Regression Max")
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-11-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 ``` r
 par(mfrow=c(1,1))
@@ -267,7 +267,7 @@ par(mfrow=c(1,1))
 + How does environmental disturbance influence development?
 + Are size-shape relationships modified in urban populations?
 
-&lt;img src="LectureData/07.allometry/LizardLatImage.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/LizardLatImage.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Allometry Example: *Podarcis*
@@ -279,7 +279,7 @@ par(mfrow=c(1,1))
 ## No curves detected; all points appear to be fixed landmarks.
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-13-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -290,7 +290,7 @@ anova(fit)$table
 
 ```
 ##            Df      SS       MS     Rsq       F      Z Pr(&gt;F)    
-## CS          1 0.05814 0.058139 0.09503 40.0581 7.2274  0.001 ***
+## CS          1 0.05814 0.058139 0.09503 40.0581 7.2275  0.001 ***
 ## type        1 0.03235 0.032350 0.05287 22.2892 4.6569  0.001 ***
 ## CS:type     1 0.00610 0.006105 0.00998  4.2061 3.0990  0.001 ***
 ## Residuals 355 0.51524 0.001451 0.84212                          
@@ -303,11 +303,11 @@ anova(fit)$table
 
 ### Allometry Example: *Podarcis* (Cont.)
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-15-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### *Podarcis* Allometry: Visualization 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-16-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### *Podarcis* Allometry: Visualization (Cont.)
@@ -331,7 +331,7 @@ M &lt;- mshape(Y.gpa$coords)
 
 ]
 .pull-right[
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-18-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -340,7 +340,7 @@ M &lt;- mshape(Y.gpa$coords)
 + Use randomization methods to test custom hypotheses
 + Do urban populations show higher deviations from their group’s trajectory? – a sign of developmental instability
 
-&lt;img src="LectureData/07.allometry/LizUrbRur.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/LizUrbRur.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Size-Shape Space
@@ -349,7 +349,7 @@ M &lt;- mshape(Y.gpa$coords)
 + However, when other factors are present, PC1 does not necessarily relate directly to size-dependent variation (at least not to all of it)
 + Usual statistical methods do not capture subtle ontogenetic modifications in trajectories
 
-&lt;img src="LectureData/07.allometry/SizeShapeConcept.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/SizeShapeConcept.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 + Examine allometric variation in **size-shape space**
 ---
@@ -373,7 +373,7 @@ M &lt;- mshape(Y.gpa$coords)
 
 ### Size-Shape Space: Example
 
-&lt;img src="LectureData/07.allometry/Mitteroecker-04.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/Mitteroecker-04.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### note: CAC Scores vs. Regression Scores `\(^1\)`
@@ -392,27 +392,23 @@ M &lt;- mshape(Y.gpa$coords)
 
 ### Allometry: Other Tests `\(^1\)`
 
-+ Many biological hypotheses are related to the comparison of ontogenetic allometries
-
-+ Allometric trajectories are not only about their slope, or variation around it
++ Many biological hypotheses are related to the comparison of allometries
 
 .footnote[1: See Shape Statistics II lecture for discussion of PTA as a general method for comparing all types of trajectories, including ontogenetic/allometric trajectories (i.e. Collyer and Adams 2007; Adams and Collyer 2009; Collyer and Adams 2013)]
 
 --
 
-+ Do they have similar starting points or ending points?
++ Do allometries have similar starting points or ending points?
 
-+ Are ontogenetic trajectories similar? (parallelism)
++ Are allometric trajectories similar? (parallelism)
 
-+ Do ontogenetic trajectories converge?
++ Do allometric trajectories converge or diverge?
 
-+ Do ontogenetic trajectories diverge?
++ Does the slope of the trajectory correspond with some *a priori* value?
 
 --
 
-+ We need quantitative methods to test such hypotheses
-
-+ Take advantage of the toolkit of resampling methods
++ Hypothesis-specific quantitative summary measures plus RRPP can be used to address these hypotheses
 
 ---
 
@@ -444,17 +440,17 @@ M &lt;- mshape(Y.gpa$coords)
 + Foot shape is a trait with functional relevance
 + How does foot shape change across ontogeny?
 
-&lt;img src="LectureData/07.allometry/HydromantesEx.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/HydromantesEx.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Evolutionary Convergence: *Hydromantes* Example (Cont.)
 
-&lt;img src="LectureData/07.allometry/HydroRes1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/HydroRes1.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Evolutionary Convergence: *Hydromantes* Example (Cont.)
 
-&lt;img src="LectureData/07.allometry/HydroRes2.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/HydroRes2.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example
@@ -469,7 +465,7 @@ data(pupfish)
 plotAllSpecimens(pupfish$coords)
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-25-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-25-1.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
@@ -506,9 +502,9 @@ anova(fit.common, fit.unique, print.progress = FALSE)
 ## coords ~ logSize + Group (Null)    49  1 0.024084                      0.000000
 ## coords ~ logSize * Group           46  3 0.022079 0.0020045 0.00066816 0.035583
 ## Total                              53    0.056333                              
-##                                      F      Z     P Pr(&gt;F)
-## coords ~ logSize + Group (Null)                           
-## coords ~ logSize * Group        1.3921 1.1451 0.136       
+##                                      F      Z Pr(&gt;F)
+## coords ~ logSize + Group (Null)                     
+## coords ~ logSize * Group        1.3921 1.1451  0.136
 ## Total
 ```
 + Suggests allometric slopes are parallel 
@@ -521,7 +517,7 @@ anova(fit.common, fit.unique, print.progress = FALSE)
 + Allometric plots 
   + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-29-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-29-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
@@ -552,11 +548,11 @@ summary(PW.u, test = "dist")
 ##             (end-points), plus statistics
 ##                                d UCL (95%)          Z Pr &gt; d
 ## Marsh.F:Sinkhole.F    0.07848121 0.1621176 -0.9763904  0.838
-## Marsh.F:Marsh.M       0.08279940 0.1640452 -0.9689342  0.829
-## Marsh.F:Sinkhole.M    0.12322729 0.1610484  0.7139190  0.236
-## Sinkhole.F:Marsh.M    0.06418279 0.1095190 -0.3981426  0.652
-## Sinkhole.F:Sinkhole.M 0.11706696 0.1001323  2.2066562  0.015
-## Marsh.M:Sinkhole.M    0.10863856 0.1132783  1.5445168  0.063
+## Marsh.F:Marsh.M       0.08279940 0.1640452 -0.9689343  0.829
+## Marsh.F:Sinkhole.M    0.12322729 0.1610484  0.7139188  0.236
+## Sinkhole.F:Marsh.M    0.06418279 0.1095190 -0.3981434  0.652
+## Sinkhole.F:Sinkhole.M 0.11706696 0.1001323  2.2066632  0.015
+## Marsh.M:Sinkhole.M    0.10863856 0.1132783  1.5445179  0.063
 ```
 ]
 ---
@@ -589,12 +585,12 @@ summary(PW.u, test = "VC", angle.type = "deg")
 ## This null hypothesis is better treated as the angle 
 ##           between vectors = 0
 ##                               r    angle UCL (95%)           Z Pr &gt; angle
-## Marsh.F:Sinkhole.F    0.6318267 50.81498  83.57546 -0.07310658      0.527
-## Marsh.F:Marsh.M       0.6139591 52.12367  83.58445 -0.13196270      0.549
-## Marsh.F:Sinkhole.M    0.4461018 63.50614  81.89039  0.66791084      0.273
-## Sinkhole.F:Marsh.M    0.7175129 44.15048  63.60905  0.24275646      0.391
-## Sinkhole.F:Sinkhole.M 0.4627734 62.43378  60.22153  1.77232308      0.037
-## Marsh.M:Sinkhole.M    0.5629975 55.73665  65.19951  1.04510764      0.154
+## Marsh.F:Sinkhole.F    0.6318267 50.81498  83.57546 -0.07310502      0.527
+## Marsh.F:Marsh.M       0.6139591 52.12367  83.58445 -0.13196079      0.549
+## Marsh.F:Sinkhole.M    0.4461018 63.50614  81.89039  0.66791186      0.273
+## Sinkhole.F:Marsh.M    0.7175129 44.15048  63.60905  0.24275939      0.391
+## Sinkhole.F:Sinkhole.M 0.4627734 62.43378  60.22153  1.77232581      0.037
+## Marsh.M:Sinkhole.M    0.5629975 55.73665  65.19951  1.04510744      0.154
 ```
 ]
 ---
@@ -624,30 +620,14 @@ summary(PW.c, test = "dist")
 ## 
 ## Pairwise distances between means, plus statistics
 ##                                d  UCL (95%)        Z Pr &gt; d
-## Marsh.F:Sinkhole.F    0.03639758 0.01759231 3.805424  0.001
+## Marsh.F:Sinkhole.F    0.03639758 0.01759231 3.805432  0.001
 ## Marsh.F:Marsh.M       0.03579214 0.01841414 3.996733  0.001
-## Marsh.F:Sinkhole.M    0.03809715 0.01528439 4.529552  0.001
-## Sinkhole.F:Marsh.M    0.03681731 0.02381545 2.952476  0.002
-## Sinkhole.F:Sinkhole.M 0.01939739 0.01857347 1.833261  0.031
-## Marsh.M:Sinkhole.M    0.02694896 0.01911014 2.798642  0.001
+## Marsh.F:Sinkhole.M    0.03809715 0.01528439 4.529570  0.001
+## Sinkhole.F:Marsh.M    0.03681731 0.02381545 2.952463  0.002
+## Sinkhole.F:Sinkhole.M 0.01939739 0.01857347 1.833262  0.031
+## Marsh.M:Sinkhole.M    0.02694896 0.01911014 2.798649  0.001
 ```
 ]
----
-
-### Empirical Example: Cranial Ontogeny in Crocodilians
-
-+ Phylogenetic relationships have long been under debate
-+ What information can we extract from cranial ontogeny?
-
-&lt;img src="LectureData/07.allometry/CrocRes1.png" width="75%" style="display: block; margin: auto;" /&gt;
----
-
-### Empirical Example: Cranial Ontogeny in Crocodilians (Cont.)
-
-+ Some groups follow different ontogenetic paths
-+ There is ontogenetic convergence, where adults are more similar than juveniles
-
-&lt;img src="LectureData/07.allometry/CrocRes2.png" width="75%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### A Comment on Heterochrony
@@ -655,7 +635,7 @@ summary(PW.c, test = "dist")
   + i.e. changes in ontogenetic trajectories
 + Can be evaluated via allometric/ontogenetic investigations
 
-&lt;img src="LectureData/07.allometry/Heterochrony.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/07.allometry/Heterochrony.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Allometry: Summary
@@ -677,14 +657,14 @@ summary(PW.c, test = "dist")
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
