@@ -108,9 +108,13 @@ include_graphics("LectureData/05.semilandmarks/BarTPS.png")
 
 + Points along curves are ‘degenerate’ landmarks (semilandmarks)
 
-+ Semilandmarks constrained to be on the curve (thus have $\small{\approx{1}}$ df)
++ Semilandmarks constrained to be on the curve (thus have $\small{\approx{1}}$ df) $^2$
 
-.footnote[1: Bookstein (1997) *Med. Image Anal.*]
+.footnote[
+1: Bookstein (1997) *Med. Image Anal.*
+
+2: Densely-spaced semilandmarks on a curve may have fewer df
+]
 --
 
 + Digitize a set number of points along an outline, and allow them to ‘slide’ along curve to improve the fit of a specimen to a reference curve: minimize difference between them

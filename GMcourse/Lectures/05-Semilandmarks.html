@@ -4,7 +4,7 @@
     <title>5: Semilandmarks on Curves and Surfaces</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="05-Semilandmarks_files/header-attrs-2.27.1/header-attrs.js"></script>
+    <script src="05-Semilandmarks_files/header-attrs-2.31/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -29,7 +29,7 @@ class: center, middle, inverse, title-slide
 + Align objects to common coordinate system using superimposition (GPA)
 
 `$$\small\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}$$`
-&lt;img src="LectureData/03.superimposition/OPA-steps.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/OPA-steps.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 + Works for both 2-D and 3-D landmarks data
 + *THE* fundamental approach for morphometrics
@@ -40,7 +40,7 @@ class: center, middle, inverse, title-slide
 + Landmarks provide rigorous quantification of shape
 + Some objects have few landmarks, but have defined boundaries (curves) or surfaces
 
-&lt;img src="LectureData/05.semilandmarks/semiland-motiv.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/semiland-motiv.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 + How do we capture shape information from such structures? 
 ---
@@ -50,7 +50,7 @@ class: center, middle, inverse, title-slide
 + Some objects contain multiple ‘types’ of morphometric data
 + Types typically analyzed separately
 
-&lt;img src="LectureData/05.semilandmarks/Face.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Face.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 + How do we quantify the overall shape of such structures? 
 ---
@@ -60,13 +60,13 @@ class: center, middle, inverse, title-slide
 + Define landmark homology mathematically (e.g., equal spacing)
 + Often produces suggestive (but incorrect) results 
 
-&lt;img src="LectureData/05.semilandmarks/RectangEx.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/RectangEx.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 
 --
 
 + Implied shape differences: `\(^1\)`
 
-&lt;img src="LectureData/05.semilandmarks/RectangTPS.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/RectangTPS.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 
 + Can we estimate the shape difference without adding the twisting?
 
@@ -78,13 +78,13 @@ class: center, middle, inverse, title-slide
 
 + Another example
 
-&lt;img src="LectureData/05.semilandmarks/BarEx.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/BarEx.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 --
 
 + Implied shape differences:
 
-&lt;img src="LectureData/05.semilandmarks/BarTPS.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/BarTPS.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 + Can we estimate the shape difference without adding the twisting?
 
@@ -96,9 +96,13 @@ class: center, middle, inverse, title-slide
 
 + Points along curves are ‘degenerate’ landmarks (semilandmarks)
 
-+ Semilandmarks constrained to be on the curve (thus have `\(\small{\approx{1}}\)` df)
++ Semilandmarks constrained to be on the curve (thus have `\(\small{\approx{1}}\)` df) `\(^2\)`
 
-.footnote[1: Bookstein (1997) *Med. Image Anal.*]
+.footnote[
+1: Bookstein (1997) *Med. Image Anal.*
+
+2: Densely-spaced semilandmarks on a curve may have fewer df
+]
 --
 
 + Digitize a set number of points along an outline, and allow them to ‘slide’ along curve to improve the fit of a specimen to a reference curve: minimize difference between them
@@ -135,7 +139,7 @@ class: center, middle, inverse, title-slide
     
 ### What Direction to Slide?
 
-&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
 
 + Slide landmarks along curve
 
@@ -230,7 +234,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 
 + Visual differences between `\(\small{BE}\)` and `\(\small{D}_{Proc}\)` sliding:
 
-&lt;img src="LectureData/05.semilandmarks/SlidingCorpusEx.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/SlidingCorpusEx.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 ###### Mathematical comments: Using `\(BE\)` is akin to a weighted regression, which accounts for spatial proximity (non-independence) of adjacent landmarks. This is a more reasonable model, as one uses semilandmarks *precisely* to represent curves by an adjacent set of points which are explicitly not independent
 ---
@@ -241,12 +245,12 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 + But if slid too far they 'leave' the actual curve 
 + Solution is to project back to curve during GPA + sliding
 
-&lt;img src="LectureData/05.semilandmarks/ProjToCurve.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ProjToCurve.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Combining Points and Curves
 
-&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/DirToSlide.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
 
 + One can allow landmarks to remain 'fixed' while semilandmarks slide (e.g. endpoints above)
 + Information incorporated into `\(\small\mathbf{U}\)`
@@ -271,19 +275,19 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 
 ### Semilandmark Example: The Data
 
-&lt;img src="LectureData/05.semilandmarks/Book99Example.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Book99Example.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Semilandmark Example: The Data
 
-&lt;img src="LectureData/05.semilandmarks/Book99Data.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Book99Data.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Semilandmark Example: Results
 
 + Large differences in external profiles, but NO difference of internal profiles
 
-&lt;img src="LectureData/05.semilandmarks/Book99Results.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Book99Results.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Semilandmarks on 3D Curves
@@ -312,7 +316,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 + 3D surface landmarks slide in the plane
 + Plane defined by PC1 &amp; PC2 of surrounding points
 
-&lt;img src="LectureData/05.semilandmarks/TangentPlane.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/TangentPlane.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 + `\(\small\mathbf{U}\)` has 2 sets of tangent directions 
@@ -338,7 +342,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
   + Match these to surface points of next specimen (using TPS)
   + Repeat
 
-&lt;img src="LectureData/05.semilandmarks/DigitSurface.png" width="25%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/DigitSurface.png" alt="" width="25%" style="display: block; margin: auto;" /&gt;
 
 ###### Note: permutation methods required for significance testing as `\(\small{p&gt;&gt;n}\)`
 ---
@@ -353,7 +357,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 + Define tangent directions and generate **U**
 + **GPA + Sliding**
 
-&lt;img src="LectureData/05.semilandmarks/Scallop.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Scallop.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Complications: Shape Variables and Dimensionality
@@ -380,7 +384,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 + Focused on aquatic species in different families
 + Is there evidence of head shape convergence? 
 
-&lt;img src="LectureData/05.semilandmarks/SnakeExample.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/SnakeExample.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Semilandmarks: *Homo* Example
@@ -388,7 +392,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 + Examined 'Zuttiyeh’ fossil morphology as compared to other early hominids
 
 
-&lt;img src="LectureData/05.semilandmarks/HomoExample.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/HomoExample.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Semilandmarks: Scallop Example
@@ -396,21 +400,21 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 + Scallop species display differing life habits
 + What patterns are observed at the macroevolutionary level?
 
-&lt;img src="LectureData/05.semilandmarks/ScallopData.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ScallopData.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Semilandmarks: Scallop Example (Cont.)
 
 + Recessors display unique morphology and directional evolution
 
-&lt;img src="LectureData/05.semilandmarks/ScallopResults1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ScallopResults1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Semilandmarks: Scallop Example (Cont.)
 
 + Gliders occupy morphological convergence
 
-&lt;img src="LectureData/05.semilandmarks/ScallopResults2.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ScallopResults2.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### The Procrustes Paradigm
@@ -422,7 +426,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
   + Surfaces of structures
 + **Can all be combined in a single analysis of shape variation**
 
-&lt;img src="LectureData/05.semilandmarks/ProcParadigm.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/ProcParadigm.png" alt="" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -430,7 +434,7 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 
 + GPA convergence might be expected with minimized Procrustes distance but should not be expected with BE.  The criterion for measuring convergence is to measure total sums of squares among configurations, but the generalized least squares solutions can inflate variance. `\(^1\)`
 
-&lt;img src="LectureData/05.semilandmarks/Iters.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/05.semilandmarks/Iters.png" alt="" width="55%" style="display: block; margin: auto;" /&gt;
 
 .footnote[1. From Supp. Info. of Baken et al. (2021). *MEE*]
 ---
@@ -456,14 +460,14 @@ Note `\(\mathbf{y} = vec(\mathbf{Y})\)`
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
