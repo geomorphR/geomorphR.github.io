@@ -112,7 +112,7 @@ What does this say to us?  First, let's adopt the tendency to see  `\(\mathbf{Z}
 
 For example, Procrustes coordinates are obtained through a transformation of coordinate data.
 
-Second, let's develop the tendency to see `\(\mathbf{A}\)` and think of *.blue[association]* or *.blue[alignment]* or *.blue[adjustment]*.  A transformation of (already transformed) data either adjusts those data in some way, or aligns them to some other matrix, or maximizes some association with some other matrix.  **Thus, `\(\mathbf{A}\mathbf{Z}\)` is a transformation of data based on some idea represented by `\(\mathbf{A}\)`**
+Second, let's develop the tendency to see `\(\mathbf{A}\)` and think of *.blue[association]* or *.blue[alignment]* or *.blue[adjustment]*.  A transformation of (already transformed) data either adjusts those data in some way, or aligns them to some other matrix, or maximizes some association with some other matrix.  **Thus, `\(\mathbf{A}\mathbf{Z}\)` is a transformation of data based on some idea represented by `\(\mathbf{A}\)`.**
 
 *Note, transformations of transformations might seem confusing, but think of basic algebra: `\(ay = e(d(c(by)))\)`, meaning `\(a = edcb\)`.*
 
@@ -132,10 +132,10 @@ The next slide has some examples of what `\(\mathbf{A}\)` could be.
 ### Examples of `\(\mathbf{A}\)` matrices
 
 .pull-left[
-Let `\(\mathbf{1}\)` be an `\(n \times 1\)` vector of 1s.  Let `\(\mathbf{A} = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T\)`.  
+Let `\(\mathbf{1}\)` be an `\(n \times 1\)` vector of 1s.  Let `\(\mathbf{A} = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T.\)`  
 ]
 .pull-right[
-Then `\(\mathbf{A}\mathbf{Z}\)` **is the vector of `\(p\)` mean values for the `\(n \times p\)` matrix of data, `\(\mathbf{Z}\)`; i.e., `\(\mathbf{A}\mathbf{Z} = \mathbf{\overline{z}}^T\)`**
+Then `\(\mathbf{A}\mathbf{Z}\)` **is the vector of `\(p\)` mean values for the `\(n \times p\)` matrix of data, `\(\mathbf{Z}\)`; i.e., `\(\mathbf{A}\mathbf{Z} = \mathbf{\overline{z}}^T\)`.**
 ]
 
 .pull-left[
@@ -149,7 +149,7 @@ Then `\(\mathbf{A}\mathbf{Z}\)` **is an `\(n \times p\)` matrix where every row 
 Let `\(\mathbf{X}\)` be an `\(n \times 2\)` matrix with one column the vector, `\(\mathbf{1}\)`, and the other column is `\(x = CS\)`, an `\(n \times 1\)` vector of centroid size for `\(n\)` specimens.  Let `\(\mathbf{A} = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T\)`.  
 ]
 .pull-right[
-Then `\(\mathbf{A}\mathbf{Z}\)` **is the matrix of regression coefficients for an analysis of allometry**
+Then `\(\mathbf{A}\mathbf{Z}\)` **is the matrix of regression coefficients for an analysis of allometry.**
 ]
 
 
@@ -234,8 +234,8 @@ PCA$rot[, 1:5]
 ```
 
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-31fb59242080877cee0c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-31fb59242080877cee0c">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1.X","1.Y","2.X","2.Y","3.X","3.Y","4.X","4.Y","5.X","5.Y","6.X","6.Y","7.X","7.Y","8.X","8.Y","9.X","9.Y","10.X","10.Y","11.X","11.Y","12.X","12.Y"],[-0.18519,0.05405,-0.25751,0.12104,0.24555,0.08671,0.01913,0.01574,0.03013,-0.06,0.03942,-0.07298,-0.03292,-0.15883,-0.07436,-0.02267,-0.1294,0.14563,-0.14615,0.04686,0.78142,-0.05272,-0.29012,-0.10285],[0.44578,0.26015,0.14487,0.35368,0.06079,0.15116,-0.00471,-0.10675,-0.04475,-0.10706,-0.02427,-0.16916,-0.14499,-0.08201,-0.0491,-0.01583,0.0163,0.10257,0.07706,0.13217,-0.18989,0.04808,-0.28709,-0.56701],[0.22986,-0.08275,0.21506,0.10056,0.32681,0.00228,-0.20322,0.35931,-0.19877,0.15439,-0.17122,0.009809999999999999,-0.21542,-0.18189,0.06254,-0.16576,0.18179,-0.23899,0.07886,-0.13614,0.01087,-0.20317,-0.31717,0.38235],[-0.26247,0.11272,-0.01087,0.46841,0.47658,-0.04908,-0.11434,-0.00444,-0.05717,0.12899,0.1062,0.0582,0.08944000000000001,0.01527,-0.1435,-0.17252,-0.17443,-0.1315,-0.16718,-0.21664,-0.17314,-0.06654,0.43089,-0.14288],[-0.16719,0.22104,0.02176,-0.25447,0.44786,0.02916,-0.0437,-0.44113,-0.16144,-0.22846,-0.05394,0.14802,0.0188,0.27939,-0.08595,0.08477999999999999,0.38216,0.11626,-0.05794,0.12139,-0.12552,-0.17414,-0.1749,0.09816]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Comp1<\/th>\n      <th>Comp2<\/th>\n      <th>Comp3<\/th>\n      <th>Comp4<\/th>\n      <th>Comp5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":3,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Comp1","targets":1},{"name":"Comp2","targets":2},{"name":"Comp3","targets":3},{"name":"Comp4","targets":4},{"name":"Comp5","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[3,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-2a2eb249da63d4361936" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2a2eb249da63d4361936">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1.X","1.Y","2.X","2.Y","3.X","3.Y","4.X","4.Y","5.X","5.Y","6.X","6.Y","7.X","7.Y","8.X","8.Y","9.X","9.Y","10.X","10.Y","11.X","11.Y","12.X","12.Y"],[-0.18519,0.05405,-0.25751,0.12104,0.24555,0.08671,0.01913,0.01574,0.03013,-0.06,0.03942,-0.07298,-0.03292,-0.15883,-0.07436,-0.02267,-0.1294,0.14563,-0.14615,0.04686,0.78142,-0.05272,-0.29012,-0.10285],[0.44578,0.26015,0.14487,0.35368,0.06079,0.15116,-0.00471,-0.10675,-0.04475,-0.10706,-0.02427,-0.16916,-0.14499,-0.08201,-0.0491,-0.01583,0.0163,0.10257,0.07706,0.13217,-0.18989,0.04808,-0.28709,-0.56701],[0.22986,-0.08275,0.21506,0.10056,0.32681,0.00228,-0.20322,0.35931,-0.19877,0.15439,-0.17122,0.009809999999999999,-0.21542,-0.18189,0.06254,-0.16576,0.18179,-0.23899,0.07886,-0.13614,0.01087,-0.20317,-0.31717,0.38235],[-0.26247,0.11272,-0.01087,0.46841,0.47658,-0.04908,-0.11434,-0.00444,-0.05717,0.12899,0.1062,0.0582,0.08944000000000001,0.01527,-0.1435,-0.17252,-0.17443,-0.1315,-0.16718,-0.21664,-0.17314,-0.06654,0.43089,-0.14288],[-0.16719,0.22104,0.02176,-0.25447,0.44786,0.02916,-0.0437,-0.44113,-0.16144,-0.22846,-0.05394,0.14802,0.0188,0.27939,-0.08595,0.08477999999999999,0.38216,0.11626,-0.05794,0.12139,-0.12552,-0.17414,-0.1749,0.09816]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Comp1<\/th>\n      <th>Comp2<\/th>\n      <th>Comp3<\/th>\n      <th>Comp4<\/th>\n      <th>Comp5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":3,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Comp1","targets":1},{"name":"Comp2","targets":2},{"name":"Comp3","targets":3},{"name":"Comp4","targets":4},{"name":"Comp5","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[3,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ]
 
 ---
@@ -1155,11 +1155,11 @@ is an analysis that finds phylogenetically aligned components of the data (most 
 **Covariance matrix**
 
 ```
-##       t3    t4    t2    t1
-## t3 0.606 0.432 0.164 0.000
-## t4 0.432 0.606 0.164 0.000
-## t2 0.164 0.164 0.607 0.000
-## t1 0.000 0.000 0.000 0.607
+##       t3    t4    t1    t2
+## t3 1.121 0.595 0.000 0.000
+## t4 0.595 1.121 0.000 0.000
+## t1 0.000 0.000 1.121 0.245
+## t2 0.000 0.000 0.245 1.121
 ```
 ]
 
@@ -1444,7 +1444,7 @@ Like any area of statistics, `\(\boldsymbol{\beta}\)` are generally unknown but 
 .pull-right[
 The `\(\hat{ }\)` reminds us that this is a matrix of estimated values.  **Notice that** this resembles something, i.e., `\(\hat{\boldsymbol{\beta }}= \mathbf{A} \mathbf{Z}\)`, if `\(\mathbf{A} = \left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\mathbf{X}^T\)`.
 
-In other words, **.blue[linear model coefficients]**${^1}$ are the result of an alignment of data to parameters of a linear model, `\(\mathbf{X}\)`, which have been standardized by the cross-products of the parameters, `\(\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\)`.  The matrix `\(\mathbf{A}\)` in this case is a matrix of standardized model parameters.
+In other words, **.blue[linear model coefficients]** `\({^1}\)` are the result of an alignment of data to parameters of a linear model, `\(\mathbf{X}\)`, which have been standardized by the cross-products of the parameters, `\(\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\)`.  The matrix `\(\mathbf{A}\)` in this case is a matrix of standardized model parameters.
 ]
 
 .footnote[
@@ -1509,6 +1509,7 @@ $$ \mathbf{A}\mathbf{Z} = \left ( \tilde{\mathbf{X}}^{T} \tilde{\mathbf{X}}\righ
 **This is beautiful just by itself!**
 
 ---
+### What does a linear model do?
 
 **Regarding fitted values, predicted values, and residuals**
 4. **Fitted values** are found as `\(\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}\)`.  These are made for the full set of data (*training data*) used to estimate coefficients.  **A predicted value** is found as `\(\hat{\mathbf{z}}^T_H = \mathbf{x}^T\hat{\boldsymbol{\beta}}\)` for any possible vector of model parameters, `\(\mathbf{x}^T\)`, which might be different than any row vector found in `\(\mathbf{X}\)`.  The `\(_H\)` subscript is used to indicate a *hypothetical* result. 

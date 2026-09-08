@@ -104,7 +104,7 @@ $$\mathbf{Z}= f(\mathbf{Y})$$
 
 For example, Procrustes coordinates are obtained through a transformation of coordinate data.
 
-Second, let's develop the tendency to see $\mathbf{A}$ and think of *.blue[association]* or *.blue[alignment]* or *.blue[adjustment]*.  A transformation of (already transformed) data either adjusts those data in some way, or aligns them to some other matrix, or maximizes some association with some other matrix.  **Thus, $\mathbf{A}\mathbf{Z}$ is a transformation of data based on some idea represented by $\mathbf{A}$**
+Second, let's develop the tendency to see $\mathbf{A}$ and think of *.blue[association]* or *.blue[alignment]* or *.blue[adjustment]*.  A transformation of (already transformed) data either adjusts those data in some way, or aligns them to some other matrix, or maximizes some association with some other matrix.  **Thus, $\mathbf{A}\mathbf{Z}$ is a transformation of data based on some idea represented by $\mathbf{A}$.**
 
 *Note, transformations of transformations might seem confusing, but think of basic algebra: $ay = e(d(c(by)))$, meaning $a = edcb$.*
 
@@ -124,10 +124,10 @@ The next slide has some examples of what $\mathbf{A}$ could be.
 ### Examples of $\mathbf{A}$ matrices
 
 .pull-left[
-Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A} = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T$.  
+Let $\mathbf{1}$ be an $n \times 1$ vector of 1s.  Let $\mathbf{A} = (\mathbf{1}^T\mathbf{1})^{-1} \mathbf{1}^T.$  
 ]
 .pull-right[
-Then $\mathbf{A}\mathbf{Z}$ **is the vector of $p$ mean values for the $n \times p$ matrix of data, $\mathbf{Z}$; i.e., $\mathbf{A}\mathbf{Z} = \mathbf{\overline{z}}^T$**
+Then $\mathbf{A}\mathbf{Z}$ **is the vector of $p$ mean values for the $n \times p$ matrix of data, $\mathbf{Z}$; i.e., $\mathbf{A}\mathbf{Z} = \mathbf{\overline{z}}^T$.**
 ]
 
 .pull-left[
@@ -141,7 +141,7 @@ Then $\mathbf{A}\mathbf{Z}$ **is an $n \times p$ matrix where every row is $\mat
 Let $\mathbf{X}$ be an $n \times 2$ matrix with one column the vector, $\mathbf{1}$, and the other column is $x = CS$, an $n \times 1$ vector of centroid size for $n$ specimens.  Let $\mathbf{A} = (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T$.  
 ]
 .pull-right[
-Then $\mathbf{A}\mathbf{Z}$ **is the matrix of regression coefficients for an analysis of allometry**
+Then $\mathbf{A}\mathbf{Z}$ **is the matrix of regression coefficients for an analysis of allometry.**
 ]
 
 
@@ -1129,7 +1129,7 @@ $$\small{\hat{\boldsymbol{\beta }}=\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1
 .pull-right[
 The $\hat{ }$ reminds us that this is a matrix of estimated values.  **Notice that** this resembles something, i.e., $\hat{\boldsymbol{\beta }}= \mathbf{A} \mathbf{Z}$, if $\mathbf{A} = \left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}\mathbf{X}^T$.
 
-In other words, **.blue[linear model coefficients]**${^1}$ are the result of an alignment of data to parameters of a linear model, $\mathbf{X}$, which have been standardized by the cross-products of the parameters, $\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.  The matrix $\mathbf{A}$ in this case is a matrix of standardized model parameters.
+In other words, **.blue[linear model coefficients]** ${^1}$ are the result of an alignment of data to parameters of a linear model, $\mathbf{X}$, which have been standardized by the cross-products of the parameters, $\left ( \mathbf{X}^{T} \mathbf{X}\right )^{-1}$.  The matrix $\mathbf{A}$ in this case is a matrix of standardized model parameters.
 ]
 
 .footnote[
@@ -1194,6 +1194,7 @@ $\hat{\boldsymbol{\beta}}$ is a $k \times p$ matrix, expressing the change in ea
 **This is beautiful just by itself!**
 
 ---
+### What does a linear model do?
 
 **Regarding fitted values, predicted values, and residuals**
 4. **Fitted values** are found as $\hat{\mathbf{Z}} = \mathbf{X}\hat{\boldsymbol{\beta}}$.  These are made for the full set of data (*training data*) used to estimate coefficients.  **A predicted value** is found as $\hat{\mathbf{z}}^T_H = \mathbf{x}^T\hat{\boldsymbol{\beta}}$ for any possible vector of model parameters, $\mathbf{x}^T$, which might be different than any row vector found in $\mathbf{X}$.  The $_H$ subscript is used to indicate a *hypothetical* result. 
