@@ -4,7 +4,7 @@
     <title>09: Phylogenetic Comparative Methods and Shape Data</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="09-PhyCompMethods_files/header-attrs-2.27.1/header-attrs.js"></script>
+    <script src="09-PhyCompMethods_files/header-attrs-2.31/header-attrs.js"></script>
     <script src="09-PhyCompMethods_files/kePrint-0.0.1/kePrint.js"></script>
     <link href="09-PhyCompMethods_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -34,6 +34,7 @@ class: center, middle, inverse, title-slide
   2. Phylogenetic Signal
   3. Phylogenetic Ordination
   4. Comparing Evolutionary Models
+  5. PCMs with multiple individuals per species
 ---
 
 ### Motivation: Correlated Observations
@@ -43,7 +44,7 @@ class: center, middle, inverse, title-slide
 + Is home range size predicted by body size?
 
 .pull-left[
-&lt;img src="LectureData/09.pcm/MammalBS-HR.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/MammalBS-HR.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 + We might consider using a linear model to investigate: `\(\mathbf{Z = X\beta + \epsilon}\)`
@@ -64,11 +65,11 @@ class: center, middle, inverse, title-slide
 + Species values commonly utilized
 
 .pull-left[
-&lt;img src="LectureData/09.pcm/PCM-Metab.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-Metab.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="LectureData/09.pcm/PCM-PrimateCoev.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-PrimateCoev.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 --
 
@@ -83,7 +84,7 @@ class: center, middle, inverse, title-slide
 
 + Empirical Goal: Evaluate evolutionary hypotheses while accounting for (phylogenetic) non-independence
 
-&lt;img src="LectureData/09.pcm/PhyloMorphoSpace.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PhyloMorphoSpace.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
 
 + This requires a phylogeny, and an evolutionary model of how trait variation is expected to accumulate
 
@@ -133,7 +134,7 @@ class: center, middle, inverse, title-slide
 .pull-right[
 + In essence, the random errors are modeled as if drawn independently from a normal distribution: `\(\epsilon \small\sim\mathcal{N}(0,\sigma^2)\)` 
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-5-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -252,7 +253,7 @@ class: center, middle, inverse, title-slide
 + This means the *expected* covariance is not always zero
 
 .pull-left[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-8-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-8-1.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -336,7 +337,7 @@ class: center, middle, inverse, title-slide
 
 ]
 .pull-right[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-10-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 + We can use this to intuit the expected covariation among species on a phylogeny
 ]
 ---
@@ -348,11 +349,11 @@ class: center, middle, inverse, title-slide
   + When speciation occurs, traits in each species evolve via BM
   
 .pull-left[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-11-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-12-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 + The result is that traits *tend* to be more similar in more closely related species
@@ -367,7 +368,7 @@ class: center, middle, inverse, title-slide
 
 + This gives us the expected object covariance `\((\mathbf\Omega)\)` under Brownian motion `\(^1\)` 
 
-&lt;img src="LectureData/09.pcm/PCM-PhyCovMat.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-PhyCovMat.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 
 .footnote[1: Other evolutionary models, such as OU, could also be used.]
 ---
@@ -377,7 +378,7 @@ class: center, middle, inverse, title-slide
 + What is the expected covariation for species related by a phylogeny under BM? 
 
 .pull-left[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-14-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -385,52 +386,52 @@ class: center, middle, inverse, title-slide
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; t4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; t5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; t1 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; t2 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; t3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t4 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t5 &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; t4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t2 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.40 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.61 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; t5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.40 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.61 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; t1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.21 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.21 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.50 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; t2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t4 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.99 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; t3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t5 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.99 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -469,7 +470,7 @@ class: center, middle, inverse, title-slide
 
 + Model design `\((\small\mathbf{X})\)` describes the type of analysis `\(^1\)`
 
-&lt;img src="LectureData/09.pcm/ModelTypes.png" width="65%" height="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/ModelTypes.png" alt="" width="65%" height="35%" style="display: block; margin: auto;" /&gt;
 
 + The Phylogenetic Comparative Method Toolkit is a set of procedures for evaluating different hypotheses
 
@@ -480,12 +481,12 @@ class: center, middle, inverse, title-slide
 
 + The conceptual development of PCMs
 
-&lt;img src="LectureData/09.pcm/PCM-MethodRoad.png" width="85%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-MethodRoad.png" alt="" width="85%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Phylogenetic Comparative Method Toolkit
 
-&lt;img src="LectureData/09.pcm/PCMToolkit.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCMToolkit.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 1: Phylogenetic Least Squares: Regression (Concept)
@@ -494,7 +495,7 @@ class: center, middle, inverse, title-slide
 
 + The workhorse of PCMs
       
-&lt;img src="LectureData/09.pcm/PCM-PhyloRegGarland.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-PhyloRegGarland.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 1: Phylogenetic Least Squares: Regression and ANOVA
@@ -529,7 +530,7 @@ class: center, middle, inverse, title-slide
 
 ### 1: A Visual of Phylogenetic Least Squares
 
-&lt;img src="LectureData/09.pcm/PhyRegression.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PhyRegression.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 1: Phylogenetic Least Squares Regression: Example
@@ -543,11 +544,11 @@ class: center, middle, inverse, title-slide
 ## No curves detected; all points appear to be fixed landmarks.
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-21-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-21-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 ]
 .pull-right[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-22-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-22-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -578,9 +579,12 @@ summary(pgls.reg)
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: procD.lm(f1 = shape ~ svl, iter = iter, seed = seed, RRPP = TRUE,  
-##     SS.type = SS.type, effect.type = effect.type, int.first = int.first,  
-##     Cov = Cov, data = data, print.progress = print.progress)
+## Call: procD.lm(f1 = shape ~ svl, iter = iter, 
+## seed = seed, RRPP = TRUE, SS.type = 
+## SS.type, effect.type = effect.type, 
+## int.first = int.first, Cov = Cov, data 
+## = data, print.progress = 
+## print.progress)
 ```
 ]
 
@@ -598,7 +602,7 @@ plot.out &lt;- plot(pgls.reg, type = "regression",
 abline(lm(plot.out$RegScore~svl))
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-24-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-24-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]]
 
 .pull-right[.small[
@@ -608,7 +612,7 @@ preds &lt;- shape.predictor(pgls.reg$GM$pgls.fitted,
   x= svl, Intercept = TRUE, predmin = min(svl), predmax = max(svl))
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-26-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-26-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]]
 ---
 
@@ -617,11 +621,11 @@ preds &lt;- shape.predictor(pgls.reg$GM$pgls.fitted,
 + Does head shape in *Plethodon* differ between high and low elevation species? 
 
 .pull-left[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-27-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-27-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 ]
 .pull-right[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-28-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -650,9 +654,12 @@ summary(pgls.aov)
 ## Residuals 40 0.0089175 0.00022294 0.95481                    
 ## Total     41 0.0093395                                       
 ## 
-## Call: procD.lm(f1 = shape ~ elev, iter = iter, seed = seed, RRPP = TRUE,  
-##     SS.type = SS.type, effect.type = effect.type, int.first = int.first,  
-##     Cov = Cov, data = data, print.progress = print.progress)
+## Call: procD.lm(f1 = shape ~ elev, iter = 
+## iter, seed = seed, RRPP = TRUE, SS.type 
+## = SS.type, effect.type = effect.type, 
+## int.first = int.first, Cov = Cov, data 
+## = data, print.progress = 
+## print.progress)
 ```
 ]
 
@@ -670,7 +677,7 @@ plot(plot.res,phylo = FALSE, pch=21, bg=gdf$elev, cex=2)
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-30-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-30-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]]
 
 .pull-right[.small[
@@ -682,7 +689,7 @@ preds &lt;- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$
            Intercept = TRUE, Low = Low, High = High)   
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-33-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-33-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]]
 ---
 
@@ -690,7 +697,7 @@ preds &lt;- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$
 
 + How groups are distributed on the phylogeny can make a difference: Adams and Collyer. *Evol.* (2018)
 
-&lt;img src="LectureData/09.pcm/PCM-PhyANOVA-Groups.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-PhyANOVA-Groups.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 + Too few group 'state' changes across phylogeny results in lower power
 ---
@@ -699,7 +706,7 @@ preds &lt;- shape.predictor(arrayspecs(pgls.aov$pgls.fitted, 11,2), x= pgls.aov$
 
 + Three implementations are found in the literature
 
-&lt;img src="LectureData/09.pcm/PGLS-Implementations.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PGLS-Implementations.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 + All yield equivalent results if performed properly
 
@@ -756,7 +763,7 @@ summary(PLS.Y)
 ## 
 ## r-PLS: 0.843
 ## 
-## Effect Size (Z): 4.7366
+## Effect Size (Z): 3.7188
 ## 
 ## P-value: 0.001
 ## 
@@ -774,7 +781,7 @@ summary(PLS.Y)
 plot(PLS.Y)
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-37-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-37-1.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -782,7 +789,7 @@ plot(PLS.Y)
 
 + The degree to which phenotypic similarity associates with phylogenetic relatedness
 
-&lt;img src="LectureData/09.pcm/PCM-PhySigFels85.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-PhySigFels85.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 2: Phylogenetic Signal Summary Measures
@@ -858,7 +865,7 @@ summary(PS.shape)
 plot(PS.shape)
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-40-1.png" width="80%" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-40-1.png" alt="" width="80%" /&gt;
 ]
 ---
 
@@ -888,15 +895,104 @@ plot(PS.shape)
 
 ### 2: Comparing Phylogenetic Signal: Example
 .pull-left[
-&lt;img src="LectureData/09.pcm/ComparePhySignal.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/ComparePhySignal.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
-&lt;img src="LectureData/09.pcm/ComparePhySignal2.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/ComparePhySignal2.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
-Greater phylogenetic signal in SA:V ratios!
+Greater phylogenetic signal in SA:V ratios
 ]
 
 ##### From Collyer et al. (2022). *Methods Ecol. Evol.*
+---
+
+### 2B: Dimensions of Phylogenetic Signal
+
++ 100s of GMM (and other) studies have utilized `\(K_{mult}\)`: 
+
+.pull-left[
+&lt;img src="LectureData/09.pcm/PhySigWeakHist.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
+
++ Such patterns often interpreted as "Significant, but weak phylogenetic signal"
+]
+
+--
+
+.pull-right[
+
+&lt;img src="LectureData/09.pcm/PhySigSimul.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
+
++ But phylogenetic signal could be "concentrated" in a few dimensions
+]
+
++ How do we evaluate dimensions of phylogenetic signal in multivariate data? 
+
+---
+### 2B: Dimensions of Phylogenetic Signal: Computations 
+
++ Re-examine `\(K\)` and decompose it into component dimensions `\(^1\)`
+
++ Numerator of `\(K_{mult}\)` is ratio of covariance matrices: 
+
+`$$\frac{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T(\mathbf{Z}-E(\mathbf{Z})\right)}{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T\mathbf\Omega^{-1}(\mathbf{Z}-E(\mathbf{Z}))\right)} = \frac{tr(SSCP_0)}{tr(SSCP_{\Omega})}$$` 
+--
+
+So rather than finding the trace of each component separately, summarize them as: 
+
+`$$K= \frac{SSCP_0}{SSCP_{\Omega}} = SSCP_{\Omega}^{-1}SSCP_0$$`
+
+This is a *relative eigenanalysis* of `\(SSCP_0\)` relative to `\(SSCP_{\Omega}\)`
+
+.footnote[1. Mitteroecker, Collyer, Adams. (2025). *Syst.Biol.*]
+---
+
+### 2B: Dimensions of Phylogenetic Signal: Computations 
+
++ Perform *relative eigenanalysis* of `\(SSCP_0\)` relative to `\(SSCP_{\Omega}\)`
+
+`$$K= \frac{SSCP_0}{SSCP_{\Omega}} = SSCP_{\Omega}^{-1}SSCP_0$$`
+
++ Next, decompose as: `\(K=\mathbf{E}\boldsymbol{\Lambda}\mathbf{E}^T\)`
+
++ Diagonal elements of `\(\boldsymbol{\Lambda}\)` are eigenvalues
+
++ Summarize eigenvalues: `\(tr(K)=\sum\delta_i\)` and `\(det(K)=\prod\delta_i\)`
+
++ Evaluate statistically via permutation
+  + Note: `\(H_0\)` is that `\(SSCP_0\)` and `\(SSCP_{\Omega}\)` are proportional, so:  `\(H_0 = \delta_1 = \delta_2 = \delta_3...\)`
+
+.footnote[1. Mitteroecker, Collyer, Adams. (2025). *Syst.Biol.*]
+---
+
+### 2B: Dimensions of Phylogenetic Signal: Example
+
++ Crocodylians display strong and concentrated phylogenetic signal 
+
+.pull-left[
+&lt;img src="LectureData/09.pcm/CrocPhylo.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="LectureData/09.pcm/CrocPhySigRes.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.footnote[1. Mitteroecker, Collyer, Adams. (2025). *Syst.Biol.*]
+
+---
+
+### 2B: Dimensions of Phylogenetic Signal: Example
+
++ Skull evolution mirrors main dimension of phylogenetic signal
+
+&lt;img src="LectureData/09.pcm/CrocKPCARes.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
+
+.footnote[1. Mitteroecker, Collyer, Adams. (2025). *Syst.Biol.*]
+
 ---
 
 ### 3: Phylogenetic Ordination
@@ -971,7 +1067,7 @@ plot(plot.pca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.lab
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-43-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-48-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -989,7 +1085,7 @@ plot(plot.ppca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.la
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-44-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-49-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -1007,13 +1103,13 @@ plot(plot.paca,phylo = TRUE, pch=21, bg=gdf$elev, cex=2, phylo.par = list(tip.la
 legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 ```
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-45-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-50-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
 ### 3: Phylogenetic Ordination: Side By Side
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-46-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-51-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 3: Phylogenetic Ordination: Comments
@@ -1022,7 +1118,7 @@ legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
   + Phylomorphospace is a 'pure' view of the space
   + pPCA and PACA rotate relative to the phylogeny (albeit differently)
 
-&lt;img src="LectureData/09.pcm/pPCA-PACA.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/pPCA-PACA.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 
 + Utilizing several may be helpful
 
@@ -1038,7 +1134,7 @@ legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
   + Differing evolutionary models are embodied in different `\(\mathbf\Omega\)`
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-48-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-53-1.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -1058,7 +1154,7 @@ legend("topleft", pch=21, pt.bg = unique(gdf$elev), legend = levels(gdf$elev))
 
 Is there evidence for multiple evolutionary rates on the phylogeny? 
 
-&lt;img src="LectureData/09.pcm/PCM-BM1BMM.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/PCM-BM1BMM.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 + Fit data to phylogeny under single-rate and multi-rate models, where 
 `$$\small\log{L}=-\frac{np}{2}ln{2\pi}-\frac{n}{2}ln{\begin{vmatrix}{(\mathbf{\sigma^2\Omega})}\end{vmatrix}}-\frac{1}{2}tr{(\mathbf{Z}-E(\mathbf{Z}))^{T}(\mathbf{\sigma^2\Omega})^{-1}(\mathbf{Z}-E(\mathbf{Z}))}$$`
@@ -1089,7 +1185,7 @@ summary(ER)
 ## 
 ## Observed Rate Ratio: 1.0133
 ## 
-## P-value: 0.9645
+## P-value: 0.964
 ## 
 ## Effect Size: -1.5892
 ## 
@@ -1101,7 +1197,7 @@ summary(ER)
 ```
 ]
 .pull-right[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-51-1.png" height="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-56-1.png" alt="" height="30%" style="display: block; margin: auto;" /&gt;
 ]]]
 ---
 
@@ -1135,7 +1231,7 @@ summary(ER)
 
 ### 4: Comparing Evolutionary Rates Among Traits: Example
 
-&lt;img src="LectureData/09.pcm/Hydromantes.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/Hydromantes.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 4: Comparing Evolutionary Rates Among Multivariate Traits
@@ -1160,19 +1256,19 @@ summary(EMR)
 ## 
 ## Observed Rate Ratio: 1.0826
 ## 
-## P-value: 0.975
+## P-value: 0.972
 ## 
-## Effect Size: -1.943
+## Effect Size: -1.9626
 ## 
 ## Based on 1000 random permutations
 ## 
-## The rate for group 1 is 9.67170500545254e-06  
+## The rate for group 1 is 9.67170500545252e-06  
 ## 
-## The rate for group 2 is 1.04710160170648e-05
+## The rate for group 2 is 1.04710160170649e-05
 ```
 ]
 .pull-right[
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-54-1.png" height="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-59-1.png" alt="" height="30%" style="display: block; margin: auto;" /&gt;
 ]]]
 ---
 
@@ -1203,7 +1299,7 @@ summary(EMR)
 
 + Fit data to phylogeny under differing evolutionary models and compare fit (LRT, AIC, simulation, RRPP, etc.)
 
-&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-55-1.png" width="30%" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-55-2.png" width="30%" /&gt;
+&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-60-1.png" alt="" width="30%" /&gt;&lt;img src="09-PhyCompMethods_files/figure-html/unnamed-chunk-60-2.png" alt="" width="30%" /&gt;
 ---
 
 ### 4: Comparing Evolutionary 'Modes': Univariate Example
@@ -1211,7 +1307,7 @@ summary(EMR)
 + How did *Anolis* body size groups evolve?
   + 5 models: BM, `\(\small{OU}_1\)`, `\(\small{OU}_3\)` `\(\small{OU}_4\)` (3 group+anc), `\(\small{OU}_{LP}\)` (3 gp + history of colonization)
 
-&lt;img src="LectureData/09.pcm/AnoleBSEvol.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/AnoleBSEvol.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 + `\(\small{OU}_{LP}\)` (3 gp + col. hist.) best explains body size evolution
 ---
@@ -1222,7 +1318,7 @@ summary(EMR)
 
 + Unfortunately, *nearly all* current implementations for multivariate OU models display high misspecification rates
 
-&lt;img src="LectureData/09.pcm/MultiOUProblems.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/MultiOUProblems.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 + More analytical development needed here
 ---
@@ -1232,7 +1328,7 @@ summary(EMR)
 + New developments in `\(logL_{mult}\)`
 + Bartoszek et al. (2024) updated algorithms in *mvSlouch* `\(^1\)`
 
-&lt;img src="LectureData/09.pcm/2024-MvSlouch.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/09.pcm/2024-MvSlouch.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 + Misspecification levels now appropriate, and method rotation invariant
 
@@ -1241,6 +1337,108 @@ summary(EMR)
 
 .footnote[1: took our suggestions to heart!]
 ---
+
+### 5: E-PGLS: PCMs with Multiple Individuals
+
+PCMs use 1 individual per species (e.g., species means)
+
+  - Assumes `\(\sigma^2_{within.spp} &lt;&lt;  \sigma^2_{among.spp}\)`
+
+--
+
+Using species means in presence of `\(\sigma^2_{within.spp}\)` is problematic 
+
+- Can `\(\uparrow\)` bias in parameter estimates
+- Can `\(\uparrow\)` type I error, `\(\downarrow\)` power, and `\(\uparrow\)` model misspecification 
+
+--
+
+Some PCMs can include intraspecific variation (Ives et al. 2007; Felsenstein 2008), but
+
+- `\(\sigma^2_{within.spp}\)` is unstructured sampling error around the mean
+- In other words, assume within-species variation is **random** (i.e., measurement error)
+
+What about within-species variation that is not random? 
+
+How can we account for it (or compare it across species)?
+---
+
+### 5: Extended Phylogenetic Least Squares (E-PGLS) `\(^1\)`
+
++ E-PGLS provide a bridge between micro- and macroevolutionary patterns
+  + Can evaluate cross-species trends of trait covariation (univariate and multivariate) based on multiple individuals per species
+  + Can compare within-species patterns across species while conditioning on the phylogeny
+
++ E-PGLS combines: 
+
+  + Hierarchical linear model 
+  + Expanded phylogenetic covariance matrix
+  + Novel permutation procedure 
+
+.footnote[1. Adams and Collyer (2024). *Methods Ecol. Evol*]
+---
+
+### 5: E-PGLS: Procedure
+
++ The E-PGLS model: `\(\mathbf{Z} = \mathbf{X}_S \hat{\mathbf{B}}_S + \mathbf{X}_X \hat{\mathbf{B}}_X + \mathbf{X}_{C_{X}}\hat{\mathbf{B}}_{C_{X}} + \mathbf{E}\)`
+
++ Phenotypic data, `\(\mathbf{Z}\)`, is described by a partitioned model, `\(\mathbf{X} = \mathbf{X}_S \vert \mathbf{X}_X \vert \mathbf{X}_{C_X}\)`, with residual error, `\(\mathbf{E}\)`, distributed as `\(\mathbf{E} \sim \mathcal{MN}(0,\boldsymbol{\Omega}_{n})\)`
+    + `\(\boldsymbol{\Omega}_n\)` is an expanded phylogenetic covariance matrix
+
+--
+
+.pull-left[
+
+`\(\boldsymbol{\Omega}_n = \mathbf{X}_S\boldsymbol{\Omega}\mathbf{X}_S^T\)`
+
+&lt;img src="LectureData/09.pcm/ExpandedOmegaMatrix.png" alt="" width="90%" /&gt;
+]
+
+--
+
+.pull-right[
+Type III SS for `Species` effect, and type II SS for other effects (to hold interspecific trends constant)
+
+Special RRPP procedures utilized (RRPP restricted to within species to evaluate other model effects: similar to ME methods)
+
+.footnote[1. Adams and Collyer (2024). *Methods Ecol. Evol*]
+]
+
+---
+
+### 5: E-PGLS: Simulations
+
+.pull-left[
+
+&lt;img src="LectureData/09.pcm/Fig1.png" alt="" width="90%" /&gt;
+
+Method emulates existing approaches when within-species variation is random 
+
+]
+
+--
+
+.pull-right[
+&lt;img src="LectureData/09.pcm/Fig2a.png" alt="" width="65%" /&gt;&lt;img src="LectureData/09.pcm/Fig2b.png" alt="" width="65%" /&gt;
+
+Method has appropriate type I error, power and empirical sampling distributions
+
+]
+
+.footnote[1. Adams and Collyer (2024). *Methods Ecol. Evol*]
+
+---
+
+### 5: E-PGLS: Example (pupfish SShD)
+
+
+&lt;img src="LectureData/09.pcm/Fig3.png" alt="" width="80%" /&gt;
+
+.footnote[1. Adams and Collyer (2024). *Methods Ecol. Evol*]
+
++ Enables within-species patterns to be compared across the phylogeny!
+---
+
 
 ### Phylogenetic Comparative Methods: Conclusions
 
@@ -1261,19 +1459,21 @@ summary(EMR)
   + Comparing evolutionary rates 
     
   + Comparing evolutionary modes (some advance: requires more analytical development)
+  
+  + PGLS for comparing within-species patterns (E-PGLS)
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
