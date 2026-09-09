@@ -453,11 +453,88 @@ M &lt;- mshape(Y.gpa$coords)
 &lt;img src="LectureData/07.allometry/HydroRes2.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
 ---
 
-### Comparing Allometric Trajectories: Pupfish Example
+### Comparing Allometric Trajectories to *a priori* Pattern 
 
-+ **Question**: Do your groups have parallel allometries?
-+ **Question**: Do your groups have unique allometries?
-+ **Question**: Which groups have different allometries, and how do they differ?
++ Sometimes we wish to know whether our trajectory follows a hypothesized pattern
+  + Does my trajectory follow an isometric pattern? 
+  + Does my trajectory follow a `\(\frac{3}{4}\)` power law?
+  
++ Such patterns may be evaluated using the coefficient vector, `\(\beta\)` 
+  + Compare `\(\beta\)` to `\(\beta_{exp}\)` using RRPP 
+
+---
+
+### Comparing Allometric Trajectories to *a priori* Pattern `\(^1\)`
+
++ RRPP procedure 
+  + Fit data to `\(H_A\)`; obtain `\(\beta_{obs}\)` and test statistic `\(d = |\beta_{obs} - \beta_{exp}|\)`
+  + Fit data to `\(H_{0_{exp}}\)`, containing `\(\beta_{exp}\)`; obtain `\(\hat{\textbf{y}}_{exp}\)` and `\(\textbf{e}_{exp}\)`
+  + Permute `\(\textbf{e}_{exp}\)`, obtain pseudovalues: `\(\mathcal{Y} = \hat{\textbf{y}}_{exp} + \textbf{e}_{exp}^*\)`
+  + Evaluate `\(H_A\)` for `\(\mathcal{Y}\)`, obtain `\(\beta_{rand}\)`
+  + Obtain test statistic: `\(d = |\beta_{rand} - \beta_{exp}|\)`
+  + Repeat to obtain empirical sampling distribution for `\(d\)`
+
++ Method is made more general by standardizing as: `\(d_M= \frac{\beta_{obs}-\beta_{exp}}{MSE}\)`
+  + where MSE is from `\(H_A\)`
++ Procedure is implemented in `betaTest` in `RRPP`
+
+.footnote[
+1: Tejero-Cicuéndez et al. (2023)
+]
+
+---
+
+### Comparing Allometric Trajectories to *a priori* Pattern: Example `\(^1\)`
+
++ Does intraspecific allometry correspond to evolutionary 'lines of least resistance'?
+  + Analysis of allometric trajectories relative to isometry (here vector of 1s)
++ Allometry differed from isometry, and was distinct across habitat types
+
+.pull-left[
+
+&lt;img src="LectureData/07.allometry/Tejero2023-Data.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+&lt;img src="LectureData/07.allometry/Tejero2023-Res.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.footnote[1: Tejero-Cicuéndez et al. (2023)]
+
+---
+
+### Comparing Allometric Trajectories to *a priori* Pattern: betaTest
+
++ Some GM data vs. isometry (not overly informative as the linear model tests the same thing, but serves to show `betaTest`)
+
+
+``` r
+data(plethodon)
+Y.gpa &lt;- gpagen(plethodon$land, print.progress = FALSE)
+fit &lt;- procD.lm(coords ~ log(Csize), data = Y.gpa, print.progress = FALSE)
+bt &lt;- betaTest(fit, coef.no = 2, Beta =  c(rep(0,24)))
+summary(bt) #differs from isometry
+```
+
+```
+## Test of coefficients: log(Csize)
+##  equal to Beta = 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##  Test performed with 1000 permutations of residuals from specified null models.
+## 
+##                     d UCLd (95%)       Zd Pr(&gt;d)
+## log(Csize) 0.09442581  0.1069676 1.208273  0.122
+```
+
+---
+
+### Comparing Allometric Trajectories Across Groups: Pupfish Example
+
++ With multiple groups, numerous questions arise: 
+  + **Question**: Do your groups have parallel allometries?
+  + **Question**: Do your groups have unique allometries?
+  + **Question**: Which groups have different allometries, and how do they differ?
 
 
 ``` r
@@ -465,7 +542,8 @@ data(pupfish)
 plotAllSpecimens(pupfish$coords)
 ```
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-25-1.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-28-1.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
+
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
@@ -517,7 +595,7 @@ anova(fit.common, fit.unique, print.progress = FALSE)
 + Allometric plots 
   + We can see by plotting the prediction lines for both that a unique-allometries model is not practical
 
-&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-29-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-Allometry_files/figure-html/unnamed-chunk-32-1.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Comparing Allometric Trajectories: Pupfish Example (Cont.)
