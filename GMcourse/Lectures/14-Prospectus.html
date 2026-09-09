@@ -4,7 +4,7 @@
     <title>14: Recent GMM Advances and Prospectus</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="14-Prospectus_files/header-attrs-2.27/header-attrs.js"></script>
+    <script src="14-Prospectus_files/header-attrs-2.31/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -34,7 +34,7 @@ class: center, middle, inverse, title-slide
 .pull-left[    
 + Accomplishing these goals required use of the **Procrustes Paradigm** 
 
-&lt;img src="LectureData/01.Intro/GenGMProtocol.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/01.Intro/GenGMProtocol.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -126,219 +126,19 @@ What we learned this week: Procrustes + RRPP with effect sizes ( `\(Z\)`-scores)
 ---
 
 
-### Current 1: Dimensions of Phylogenetic Signal 
+### Current 1: Integration/Modularity: the 'Superimposition Effect'
 
-+ The degree to which phenotypic similarity associates with phylogenetic relatedness
++ 
 
-&lt;img src="LectureData/14.prospectus/PhySigConcept.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/14.prospectus/PhySigConcept.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 + For multivariate data, we have `\(K_{mult}=\frac{\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}^{T}\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}}{\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^{T}\mathbf{\Omega1})^{-1}}{N-1}\)`
 
 ---
 
-### Current 1: Dimensions of Phylogenetic Signal 
+### Current 2: Multivariate linear mixed models
 
-+ 100s of GMM (and other) studies have utilized `\(K_{mult}\)`: 
-
-.pull-left[
-&lt;img src="LectureData/14.prospectus/PhySigWeakHist.png" width="90%" style="display: block; margin: auto;" /&gt;
-
-+ Such patterns often interpreted as "Significant, but weak phylogenetic signal"
-]
-
---
-
-.pull-right[
-
-&lt;img src="LectureData/14.prospectus/PhySigSimul.png" width="90%" style="display: block; margin: auto;" /&gt;
-
-+ But phylogenetic signal could be "concentrated" in a few dimensions
-]
-
-+ How do we evaluate dimensions of phylogenetic signal in multivariate data? 
-
----
-
-### Current 1: Dimensions of Phylogenetic Signal: Computations 
-
-+ Re-examine `\(K\)` and decompose it into component dimensions$^1$
-
-+ Numerator of `\(K_{mult}\)` is ratio of covariance matrices: 
-
-`$$\frac{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T(\mathbf{Z}-E(\mathbf{Z})\right)}{tr\left((\mathbf{Z}-E(\mathbf{Z}))^T\mathbf\Omega^{-1}(\mathbf{Z}-E(\mathbf{Z}))\right)} = \frac{tr(SSCP_0)}{tr(SSCP_{\Omega})}$$` 
---
-
-So rather than finding the trace of each component separately, summarize them as: 
-
-`$$K= \frac{SSCP_0}{SSCP_{\Omega}} = SSCP_{\Omega}^{-1}SSCP_0$$`
-
-This is a *relative eigenanalysis* of `\(SSCP_0\)` relative to `\(SSCP_{\Omega}\)`
-
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-### Current 1: Dimensions of Phylogenetic Signal: Computations 
-
-+ Perform *relative eigenanalysis* of `\(SSCP_0\)` relative to `\(SSCP_{\Omega}\)`
-
-`$$K= \frac{SSCP_0}{SSCP_{\Omega}} = SSCP_{\Omega}^{-1}SSCP_0$$`
-
-+ Next, decompose as: `\(K=\mathbf{E}\boldsymbol{\Lambda}\mathbf{E}^T\)`
-
-+ Diagonal elements of `\(\boldsymbol{\Lambda}\)` are eigenvalues
-
-+ Summarize eigenvalues: `\(tr(K)=\sum\delta_i\)` and `\(det(K)=\prod\delta_i\)`
-
-+ Evaluate statistically via permutation
-  + Note: `\(H_0\)` is that `\(SSCP_0\)` and `\(SSCP_{\Omega}\)` are proportional, so:  `\(H_0 = \delta_1 = \delta_2 = \delta_3...\)`
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-### Current 1: Dimensions of Phylogenetic Signal: Example I
-
-+ Papionins display strong and concentrated phylogenetic signal 
-
-&lt;img src="LectureData/14.prospectus/PhySigHomin.png" width="60%" style="display: block; margin: auto;" /&gt;
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-
-### Current 1: Dimensions of Phylogenetic Signal: Example II
-
-+ Crocodylians display strong and concentrated phylogenetic signal 
-
-&lt;img src="LectureData/14.prospectus/PhySigCroc.png" width="60%" style="display: block; margin: auto;" /&gt;
-
-.footnote[1. Mitteroecker, Collyer, Adams. (2024: In Press). *Syst.Biol.*]
----
-
-### Current 2: Phylogenetic Comparison of Microevolutionary Patterns
-
-.pull-left[
-Contemporary timescales: evaluate trends within species (microevolution)
-
-&lt;img src="LectureData/14.prospectus/Micro.png" width="95%" /&gt;
-
-Evaluated via standard (OLS) linear models
-]
-
---
-
-.pull-right[
-Macroevolutionary timescales: evaluate trends across the phylogeny
-
-&lt;img src="LectureData/14.prospectus/Macro.png" width="95%" /&gt;
-
-Evaluated via phylogenetic comparative methods
-]
-
---
-
-+ When comparing intraspecific trends across species, we ***should*** account for phylogenetic nonindependence
-
-+ How can we do that? 
----
-
-### Current 2: PCMs and Multiple Individuals
-
-PCMs use 1 individual per species (e.g., species means)
-
-  - Assumes `\(\sigma^2_{within.spp} &lt;&lt;  \sigma^2_{among.spp}\)`
-
---
-
-Using species means in presence of `\(\sigma^2_{within.spp}\)` is problematic 
-
-- Can `\(\uparrow\)` bias in parameter estimates
-- Can `\(\uparrow\)` type I error, `\(\downarrow\)` power, and `\(\uparrow\)` model misspecification 
-
---
-
-Some PCMs can include intraspecific variation (Ives et al. 2007; Felsenstein 2008), but
-
-- `\(\sigma^2_{within.spp}\)` is unstructured sampling error around the mean
-- In other words, assume within-species variation is **random** (i.e., measurement error)
-
-What about within-species variation that is not random? 
-
-How can we account for it (or compare it across species)?
----
-
-### Current 2: Extended Phylogenetic Least Squares (E-PGLS) `\(^1\)`
-
-+ E-PGLS provide a bridge between micro- and macroevolutionary patterns
-  + Can evaluate cross-species trends of trait covariation (univariate and multivariate) based on multiple individuals per species
-  + Can compare within-species patterns across species while conditioning on the phylogeny
-
-+ E-PGLS combines: 
-
-  + Hierarchical linear model 
-  + Expanded phylogenetic covariance matrix
-  + Novel permutation procedure 
-
-.footnote[1. Adams and Collyer (In Review)]
----
-
-### Current 2: E-PGLS: Procedure
-
-+ The E-PGLS model: `\(\mathbf{Z} = \mathbf{X}_S \hat{\mathbf{B}}_S + \mathbf{X}_X \hat{\mathbf{B}}_X + \mathbf{X}_{C_{X}}\hat{\mathbf{B}}_{C_{X}} + \mathbf{E}\)`
-
-+ Phenotypic data, `\(\mathbf{Z}\)`, is described by a partitioned model, `\(\mathbf{X} = \mathbf{X}_S \vert \mathbf{X}_X \vert \mathbf{X}_{C_X}\)`, with residual error, `\(\mathbf{E}\)`, distributed as `\(\mathbf{E} \sim \mathcal{MN}(0,\boldsymbol{\Omega}_{n})\)`
-    + `\(\boldsymbol{\Omega}_n\)` is an expanded phylogenetic covariance matrix
-
---
-
-.pull-left[
-
-`\(\boldsymbol{\Omega}_n = \mathbf{X}_S\boldsymbol{\Omega}\mathbf{X}_S^T\)`
-
-&lt;img src="LectureData/14.prospectus/ExpandedOmegaMatrix.png" width="90%" /&gt;
-]
-
---
-
-.pull-right[
-Type III SS for `Species` effect, and type II SS for other effects (to hold interspecific trends constant)
-
-Special RRPP procedures utilized (RRPP restricted to within species to evaluate other model effects: similar to ME methods)
-
-Adams and Collyer (In Review)
-]
-
----
-
-### Current 2: E-PGLS: Simulations
-
-.pull-left[
-
-&lt;img src="LectureData/14.prospectus/Fig1.png" width="90%" /&gt;
-
-Method emulates existing approaches when within-species variation is random 
-
-]
-
---
-
-.pull-right[
-&lt;img src="LectureData/14.prospectus/Fig2a.png" width="65%" /&gt;&lt;img src="LectureData/14.prospectus/Fig2b.png" width="65%" /&gt;
-
-Method has appropriate type I error, power and empirical sampling distributions
-
-]
-
-.footnote[1. Adams and Collyer (In Review)]
-
----
-
-### Current 2: E-PGLS: Example (pupfish SShD)
-
-
-&lt;img src="LectureData/14.prospectus/Fig3.png" width="80%" /&gt;
-
-.footnote[1. Adams and Collyer (In Review)]
++ maybe? 
 
 ---
 
@@ -349,7 +149,7 @@ Method has appropriate type I error, power and empirical sampling distributions
   + Scale all specimens to unit centroid size
   + Optimally rotate all specimens to minimize LS deviations
     
-&lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-13-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="14-Prospectus_files/figure-html/unnamed-chunk-3-1.png" alt="" width="35%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Future 1: An Improved Procrustes Algorithm
@@ -367,7 +167,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 .pull-right[
 + For example, recall the 'Pinocchio effect'
 
-&lt;img src="LectureData/03.superimposition/GRF-Example.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/03.superimposition/GRF-Example.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -402,7 +202,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 .pull-left[
 + Some approximations have been proposed (e.g., Theobald and Wuttke 2006)
 
-&lt;img src="LectureData/14.prospectus/WGPATheobald.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/14.prospectus/WGPATheobald.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 + Here (with simplifying assumptions), one can align protein structures allowing for different variation among landmarks, but with equal variation within (i.e., using a partitioned `\(\hat{\mathbf\Sigma}=\mathbf\Sigma_p\otimes\Sigma_k\)`)
@@ -437,7 +237,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 
 + In other words, geographically proximate locations are expected to be more similar, and covary more highly, than are geographically less proximate locations
 
-&lt;img src="LectureData/14.prospectus/SpatialCov.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/14.prospectus/SpatialCov.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -447,7 +247,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 
 + We contend that null models of integration and modularity should be **conditioned** on anatomical proximity; analogously to spatial proximity issues
 
-&lt;img src="LectureData/14.prospectus/Mouse.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/14.prospectus/Mouse.png" alt="" width="65%" style="display: block; margin: auto;" /&gt;
 
 + We are presently developing integration and modularity methods that evaluate patterns relative to this anatomical proximity
 ]
@@ -461,7 +261,7 @@ Method has appropriate type I error, power and empirical sampling distributions
     + **Visualizing modularity**
 
 .center[
-&lt;img src="LectureData/14.prospectus/modulemap.png" width="30%" /&gt;
+&lt;img src="LectureData/14.prospectus/modulemap.png" alt="" width="30%" /&gt;
 
 **Module Maps**
 ]
@@ -469,7 +269,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 
 .pull.right[
 .center[
-&lt;img src="LectureData/14.prospectus/mod_covs.png" width="30%" /&gt;&lt;img src="LectureData/14.prospectus/Burns_etal_eigen.png" width="30%" /&gt;
+&lt;img src="LectureData/14.prospectus/mod_covs.png" alt="" width="30%" /&gt;&lt;img src="LectureData/14.prospectus/Burns_etal_eigen.png" alt="" width="30%" /&gt;
 
 **Module Eigenanalysis**
 ]]
@@ -489,7 +289,7 @@ Method has appropriate type I error, power and empirical sampling distributions
 
 .pull-right[
 .center[
-&lt;img src="LectureData/14.prospectus/mod_techniques.png" width="90%" /&gt;
+&lt;img src="LectureData/14.prospectus/mod_techniques.png" alt="" width="90%" /&gt;
 
 **K-module analysis**
 ]]
@@ -581,13 +381,13 @@ model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "logL
 ```
 
 ```
-##                              logLik residual.pc.no penalty      AIC
-## 1                         -709.5568              1       4 1423.114
-## svl                       -705.0201              1       6 1416.040
-## sex                       -709.5201              1       6 1425.040
-## region                    -706.2789              1       8 1420.558
-## svl + region              -701.5571              1      10 1413.114
-## svl + region + svl:region -700.2760              1      14 1414.552
+##                 logLik estimation residual.pc.no penalty      AIC
+## f.0          -709.5568     LM-OLS              1       4 1423.114
+## f.svl        -705.0201     LM-OLS              1       6 1416.040
+## f.sex        -709.5201     LM-OLS              1       6 1425.040
+## f.reg        -706.2789     LM-OLS              1       8 1420.558
+## f.svl.reg    -701.5571     LM-OLS              1      10 1413.114
+## f.svl.by.reg -700.2760     LM-OLS              1      14 1414.552
 ```
 ]
 
@@ -615,15 +415,16 @@ anova(f.svl.by.reg)
 ## Effect sizes (Z) based on F distributions
 ## 
 ##             Df      SS     MS     Rsq      F       Z Pr(&gt;F)   
-## svl          1  286392 286392 0.07945 9.5450 2.48962  0.003 **
-## region       2  207559 103779 0.05758 3.4588 1.75000  0.040 * 
+## svl          1  286392 286392 0.07945 9.5450 2.48965  0.003 **
+## region       2  207559 103779 0.05758 3.4588 1.75004  0.040 * 
 ## svl:region   2   73442  36721 0.02038 1.2238 0.52435  0.314   
 ## Residuals  101 3030455  30005 0.84074                         
 ## Total      106 3604504                                        
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Call: lm.rrpp(f1 = hs ~ svl * region, SS.type = "II", data = rdf)
+## Call: lm.rrpp(f1 = hs ~ svl * region, SS.type 
+## = "II", data = rdf)
 ```
 ]
 
@@ -639,13 +440,13 @@ model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "Z")
 ```
 
 ```
-##                                    Z
-## 1                         -0.2679764
-## svl                        2.3502504
-## sex                       -0.8901494
-## region                     1.7070038
-## svl + region               2.8300695
-## svl + region + svl:region  2.6081491
+##                       Z
+## f.0           0.2588436
+## f.svl        -5.4171683
+## f.sex         0.6846322
+## f.reg        -2.1507302
+## f.svl.reg    -4.9525550
+## f.svl.by.reg -3.8705884
 ```
 
 + Again in this case, the model with the strongest signal is `\(\small{Size}={Sex}+{Region}\)` 
@@ -661,14 +462,14 @@ model.comparison(f.0, f.svl, f.sex, f.reg, f.svl.reg, f.svl.by.reg, type = "Z")
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
