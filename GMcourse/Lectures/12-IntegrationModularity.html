@@ -4,7 +4,7 @@
     <title>12: Integration and Modularity</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="12-IntegrationModularity_files/header-attrs-2.27/header-attrs.js"></script>
+    <script src="12-IntegrationModularity_files/header-attrs-2.31/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 + These parts are to some extent correlated
 + Why is this the case?
 
-&lt;img src="LectureData/12.integr.mod/ConceptPic.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/ConceptPic.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Trait Covariation: Integration `\(^1\)`
@@ -53,7 +53,7 @@ class: center, middle, inverse, title-slide
 + Correlations that are stronger among some subsets of traits than between others (Olson and Miller 1958)
 + Cohesion among traits that result from interactions of biological processes (Klingenberg 2008)
 
-&lt;img src="LectureData/12.integr.mod/2014-ArmbrusterIntegration.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/2014-ArmbrusterIntegration.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -81,7 +81,7 @@ class: center, middle, inverse, title-slide
 ### Modularity
 
 + Modular structure in snakes 
-&lt;img src="LectureData/12.integr.mod/2021-Rhoda.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/2021-Rhoda.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -90,7 +90,7 @@ class: center, middle, inverse, title-slide
 + Both integration and modularity may be observed at different biological levels, and be explained by different biological processes
   + Levels mirror those evaluated for allometric patterns: static, ontogenetic, evolutionary
 
-&lt;img src="LectureData/12.integr.mod/Klingenberg2014.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/Klingenberg2014.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -111,6 +111,22 @@ class: center, middle, inverse, title-slide
 .footnote[1: As we will see, the empirical answer to the last few questions is found via RRPP]
 ---
 
+### Quantifying Integration and Modularity: Starting Points `\(^1\)`
+
++ Integration and modularity concern trait covariation
+
++ Mathematically, this requires estimating the trait covariance matrix:
+
+`$$\hat{\mathbf\Sigma} = \mathbf{Y_c^T}\mathbf{Y_c}/ (n-1)$$`
+
++ The `\(n:p\)` ratio is *critical* here: one must have sufficient observations relative to the number of variables for a reliable estimate of `\(\hat{\mathbf\Sigma}\)`
+
++ When this is not the case (and for GM data generally), `\(\hat{\mathbf\Sigma}\)` is singular, causing downstream mathematical challenges for some methods
+
+.footnote[1: Must-read paper relating random matrix theory to covariance estimation: Bookstein (2017). *Evol. Biol.*]
+
+---
+
 ### Methods for Evaluating Integration and Modularity
 
 + Here we review some methods for evaluating patterns of integration and modularity
@@ -118,6 +134,8 @@ class: center, middle, inverse, title-slide
   + 2: Methods for evaluating and comparing integration among subsets of traits
   + 3: Methods for evaluating and comparing modularity
 ---
+
+
 
 ### 1: Overall Integration
 
@@ -152,7 +170,7 @@ where `\(\mathbf{Z}\)` is an `\(n \times pk\)` matrix of Procrustes coordinates
   + Eigenvalues of `\(\hat{\Sigma}\)` describe the degree of covariation
   + Thus, the dispersion of `\(\lambda_p\)` for a set of `\(p\)` traits is one way to describe their integration
   
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-5-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-5-1.png" alt="" width="35%" style="display: block; margin: auto;" /&gt;
 
 ##### From Conaway and Adams 2022 (*Evol*)
 ---
@@ -178,11 +196,11 @@ VE | `\(\sum(\lambda_i-\overline{\lambda})^2/p\)`| Wagner, 1984
 + Only `\(V_{rel}\)` remains stable across `\(n\)` and `\(p\)`
 
 .pull-left[
-&lt;img src="LectureData/12.integr.mod/2022ConawayFig2a.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig2a.png" alt="" width="95%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="LectureData/12.integr.mod/2022ConawayFig2b.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig2b.png" alt="" width="95%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
@@ -193,7 +211,7 @@ VE | `\(\sum(\lambda_i-\overline{\lambda})^2/p\)`| Wagner, 1984
 + But variance unequal across input levels 
 + Can't compare across datasets
 
-&lt;img src="LectureData/12.integr.mod/2022ConawayFig3.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig3.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -203,7 +221,7 @@ VE | `\(\sum(\lambda_i-\overline{\lambda})^2/p\)`| Wagner, 1984
 + Rescale: `\(V_{rel}^*=2V_{rel}-1\)`  
 + Convert to `\(Z\)`-score: `\(Z_{Vrel}=\frac{1}{2}ln (\frac{1+V_{rel}^*}{1-V_{rel}^*})\)`
 
-&lt;img src="LectureData/12.integr.mod/2022ConawayFig4.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig4.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 ##### NOTE: redundant dimensions removed prior to estimating `\(V_{rel}\)`: See Conaway and Adams 2022 (Evol.)
@@ -215,7 +233,7 @@ VE | `\(\sum(\lambda_i-\overline{\lambda})^2/p\)`| Wagner, 1984
 + Statistically compare integration levels as: `\(\hat{Z}_{12}=\frac{\lvert{Z_1-Z_2}\rvert}{\sqrt{\sigma^2_{Z_1}+\sigma^2_{Z_2}}}\)`
 
 
-&lt;img src="LectureData/12.integr.mod/2022ConawayFig6.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/2022ConawayFig6.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -278,7 +296,7 @@ compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
     + `\(\small\hat{\mathbf{\Sigma}}\)` can be considered a partitioned matrix, where different sub-components describe covariation within blocks or between blocks of variables
 
 .pull-left[
-&lt;img src="LectureData/06.covariation/CovMatParts2.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/06.covariation/CovMatParts2.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -338,7 +356,7 @@ compare.ZVrel(Vrel.gp$Jord, Vrel.gp$Teyah)
 + *Pecos* pupfish
 + Is there an association between head shape and body shape?
 
-&lt;img src="LectureData/06.covariation/Pupfish Motivation.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/06.covariation/Pupfish Motivation.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -385,7 +403,7 @@ summary(PLS)
 ## 
 ## r-PLS: 0.917
 ## 
-## Effect Size (Z): 5.4039
+## Effect Size (Z): 4.0479
 ## 
 ## P-value: 0.001
 ## 
@@ -403,7 +421,7 @@ summary(PLS)
 plot(PLS)
 ```
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-16-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-16-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 ---
@@ -428,7 +446,7 @@ plot(PLS)
 
 
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-18-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-18-1.png" alt="" width="30%" style="display: block; margin: auto;" /&gt;
 
 + For the pupfish dataset, both are significant at p = 0.001
 ---
@@ -437,7 +455,7 @@ plot(PLS)
 
 Compare permutation distributions with one another (minus observed in this case)
 
-&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-19-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="12-IntegrationModularity_files/figure-html/unnamed-chunk-19-1.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 + All things considered, *r~PLS~* performs better 
 ---
@@ -446,7 +464,7 @@ Compare permutation distributions with one another (minus observed in this case)
 
 + Cranial integration for pairs of modules in *Homo*
 
-&lt;img src="LectureData/12.integr.mod/PLS-Bookstein03.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/PLS-Bookstein03.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 2B: Comparing Integration Across Datasets
@@ -454,7 +472,7 @@ Compare permutation distributions with one another (minus observed in this case)
 + One may wish to compare integration among subsets across datasets
 + Cannot do so directly with `\(RV\)` or `\(r_{PLS}\)` as both vary with `\(n\)` and `\(p\)`
 
-&lt;img src="LectureData/12.integr.mod/RV.PLS.n.p.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/RV.PLS.n.p.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 
 + We require appropriate effect sizes for comparison
 ---
@@ -465,7 +483,7 @@ Compare permutation distributions with one another (minus observed in this case)
 
 `$$\mathbf{Z}=\frac{r_{PLS_{obs}}-\mu_{r_{PLS_{rand}}}}{\sigma_{r_{PLS_{rand}}}}$$`
 
-&lt;img src="LectureData/12.integr.mod/Z-PLS-WithN-P.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/Z-PLS-WithN-P.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 
 + Statistical comparisons of effect sizes are then possible:
 
@@ -479,7 +497,7 @@ Compare permutation distributions with one another (minus observed in this case)
 + Are the modules of lizard heads equally integrated across environments?
 + Does this integration change ontogenetically?
 
-&lt;img src="LectureData/12.integr.mod/CompareIntegr_example.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/CompareIntegr_example.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 
 + Yes it does!
 ---
@@ -522,23 +540,23 @@ compare.pls(integ.tests)
 ## Effect sizes
 ## 
 ##    Marsh.F    Marsh.M Sinkhole.F Sinkhole.M 
-##  3.1410345  1.5130737  0.7429882  2.7156556 
+##  2.4886002  1.2516903  0.0945271  2.3365695 
 ## 
 ## Effect sizes for pairwise differences in PLS effect size
 ## 
 ##              Marsh.F   Marsh.M Sinkhole.F Sinkhole.M
-## Marsh.F    0.0000000 0.6586628  1.9027247  0.7518767
-## Marsh.M    0.6586628 0.0000000  0.8778808  1.1927859
-## Sinkhole.F 1.9027247 0.8778808  0.0000000  2.0927712
-## Sinkhole.M 0.7518767 1.1927859  2.0927712  0.0000000
+## Marsh.F    0.0000000 0.7459731  1.6360295  0.1441450
+## Marsh.M    0.7459731 0.0000000  0.8349064  0.6162844
+## Sinkhole.F 1.6360295 0.8349064  0.0000000  1.5128576
+## Sinkhole.M 0.1441450 0.6162844  1.5128576  0.0000000
 ## 
 ## P-values
 ## 
-##               Marsh.F   Marsh.M Sinkhole.F Sinkhole.M
-## Marsh.F    1.00000000 0.5101123 0.05707647 0.45212519
-## Marsh.M    0.51011230 1.0000000 0.38000838 0.23295324
-## Sinkhole.F 0.05707647 0.3800084 1.00000000 0.03636958
-## Sinkhole.M 0.45212519 0.2329532 0.03636958 1.00000000
+##              Marsh.F   Marsh.M Sinkhole.F Sinkhole.M
+## Marsh.F    1.0000000 0.4556837  0.1018334  0.8853860
+## Marsh.M    0.4556837 1.0000000  0.4037704  0.5377068
+## Sinkhole.F 0.1018334 0.4037704  1.0000000  0.1303158
+## Sinkhole.M 0.8853860 0.5377068  0.1303158  1.0000000
 ```
 ]
 
@@ -578,7 +596,7 @@ compare.pls(integ.tests)
 
 + Sewall Wright's 'chickenbone' dataset
 
-&lt;img src="LectureData/12.integr.mod/Magwene-Chickenbone.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/Magwene-Chickenbone.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 3: Identifying Modularity
@@ -587,7 +605,7 @@ compare.pls(integ.tests)
 
 + Modules: tightly integrated sets of traits, which are relatively independent from other such sets
 
-&lt;img src="LectureData/12.integr.mod/ModulCovBtwn.png" width="70%" /&gt;
+&lt;img src="LectureData/12.integr.mod/ModulCovBtwn.png" alt="" width="70%" /&gt;
 ---
 
 ### 3: Quantifying Modularity: `\(CR\)` Coefficient `\(^1\)`
@@ -602,7 +620,7 @@ compare.pls(integ.tests)
 
 + The `\(CR\)` coefficient does *NOT* vary with *n* and *p*:
 
-&lt;img src="LectureData/12.integr.mod/CRPattern.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/CRPattern.png" alt="" width="50%" style="display: block; margin: auto;" /&gt;
 
 .footnote[1: Adams (2016). *Methods Ecol. Evol.*]
 ---
@@ -611,12 +629,12 @@ compare.pls(integ.tests)
 
 + The `\(CR\)` coefficient displays appropriate statistical properties
 
-&lt;img src="LectureData/12.integr.mod/CRStatProp.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/CRStatProp.png" alt="" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 3: `\(CR\)` Coefficient: Examples
 
-&lt;img src="LectureData/12.integr.mod/CRExamples.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/CRExamples.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 3: Evaluating Modularity: Example 2
@@ -642,7 +660,7 @@ modularity.test(Y.gpa$coords,land.gps,CI=FALSE,print.progress = FALSE)
 ## 
 ## P-value: 0.021
 ## 
-## Effect Size: -2.3097
+## Effect Size: -2.5372
 ## 
 ## Based on 1000 random permutations
 ```
@@ -673,7 +691,7 @@ modularity.test(Y.gpa$coords,land.gps,CI=FALSE,print.progress = FALSE)
 + Which is the most supported modular division for the mouse mandible?
 + Do some species exhibit higher modularity than others?
 
-&lt;img src="LectureData/12.integr.mod/Fig6.png" width="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/12.integr.mod/Fig6.png" alt="" width="35%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -714,35 +732,37 @@ compare.CR(modul.tests, CR.null = FALSE)
 ## Effect sizes
 ## 
 ##    Marsh.F    Marsh.M Sinkhole.F Sinkhole.M 
-## -0.7265087 -4.1650804 -2.4916997 -2.1320218 
+## -0.7122406 -6.1888526 -2.7484794 -2.3249016 
 ## 
 ## Effect sizes for pairwise differences in CR effect size
 ## 
-##             Marsh.F    Marsh.M Sinkhole.F Sinkhole.M
-## Marsh.F    0.000000 2.45689940 1.74666288  1.0170828
-## Marsh.M    2.456899 0.00000000 0.07932252  1.4191065
-## Sinkhole.F 1.746663 0.07932252 0.00000000  0.9811416
-## Sinkhole.M 1.017083 1.41910651 0.98114159  0.0000000
+##             Marsh.F   Marsh.M Sinkhole.F Sinkhole.M
+## Marsh.F    0.000000 3.8374119  1.9376264   1.060274
+## Marsh.M    3.837412 0.0000000  0.9564783   2.910127
+## Sinkhole.F 1.937626 0.9564783  0.0000000   1.185136
+## Sinkhole.M 1.060274 2.9101269  1.1851359   0.000000
 ## 
 ## P-values
 ## 
-##               Marsh.F    Marsh.M Sinkhole.F Sinkhole.M
-## Marsh.F    1.00000000 0.01401419 0.08069583  0.3091141
-## Marsh.M    0.01401419 1.00000000 0.93677609  0.1558680
-## Sinkhole.F 0.08069583 0.93677609 1.00000000  0.3265229
-## Sinkhole.M 0.30911405 0.15586797 0.32652292  1.0000000
+##                 Marsh.F      Marsh.M Sinkhole.F Sinkhole.M
+## Marsh.F    1.0000000000 0.0001243378 0.05266882 0.28901994
+## Marsh.M    0.0001243378 1.0000000000 0.33883062 0.00361282
+## Sinkhole.F 0.0526688231 0.3388306177 1.00000000 0.23596372
+## Sinkhole.M 0.2890199439 0.0036128200 0.23596372 1.00000000
 ```
 ]
 
 ---
+
 
 ### Integration and Modularity: Perspectives
 
 + Integration and modularity are of relevance for many E&amp;E questions
 
 + All approaches decompose information in `\(\hat{\mathbf{\Sigma}}\)`
+  + Estimating `\(\hat{\mathbf{\Sigma}}\)` requires sufficient `\(n\)` vs `\(p\)`
 
-+ Require methods that are robust to `\(n\)` and `\(p\)`
++ Summary measures must be robust to `\(n\)` and `\(p\)` (see RV vs. CR)
 
 + Effect sizes of test statistics are most useful, and can be compared
   + Overall integration for a set of traits: `\(Z_{Vrel}\)`
@@ -755,14 +775,14 @@ compare.CR(modul.tests, CR.null = FALSE)
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

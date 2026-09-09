@@ -121,6 +121,22 @@ include_graphics("LectureData/12.integr.mod/Klingenberg2014.png")
 .footnote[1: As we will see, the empirical answer to the last few questions is found via RRPP]
 ---
 
+### Quantifying Integration and Modularity: Starting Points $^1$
+
++ Integration and modularity concern trait covariation
+
++ Mathematically, this requires estimating the trait covariance matrix:
+
+$$\hat{\mathbf\Sigma} = \mathbf{Y_c^T}\mathbf{Y_c}/ (n-1)$$
+
++ The $n:p$ ratio is *critical* here: one must have sufficient observations relative to the number of variables for a reliable estimate of $\hat{\mathbf\Sigma}$
+
++ When this is not the case (and for GM data generally), $\hat{\mathbf\Sigma}$ is singular, causing downstream mathematical challenges for some methods
+
+.footnote[1: Must-read paper relating random matrix theory to covariance estimation: Bookstein (2017). *Evol. Biol.*]
+
+---
+
 ### Methods for Evaluating Integration and Modularity
 
 + Here we review some methods for evaluating patterns of integration and modularity
@@ -128,6 +144,8 @@ include_graphics("LectureData/12.integr.mod/Klingenberg2014.png")
   + 2: Methods for evaluating and comparing integration among subsets of traits
   + 3: Methods for evaluating and comparing modularity
 ---
+
+
 
 ### 1: Overall Integration
 
@@ -737,13 +755,15 @@ compare.CR(modul.tests, CR.null = FALSE)
 
 ---
 
+
 ### Integration and Modularity: Perspectives
 
 + Integration and modularity are of relevance for many E&E questions
 
 + All approaches decompose information in $\hat{\mathbf{\Sigma}}$
+  + Estimating $\hat{\mathbf{\Sigma}}$ requires sufficient $n$ vs $p$
 
-+ Require methods that are robust to $n$ and $p$
++ Summary measures must be robust to $n$ and $p$ (see RV vs. CR)
 
 + Effect sizes of test statistics are most useful, and can be compared
   + Overall integration for a set of traits: $Z_{Vrel}$
