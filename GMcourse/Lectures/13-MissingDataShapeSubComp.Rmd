@@ -664,7 +664,7 @@ include_graphics("LectureData/13.missing/ArticMath.png")
 
 ##### Adams (1999). *Evol. Ecol. Res.*
 
-.footnote[Note: Fixed angle method of Adams (1999) generalized for 3D data: Vidal-Garcia et al. (2018). *Ecol. Evol.*]
+.footnote[Note: Fixed angle method of Adams (1999) generalized for 3D data in `shapeRotator`: Vidal-Garcia et al. (2018). *Ecol. Evol.*]
 ---
 
 ### Articulation Standardization: Example

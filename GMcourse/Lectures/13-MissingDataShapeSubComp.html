@@ -4,7 +4,7 @@
     <title>13: Missing Data and Shape Subcomponents</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <script src="13-MissingDataShapeSubComp_files/header-attrs-2.27/header-attrs.js"></script>
+    <script src="13-MissingDataShapeSubComp_files/header-attrs-2.31/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="utilities.css" type="text/css" />
   </head>
@@ -56,7 +56,7 @@ class: center, middle, inverse, title-slide
   + Requires landmark correspondence among specimens, and that all landmarks are present on all specimens
 ]
 .pull-right[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-1-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-1-1.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 + What does one do when specimens have missing data?
 ---
@@ -66,14 +66,14 @@ class: center, middle, inverse, title-slide
 + In some fields (e.g., anthropology), missing data is pervasive
   + Specimens are incomplete, or lack structures entirely
 
-&lt;img src="LectureData/13.missing/MissingAnthro.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/MissingAnthro.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Dealing with Missing Data: Delete Specimens
 
 + Simplest solution is to remove specimens with missing data
 
-&lt;img src="LectureData/13.missing/FishDelSpec.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/FishDelSpec.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -87,7 +87,7 @@ class: center, middle, inverse, title-slide
 
 + Another option is to delete landmarks that are missing from some specimens
 
-&lt;img src="LectureData/13.missing/FishDelLand.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/FishDelLand.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -118,7 +118,7 @@ class: center, middle, inverse, title-slide
 + Locations of missing landmarks estimated from location in reflected portion
 ]
 .pull-right[
-&lt;img src="LectureData/13.missing/Skull1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/Skull1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 .footnote[1: Note: the `reflectMissingLandmarks` function in `StereoMorph` may be used for symmetry-based estimation of missing landmarks]
@@ -135,23 +135,23 @@ class: center, middle, inverse, title-slide
 ## No curves detected; all points appear to be fixed landmarks.
 ```
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-6-1.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-6-1.png" alt="" width="95%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 - Let's delete some landmarks then estimate by exploiting symmetry
 
-&lt;img src="LectureData/13.missing/LizardMissing.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/LizardMissing.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
 #### 1: Exploiting Symmetry: Test Procedure
 
 .pull-left[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-8-1.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 ]
 .pull-right[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-9-1.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 `\(\small{D}_{Proc}= 0.009\)`. Pretty good!
 ]
@@ -192,14 +192,14 @@ class: center, middle, inverse, title-slide
 ## No curves detected; all points appear to be fixed landmarks.
 ```
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-10-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-10-1.png" alt="" width="45%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 2: Mean Substitution: Example 1 (Cont.)
 
 + Let's take one specimen (in red) and eliminate some landmarks
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-11-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-11-1.png" alt="" width="45%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 2: Mean Substitution: Example 1 (Cont.)
@@ -207,7 +207,7 @@ class: center, middle, inverse, title-slide
 + Now let's delete some landmarks then estimate by mean substitution
 
 .pull-left[
-&lt;img src="LectureData/13.missing/FishMinMissing.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/FishMinMissing.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 Test Procedure
 
@@ -217,7 +217,7 @@ Test Procedure
 ]
 
 .pull-right[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-13-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-13-1.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
 
 `\(\small{D}_{Proc_{Ref-Orig}} = 0.26\)`  `\(\small{D}_{Proc_{Ref-Est}} = 0.23\)`
 
@@ -229,7 +229,7 @@ Test Procedure
 
 + Or let's take a different specimen (in red) and eliminate some landmarks
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-14-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-14-1.png" alt="" width="45%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### 2: Mean Substitution: Example 1 (Cont.)
@@ -237,7 +237,7 @@ Test Procedure
 .pull-left[
 + Now let's delete some landmarks then estimate by mean substitution
 
-&lt;img src="LectureData/13.missing/FishMaxMissing.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/FishMaxMissing.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 Test Procedure
 
@@ -249,7 +249,7 @@ Test Procedure
 
 .pull-right[
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-16-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-16-1.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
 
 
 `\(\small{D}_{Proc_{Ref-Orig}} = 0.15\)`  `\(\small{D}_{Proc_{Ref-Est}} = 0.13\)`
@@ -262,7 +262,7 @@ Test Procedure
 
 .pull-left[
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-17-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 + Mean substitution does not account for systematic variation (e.g., allometry)
 + If shape covaries with some factor (e.g., size!), it will over- or under-estimate landmark locations
@@ -270,7 +270,7 @@ Test Procedure
 ]
 
 .pull-right[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-18-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 + **Mean substitution should not be used!**
 ]
@@ -280,7 +280,7 @@ Test Procedure
 
 + Use thin-plate spline to estimate location of missing landmarks
 
-&lt;img src="LectureData/04.shape.vars/GorillaHuman.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/04.shape.vars/GorillaHuman.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 + Procedure
   + 1: Identify common landmarks in both reference and target
@@ -297,7 +297,7 @@ Test Procedure
   + 2: Calculate TPS interpolation
   + 3: Missing landmarks in target estimated from their location in reference, filtered through TPS
 
-&lt;img src="LectureData/13.missing/TPSMissingConcept.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/TPSMissingConcept.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 .footnote[1: Bookstein et al. (1999). *New. Anat.*; Gunz et al. (2009). *J. Hum. Evol.*]
 ---
@@ -310,7 +310,7 @@ Test Procedure
 new.tps&lt;-estimate.missing(shapes.missing,method="TPS")
 ```
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-22-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-22-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 `\(\small{D}_{Proc_{Ref-Orig}} = 0.26\)`  `\(\small{D}_{Proc_{Ref-Est}} = 0.27\)`
@@ -321,7 +321,7 @@ new.tps&lt;-estimate.missing(shapes.missing,method="TPS")
 
 ### 3: TPS Interpolation: Example 2
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-23-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-23-1.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 `\(\small{D}_{Proc_{Ref-Orig}} = 0.15\)`  `\(\small{D}_{Proc_{Ref-Est}} = 0.15\)`
 
@@ -363,7 +363,7 @@ new.tps&lt;-estimate.missing(shapes.missing,method="TPS")
 new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
 ```
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-25-1.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 `\(\small{D}_{Proc_{Ref-Orig}} = 0.26\)`  `\(\small{D}_{Proc_{Ref-Est}} = 0.27\)`
@@ -374,7 +374,7 @@ new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
 
 ### 4: Regression Interpolation: Example 2
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-26-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-26-1.png" alt="" width="40%" style="display: block; margin: auto;" /&gt;
 
 `\(\small{D}_{Proc_{Ref-Orig}} = 0.15\)`  `\(\small{D}_{Proc_{Ref-Est}} = 0.15\)`
 
@@ -402,7 +402,7 @@ new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
 
 + Few systematic comparisons among methods exist, but those that do imply that regression estimation is generally preferred, followed by TPS interpolation
 
-&lt;img src="LectureData/13.missing/MethodsCompare.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/MethodsCompare.png" alt="" width="75%" style="display: block; margin: auto;" /&gt;
 
 + Higher error with `\(\small{\uparrow}\)` missing landmarks and `\(\small{\uparrow}\)`  specimens containing missing data
 
@@ -441,7 +441,7 @@ new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
 + Thus our data have: shape effects + positional effects 
 + GMM procedures have been developed to account for this `\(^1\)`
 
-&lt;img src="LectureData/13.missing/ArticConcept.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/ArticConcept.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 .footnote[1. Adams (1999). *Evol. Ecol. Res.*]
 ---
@@ -452,7 +452,7 @@ new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
   + Fixing the angle in all specimens through a mathematical transformation
   + Separating the subsets to analyse separately, etc. `\(^1\)`
     
-&lt;img src="LectureData/13.missing/ArticMath.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/ArticMath.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 .footnote[1. Adams (1999). *Evol. Ecol. Res.*]
 
@@ -469,7 +469,7 @@ new.reg&lt;-estimate.missing(shapes.missing,method="Reg")
 
 ##### Adams (1999). *Evol. Ecol. Res.*
 
-.footnote[Note: Fixed angle method of Adams (1999) generalized for 3D data: Vidal-Garcia et al. (2018). *Ecol. Evol.*]
+.footnote[Note: Fixed angle method of Adams (1999) generalized for 3D data in `shapeRotator`: Vidal-Garcia et al. (2018). *Ecol. Evol.*]
 ---
 
 ### Articulation Standardization: Example
@@ -486,11 +486,11 @@ gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
 ```
 
 .pull-left[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-32-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-32-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-33-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-33-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -502,7 +502,7 @@ gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
 + GMM procedures have been developed for this
   + A **critical** consideration is the appropriate size-scaling of the configurations
 
-&lt;img src="LectureData/13.missing/CombineSubsetConcept.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="LectureData/13.missing/CombineSubsetConcept.png" alt="" width="45%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Combining Subsets: Flow of Computations
@@ -524,7 +524,7 @@ gpa.fixed &lt;- gpagen(jaw.fixed, print.progress = FALSE)$coords
 
 ### Combining Subsets: Example
 
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-35-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-35-1.png" alt="" width="35%" style="display: block; margin: auto;" /&gt;
 
 .center[Original Data: Heads and Tails of larval salamanders]
 
@@ -537,11 +537,11 @@ comb.lm &lt;- combine.subsets(head = head.gpa, tail = tail.gpa, gpa = TRUE)
 ```
 
 .pull-left[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-37-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-37-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-38-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-MissingDataShapeSubComp_files/figure-html/unnamed-chunk-38-1.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .center[Note correct relative sizes of subset configurations]
@@ -563,14 +563,14 @@ comb.lm &lt;- combine.subsets(head = head.gpa, tail = tail.gpa, gpa = TRUE)
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"navigation": {
-"scroll": false
-},
-"highlightStyle": "solarized-light",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"self_contained": false
+  "navigation": {
+    "scroll": false
+  },
+  "highlightStyle": "solarized-light",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "self_contained": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
