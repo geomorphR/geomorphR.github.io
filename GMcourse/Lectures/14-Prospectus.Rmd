@@ -129,17 +129,99 @@ What we learned this week: Procrustes + RRPP with effect sizes ( $Z$-scores) pro
 + Here are some recent '*Up and Coming*' methods from Dean and Mike, as well as our musings on other possible areas of future work
 ---
 
-
 ### Current 1: Integration/Modularity: the 'Superimposition Effect'
 
-+ 
++ GPA optimally aligns all objects to the mean shape
+  + However, some covariation is induced by this process
 
-```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
-include_graphics("LectureData/14.prospectus/PhySigConcept.png")
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
+include_graphics("LectureData/14.prospectus/GPAInducedConcept.png")
 ```
 
-+ For multivariate data, we have $K_{mult}=\frac{\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}^{T}\mathbf{D}_{\mathbf{Z},E(\mathbf{Z})}}{\mathbf{PD}_{\tilde{\mathbf{Z}},0}^{T}\mathbf{PD}_{\tilde{\mathbf{Z}},0}}/\frac{tr(\mathbf\Omega)-N(\mathbf{1}^{T}\mathbf{\Omega1})^{-1}}{N-1}$
+---
 
+### Current 1: Superimposition Effect: A Well Known Example
+
++ GPA optimally aligns all objects to the mean shape
+  + However, some covariation within/among landmarks is induced by this process
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
+include_graphics("LectureData/14.prospectus/ProcProblem-RandSExample.png")
+```
+
+This is often referred to as the "Procrustes Problem"
+
+---
+
+### Current 1: Superimposition Effect: Challenges and Questions
+
++ GPA induces some covariation within/among landmark coordinates
+  + This is present in $\hat{\mathbf\Sigma}$, along with biological covariation
+
++ This can impact tests of integration and modularity, which are based on $\hat{\mathbf\Sigma}$ (see Cardini 2019; Zelditch and Swiderski 2023)
+
++ Some have proposed 'solutions' (e.g, separate GPA on each subset) but methods not verified
+
++ Open questions
+
+1: Is it really a Procrustes effect?
+2: Are proposed solutions sufficient?
+3: If not, what can we do about it?
+
+---
+
+### Current 1: Superimposition Effect: Digging Deeper
+
++ Simulate isotropic triangles and align with differing methods
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
+include_graphics("LectureData/14.prospectus/TriangleIsoInput.png")
+```
+
+---
+
+### Current 1: Superimposition Effect: It's not a Procrustes Problem
+
++ *ALL* superimposition procedures induce covariation
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="40%"}
+include_graphics("LectureData/14.prospectus/EquilTriSim.png")
+```
+
+---
+
+### Current 1: Superimposition Effect: The Mean Shape Matters
+
++ The mean shape affects the pattern
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
+include_graphics("LectureData/14.prospectus/TriMeanShapeSim.png")
+```
+
+---
+
+### Current 1: Superimposition Effect
+
++ Separate subsets is not the solution
+
+```{r echo = FALSE, fig.align = "center", eval=TRUE,out.width="90%"}
+include_graphics("LectureData/14.prospectus/SepSubGPASim.png")
+```
+
+---
+
+### Current 1: Superimposition Effect: Solutions
+
++ We are developing new procedures to account for the superimposition effect when evaluating integration and modularity
+
+1: Estimate the 'geometric null' effect ($c\mathbf{P}$) based solely on the mean shape and the overall variation expressed in $\hat{\mathbf\Sigma}$
+  + $\mathbf{P}$ is a projection matrix derived from a set of orthogonal vectors describing translation, rotation, and scale based on the mean shape
+
+2: The matrix of deviations ($\mathbf{E}=\hat{\mathbf\Sigma} - c\mathbf{P}$) describes the residual (biological) covariation not induced by superimposition
+
+3: Tests of integration and modularity are performed on $\mathbf{E}$
+
++ Method currently in development (initial simulations are promising)
 ---
 
 ### Current 2: Multivariate linear mixed models
@@ -213,7 +295,7 @@ par(mfrow=c(1,1))
 
 ### Future 1: Towards A Weighted Procrustes Algorithm
 
-+ To this point (and for the past 25 years), we have conducted superimposition using GPA, which is an unweighted alignment
++ To this point (and for the past 35 years), we have conducted superimposition using GPA, which is an unweighted alignment
 
 + That is, one translates, rotates, and scales, using mean values
 

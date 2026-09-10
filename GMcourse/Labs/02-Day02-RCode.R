@@ -58,8 +58,16 @@ anova(fit)
 plot(fit, type = "regression", reg.type = "RegScore", predictor = pupfish$logSize, pch = 19)
  #NOTE: Try also: reg.type = "PredLine"
 
-#### Comparing Allometric Trajectories
 
+#### Comparing Allometric Trajectories to a priori
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
+fit <- procD.lm(coords ~ log(Csize), data = Y.gpa, print.progress = FALSE)
+bt <- betaTest(fit, coef.no = 2, Beta =  c(rep(0,24)))
+summary(bt) #does not differ from isometry
+
+
+#### Comparing Allometric Trajectories
 fit.common <- procD.lm(coords ~ logSize + Group, 
                        data = pupfish, print.progress = FALSE) 
 fit.unique <- procD.lm(coords ~ logSize * Group, 

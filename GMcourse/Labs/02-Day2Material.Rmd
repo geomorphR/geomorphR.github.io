@@ -106,6 +106,17 @@ plot(fit, type = "regression",
    
 #### Comparing Allometric Trajectories
 
+There are multiple ways to compare allometric trajectories. First we will compare a trajectory to some *a priori* vector using `betaTest`. Then we will compare trajectories to each other. 
+
+```{r eval=TRUE}
+data(plethodon)
+Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
+fit <- procD.lm(coords ~ log(Csize), data = Y.gpa, print.progress = FALSE)
+bt <- betaTest(fit, coef.no = 2, Beta =  c(rep(0,24)))
+summary(bt) #does not differ from isometry
+
+```
+
 ```{r eval=TRUE}
 fit.common <- procD.lm(coords ~ logSize + Group, 
                            data = pupfish, print.progress = FALSE) 

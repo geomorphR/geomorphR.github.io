@@ -61,9 +61,10 @@ plotAllSpecimens(Y.gpa$coords, links = plethodon$links)
 
 #### Data Checking: Outliers
 
-At this point, it is a good idea to check for outliers. If they are identified then one should go back to the original data and resolve any issues. Here is a simple example of how to check for these: 
+At this point, it is a good idea to check for outliers. If they are identified then one should go back to the original data and resolve any issues. Here is a simple example of how to check for these. First we will inspect whether there are any outliers, and if so, plot them: 
 
 ```{r eval=TRUE}
+plotOutliers(Y.gpa$coords)
 plotOutliers(Y.gpa$coords, inspect.outliers = T)
 ```
 

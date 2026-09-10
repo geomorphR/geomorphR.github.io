@@ -15,6 +15,8 @@ plotAllSpecimens(plethodon$land, links = plethodon$links)
 plotAllSpecimens(Y.gpa$coords, links = plethodon$links)
 
 ## Check outliers
+plotOutliers(Y.gpa$coords)
+ #now visualize an outlier
 plotOutliers(Y.gpa$coords, inspect.outliers = T)
 
 # PCA

@@ -629,7 +629,7 @@ data(plethodon)
 Y.gpa <- gpagen(plethodon$land, print.progress = FALSE)
 fit <- procD.lm(coords ~ log(Csize), data = Y.gpa, print.progress = FALSE)
 bt <- betaTest(fit, coef.no = 2, Beta =  c(rep(0,24)))
-summary(bt) #differs from isometry
+summary(bt) #does not differ from isometry
 ```
 
 ---

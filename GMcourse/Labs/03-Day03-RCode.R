@@ -63,6 +63,16 @@ PS.shape <- physignal(A=shape,phy=plethtree,iter=999, print.progress = FALSE)
 summary(PS.shape)
 plot(PS.shape)
 
+### Dimensions of phylogenetic signal
+data(plethspecies) 
+Y.gpa <- gpagen(plethspecies$land)    #GPA-alignment    
+
+PSe.shape <- physignal.eigen(Y = Y.gpa$coords, phy = plethspecies$phy)
+summary(PSe.shape)
+plot(PSe.shape)
+KC.plot <- plot(PSe.shape$KC)
+add.tree(KC.plot, plethspecies$phy, edge.col = 4)
+
 ### Phylogenetic Ordination
 
 #### Phylomorphospace
