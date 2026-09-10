@@ -5,6 +5,7 @@ subtitle: "AKA: The important foundation for everything that follows!"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
+    self_contained: yes
     nature:
       navigation:
         scroll: false

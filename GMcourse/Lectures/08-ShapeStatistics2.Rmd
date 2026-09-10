@@ -5,6 +5,7 @@ subtitle: "Advanced statistical analysis of linear models."
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
+    self_contained: yes
     nature:
       navigation:
         scroll: false
