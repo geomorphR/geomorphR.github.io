@@ -1204,7 +1204,7 @@ fit10 <- procD.lm(coords ~ log(CS) * Sex*Pop, data = pupfish, iter = 999)
 modComp1 <- model.comparison(fit1, fit2, fit3, fit4, fit5, 
 fit6, fit7, fit8, fit9, fit10, type = "cov.trace")
 modComp2 <- model.comparison(fit1, fit2, fit3, fit4, fit5, 
-fit6, fit7, fit8, fit9, fit10, type = "logLik", tol = 0.01)
+fit6, fit7, fit8, fit9, fit10, type = "logLik", tol = 0.01, pc.no = 5)
 ```
 ]
 
