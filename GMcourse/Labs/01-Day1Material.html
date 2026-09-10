@@ -522,7 +522,7 @@ mtext(&quot;PC1 - Max.&quot;)</code></pre>
 scallops &lt;- readland.tps(&quot;Data/scallops for viz.tps&quot;, specID = &quot;ID&quot;)
 ref &lt;- mshape(scallops)
 refmesh &lt;- warpRefMesh(read.ply(&quot;Data/glyp02L.ply&quot;), 
-                       scallops[,,1], ref, color=NULL, centered=T)
+                       scallops[,,1], ref, centered=T)
 PCA.scallop &lt;- gm.prcomp(scallops)
 plot(PCA.scallop, pch = 21, bg = &quot;black&quot;, cex = 2)
 PC.sc &lt;- PCA.scallop$x[,1]

@@ -57,7 +57,7 @@ mtext("PC1 - Max.")
 scallops <- readland.tps("Data/scallops for viz.tps", specID = "ID")
 ref <- mshape(scallops)
 refmesh <- warpRefMesh(read.ply("Data/glyp02L.ply"), 
-                       scallops[,,1], ref, color=NULL, centered=T)
+                       scallops[,,1], ref, centered=T)
 PCA.scallop <- gm.prcomp(scallops)
 plot(PCA.scallop, pch = 21, bg = "black", cex = 2)
 PC.sc <- PCA.scallop$x[,1]
