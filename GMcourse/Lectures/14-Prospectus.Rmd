@@ -4,6 +4,7 @@ author: ""
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
+    self_contained: yes
     nature:
       navigation:
         scroll: false
@@ -226,7 +227,112 @@ include_graphics("LectureData/14.prospectus/SepSubGPASim.png")
 
 ### Current 2: Multivariate linear mixed models
 
-+ maybe? 
+**What is a linear mixed model?**
++ A linear mixed model is two linear models in one.
+  + Model, $\mathbf{X}$, with estimated **fixed effects**, $\mathbf{B}$
+  + Model, $\mathbf{M}$, with estimated **random effects**, $\mathbf{U}$
+  + Effects are estimated ***.blue[simultaneously]*** with ML or REML.
+  + Random effects can alter either intercepts or slopes for continuous covariates, based on individual subjects, which are  often nested within fixed groups (hierarchical)
+
+Here is the algebra for univariate data.  Note that: $\boldsymbol\Omega^{-1}_A = \boldsymbol{\Lambda_A\Lambda_A}^T$ for GLS estimation among subjects and $\boldsymbol\Omega^{-1}_W = \boldsymbol{\Lambda_W\Lambda_W}^T$ for ML or REML estimation within subjects.
+
+$$
+\begin{pmatrix} \boldsymbol{\Lambda}_A^T\textbf{X}^T\textbf{X}\boldsymbol{\Lambda}_A &  \boldsymbol{\Lambda}_A^T\textbf{X}^T\textbf{M}\boldsymbol{\Lambda}_W \end{pmatrix}\textbf{b} = 
+\begin{pmatrix} \boldsymbol{\Lambda}_A^T\textbf{X}^T\textbf{z} \end{pmatrix}
+$$
+
+and 
+
+$$
+\begin{pmatrix} \boldsymbol{\Lambda}_W^T\textbf{M}^T\textbf{X}\boldsymbol{\Lambda}_A & \boldsymbol{\Lambda}_W^T\textbf{M}^T\textbf{M}\boldsymbol{\Lambda}_W + \textbf{I} \end{pmatrix} \textbf{u} = 
+\begin{pmatrix}  \boldsymbol{\Lambda}_W^T\textbf{M}^T\textbf{z} \end{pmatrix}.
+$$
+
+---
+
+### Current 2: Multivariate linear mixed models
+
+$$
+\begin{pmatrix} \boldsymbol{\Lambda}_A^T\textbf{X}^T\textbf{X}\boldsymbol{\Lambda}_A &  \boldsymbol{\Lambda}_A^T\textbf{X}^T\textbf{M}\boldsymbol{\Lambda}_W \end{pmatrix}\textbf{b} = 
+\begin{pmatrix} \boldsymbol{\Lambda}_A^T\textbf{X}^T\textbf{z} \end{pmatrix}
+$$
+
+and 
+
+$$
+\begin{pmatrix} \boldsymbol{\Lambda}_W^T\textbf{M}^T\textbf{X}\boldsymbol{\Lambda}_A & \boldsymbol{\Lambda}_W^T\textbf{M}^T\textbf{M}\boldsymbol{\Lambda}_W + \textbf{I} \end{pmatrix} \textbf{u} = 
+\begin{pmatrix}  \boldsymbol{\Lambda}_W^T\textbf{M}^T\textbf{z} \end{pmatrix}.
+$$
+
+Note that in the equations above, $\textbf{X}$, $\textbf{M}$, $\boldsymbol{\Lambda}_A$, and $\boldsymbol{\Lambda}_W$ exists in both.  $\boldsymbol{\Lambda}_A$ is theoretical (like in PGLS); $\boldsymbol{\Lambda}_W$ is solved via ML or REML, ***.blue[simultaneously]***.  We can simplify this, as follows:
+
+$$ 
+\mathbf{F} \mathbf{b} = \mathcal{F}\mathbf{z} 
+$$
+and
+
+$$
+\mathbf{R} \mathbf{u} = \mathcal{R}\mathbf{z} 
+$$
+where, $\mathbf{F}$ and $\mathcal{F}$ refer to fixed matrix components and $\mathbf{R}$ and $\mathcal{R}$ refer to random matrix components. 
+
+.red[For multivariate generalization, there are two options!]
+
+---
+
+### Current 2: Multivariate linear mixed models
+
+$$ 
+\mathbf{F} \mathbf{b} = \mathcal{F}\mathbf{z} 
+$$
+and
+
+$$
+\mathbf{R} \mathbf{u} = \mathcal{R}\mathbf{z} 
+$$
+where, $\mathbf{F}$ and $\mathcal{F}$ refer to fixed matrix components and $\mathbf{R}$ and $\mathcal{R}$ refer to random matrix components. 
+
+.red[For multivariate generalization, there are two options!]
+
+1. Find $p$ unique solutions for the $p$ vectors in $\mathbf{Z}$ **(time-consuming!!)**
+2. Find
+$$ 
+\mathbf{F} \mathbf{B} = \mathcal{F}\mathbf{Z} 
+$$
+and
+
+$$
+\mathbf{R} \mathbf{U} = \mathcal{R}\mathbf{Z} 
+$$
+
+using a single set of parameters, $\boldsymbol{\Lambda}_W$ **(efficient!!)**
+---
+
+### Current 2: Multivariate linear mixed models
+
+How would we find this?? $\boldsymbol{\Lambda}_W$ 
+
++ This has not been explored!  Not even slightly!
++ Could develop new likelihood equations with *vectorized* $\mathbf{Z}$ that find some solution that exists somewhere between $\mathbf{I} \otimes \mathbf{R}$ or a similar matrix with potentially $p$ unique $\mathbf{R}$ matrices...
+  + With hundreds or thousands of variables, this would be so computationally intense that is is rendered practically useless!
++ Could develop theoretical justification for a single $\boldsymbol{\Lambda}_W$ matrix, thus a single $\mathbf{R}$ matrix.
+  + But how??
+  
++ We have an idea for an algorithm:
+
+  1. Solve, $\mathbf{AZ} = \mathbf{UDV}^T$, with $\mathbf{A} =\mathbf{\tilde{H}}$.
+  2. Project data onto major axis, $\mathbf{p} = \mathbf{Zv}_1$.
+  3. Use $\mathbf{p}$ to find univariate **best surrogate** for multivariate data, to solve parameters in $\boldsymbol{\Lambda}_W$.
+
+---
+
+### Current 2: Multivariate linear mixed models
+
+**How to determine robustness?**
+
+Statistical research that varies unique $\boldsymbol{\Lambda}_W$ for single variables that could be compiled into a multivariate data set.  Measurement error between estimates using unique $\boldsymbol{\Lambda}_W$ and a surrogate $\boldsymbol{\Lambda}_W$, applied to all variables, will determine efficacy.
+
+***We are on it!***
 
 ---
 
