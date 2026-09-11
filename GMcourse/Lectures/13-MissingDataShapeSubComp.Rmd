@@ -4,6 +4,7 @@ author: ""
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
+    self_contained: yes
     nature:
       navigation:
         scroll: false
@@ -724,7 +725,7 @@ include_graphics("LectureData/13.missing/CombineSubsetConcept.png")
 
 + Perform GPA on each subset separately
 
-+ Scale each subset configuration by: $\frac{w_iCS_i}{\sqrt{\sum{w_iCS^2_i}}}$
++ Scale each subset configuration by: $\frac{w_iCS_i}{\sqrt{\sum{w_i^2CS^2_i}}}$
   + where $CS_i$ is the centroid size of that configuration and $w_i$ is a possible weight
 
 + Combine size-scaled subset configurations

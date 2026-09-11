@@ -5,6 +5,7 @@ subtitle: "Comparison of vectors, trajectories, and morphological disparity"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "utilities.css"]
+    self_contained: yes
     nature:
       navigation:
         scroll: false

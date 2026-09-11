@@ -5,6 +5,7 @@ subtitle: "Multiple shape observations performed on the same research subjects"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css"]
+    self_contained: yes
     nature:
       navigation:
 # Disable scrolling through slides to
