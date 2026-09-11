@@ -95,6 +95,18 @@ summary(PS.shape)
 plot(PS.shape)
 ```
 
+### Dimensions of Phylogenetic Signal
+```{r eval=TRUE}
+data(plethspecies) 
+Y.gpa <- gpagen(plethspecies$land, print.progress = FALSE)
+
+PSe.shape <- physignal.eigen(Y = Y.gpa$coords, phy = plethspecies$phy)
+summary(PSe.shape)
+plot(PSe.shape)
+KC.plot <- plot(PSe.shape$KC)
+add.tree(KC.plot, plethspecies$phy, edge.col = 4)
+```
+
 ### Phylogenetic Ordination
 
 #### Phylomorphospace
@@ -144,6 +156,19 @@ summary(EMR)
 plot(EMR)
 ```
 
+### Extended PGLS
+
+When one has multiple individuals per species, or when one wishes to compare within-species patterns across species while accounting for phylogenetic non-independence, E-PGLS is required:
+
+```{r eval=TRUE}
+data(pupfish.ws)
+fit <- extended.pgls(f1 = coords~Species * Sex + Population, 
+                     data = pupfish.ws, species = "Species",
+                     phy = pupfish.ws$phy, print.progress = FALSE) 
+anova(fit) 
+fit.mult <- manova.update(fit, PC.no = 40, print.progress = FALSE)
+summary(fit.mult, test = "Wilks") 
+```
 
 ## 3: Analysis of Symmetry
 

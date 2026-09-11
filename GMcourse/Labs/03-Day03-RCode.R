@@ -63,6 +63,16 @@ PS.shape <- physignal(A=shape,phy=plethtree,iter=999, print.progress = FALSE)
 summary(PS.shape)
 plot(PS.shape)
 
+### Dimensions of phylogenetic signal
+data(plethspecies) 
+Y.gpa <- gpagen(plethspecies$land)
+
+PSe.shape <- physignal.eigen(Y = Y.gpa$coords, phy = plethspecies$phy)
+summary(PSe.shape)
+plot(PSe.shape)
+KC.plot <- plot(PSe.shape$KC)
+add.tree(KC.plot, plethspecies$phy, edge.col = 4)
+
 ### Phylogenetic Ordination
 
 #### Phylomorphospace
@@ -94,6 +104,15 @@ plot(ER)
 EMR <- compare.multi.evol.rates(A=gdf$shape, phy=plethtree, gp=c(rep(1,5),rep(2,6)), print.progress = FALSE)
 summary(EMR)
 plot(EMR)
+
+#### Extended PGLS
+data(pupfish.ws)
+fit <- extended.pgls(f1 = coords~Species * Sex + Population, 
+                     data = pupfish.ws, species = "Species",
+                     phy = pupfish.ws$phy) 
+anova(fit) 
+fit.mult <- manova.update(fit, PC.no = 40)
+summary(fit.mult, test = "Wilks") 
 
 # Analysis of Symmetry
 

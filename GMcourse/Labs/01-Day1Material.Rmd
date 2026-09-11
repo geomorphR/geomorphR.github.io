@@ -61,9 +61,10 @@ plotAllSpecimens(Y.gpa$coords, links = plethodon$links)
 
 #### Data Checking: Outliers
 
-At this point, it is a good idea to check for outliers. If they are identified then one should go back to the original data and resolve any issues. Here is a simple example of how to check for these: 
+At this point, it is a good idea to check for outliers. If they are identified then one should go back to the original data and resolve any issues. Here is a simple example of how to check for these. First we will inspect whether there are any outliers, and if so, plot them: 
 
 ```{r eval=TRUE}
+plotOutliers(Y.gpa$coords)
 plotOutliers(Y.gpa$coords, inspect.outliers = T)
 ```
 
@@ -150,7 +151,7 @@ One can deform a mesh along PC axes (or anything)
 scallops <- readland.tps("Data/scallops for viz.tps", specID = "ID")
 ref <- mshape(scallops)
 refmesh <- warpRefMesh(read.ply("Data/glyp02L.ply"), 
-                       scallops[,,1], ref, color=NULL, centered=T)
+                       scallops[,,1], ref, centered=T)
 PCA.scallop <- gm.prcomp(scallops)
 plot(PCA.scallop, pch = 21, bg = "black", cex = 2)
 PC.sc <- PCA.scallop$x[,1]
