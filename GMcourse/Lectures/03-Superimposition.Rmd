@@ -16,7 +16,7 @@ output:
       self_contained: false
 ---
 
-```{r setup, include=FALSE, echo = TRUE, tidy = TRUE}
+```{r setup, include=FALSE, echo = TRUE}
 library(knitr)
 library(geomorph)
 library(scatterplot3d)
@@ -117,9 +117,7 @@ include_graphics("LectureData/03.superimposition/GPAEquationNote.png")
 
 - Translate object to origin (mean centering)
 
-<video width="640" height="480" controls="controls">
-  <source  src="LectureData/03.superimposition/Trans.mp4"></source>
-</video>
+<video src="LectureData/03.superimposition/Trans.mp4" width="640" height="480" controls></video>
 ---
 
 ### Procrustes Superimposition: Scale
@@ -136,9 +134,7 @@ include_graphics("LectureData/03.superimposition/GPAEquationNote.png")
 
 - Rotate $\mathbf{Y}_2$ to minimize landmark differences relative to $\mathbf{Y}_1$ (in a least-squares sense)
 
-<video width="640" height="480" controls="controls">
-  <source  src="LectureData/03.superimposition/Rot.mp4"></source>
-</video>
+<video src="LectureData/03.superimposition/Rot.mp4" width="640" height="480" controls></video>
 ---
 
 ### How Much to Rotate?
@@ -164,9 +160,7 @@ $$\mathbf{H}=\begin{bmatrix}
 
 $\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}$
 
-```{r, echo = FALSE, fig.align = "center", out.width="45%"}
-  include_graphics("LectureData/03.superimposition/OPA-steps.png")  
-```
+<video src="LectureData/03.superimposition/procrustes-superimposition-v2.mp4" width="480" height="360" controls></video>
 
 + $\mathbf{Z}$ are Procrustes residuals (aligned shape)
 + Optimal LS rotation, distributing the displacement among all landmarks
@@ -187,6 +181,12 @@ $\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}$
   include_graphics("LectureData/03.superimposition/GPAEquationNote.png")  
 ```
 ---
+
+### Generalized Procrustes Analysis
+
+<video src="LectureData/03.superimposition/larvalMorph-head-gpagen-PrinAxes-FALSE.mp4" width="640" height="480" controls></video>
+---
+
 
 ### GPA: Example
 
