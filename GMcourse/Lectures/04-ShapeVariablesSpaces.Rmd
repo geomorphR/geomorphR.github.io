@@ -299,7 +299,8 @@ plot(GPA.d,Kendall.d)
 ```
 ]
 .pull-right[
-+ Plot of shape distances for *Podarcis* data obtained from GPA-shape space and Kendall's Tangent space.      + Correlation of 1.0 in this case (usually very, very high)
++ Plot of shape distances for *Podarcis* data obtained from GPA-shape space and Kendall's Tangent space.      
++ Correlation of 1.0 in this case (usually very, very high)
 
 + **AND** correlation between PWS+U vs. Tangent space is **ALWAYS** 1.0 (see Rohlf 1999)
 ]
