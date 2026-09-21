@@ -1012,7 +1012,7 @@ $\mathbf{Q}$ and $\mathbf{R}$ are solved via numerical approximation algorithms 
 
 $$\mathbf{Z}_{n \times p} =\mathbf{U}_{n \times p'} \mathbf{D}_{p' \times p'} \mathbf{V}_{p' \times p'}^T$$
 
-$\mathbf{U}$ (left singular values) and $\mathbf{V}$ (right singular values) are solved via numerical approximation algorithms.  The number of singular values is $p'= \min(n - 1,p)$. If $\mathbf{Y}$ is not full-rank, some of the singular values in $\mathbf{D}$ will be 0.  The singular values decrease from largest to smallest.
+$\mathbf{U}$ (left singular vectors) and $\mathbf{V}$ (right singular vectors) are solved via numerical approximation algorithms.  The number of singular values is $p'= \min(n - 1,p)$. If $\mathbf{Y}$ is not full-rank, some of the singular values in $\mathbf{D}$ will be 0.  The singular values decrease from largest to smallest.
 
 ---
 
