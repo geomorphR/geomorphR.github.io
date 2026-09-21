@@ -1020,7 +1020,7 @@ $\mathbf{U}$ (left singular vectors) and $\mathbf{V}$ (right singular vectors) a
 
 $$\mathbf{S}_{p \times p} =\mathbf{V}_{p \times p} \mathbf{\Lambda}_{p \times p} \mathbf{V}_{p \times p}^T$$
 
-$\mathbf{V}$ (left and right singular values) are solved via numerical approximation algorithms. If $\mathbf{S}$ is symmetric, positive-definite, $\mathbf{V}$ is the matrix of eigenvectors and $\mathbf{\Lambda}$ the matrix of eigenvalues, equal to those found from eigenanalysis using the characteristic polynomial function.  This is a "short-cut" method, often employed for principal component analysis when it is sure that $\mathbf{S}$ is symmetric, positive-definite.
+$\mathbf{V}$ (left and right singular vectors) are solved via numerical approximation algorithms. If $\mathbf{S}$ is symmetric, positive-definite, $\mathbf{V}$ is the matrix of eigenvectors and $\mathbf{\Lambda}$ the matrix of eigenvalues, equal to those found from eigenanalysis using the characteristic polynomial function.  This is a "short-cut" method, often employed for principal component analysis when it is sure that $\mathbf{S}$ is symmetric, positive-definite.
 
 **It is also a short-cut for eigen decomposition.**  If $\mathbf{S}$ is a positive-definite, symmetric matrix, the singular values are the same as eigenvalues, hence the use of $\mathbf{\Lambda}$ as nomenclature, rather than $\mathbf{D}$.  The matching left and right singular vectors, $\mathbf{V}$ are the same as eigenvectors.
 
