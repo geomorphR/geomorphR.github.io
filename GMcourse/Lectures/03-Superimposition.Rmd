@@ -160,7 +160,7 @@ $$\mathbf{H}=\begin{bmatrix}
 
 $\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}$
 
-<video src="LectureData/03.superimposition/procrustes-superimposition-v2.mp4" width="480" height="360" controls></video>
+<video src="LectureData/03.superimposition/GPA-Triangles.mp4" width="480" height="360" controls></video>
 
 + $\mathbf{Z}$ are Procrustes residuals (aligned shape)
 + Optimal LS rotation, distributing the displacement among all landmarks
@@ -184,7 +184,7 @@ $\mathbf{Z}=\frac{1}{CS}\mathbf{(Y-\overline{Y})H}$
 
 ### Generalized Procrustes Analysis
 
-<video src="LectureData/03.superimposition/larvalMorph-head-gpagen-PrinAxes-FALSE.mp4" width="640" height="480" controls></video>
+<video src="LectureData/03.superimposition/larvalMorph-head-gpagen-PrinAxes-FALSE-dark-outlines.mp4" width="640" height="480" controls></video>
 ---
 
 
