@@ -17,5 +17,5 @@ navbar:
       href: references.html
     - text: "People"
       href: people.html
-    - text: "GMShiny"
-      href: https://www.gmshiny.com/
+    - text: "Geomorph Tutorial"
+      href: https://geomorphr.github.io/Tutorials/
