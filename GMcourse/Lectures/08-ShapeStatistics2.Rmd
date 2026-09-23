@@ -408,11 +408,12 @@ fit <- procD.lm(coords ~ log(CS), data = pupfish,
 
 .med[
 ```{r, echo = TRUE}
-coef(fit, test = TRUE)
+T1 <- betaTest(fit)
+summary(T1)
 ```
 ]
 
-We would allow with 95% confidence that a vector length of 0.047 could be obtained by chance.  Beyond this, we reject the null hypothesis that there is no shape change associated with size change.  The observed vector length of 0.11 is much larger than 0.57, such that the observed value is 4.14 $SD$ greater than expect by chance.
+We would allow with 95% confidence that a vector length of 0.047 could be obtained by chance.  Beyond this, we reject the null hypothesis that there is no shape change associated with size change.  The observed vector length of 0.11 is much larger than 0.047, such that the observed value is 4.14 $SD$ greater than expect by chance.
 
 
 ---
@@ -480,7 +481,7 @@ We reject the null hypothesis that there is no shape change associated with size
 
 ### Linear regression example
 
-3. Coefficients, via ANOVA statistics
+3. Coefficients, via MANOVA statistics
 
 .med[
 ```{r, echo = TRUE}
@@ -497,7 +498,7 @@ We reject the null hypothesis that there is no shape change associated with size
 
 ### Linear regression example
 
-3. Coefficients, via ANOVA statistics
+3. Coefficients, via MANOVA statistics
 
 .med[
 ```{r, echo = TRUE}
