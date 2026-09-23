@@ -445,14 +445,14 @@ include_graphics("LectureData/10.asymmetry/CoralSymmetry.png")
 .pull-left[
 + ME first discussed for shape analysis in 1998. $^1$
 + ME revisited 2016-2017, but no new developments were made (just an emphasis for why it is important and how it could be done).  $^{2-3}$
-+ There was a "spirited" debate on Morphmet in November, 2022, about measurement error (some of you might recall) and it became clear that the topic needed to be modernized.
++ There was a "spirited" debate on Morphmet in November, 2022, about measurement error and it became clear that the topic needed to be modernized.
 + The prevailing issue (as we see it) was that most people were using techniques that basically measured: replicate variation / subject variation.  (More specifically, statistics like intraclass correlations.)
 ]
 .pull-right[
 + **This is a problem because if one samples diversely shaped subjects (e.g., many species rather than many individuals within one species), one could labor under the delusion that ME is small, simply because between-subject variation is large.**
 + **This is also a problem because it treats all ME as random (noise), even if systematic digitizing prejudices are inherent in the data.**
 
-+ The following is our fixing of these problems, just published this year.  $^4$.
++ The following is our fixing of these problems, just recently published.  $^4$.
 ]
 
 .footnote[
