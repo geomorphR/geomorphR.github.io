@@ -68,7 +68,25 @@ plotRefToTarget(ref, sc.preds$pred1, mesh = refmesh, method = "surface", mag = 1
 plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = "surface", mag = 1)
 
 
-# Saving deformed PLY
+# Saving deformed PLY 
 PC.example <- plotRefToTarget(ref, sc.preds$pred2, mesh = refmesh, method = "surface", mag = 1)
+
+# Convert plotly
+m <- Filter(function(x) identical(x$type, "mesh3d"),
+            plotly::plotly_build(PC.example)$x$data)[[1]]
+
+mesh <- with(m, rgl::tmesh3d(
+  rbind(x, y, z), rbind(i, j, k) + 1, homogeneous = FALSE
+))
+
+mesh$material$color <- grDevices::rgb(
+  m$vertexcolor[, "red"],
+  m$vertexcolor[, "green"],
+  m$vertexcolor[, "blue"],
+  maxColorValue = 255
+)
+
 library(Rvcg)
-vcgPlyWrite(PC.example, filename= "PC.example.ply", writeCol = FALSE)
+Rvcg::vcgPlyWrite(mesh, filename = "PC.example.ply", 
+                  binary = FALSE, , writeCol = TRUE, writeNormals = FALSE)
+PC.mesh <- geomorph::read.ply("PC.example.ply")
