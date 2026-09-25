@@ -3,6 +3,7 @@
 ---
 **Previous Geometric Morphometrics in R Workshops**
 
+* 2026. Adam Mickiewicz Univ., Poland
 * 2024. Univ. Copenhagen, Denmark
 * 2023. Univ. Barcelona, Spain
 * 2019. PR Statistics, Scotland
