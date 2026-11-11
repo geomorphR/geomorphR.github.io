@@ -40,7 +40,7 @@ The QR code is a static asset: changing the application URL also requires a new 
         <p class="fee-note">NO registration fee</p>
         <p class="hero-description">Five days of theory and hands-on analysis of biological shape, with Dean Adams and Michael Collyer.</p>
         <div class="hero-actions"><a class="button button-yellow" href="#apply">Apply for the workshop <span aria-hidden="true">↗</span></a><a class="hero-anchor" href="#about">Explore the course <span aria-hidden="true">↓</span></a></div>
-        <p class="deadline">Apply by December 15 for full consideration</p>
+        <p class="deadline">Apply by January 15, 2027 for full consideration</p>
         <div class="hero-footer"><span>14–18 <strong>JUNE 2027</strong></span><span>Barcelona <strong>SPAIN</strong></span><span>Lectures + practical sessions <strong>GEOMORPH IN R</strong></span></div>
       </div>
       <svg class="shape-art" viewBox="0 0 500 540" fill="none" aria-hidden="true">
@@ -61,7 +61,7 @@ The QR code is a static asset: changing the application URL also requires a new 
       </div>
     </div></section>
     <section class="apply-section" id="apply" aria-labelledby="apply-title"><div class="wrap apply-inner">
-      <div class="apply-copy"><p class="eyebrow">JOIN US IN BARCELONA</p><h2 id="apply-title">Your next perspective<br>on shape starts here.</h2><p>June 14–18, 2027 · Barcelona, Spain<br>Museu de Ciències Naturals de Barcelona<br><strong class="free-text">NO registration fee</strong></p><p class="application-deadline">Apply by December 15 for full consideration</p><p>Open the application form, or scan the QR code<br class="desktop-break"> to continue on your phone.</p><a class="button button-yellow" href="https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&amp;ouid=102214816417069495319">Open application form <span aria-hidden="true">↗</span></a></div>
+      <div class="apply-copy"><p class="eyebrow">JOIN US IN BARCELONA</p><h2 id="apply-title">Your next perspective<br>on shape starts here.</h2><p>June 14–18, 2027 · Barcelona, Spain<br>Museu de Ciències Naturals de Barcelona<br><strong class="free-text">NO registration fee</strong></p><p class="application-deadline">Apply by January 15, 2027 for full consideration</p><p>Open the application form, or scan the QR code<br class="desktop-break"> to continue on your phone.</p><a class="button button-yellow" href="https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&amp;ouid=102214816417069495319">Open application form <span aria-hidden="true">↗</span></a></div>
       <figure class="qr-card"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&amp;ouid=102214816417069495319" aria-label="Open the workshop application form"><img src="barcelona-2027/application-qr.png" width="244" height="244" alt="QR code linking to the Barcelona 2027 workshop application form"></a><figcaption>SCAN TO APPLY <span aria-hidden="true">↗</span></figcaption></figure>
     </div></section>
     <aside class="materials-banner wrap"><div><h2>Already taking a workshop?</h2><p>Find lectures, lab tutorials, schedules, and references.</p></div><a class="button button-outline" href="materials.html">Go to workshop materials <span aria-hidden="true">→</span></a></aside>
