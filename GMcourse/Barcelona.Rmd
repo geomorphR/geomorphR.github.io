@@ -1,71 +1,100 @@
 ---
-title: "Geometric Morphometrics using R · Barcelona 2027"
+title: "Geometric Morphometrics using R"
 output:
   html_document:
-    template: barcelona-2027/template.html
-    css: barcelona-2027/style.css
-    theme: null
-    highlight: null
-    mathjax: null
     self_contained: false
-    section_divs: false
-knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_file = "barcelona-2027.html") })
+    lib_dir: site_libs
 ---
 
 <!--
-Barcelona 2027 advertisement source. Edit the page content below.
-The custom HTML template preserves the full-width design without the regular
-workshop navigation or Bootstrap styling. Styling lives in barcelona-2027/style.css.
-
-In RStudio, Knit generates barcelona-2027.html. Alternatively, from R:
-rmarkdown::render("Barcelona.Rmd", output_file = "barcelona-2027.html")
-
-After knitting, copy barcelona-2027.html to index.html to show the advertisement.
-The original workshop homepage remains in materials.html; index.Rmd is unchanged.
-The QR code is a static asset: changing the application URL also requires a new QR.
+Barcelona workshop announcement, June 14–18, 2027.
+Uses the regular site's html_document format, Bootstrap and navigation.
+Knit in RStudio, or run rmarkdown::render("Barcelona.Rmd", encoding = "UTF-8").
+This produces Barcelona.html. Copy that file to index.html to show the advert.
+Original homepage: materials.html. Original source: index.Rmd (unchanged).
 -->
 
-```{=html}
-<a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header wrap">
-    <a class="wordmark" href="barcelona-2027.html" aria-label="Geometric Morphometrics workshop home"><span class="brand-mark" aria-hidden="true">GM</span><span>GEOMETRIC MORPHOMETRICS<br><small>INTERNATIONAL WORKSHOPS</small></span></a>
-    <a class="materials-link" href="materials.html">Workshop materials <span aria-hidden="true">↗</span></a>
-  </header>
-  <main id="main">
-    <section class="hero" aria-labelledby="course-title">
-      <div class="wrap hero-inner">
-        <p class="eyebrow">BARCELONA, SPAIN <span aria-hidden="true">/</span> JUNE 14–18, 2027</p>
-        <h1 id="course-title">Geometric<br>Morphometrics <em>using R</em></h1>
-        <p class="hero-subtitle">Museu de Ciències Naturals de Barcelona</p>
-        <p class="fee-note">NO registration fee</p>
-        <p class="hero-description">Five days of theory and hands-on analysis of biological shape, with Dean Adams and Michael Collyer.</p>
-        <div class="hero-actions"><a class="button button-yellow" href="#apply">Apply for the workshop <span aria-hidden="true">↗</span></a><a class="hero-anchor" href="#about">Explore the course <span aria-hidden="true">↓</span></a></div>
-        <p class="deadline">Apply by January 15, 2027 for full consideration</p>
-        <div class="hero-footer"><span>14–18 <strong>JUNE 2027</strong></span><span>Barcelona <strong>SPAIN</strong></span><span>Lectures + practical sessions <strong>GEOMORPH IN R</strong></span></div>
-      </div>
-      <svg class="shape-art" viewBox="0 0 500 540" fill="none" aria-hidden="true">
-        <g stroke="currentColor" stroke-width="1.3"><path d="M85 210 180 95 345 120 425 265 345 430 180 405 85 210 345 120 345 430 180 95 180 405 425 265 85 210M180 95 425 265M180 405 345 120"/><path d="M55 225 160 55 365 95 465 280 355 470 145 435 55 225 365 95 355 470 160 55 145 435 465 280 55 225" stroke-dasharray="5 8" opacity=".55"/></g>
-        <g fill="#f1de69"><circle cx="85" cy="210" r="6"/><circle cx="180" cy="95" r="6"/><circle cx="345" cy="120" r="6"/><circle cx="425" cy="265" r="6"/><circle cx="345" cy="430" r="6"/><circle cx="180" cy="405" r="6"/></g>
-        <g fill="currentColor"><circle cx="55" cy="225" r="4"/><circle cx="160" cy="55" r="4"/><circle cx="365" cy="95" r="4"/><circle cx="465" cy="280" r="4"/><circle cx="355" cy="470" r="4"/><circle cx="145" cy="435" r="4"/></g>
-      </svg>
-    </section>
-    <section class="about wrap section" id="about" aria-labelledby="about-title">
-      <div><p class="eyebrow teal">THE WORKSHOP</p><h2 id="about-title">From landmark data<br>to biological insight.</h2></div>
-      <div class="about-copy"><p>Explore how geometric morphometrics quantifies shape variation and connects it to questions in ecology and evolutionary biology.</p><p>Combine a grounding in theory with practical sessions in R using <strong>geomorph</strong>. Work through data collection, statistical analysis, and the visualization and interpretation of shape variation.</p><p><a class="course-details" href="materials.html">More course details here <span aria-hidden="true">→</span></a></p><p class="prerequisite"><strong>Before you join:</strong> A working knowledge of R is recommended. Practice datasets are provided; participants are encouraged to bring their own data.</p></div>
-    </section>
-    <section class="instructors-section" aria-labelledby="instructors-title"><div class="wrap section">
-      <div class="section-heading"><div><p class="eyebrow teal">MEET YOUR INSTRUCTORS</p><h2 id="instructors-title">Learn with Dean &amp; Mike.</h2></div><p>The primary authors and maintainers<br>of <strong>geomorph</strong> and <strong>RRPP</strong>.</p></div>
-      <div class="instructors">
-        <article class="instructor"><a class="portrait-link" href="https://dean-adams.org"><img src="barcelona-2027/dean.jpg" width="210" height="210" alt="Dean Adams — personal website"></a><div><p class="instructor-label">DISTINGUISHED PROFESSOR</p><h3><a href="https://dean-adams.org">Dean C. Adams</a></h3><p>Iowa State University</p></div></article>
-        <article class="instructor"><a class="portrait-link" href="https://michaelcollyer.com"><img src="barcelona-2027/mike.jpg" width="210" height="210" alt="Michael Collyer — personal website"></a><div><p class="instructor-label">PROFESSOR</p><h3><a href="https://michaelcollyer.com">Michael Collyer</a></h3><p>Chatham University</p></div></article>
-      </div>
-    </div></section>
-    <section class="apply-section" id="apply" aria-labelledby="apply-title"><div class="wrap apply-inner">
-      <div class="apply-copy"><p class="eyebrow">JOIN US IN BARCELONA</p><h2 id="apply-title">Your next perspective<br>on shape starts here.</h2><p>June 14–18, 2027 · Barcelona, Spain<br>Museu de Ciències Naturals de Barcelona<br><strong class="free-text">NO registration fee</strong></p><p class="application-deadline">Apply by January 15, 2027 for full consideration</p><p>Open the application form, or scan the QR code<br class="desktop-break"> to continue on your phone.</p><a class="button button-yellow" href="https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&amp;ouid=102214816417069495319">Open application form <span aria-hidden="true">↗</span></a></div>
-      <figure class="qr-card"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&amp;ouid=102214816417069495319" aria-label="Open the workshop application form"><img src="barcelona-2027/application-qr.png" width="244" height="244" alt="QR code linking to the Barcelona 2027 workshop application form"></a><figcaption>SCAN TO APPLY <span aria-hidden="true">↗</span></figcaption></figure>
-    </div></section>
-    <aside class="materials-banner wrap"><div><h2>Already taking a workshop?</h2><p>Find lectures, lab tutorials, schedules, and references.</p></div><a class="button button-outline" href="materials.html">Go to workshop materials <span aria-hidden="true">→</span></a></aside>
-    <section class="sponsors wrap" aria-labelledby="sponsors-title"><p class="eyebrow teal" id="sponsors-title">IN COLLABORATION WITH</p><div class="sponsor-logos"><img class="irbio" src="barcelona-2027/irbio.jpg" width="1417" height="709" alt="IRBio — Institut de Recerca de la Biodiversitat"><img src="barcelona-2027/zoosysevo.png" width="859" height="661" alt="Zoological Systematics and Evolution"><img src="barcelona-2027/phenevol.png" width="3289" height="2619" alt="Phenevol"></div></section>
-  </main>
-  <footer class="site-footer wrap"><span>Geometric Morphometrics using R</span><span>Barcelona · June 14–18, 2027</span></footer>
-```
+## Barcelona, Spain · June 14–18, 2027
+
+### Museu de Ciències Naturals de Barcelona
+
+> **NO registration fee**  
+> **Apply by January 15, 2027 for full consideration**
+
+[**Open application form**](https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&ouid=102214816417069495319){.btn .btn-primary}
+
+[**More course details here**](materials.html) · [**Workshop materials for current participants**](materials.html)
+
+---
+
+## About the workshop
+
+Join Dean Adams and Michael Collyer for five days of theory and hands-on training
+in geometric morphometrics, exploring the analysis of biological shape in ecology
+and evolutionary biology.
+
+Lectures introduce the theory behind landmark-based shape analysis. Practical
+sessions use R and the **geomorph** package to work through data collection,
+statistical analysis, and the visualization and interpretation of shape variation.
+
+A working knowledge of R is recommended. Practice datasets are provided;
+participants are encouraged to bring their own data.
+
+## Your instructors
+
+:::: {.row}
+::: {.col-sm-6}
+[![Dean Adams — personal website](barcelona-2027/dean.jpg){width=180px}](https://dean-adams.org)
+
+### [Dean C. Adams](https://dean-adams.org)
+
+**Distinguished Professor**  
+Iowa State University
+:::
+
+::: {.col-sm-6}
+[![Michael Collyer — personal website](barcelona-2027/mike.jpg){width=180px}](https://michaelcollyer.com)
+
+### [Michael Collyer](https://michaelcollyer.com)
+
+**Professor**  
+Chatham University
+:::
+::::
+
+Dean and Mike are the primary authors and maintainers of **geomorph** and **RRPP**.
+
+---
+
+## Apply for the workshop
+
+**NO registration fee**  
+**Apply by January 15, 2027 for full consideration**
+
+[**Open the application form**](https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&ouid=102214816417069495319),
+or scan the QR code to apply on your phone:
+
+[![QR code linking to the Barcelona workshop application form](barcelona-2027/application-qr.png){width=230px}](https://docs.google.com/forms/d/e/1FAIpQLSdwQ-jnskJB8pqpy3Jv5YXh0OHVBbmyyMzO0Qt_bGE73qPk1w/viewform?usp=sharing&ouid=102214816417069495319)
+
+## Already taking a workshop?
+
+[**Go to the regular workshop homepage**](materials.html) for course details,
+lectures, lab tutorials, schedules, and references.
+
+---
+
+## In collaboration with
+
+:::: {.row}
+::: {.col-sm-4}
+![IRBio — Institut de Recerca de la Biodiversitat](barcelona-2027/irbio.jpg){width=260px}
+:::
+
+::: {.col-sm-4}
+![Zoological Systematics and Evolution](barcelona-2027/zoosysevo.png){width=160px}
+:::
+
+::: {.col-sm-4}
+![Phenevol](barcelona-2027/phenevol.png){width=160px}
+:::
+::::
