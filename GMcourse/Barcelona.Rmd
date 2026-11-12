@@ -98,3 +98,5 @@ lectures, lab tutorials, schedules, and references.
 ![Phenevol](barcelona-2027/phenevol.png){width=160px}
 :::
 ::::
+
+![Museu de Ciències Naturals de Barcelona](barcelona-2027/Museu-de-Ciencies-Naturals-de-Barcelona.png){width=260px}
